@@ -1,1 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScaleFlow University – All Pages</title>
+    <meta name="description" content="Learn • Build • Earn • Grow">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <!-- ===== LOADER ===== -->
+    <div id="loader" role="status" aria-label="Loading">
+        <div class="loader-spinner"></div>
+        <h2>Loading...</h2>
+    </div>
+
+    <!-- ===== TOAST CONTAINER ===== -->
+    <div id="toast-container" role="alert" aria-live="polite"></div>
+
+    <!-- ===== MODAL CONTAINER ===== -->
+    <div id="modal-container" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Modal Title</h2>
+                <button id="modalCloseBtn" class="modal-close" type="button" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <p>Modal content goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="modalCancelBtn" class="btn-secondary" type="button">Cancel</button>
+                <button id="modalConfirmBtn" class="btn-primary" type="button">Confirm</button>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- ===== MAIN APP ===== -->
+    <div id="app" data-page="home">
+
+        <!-- ===== HEADER ===== -->
+        
+          <!-- ===== NOTIFICATION PANEL ===== -->
+        <div id="notificationPanel" class="notification-panel">
+        <div class="notification-header">
+            <h3>🔔 Notifications</h3>
+            <button id="markAllReadBtn" type="button">Mark all as read</button>
+        </div>
+        <div class="notification-list">
+            <div class="notification-item unread">
+                <span class="icon">📘</span>
+                <div class="content">
+                    <p><strong>New course:</strong> AI Fundamentals</p>
+                    <span class="time">2 min ago</span>
+                </div>
+            </div>
+            <div class="notification-item unread">
+                <span class="icon">🏆</span>
+                <div class="content">
+                    <p><strong>Achievement:</strong> 5 Day Streak</p>
+                    <span class="time">1 hour ago</span>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+        <header class="header" role="banner">
+            <div class="logo">
+                <h1>Sanaullah</h1>
+                <span>ScaleFlow University</span>
+            </div>
+            <div class="header-actions">
+                <button id="darkModeBtn" class="icon-btn" type="button" aria-label="Toggle Dark Mode">🌙</button>
+                <button id="notificationBell" class="icon-btn" type="button" aria-label="Open notifications">
+                    🔔
+                    <span id="notificationCount" class="notification-badge">0</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" role="navigation" aria-label="Main Navigation">
+            <nav class="sidebar-menu">
+                <a href="#" data-page="page1" class="active" id="navPage1">🏠 Home</a>
+                <a href="#" data-page="page2" id="navPage2">📊 Dashboard</a>
+                <a href="#" data-page="page3" id="navPage3">📚 Courses</a>
+                <a href="#" data-page="page4" id="navPage4">📖 Learning</a>
+                <a href="#" data-page="page5" id="navPage5">📜 Certificates</a>
+                <a href="#" data-page="page6" id="navPage6">🏆 Achievements</a>
+                <a href="#" data-page="page7" id="navPage7">🤖 AI Mentor</a>
+                <a href="#" data-page="page8" id="navPage8">🛒 Marketplace</a>
+                <a href="#" data-page="page9" id="navPage9">💼 Business</a>
+                <a href="#" data-page="page10" id="navPage10">👤 Profile</a>
+                <a href="#" data-page="page11" id="navPage11">⚙️ Settings</a>
+                <a href="#" data-page="page12" id="navPage12">🔐 Login</a>
+            </nav>
+        </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content" role="main">
+
+<!-- ===== HTML PART1 ===== -->
+
+        <!-- ===================================================
+PAGE 1: HOME (index.html)
+=================================================== -->
+<section id="page1" class="page-section active" aria-label="Home Dashboard">
+    <h2>🏠 Home</h2>
+
+    <section class="hero" aria-label="Welcome Section">
+        <div class="hero-left">
+            <span class="hero-tag">👋 Welcome Back</span>
+            <h1 id="studentName">Sanaullah</h1>
+            <p>Continue your learning journey. Every lesson makes you stronger.</p>
+            <div class="hero-buttons">
+                <button id="continueLearningBtn" class="btn-primary" type="button">▶ Continue Learning</button>
+                <button id="browseCoursesBtn" class="btn-secondary" type="button">📚 Browse Courses</button>
+            </div>
+        </div>
+        <div class="hero-right">
+            <article class="hero-stat"><span>⭐ Brain XP</span><strong id="brainXP">250 XP</strong></article>
+            <article class="hero-stat"><span>🏆 Level</span><strong id="currentLevel">Level 5</strong></article>
+            <article class="hero-stat"><span>🔥 Streak</span><strong id="learningStreak">7 Days</strong></article>
+            <article class="hero-stat"><span>📈 Progress</span><strong id="overallProgress">75%</strong></article>
+        </div>
+    </section>
+
+    <div class="search-section">
+        <input id="globalSearchInput" type="text" placeholder="Search courses, tools, mentors..." autocomplete="off" aria-label="Global search">
+    </div>
+
+    <section class="learning-dashboard" aria-label="Learning Dashboard">
+        <h2>📚 Learning Dashboard</h2>
+        <div class="dashboard-boxes">
+            <div class="dashboard-box" id="dashCourseBox"><h3>Courses</h3><span id="courseCount">12</span></div>
+            <div class="dashboard-box" id="dashCertBox"><h3>Certificates</h3><span id="certificateCount">4</span></div>
+            <div class="dashboard-box" id="dashAchieveBox"><h3>Achievements</h3><span id="achievementCount">8</span></div>
+            <div class="dashboard-box" id="dashProjectBox"><h3>Projects</h3><span id="projectCount">3</span></div>
+        </div>
+    </section>
+
+    <section class="continue-learning" aria-label="Continue Learning">
+        <div class="continue-card">
+            <div class="continue-tag">📖 Continue Where You Left Off</div>
+            <div class="continue-info">
+                <h2>JavaScript Fundamentals</h2>
+                <p>Module 4 • Functions & Scope</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="continueProgress" style="width:65%;"></div>
+                </div>
+                <div class="continue-actions">
+                    <small id="progressText">65% Complete</small>
+                    <button id="continueProgressBtn" class="btn-primary" type="button">▶ Continue</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="today-tasks" aria-label="Today's Tasks">
+        <h2>📋 Today's Learning Tasks</h2>
+        <div class="task-list">
+            <div class="task-item"><input type="checkbox" id="task1" aria-label="Complete Lesson 13"><label for="task1">Complete Lesson 13</label></div>
+            <div class="task-item"><input type="checkbox" id="task2" aria-label="AI Quiz Module 5"><label for="task2">AI Quiz: Module 5</label></div>
+            <div class="task-item"><input type="checkbox" id="task3" aria-label="Review JavaScript Notes"><label for="task3">Review JavaScript Notes</label></div>
+            <div class="task-item"><input type="checkbox" id="task4" aria-label="Submit Project Proposal"><label for="task4">Submit Project Proposal</label></div>
+        </div>
+    </section>
+
+    <section class="recent-activity" aria-label="Recent Activity">
+        <h2>🕐 Recent Activity</h2>
+        <div class="activity-list">
+            <div class="activity-item">Completed "AI Fundamentals" <span>2 hours ago</span></div>
+            <div class="activity-item">Started "Web Development" <span>Yesterday</span></div>
+            <div class="activity-item">Earned "JavaScript Badge" <span>3 days ago</span></div>
+        </div>
+    </section>
+
+    <section class="quick-actions-section" aria-label="Quick Actions">
+        <h2>⚡ Quick Actions</h2>
+        <div class="quick-actions-grid">
+            <button id="quickStartLearning" class="quick-action-btn" type="button"><span class="icon">🚀</span><span class="label">Start Learning</span><span class="desc">Continue your courses</span></button>
+            <button id="quickAskAI" class="quick-action-btn" type="button"><span class="icon">🤖</span><span class="label">Ask AI Mentor</span><span class="desc">Get instant help</span></button>
+            <button id="quickBrowseCourses" class="quick-action-btn" type="button"><span class="icon">📚</span><span class="label">Browse Courses</span><span class="desc">Explore new topics</span></button>
+            <button id="quickMyCertificates" class="quick-action-btn" type="button"><span class="icon">📜</span><span class="label">My Certificates</span><span class="desc">View your achievements</span></button>
+        </div>
+    </section>
+
+    <section class="weekly-progress" aria-label="Weekly Progress Chart">
+        <div class="section-header"><h2>📈 Weekly Progress</h2><span>This Week</span></div>
+        <div class="progress-chart">
+            <div class="day"><div class="bar" style="height:45%;"></div><p>Mon</p></div>
+            <div class="day"><div class="bar" style="height:70%;"></div><p>Tue</p></div>
+            <div class="day"><div class="bar" style="height:60%;"></div><p>Wed</p></div>
+            <div class="day"><div class="bar" style="height:90%;"></div><p>Thu</p></div>
+            <div class="day"><div class="bar" style="height:75%;"></div><p>Fri</p></div>
+            <div class="day"><div class="bar" style="height:100%;"></div><p>Sat</p></div>
+            <div class="day"><div class="bar" style="height:55%;"></div><p>Sun</p></div>
+        </div>
+    </section>
+
+    <section class="gateway-grid" aria-label="Gateway Modules">
+        <article class="gateway-card" id="gatewayLearning"><h3>🎓 Learning Hub</h3><p>Professional courses with quizzes, projects and certificates.</p></article>
+        <article class="gateway-card" id="gatewayAI"><h3>🤖 AI Mentor</h3><p>Learn with your personal AI teacher and assistant.</p></article>
+        <article class="gateway-card" id="gatewayAutomation"><h3>⚡ Automation Hub</h3><p>Google Workspace, Apps Script and automation projects.</p></article>
+        <article class="gateway-card" id="gatewayTools"><h3>🛠 Tools Hub</h3><p>Free professional tools for productivity and development.</p></article>
+        <article class="gateway-card" id="gatewayBusiness"><h3>💼 Business Hub</h3><p>Build and manage your digital business from one dashboard.</p></article>
+        <article class="gateway-card" id="gatewayFreelancing"><h3>💻 Freelancing</h3><p>Learn Fiverr, Upwork, proposals and client handling.</p></article>
+        <article class="gateway-card" id="gatewayCertificates"><h3>🏆 Certificates</h3><p>View, verify and download your certificates.</p></article>
+        <article class="gateway-card" id="gatewayDashboard"><h3>👤 Dashboard</h3><p>Track your progress, Brain XP and achievements.</p></article>
+    </section>
+
+    <div class="quick-actions-bottom">
+        <button id="btnTheme" class="quick-btn" type="button">🌙 Theme</button>
+        <button id="btnLanguage" class="quick-btn" type="button">🌐 Language</button>
+        <button id="btnSupport" class="quick-btn" type="button">📞 Support</button>
+    </div>
+</section>
+
+<!-- ===== HTML PART2 ===== -->
+
+          <!-- ===================================================
+PAGE 2: DASHBOARD
+=================================================== -->
+<section id="page2" class="page-section" aria-label="Student Dashboard">
+    <h2>📊 Student Dashboard</h2>
+    <div class="dashboard-profile">
+        <div class="profile-card">
+            <img id="dashboardProfileImage" src="assets/avatar.png" alt="Profile Avatar" class="avatar-large" style="width:80px;height:80px;border-radius:50%;display:block;margin:0 auto 12px;">
+            <h3 id="dashName">Sanaullah</h3>
+            <p>Level <span id="dashLevel">5</span> • <span id="dashXP">250</span> XP</p>
+            <div class="streak">🔥 <span id="dashStreak">7</span> Day Streak</div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-box"><span>📚 Courses</span><strong id="dashCourses">12</strong></div>
+            <div class="stat-box"><span>📜 Certificates</span><strong id="dashCerts">4</strong></div>
+            <div class="stat-box"><span>🏆 Achievements</span><strong id="dashAchievements">8</strong></div>
+            <div class="stat-box"><span>📈 Progress</span><strong id="dashProgress">75%</strong></div>
+        </div>
+    </div>
+    <div class="weekly-progress">
+        <div class="section-header"><h2>📈 Weekly Analytics</h2><span>This Week</span></div>
+        <div class="progress-chart">
+            <div class="day"><div class="bar" style="height:45%;"></div><p>Mon</p></div>
+            <div class="day"><div class="bar" style="height:70%;"></div><p>Tue</p></div>
+            <div class="day"><div class="bar" style="height:60%;"></div><p>Wed</p></div>
+            <div class="day"><div class="bar" style="height:90%;"></div><p>Thu</p></div>
+            <div class="day"><div class="bar" style="height:75%;"></div><p>Fri</p></div>
+            <div class="day"><div class="bar" style="height:100%;"></div><p>Sat</p></div>
+            <div class="day"><div class="bar" style="height:55%;"></div><p>Sun</p></div>
+        </div>
+    </div>
+    <div class="quick-actions-grid">
+        <button id="dashResumeLearning" class="quick-action-btn" type="button"><span class="icon">📖</span><span class="label">Resume Learning</span></button>
+        <button id="dashBrowseCourses" class="quick-action-btn" type="button"><span class="icon">📚</span><span class="label">Browse Courses</span></button>
+        <button id="dashAskAI" class="quick-action-btn" type="button"><span class="icon">🤖</span><span class="label">Ask AI</span></button>
+        <button id="dashCertificates" class="quick-action-btn" type="button"><span class="icon">📜</span><span class="label">Certificates</span></button>
+    </div>
+    <section class="recent-courses" aria-label="Recent Courses">
+        <h3>📘 Recent Courses</h3>
+        <div class="course-grid">
+            <article class="course-card" id="recentCourse1"><h4>AI Fundamentals</h4><p>65% complete</p><div class="progress-bar"><div class="progress-fill" style="width:65%;"></div></div></article>
+            <article class="course-card" id="recentCourse2"><h4>Web Development</h4><p>40% complete</p><div class="progress-bar"><div class="progress-fill" style="width:40%;"></div></div></article>
+            <article class="course-card" id="recentCourse3"><h4>Data Science</h4><p>20% complete</p><div class="progress-bar"><div class="progress-fill" style="width:20%;"></div></div></article>
+        </div>
+    </section>
+</section>
+
+<!-- ===================================================
+PAGE 3: COURSES
+=================================================== -->
+<section id="page3" class="page-section" aria-label="All Courses">
+    <h2>📚 All Courses</h2>
+    <div class="learning-header">
+        <input id="courseSearchInput" type="text" placeholder="🔍 Search courses..." aria-label="Search courses">
+    </div>
+    <div class="filter-buttons">
+        <button id="filterAll" class="btn-secondary" type="button">All</button>
+        <button id="filterBeginner" class="btn-secondary" type="button">Beginner</button>
+        <button id="filterIntermediate" class="btn-secondary" type="button">Intermediate</button>
+        <button id="filterAdvanced" class="btn-secondary" type="button">Advanced</button>
+    </div>
+    <div class="course-grid" id="courseGrid">
+        <article class="course-card" id="courseCard001" data-difficulty="beginner"><h3>AI Fundamentals</h3><p>Beginner • 12 Lessons</p><button id="startCourse1" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard002" data-difficulty="intermediate"><h3>JavaScript Masterclass</h3><p>Intermediate • 20 Lessons</p><button id="startCourse2" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard003" data-difficulty="advanced"><h3>Data Science Pro</h3><p>Advanced • 15 Lessons</p><button id="startCourse3" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard004" data-difficulty="beginner"><h3>HTML & CSS</h3><p>Beginner • 8 Lessons</p><button id="startCourse4" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard005" data-difficulty="intermediate"><h3>React Development</h3><p>Intermediate • 18 Lessons</p><button id="startCourse5" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard006" data-difficulty="advanced"><h3>Machine Learning</h3><p>Advanced • 22 Lessons</p><button id="startCourse6" class="btn-primary" type="button">Start</button></article>
+    </div>
+    <div class="pagination">
+        <button id="paginationPrev" class="btn-secondary" type="button">Previous</button>
+        <button id="pagination1" class="btn-primary" type="button">1</button>
+        <button id="pagination2" class="btn-secondary" type="button">2</button>
+        <button id="pagination3" class="btn-secondary" type="button">3</button>
+        <button id="paginationNext" class="btn-secondary" type="button">Next</button>
+    </div>
+    <section class="featured-courses" aria-label="Featured Courses">
+        <h3>⭐ Featured Courses</h3>
+        <div class="course-grid">
+            <article class="course-card" id="featuredCourse1"><h3>AI for Everyone</h3><p>Featured • 10 Lessons</p><button id="enrollFeatured1" class="btn-primary" type="button">Enroll</button></article>
+            <article class="course-card" id="featuredCourse2"><h3>Web Dev Bootcamp</h3><p>Featured • 30 Lessons</p><button id="enrollFeatured2" class="btn-primary" type="button">Enroll</button></article>
+        </div>
+    </section>
+    <section class="recommended-courses" aria-label="Recommended Courses">
+        <h3>📌 Recommended for You</h3>
+        <div class="course-grid">
+            <article class="course-card" id="recommendedCourse1"><h3>Python for Data Science</h3><p>Recommended • 14 Lessons</p><button id="startRec1" class="btn-primary" type="button">Start</button></article>
+            <article class="course-card" id="recommendedCourse2"><h3>Cloud Computing</h3><p>Recommended • 12 Lessons</p><button id="startRec2" class="btn-primary" type="button">Start</button></article>
+        </div>
+    </section>
+</section>
+
+<!-- ===================================================
+PAGE 4: LEARNING
+=================================================== -->
+<section id="page4" class="page-section" aria-label="Learning Module">
+    <h2>📖 JavaScript Fundamentals</h2>
+    <div class="learning-container">
+        <div class="learning-main">
+            <div class="video-container">
+                <div class="video-placeholder">▶️</div>
+                <p>Video Player (Lesson 4: Functions & Scope)</p>
+            </div>
+            <div class="pdf-viewer">
+                <p>📄 PDF Viewer: Lesson Notes</p>
+                <button id="downloadPdfBtn" class="btn-secondary" type="button">Download PDF</button>
+            </div>
+            <div class="notes-section">
+                <h4>📝 Your Notes</h4>
+                <textarea id="notesInput" rows="4" placeholder="Write your notes here..." aria-label="Your notes"></textarea>
+                <button id="saveNotesBtn" class="btn-primary" type="button">Save Notes</button>
+            </div>
+            <div class="ai-reflection">
+                <h4>🤖 AI Reflection</h4>
+                <p>What did you learn today? Share your thoughts and get AI feedback.</p>
+                <input id="reflectionInput" type="text" placeholder="Type your reflection..." aria-label="Reflection input">
+                <button id="getReflectionBtn" class="btn-primary" type="button">Get Reflection</button>
+            </div>
+            <div class="quiz-section">
+                <h4>📝 Quick Quiz</h4>
+                <p>What is a closure in JavaScript?</p>
+                <input id="quizAnswerInput" type="text" placeholder="Your answer..." aria-label="Quiz answer">
+                <button id="submitQuizBtn" class="btn-primary" type="button">Submit</button>
+            </div>
+        </div>
+        <aside class="learning-sidebar">
+            <div class="progress-card">
+                <h4>📊 Lesson Progress</h4>
+                <div class="progress-bar"><div class="progress-fill" style="width:65%;"></div></div>
+                <p>65% Complete</p>
+                <div class="lesson-nav">
+                    <button id="prevLessonBtn" class="btn-secondary" type="button">◀ Previous</button>
+                    <button id="nextLessonBtn" class="btn-primary" type="button">Next ▶</button>
+                </div>
+            </div>
+            <div class="recommended-lessons">
+                <h4>📌 Related Lessons</h4>
+                <ul>
+                    <li>Lesson 3: Arrays & Objects</li>
+                    <li>Lesson 5: DOM Manipulation</li>
+                    <li>Lesson 6: Events</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+</section>
+
+<!-- ===================================================
+PAGE 5: CERTIFICATES
+=================================================== -->
+<section id="page5" class="page-section" aria-label="My Certificates">
+    <h2>📜 My Certificates</h2>
+    <div class="certificate-list">
+        <article class="certificate-card" id="certCard1">
+            <div class="icon">📄</div>
+            <h3>AI Mastery</h3>
+            <p>Issued: Jan 2026</p>
+            <div class="actions">
+                <button id="certDownload1" class="btn-primary" type="button">⬇ Download</button>
+                <button id="certVerify1" class="btn-secondary" type="button">✅ Verify</button>
+                <button id="certQR1" class="btn-secondary" type="button">📱 QR</button>
+                <button id="certShare1" class="btn-secondary" type="button">📤 Share</button>
+            </div>
+        </article>
+        <article class="certificate-card" id="certCard2">
+            <div class="icon">📄</div>
+            <h3>Web Dev Pro</h3>
+            <p>Issued: Feb 2026</p>
+            <div class="actions">
+                <button id="certDownload2" class="btn-primary" type="button">⬇ Download</button>
+                <button id="certVerify2" class="btn-secondary" type="button">✅ Verify</button>
+                <button id="certQR2" class="btn-secondary" type="button">📱 QR</button>
+                <button id="certShare2" class="btn-secondary" type="button">📤 Share</button>
+            </div>
+        </article>
+    </div>
+</section>
+
+<!-- ===================================================
+PAGE 6: ACHIEVEMENTS
+=================================================== -->
+<section id="page6" class="page-section" aria-label="Achievements">
+    <h2>🏆 Achievements</h2>
+    <div class="achievement-summary">
+        <div class="stat-box"><span>⭐ XP</span><strong id="xpTotal">250</strong></div>
+        <div class="stat-box"><span>🏅 Badges</span><strong id="badgeTotal">8</strong></div>
+        <div class="stat-box"><span>📈 Level</span><strong id="levelTotal">5</strong></div>
+        <div class="stat-box"><span>🎁 Rewards</span><strong id="rewardTotal">3</strong></div>
+    </div>
+    <div class="achievement-grid">
+        <article class="achievement-card earned" id="achieveFirstCourse"><div class="icon">⭐</div><h4>First Course</h4><p>Earned Jan 2026</p></article>
+        <article class="achievement-card earned" id="achieveFiveDayStreak"><div class="icon">🔥</div><h4>5 Day Streak</h4><p>Earned Feb 2026</p></article>
+        <article class="achievement-card earned" id="achieveTopPerformer"><div class="icon">🏅</div><h4>Top Performer</h4><p>Earned Mar 2026</p></article>
+        <article class="achievement-card locked" id="achieveTenDayStreak"><div class="icon">🔒</div><h4>10 Day Streak</h4><p>Locked</p></article>
+        <article class="achievement-card locked" id="achieveExpertLevel"><div class="icon">🔒</div><h4>Expert Level</h4><p>Locked</p></article>
+    </div>
+    <div class="progress-timeline">
+        <h3>📈 Progress Timeline</h3>
+        <ul>
+            <li>✅ Completed AI Fundamentals (Jan 2026)</li>
+            <li>✅ Earned JavaScript Badge (Feb 2026)</li>
+            <li>⏳ Working on Web Development (Current)</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ===================================================
+PAGE 7: AI MENTOR
+=================================================== -->
+<section id="page7" class="page-section" aria-label="AI Mentor Chat">
+    <h2>🤖 AI Mentor</h2>
+    <div class="ai-chat-container">
+        <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
+            <div class="message ai">Hello! How can I assist you today?</div>
+            <div class="message user">I need help with JavaScript closures.</div>
+            <div class="message ai">Sure! A closure is a function that retains access to its outer scope even after the outer function has returned. Would you like an example?</div>
+        </div>
+        <div class="chat-input">
+            <input id="chatInput" type="text" placeholder="Ask anything..." aria-label="Chat input">
+            <button id="chatSendBtn" class="btn-primary" type="button">Send</button>
+            <button id="chatVoiceBtn" class="btn-secondary" type="button">🎤</button>
+            <button id="chatClearBtn" class="btn-secondary" type="button">🗑️</button>
+        </div>
+        <div class="prompt-suggestions">
+            <button id="promptClosure" class="btn-secondary" type="button">Explain closures</button>
+            <button id="promptHoisting" class="btn-secondary" type="button">What is hoisting?</button>
+            <button id="promptAsync" class="btn-secondary" type="button">Help with async/await</button>
+        </div>
+    </div>
+</section>
+
+<!-- ===================================================
+PAGE 8: MARKETPLACE
+=================================================== -->
+<section id="page8" class="page-section" aria-label="Marketplace">
+    <h2>🛒 Marketplace</h2>
+    <div class="marketplace-header">
+        <input id="marketplaceSearch" type="text" placeholder="Search products..." aria-label="Search products">
+        <button id="marketplaceCategories" class="btn-secondary" type="button">Categories</button>
+        <button id="marketplaceCart" class="btn-primary" type="button">🛒 Cart (0)</button>
+        <button id="marketplaceCheckout" class="btn-primary" type="button">Checkout</button>
+    </div>
+    <div class="product-grid">
+        <article class="product-card" id="product1"><div class="product-icon">📘</div><h3>E-book: AI Guide</h3><p>$9.99</p><button id="addToCart1" class="btn-primary" type="button">Add to Cart</button></article>
+        <article class="product-card" id="product2"><div class="product-icon">🎓</div><h3>Course Bundle</h3><p>$49.99</p><button id="addToCart2" class="btn-primary" type="button">Add to Cart</button></article>
+        <article class="product-card" id="product3"><div class="product-icon">🛠️</div><h3>Pro Tools Kit</h3><p>$19.99</p><button id="addToCart3" class="btn-primary" type="button">Add to Cart</button></article>
+    </div>
+</section>
+
+<!-- ===================================================
+PAGE 9: BUSINESS
+=================================================== -->
+<section id="page9" class="page-section" aria-label="Business Hub">
+    <h2>💼 Business Hub</h2>
+    <div class="business-grid">
+        <div class="business-card" id="businessCRM"><div class="business-icon">📋</div><h3>CRM</h3><p>Manage clients</p><button id="openCRM" class="btn-primary" type="button">Open</button></div>
+        <div class="business-card" id="businessProjects"><div class="business-icon">📁</div><h3>Projects</h3><p>Track progress</p><button id="openProjects" class="btn-primary" type="button">Open</button></div>
+        <div class="business-card" id="businessClients"><div class="business-icon">👥</div><h3>Clients</h3><p>Client list</p><button id="openClients" class="btn-primary" type="button">Open</button></div>
+        <div class="business-card" id="businessIncome"><div class="business-icon">💰</div><h3>Income</h3><p>Revenue tracker</p><button id="openIncome" class="btn-primary" type="button">Open</button></div>
+        <div class="business-card" id="businessReports"><div class="business-icon">📊</div><h3>Reports</h3><p>Analytics</p><button id="openReports" class="btn-primary" type="button">Open</button></div>
+    </div>
+</section>
+
+<!-- ===================================================
+PAGE 10: PROFILE
+=================================================== -->
+<section id="page10" class="page-section" aria-label="Student Profile">
+    <h2>👤 Student Profile</h2>
+    <div class="profile-container">
+        <aside class="profile-sidebar">
+            <img id="studentProfileImage" src="assets/avatar.png" alt="Profile Avatar" class="profile-avatar" style="width:80px;height:80px;border-radius:50%;display:block;margin:0 auto 12px;">
+            <h3>Sanaullah</h3>
+            <p>Student • Level 5</p>
+            <p>📧 sanaullah@university.com</p>
+            <p>🎯 Goal: Complete 20 Courses</p>
+            <button id="editProfileBtn" class="btn-primary" type="button">Edit Profile</button>
+        </aside>
+        <div class="profile-details">
+            <section class="info-card"><h4>📋 Personal Info</h4><p><strong>Full Name:</strong> Sanaullah</p><p><strong>Email:</strong> sanaullah@university.com</p><p><strong>Joined:</strong> Jan 2026</p></section>
+            <section class="info-card"><h4>🛠️ Skills</h4><span class="badge">JavaScript</span><span class="badge">Python</span><span class="badge">React</span></section>
+            <section class="info-card"><h4>📁 Portfolio</h4><p>AI Chatbot Project • Weather App • E-commerce Site</p></section>
+            <section class="info-card"><h4>📜 Certificates</h4><p>AI Mastery • Web Dev Pro • Data Science</p></section>
+            <section class="info-card"><h4>🕐 Recent Activity</h4><p>Completed "AI Fundamentals" • Started "Web Development"</p></section>
+        </div>
+    </div>
+</section>
+
+<!-- ===== HTML PART3 ===== -->
+
+          <!-- ===================================================
+            PAGE 11: SETTINGS
+            =================================================== -->
+            <section id="page11" class="page-section" aria-label="Settings">
+                <h2>⚙️ Settings</h2>
+                <div class="settings-grid">
+                    <div class="setting-card"><h4>🎨 Theme</h4><button id="settingsThemeBtn" class="btn-secondary" type="button">Toggle Dark/Light</button></div>
+                    <div class="setting-card"><h4>🌐 Language</h4><select id="settingsLanguage" aria-label="Select language"><option>English</option><option>Urdu</option><option>Arabic</option></select></div>
+                    <div class="setting-card"><h4>🔐 Security</h4><button id="settingsChangePassword" class="btn-secondary" type="button">Change Password</button><button id="settingsEnable2FA" class="btn-secondary" type="button">Enable 2FA</button></div>
+                    <div class="setting-card"><h4>🔔 Notifications</h4><label><input type="checkbox" id="notifEmail" checked aria-label="Email notifications"> Email</label><label><input type="checkbox" id="notifPush" checked aria-label="Push notifications"> Push</label><label><input type="checkbox" id="notifSMS" aria-label="SMS notifications"> SMS</label></div>
+                    <div class="setting-card full-width"><h4>💾 Backup</h4><button id="settingsBackupBtn" class="btn-primary" type="button">Backup Now</button></div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+            PAGE 12: LOGIN
+            =================================================== -->
+            <section id="page12" class="page-section" aria-label="Login">
+                <div class="login-container">
+                    <div class="login-card">
+                        <h2>🔐 Welcome Back</h2>
+                        <form id="loginForm" aria-label="Login form">
+                            <div class="form-group">
+                                <label for="loginEmail">Email</label>
+                                <input id="loginEmail" type="email" placeholder="student@university.com" required aria-label="Email address">
+                            </div>
+                            <div class="form-group">
+                                <label for="loginPassword">Password</label>
+                                <input id="loginPassword" type="password" placeholder="••••••••" required aria-label="Password">
+                            </div>
+                            <div class="form-options">
+                                <label><input type="checkbox" id="loginRemember" aria-label="Remember me"> Remember Me</label>
+                                <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+                            </div>
+                            <button id="loginSubmitBtn" type="submit" class="btn-primary">Sign In</button>
+                        </form>
+                        <p class="login-register">Don't have an account? <a href="#" id="registerLink">Register</a></p>
+                        <button id="loginOTPBtn" class="btn-secondary" type="button">Send OTP</button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="footer" role="contentinfo">
+            <div class="footer-left">
+                <h3>Sanaullah ScaleFlow University</h3>
+                <p>Learn • Build • Earn • Grow</p>
+                <div class="social-links">
+                    <a href="#" id="footerFacebook" aria-label="Facebook">Facebook</a>
+                    <a href="#" id="footerTwitter" aria-label="Twitter">Twitter</a>
+                    <a href="#" id="footerLinkedIn" aria-label="LinkedIn">LinkedIn</a>
+                    <a href="#" id="footerYouTube" aria-label="YouTube">YouTube</a>
+                </div>
+            </div>
+            <div class="footer-center">
+                <a href="#" id="footerAbout">About</a>
+                <a href="#" id="footerPrivacy">Privacy</a>
+                <a href="#" id="footerTerms">Terms</a>
+                <a href="#" id="footerSupport">Support</a>
+                <a href="#" id="footerDocs">Documentation</a>
+                <a href="#" id="footerContact">Contact</a>
+            </div>
+            <div class="footer-right">
+                <p id="footerVersion">Version 1.0</p>
+                <p id="footerBuild">Build #001</p>
+                <p>© <span id="currentYear">2026</span> ScaleFlow University</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ===== SCROLL TOP ===== -->
+    <button id="scrollTopBtn" type="button" aria-label="Scroll to top">⬆</button>
+
+    <!-- ===== EXTERNAL SCRIPT ===== -->
+    <script src="script.js"></script>
+
+</body>
+</html>
