@@ -241,15 +241,55 @@
                     <button id="btnSupport" class="quick-btn" type="button">📞 Support</button>
                 </div>
                                                                                                    </section>
-            
-
             <!-- ===================================================
             PAGE 2: DASHBOARD
-            ==================================================== -->
-            <section id="page2" class="page-section" aria-label="Student Dashboard">
-                <h2>📊 PAGE 2 — Dashboard</h2>
-                <p>Your learning dashboard with stats and progress.</p>
-            </section>
+            =================================================== -->
+        <section id="page2" class="page-section" aria-label="Student Dashboard">
+      <h2>📊 Student Dashboard</h2>
+    <div class="dashboard-profile">
+        <div class="profile-card">
+            <img id="dashboardProfileImage" src="assets/avatar.png" alt="Profile Avatar" class="avatar-large" style="width:80px;height:80px;border-radius:50%;display:block;margin:0 auto 12px;">
+            <h3 id="dashName">Sanaullah</h3>
+            <p>Level <span id="dashLevel">5</span> • <span id="dashXP">250</span> XP</p>
+            <div class="streak">🔥 <span id="dashStreak">7</span> Day Streak</div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-box"><span>📚 Courses</span><strong id="dashCourses">12</strong></div>
+            <div class="stat-box"><span>📜 Certificates</span><strong id="dashCerts">4</strong></div>
+            <div class="stat-box"><span>🏆 Achievements</span><strong id="dashAchievements">8</strong></div>
+            <div class="stat-box"><span>📈 Progress</span><strong id="dashProgress">75%</strong></div>
+        </div>
+    </div>
+    <div class="weekly-progress">
+        <div class="section-header"><h2>📈 Weekly Analytics</h2><span>This Week</span></div>
+        <div class="progress-chart">
+            <div class="day"><div class="bar" style="height:45%;"></div><p>Mon</p></div>
+            <div class="day"><div class="bar" style="height:70%;"></div><p>Tue</p></div>
+            <div class="day"><div class="bar" style="height:60%;"></div><p>Wed</p></div>
+            <div class="day"><div class="bar" style="height:90%;"></div><p>Thu</p></div>
+            <div class="day"><div class="bar" style="height:75%;"></div><p>Fri</p></div>
+            <div class="day"><div class="bar" style="height:100%;"></div><p>Sat</p></div>
+            <div class="day"><div class="bar" style="height:55%;"></div><p>Sun</p></div>
+        </div>
+    </div>
+    <div class="quick-actions-grid">
+        <button id="dashResumeLearning" class="quick-action-btn" type="button"><span class="icon">📖</span><span class="label">Resume Learning</span></button>
+        <button id="dashBrowseCourses" class="quick-action-btn" type="button"><span class="icon">📚</span><span class="label">Browse Courses</span></button>
+        <button id="dashAskAI" class="quick-action-btn" type="button"><span class="icon">🤖</span><span class="label">Ask AI</span></button>
+        <button id="dashCertificates" class="quick-action-btn" type="button"><span class="icon">📜</span><span class="label">Certificates</span></button>
+    </div>
+    <section class="recent-courses" aria-label="Recent Courses">
+        <h3>📘 Recent Courses</h3>
+        <div class="course-grid">
+            <article class="course-card" id="recentCourse1"><h4>AI Fundamentals</h4><p>65% complete</p><div class="progress-bar"><div class="progress-fill" style="width:65%;"></div></div></article>
+            <article class="course-card" id="recentCourse2"><h4>Web Development</h4><p>40% complete</p><div class="progress-bar"><div class="progress-fill" style="width:40%;"></div></div></article>
+            <article class="course-card" id="recentCourse3"><h4>Data Science</h4><p>20% complete</p><div class="progress-bar"><div class="progress-fill" style="width:20%;"></div></div></article>
+        </div>
+    </section>
+</section>
+
+
+            
 
             <!-- ===================================================
             PAGE 3: COURSES (Here you can put your courses html)
