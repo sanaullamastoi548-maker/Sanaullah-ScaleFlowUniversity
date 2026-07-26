@@ -129,13 +129,119 @@
         ========================================================== -->
         <main class="main-content" role="main">
 
-            <!-- ===================================================
+                        <!-- ===================================================
             PAGE 1: HOME
             ==================================================== -->
             <section id="page1" class="page-section active" aria-label="Home Dashboard">
-                <h2>🏠 PAGE 1 — Home</h2>
-                <p>Welcome to ScaleFlow University. This is the Home page.</p>
-            </section>
+                <section class="hero" aria-label="Welcome Section">
+                    <div class="hero-left">
+                        <span class="hero-tag">👋 Welcome Back</span>
+                        <h1 id="studentName">Sanaullah</h1>
+                        <p>Continue your learning journey. Every lesson makes you stronger.</p>
+                        <div class="hero-buttons">
+                            <button id="continueLearningBtn" class="btn-primary" type="button">▶ Continue Learning</button>
+                            <button id="browseCoursesBtn" class="btn-secondary" type="button">📚 Browse Courses</button>
+                        </div>
+                    </div>
+                    <div class="hero-right">
+                        <article class="hero-stat"><span>⭐ Brain XP</span><strong id="brainXP">250 XP</strong></article>
+                        <article class="hero-stat"><span>🏆 Level</span><strong id="currentLevel">Level 5</strong></article>
+                        <article class="hero-stat"><span>🔥 Streak</span><strong id="learningStreak">7 Days</strong></article>
+                        <article class="hero-stat"><span>📈 Progress</span><strong id="overallProgress">75%</strong></article>
+                    </div>
+                </section>
+
+                <div class="search-section">
+                    <input id="globalSearchInput" type="text" placeholder="Search courses, tools, mentors..." autocomplete="off" aria-label="Global search">
+                </div>
+
+                <section class="learning-dashboard" aria-label="Learning Dashboard">
+                    <h2>📚 Learning Dashboard</h2>
+                    <div class="dashboard-boxes">
+                        <div class="dashboard-box" id="dashCourseBox"><h3>Courses</h3><span id="courseCount">12</span></div>
+                        <div class="dashboard-box" id="dashCertBox"><h3>Certificates</h3><span id="certificateCount">4</span></div>
+                        <div class="dashboard-box" id="dashAchieveBox"><h3>Achievements</h3><span id="achievementCount">8</span></div>
+                        <div class="dashboard-box" id="dashProjectBox"><h3>Projects</h3><span id="projectCount">3</span></div>
+                    </div>
+                </section>
+
+                <section class="continue-learning" aria-label="Continue Learning">
+                    <div class="continue-card">
+                        <div class="continue-tag">📖 Continue Where You Left Off</div>
+                        <div class="continue-info">
+                            <h2>JavaScript Fundamentals</h2>
+                            <p>Module 4 • Functions & Scope</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="continueProgress" style="width:65%;"></div>
+                            </div>
+                            <div class="continue-actions">
+                                <small id="progressText">65% Complete</small>
+                                <button id="continueProgressBtn" class="btn-primary" type="button">▶ Continue</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="today-tasks" aria-label="Today's Tasks">
+                    <h2>📋 Today's Learning Tasks</h2>
+                    <div class="task-list">
+                        <div class="task-item"><input type="checkbox" id="task1" aria-label="Complete Lesson 13"><label for="task1">Complete Lesson 13</label></div>
+                        <div class="task-item"><input type="checkbox" id="task2" aria-label="AI Quiz Module 5"><label for="task2">AI Quiz: Module 5</label></div>
+                        <div class="task-item"><input type="checkbox" id="task3" aria-label="Review JavaScript Notes"><label for="task3">Review JavaScript Notes</label></div>
+                        <div class="task-item"><input type="checkbox" id="task4" aria-label="Submit Project Proposal"><label for="task4">Submit Project Proposal</label></div>
+                    </div>
+                </section>
+
+                <section class="recent-activity" aria-label="Recent Activity">
+                    <h2>🕐 Recent Activity</h2>
+                    <div class="activity-list">
+                        <div class="activity-item">Completed "AI Fundamentals" <span>2 hours ago</span></div>
+                        <div class="activity-item">Started "Web Development" <span>Yesterday</span></div>
+                        <div class="activity-item">Earned "JavaScript Badge" <span>3 days ago</span></div>
+                    </div>
+                </section>
+
+                <section class="quick-actions-section" aria-label="Quick Actions">
+                    <h2>⚡ Quick Actions</h2>
+                    <div class="quick-actions-grid">
+                        <button id="quickStartLearning" class="quick-action-btn" type="button"><span class="icon">🚀</span><span class="label">Start Learning</span><span class="desc">Continue your courses</span></button>
+                        <button id="quickAskAI" class="quick-action-btn" type="button"><span class="icon">🤖</span><span class="label">Ask AI Mentor</span><span class="desc">Get instant help</span></button>
+                        <button id="quickBrowseCourses" class="quick-action-btn" type="button"><span class="icon">📚</span><span class="label">Browse Courses</span><span class="desc">Explore new topics</span></button>
+                        <button id="quickMyCertificates" class="quick-action-btn" type="button"><span class="icon">📜</span><span class="label">My Certificates</span><span class="desc">View your achievements</span></button>
+                    </div>
+                </section>
+
+                <section class="weekly-progress" aria-label="Weekly Progress Chart">
+                    <div class="section-header"><h2>📈 Weekly Progress</h2><span>This Week</span></div>
+                    <div class="progress-chart">
+                        <div class="day"><div class="bar" style="height:45%;"></div><p>Mon</p></div>
+                        <div class="day"><div class="bar" style="height:70%;"></div><p>Tue</p></div>
+                        <div class="day"><div class="bar" style="height:60%;"></div><p>Wed</p></div>
+                        <div class="day"><div class="bar" style="height:90%;"></div><p>Thu</p></div>
+                        <div class="day"><div class="bar" style="height:75%;"></div><p>Fri</p></div>
+                        <div class="day"><div class="bar" style="height:100%;"></div><p>Sat</p></div>
+                        <div class="day"><div class="bar" style="height:55%;"></div><p>Sun</p></div>
+                    </div>
+                </section>
+
+                <section class="gateway-grid" aria-label="Gateway Modules">
+                    <article class="gateway-card" id="gatewayLearning"><h3>🎓 Learning Hub</h3><p>Professional courses with quizzes, projects and certificates.</p></article>
+                    <article class="gateway-card" id="gatewayAI"><h3>🤖 AI Mentor</h3><p>Learn with your personal AI teacher and assistant.</p></article>
+                    <article class="gateway-card" id="gatewayAutomation"><h3>⚡ Automation Hub</h3><p>Google Workspace, Apps Script and automation projects.</p></article>
+                    <article class="gateway-card" id="gatewayTools"><h3>🛠 Tools Hub</h3><p>Free professional tools for productivity and development.</p></article>
+                    <article class="gateway-card" id="gatewayBusiness"><h3>💼 Business Hub</h3><p>Build and manage your digital business from one dashboard.</p></article>
+                    <article class="gateway-card" id="gatewayFreelancing"><h3>💻 Freelancing</h3><p>Learn Fiverr, Upwork, proposals and client handling.</p></article>
+                    <article class="gateway-card" id="gatewayCertificates"><h3>🏆 Certificates</h3><p>View, verify and download your certificates.</p></article>
+                    <article class="gateway-card" id="gatewayDashboard"><h3>👤 Dashboard</h3><p>Track your progress, Brain XP and achievements.</p></article>
+                </section>
+
+                <div class="quick-actions-bottom">
+                    <button id="btnTheme" class="quick-btn" type="button">🌙 Theme</button>
+                    <button id="btnLanguage" class="quick-btn" type="button">🌐 Language</button>
+                    <button id="btnSupport" class="quick-btn" type="button">📞 Support</button>
+                </div>
+                                                                                                   </section>
+            
 
             <!-- ===================================================
             PAGE 2: DASHBOARD
