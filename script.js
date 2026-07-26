@@ -1,7 +1,7 @@
 /* ============================================================
    Sanaullah ScaleFlow University
    script.js — Complete JavaScript (All Parts 1 to 20)
-   Version: 1.0 FINAL
+   Version: 1.0 FINAL FIXED
    ============================================================ */
 
 (function(global) {
@@ -130,6 +130,9 @@
 
     darkModeBtn?.addEventListener('click', toggleDarkMode);
 
+    // Settings page theme button
+    document.getElementById('settingsThemeBtn')?.addEventListener('click', toggleDarkMode);
+
     // ============================================================
     // PART 6 — NAVIGATION (صفحات کا تبادلہ)
     // ============================================================
@@ -143,7 +146,9 @@
                 section.classList.remove("active");
             }
         });
-        pageSections[pageId].classList.add("active");
+        if (pageSections[pageId]) {
+            pageSections[pageId].classList.add("active");
+        }
         navLinks.forEach(link => {
             link.classList.remove("active");
         });
@@ -205,7 +210,7 @@
     }
 
     // ============================================================
-    // PART 10 — DASHBOARD STATS & GLOBAL SEARCH
+    // PART 10 — DASHBOARD STATS & GLOBAL SEARCH (FIXED)
     // ============================================================
     const globalSearchInput = document.getElementById('globalSearchInput');
     if (globalSearchInput) {
@@ -232,35 +237,69 @@
             projects: 3
         };
 
-        const els = {
-            studentName: document.getElementById('studentName'),
-            brainXP: document.getElementById('brainXP'),
-            currentLevel: document.getElementById('currentLevel'),
-            learningStreak: document.getElementById('learningStreak'),
-            overallProgress: document.getElementById('overallProgress'),
-            courseCount: document.getElementById('courseCount'),
-            certificateCount: document.getElementById('certificateCount'),
-            achievementCount: document.getElementById('achievementCount'),
-            projectCount: document.getElementById('projectCount'),
-            dashName: document.getElementById('dashName'),
-            sidebarXP: document.getElementById('sidebarXP'),
-            sidebarUserName: document.getElementById('sidebarUserName'),
-            sidebarUserLevel: document.getElementById('sidebarUserLevel')
-        };
+        // Only update elements that actually exist
+        const studentName = document.getElementById('studentName');
+        if (studentName) studentName.textContent = data.name;
 
-        if (els.studentName) els.studentName.textContent = data.name;
-        if (els.brainXP) els.brainXP.textContent = data.xp;
-        if (els.currentLevel) els.currentLevel.textContent = data.level;
-        if (els.learningStreak) els.learningStreak.textContent = data.streak;
-        if (els.overallProgress) els.overallProgress.textContent = data.progress;
-        if (els.courseCount) els.courseCount.textContent = data.courses;
-        if (els.certificateCount) els.certificateCount.textContent = data.certificates;
-        if (els.achievementCount) els.achievementCount.textContent = data.achievements;
-        if (els.projectCount) els.projectCount.textContent = data.projects;
-        if (els.dashName) els.dashName.textContent = data.name;
-        if (els.sidebarXP) els.sidebarXP.textContent = data.xp;
-        if (els.sidebarUserName) els.sidebarUserName.textContent = data.name;
-        if (els.sidebarUserLevel) els.sidebarUserLevel.textContent = data.level + ' • Advanced';
+        const brainXP = document.getElementById('brainXP');
+        if (brainXP) brainXP.textContent = data.xp;
+
+        const currentLevel = document.getElementById('currentLevel');
+        if (currentLevel) currentLevel.textContent = data.level;
+
+        const learningStreak = document.getElementById('learningStreak');
+        if (learningStreak) learningStreak.textContent = data.streak;
+
+        const overallProgress = document.getElementById('overallProgress');
+        if (overallProgress) overallProgress.textContent = data.progress;
+
+        const courseCount = document.getElementById('courseCount');
+        if (courseCount) courseCount.textContent = data.courses;
+
+        const certificateCount = document.getElementById('certificateCount');
+        if (certificateCount) certificateCount.textContent = data.certificates;
+
+        const achievementCount = document.getElementById('achievementCount');
+        if (achievementCount) achievementCount.textContent = data.achievements;
+
+        const projectCount = document.getElementById('projectCount');
+        if (projectCount) projectCount.textContent = data.projects;
+
+        const dashName = document.getElementById('dashName');
+        if (dashName) dashName.textContent = data.name;
+
+        const dashLevel = document.getElementById('dashLevel');
+        if (dashLevel) dashLevel.textContent = data.level.replace('Level ', '');
+
+        const dashXP = document.getElementById('dashXP');
+        if (dashXP) dashXP.textContent = data.xp.replace(' XP', '');
+
+        const dashStreak = document.getElementById('dashStreak');
+        if (dashStreak) dashStreak.textContent = data.streak.replace(' Days', '');
+
+        const dashCourses = document.getElementById('dashCourses');
+        if (dashCourses) dashCourses.textContent = data.courses;
+
+        const dashCerts = document.getElementById('dashCerts');
+        if (dashCerts) dashCerts.textContent = data.certificates;
+
+        const dashAchievements = document.getElementById('dashAchievements');
+        if (dashAchievements) dashAchievements.textContent = data.achievements;
+
+        const dashProgress = document.getElementById('dashProgress');
+        if (dashProgress) dashProgress.textContent = data.progress;
+
+        const xpTotal = document.getElementById('xpTotal');
+        if (xpTotal) xpTotal.textContent = data.xp.replace(' XP', '');
+
+        const badgeTotal = document.getElementById('badgeTotal');
+        if (badgeTotal) badgeTotal.textContent = data.achievements;
+
+        const levelTotal = document.getElementById('levelTotal');
+        if (levelTotal) levelTotal.textContent = data.level.replace('Level ', '');
+
+        const rewardTotal = document.getElementById('rewardTotal');
+        if (rewardTotal) rewardTotal.textContent = '3';
     }
 
     // ============================================================
@@ -338,6 +377,14 @@
         }
     });
 
+    // Home page hero buttons
+    document.getElementById('continueLearningBtn')?.addEventListener('click', function() {
+        navigateTo('page4');
+    });
+    document.getElementById('browseCoursesBtn')?.addEventListener('click', function() {
+        navigateTo('page3');
+    });
+
     // ============================================================
     // PART 14 — AI CHAT MODULE
     // ============================================================
@@ -395,6 +442,20 @@
         });
     }
 
+    // Prompt suggestion buttons
+    document.getElementById('promptClosure')?.addEventListener('click', function() {
+        if (chatInput) chatInput.value = 'Explain closures';
+        chatSendBtn?.click();
+    });
+    document.getElementById('promptHoisting')?.addEventListener('click', function() {
+        if (chatInput) chatInput.value = 'What is hoisting?';
+        chatSendBtn?.click();
+    });
+    document.getElementById('promptAsync')?.addEventListener('click', function() {
+        if (chatInput) chatInput.value = 'Help with async/await';
+        chatSendBtn?.click();
+    });
+
     // ============================================================
     // PART 15 — LOGIN VALIDATION
     // ============================================================
@@ -422,6 +483,19 @@
 
         showToast('✅ Login successful! Redirecting...', 'success');
         setTimeout(() => navigateTo('page1'), 1500);
+    });
+
+    // Forgot password, register, OTP buttons
+    document.getElementById('forgotPasswordLink')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        showToast('📧 Password reset link sent to your email.', 'info');
+    });
+    document.getElementById('registerLink')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        showToast('📝 Registration form will open soon.', 'info');
+    });
+    document.getElementById('loginOTPBtn')?.addEventListener('click', function() {
+        showToast('📱 OTP sent to your registered mobile number.', 'info');
     });
 
     // ============================================================
