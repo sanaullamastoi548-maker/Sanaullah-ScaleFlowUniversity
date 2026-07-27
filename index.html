@@ -639,57 +639,162 @@
             <!-- ===================================================
             PAGE 6: ACHIEVEMENTS
             ==================================================== -->
-            <section id="page6" class="page-section" aria-label="Achievements">
-                <h2>🏆 PAGE 6 — Achievements</h2>
-                <p>Track your XP, badges, levels, and rewards.</p>
-            </section>
+            
+<section id="page6" class="page-section" aria-label="Achievements">
+    <h2>🏆 Achievements</h2>
+    <div class="achievement-summary">
+        <div class="stat-box"><span>⭐ XP</span><strong id="xpTotal">250</strong></div>
+        <div class="stat-box"><span>🏅 Badges</span><strong id="badgeTotal">8</strong></div>
+        <div class="stat-box"><span>📈 Level</span><strong id="levelTotal">5</strong></div>
+        <div class="stat-box"><span>🎁 Rewards</span><strong id="rewardTotal">3</strong></div>
+    </div>
+    <div class="achievement-grid">
+        <article class="achievement-card earned" id="achieveFirstCourse"><div class="icon">⭐</div><h4>First Course</h4><p>Earned Jan 2026</p></article>
+        <article class="achievement-card earned" id="achieveFiveDayStreak"><div class="icon">🔥</div><h4>5 Day Streak</h4><p>Earned Feb 2026</p></article>
+        <article class="achievement-card earned" id="achieveTopPerformer"><div class="icon">🏅</div><h4>Top Performer</h4><p>Earned Mar 2026</p></article>
+        <article class="achievement-card locked" id="achieveTenDayStreak"><div class="icon">🔒</div><h4>10 Day Streak</h4><p>Locked</p></article>
+        <article class="achievement-card locked" id="achieveExpertLevel"><div class="icon">🔒</div><h4>Expert Level</h4><p>Locked</p></article>
+    </div>
+    <div class="progress-timeline">
+        <h3>📈 Progress Timeline</h3>
+        <ul>
+            <li>✅ Completed AI Fundamentals (Jan 2026)</li>
+            <li>✅ Earned JavaScript Badge (Feb 2026)</li>
+            <li>⏳ Working on Web Development (Current)</li>
+        </ul>
+    </div>
+</section>
 
             <!-- ===================================================
             PAGE 7: AI MENTOR
             ==================================================== -->
-            <section id="page7" class="page-section" aria-label="AI Mentor Chat">
-                <h2>🤖 PAGE 7 — AI Mentor</h2>
-                <p>Chat with your personal AI mentor for instant help.</p>
-            </section>
+    
+<section id="page7" class="page-section" aria-label="AI Mentor Chat">
+    <h2>🤖 AI Mentor</h2>
+    <div class="ai-chat-container">
+        <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
+            <div class="message ai">Hello! How can I assist you today?</div>
+            <div class="message user">I need help with JavaScript closures.</div>
+            <div class="message ai">Sure! A closure is a function that retains access to its outer scope even after the outer function has returned. Would you like an example?</div>
+        </div>
+        <div class="chat-input">
+            <input id="chatInput" type="text" placeholder="Ask anything..." aria-label="Chat input">
+            <button id="chatSendBtn" class="btn-primary" type="button">Send</button>
+            <button id="chatVoiceBtn" class="btn-secondary" type="button">🎤</button>
+            <button id="chatClearBtn" class="btn-secondary" type="button">🗑️</button>
+        </div>
+        <div class="prompt-suggestions">
+            <button id="promptClosure" class="btn-secondary" type="button">Explain closures</button>
+            <button id="promptHoisting" class="btn-secondary" type="button">What is hoisting?</button>
+            <button id="promptAsync" class="btn-secondary" type="button">Help with async/await</button>
+        </div>
+    </div>
+</section>
 
             <!-- ===================================================
             PAGE 8: MARKETPLACE
             ==================================================== -->
-            <section id="page8" class="page-section" aria-label="Marketplace">
-                <h2>🛒 PAGE 8 — Marketplace</h2>
-                <p>Buy and sell digital products, courses, and tools.</p>
-            </section>
+    
+    <section id="page8" class="page-section" aria-label="Marketplace">
+    <h2>🛒 Marketplace</h2>
+    <div class="marketplace-header">
+        <input id="marketplaceSearch" type="text" placeholder="Search products..." aria-label="Search products">
+        <button id="marketplaceCategories" class="btn-secondary" type="button">Categories</button>
+        <button id="marketplaceCart" class="btn-primary" type="button">🛒 Cart (0)</button>
+        <button id="marketplaceCheckout" class="btn-primary" type="button">Checkout</button>
+    </div>
+    <div class="product-grid">
+        <article class="product-card" id="product1"><div class="product-icon">📘</div><h3>E-book: AI Guide</h3><p>$9.99</p><button id="addToCart1" class="btn-primary" type="button">Add to Cart</button></article>
+        <article class="product-card" id="product2"><div class="product-icon">🎓</div><h3>Course Bundle</h3><p>$49.99</p><button id="addToCart2" class="btn-primary" type="button">Add to Cart</button></article>
+        <article class="product-card" id="product3"><div class="product-icon">🛠️</div><h3>Pro Tools Kit</h3><p>$19.99</p><button id="addToCart3" class="btn-primary" type="button">Add to Cart</button></article>
+    </div>
+</section>
 
             <!-- ===================================================
-            PAGE 9: BUSINESS HUB
-            ==================================================== -->
-            <section id="page9" class="page-section" aria-label="Business Hub">
-                <h2>💼 PAGE 9 — Business Hub</h2>
-                <p>Manage your business from one central dashboard.</p>
-            </section>
+            PAGE 9: BUSINESS
+            
+        =================================================== -->
+            
+     <section id="page9" class="page-section" aria-label="Business Hub">
+    <h2>💼 Business Hub</h2>
+    <div class="business-grid">
+        <div class="business-card" id="businessCRM"><div class="business-icon">📋</div><h3>CRM</h3><p>Manage clients</p><button id="openCRM" class="btn-primary" type="button">Open</button></div>
+        <div class="business-card" id="businessProjects"><div class="business-icon">📁</div><h3>Projects</h3><p>Track progress</p><button id="openProjects" class="btn-primary" type="button">Open</button></div>
+        <div class="business-card" id="businessClients"><div class="business-icon">👥</div><h3>Clients</h3><p>Client list</p><button id="openClients" class="btn-primary" type="button">Open</button></div>
+        <div class="business-card" id="businessIncome"><div class="business-icon">💰</div><h3>Income</h3><p>Revenue tracker</p><button id="openIncome" class="btn-primary" type="button">Open</button></div>
+        <div class="business-card" id="businessReports"><div class="business-icon">📊</div><h3>Reports</h3><p>Analytics</p><button id="openReports" class="btn-primary" type="button">Open</button></div>
+    </div>
+</section>
 
             <!-- ===================================================
             PAGE 10: PROFILE
             ==================================================== -->
-            <section id="page10" class="page-section" aria-label="Student Profile">
-                <h2>👤 PAGE 10 — Profile</h2>
-                <p>View and edit your personal profile.</p>
-            </section>
+
+     <section id="page10" class="page-section" aria-label="Student Profile">
+    <h2>👤 Student Profile</h2>
+    <div class="profile-container">
+        <aside class="profile-sidebar">
+            <img id="studentProfileImage" src="assets/avatar.png" alt="Profile Avatar" class="profile-avatar" style="width:80px;height:80px;border-radius:50%;display:block;margin:0 auto 12px;">
+            <h3>Sanaullah</h3>
+            <p>Student • Level 5</p>
+            <p>📧 sanaullah@university.com</p>
+            <p>🎯 Goal: Complete 20 Courses</p>
+            <button id="editProfileBtn" class="btn-primary" type="button">Edit Profile</button>
+        </aside>
+        <div class="profile-details">
+            <section class="info-card"><h4>📋 Personal Info</h4><p><strong>Full Name:</strong> Sanaullah</p><p><strong>Email:</strong> sanaullah@university.com</p><p><strong>Joined:</strong> Jan 2026</p></section>
+            <section class="info-card"><h4>🛠️ Skills</h4><span class="badge">JavaScript</span><span class="badge">Python</span><span class="badge">React</span></section>
+            <section class="info-card"><h4>📁 Portfolio</h4><p>AI Chatbot Project • Weather App • E-commerce Site</p></section>
+            <section class="info-card"><h4>📜 Certificates</h4><p>AI Mastery • Web Dev Pro • Data Science</p></section>
+            <section class="info-card"><h4>🕐 Recent Activity</h4><p>Completed "AI Fundamentals" • Started "Web Development"</p></section>
+        </div>
+    </div>
+  </section>
 
             <!-- ===================================================
             PAGE 11: SETTINGS
             ==================================================== -->
+            
             <section id="page11" class="page-section" aria-label="Settings">
-                <h2>⚙️ PAGE 11 — Settings</h2>
-                <p>Customize your theme, language, security, and notifications.</p>
+                <h2>⚙️ Settings</h2>
+                <div class="settings-grid">
+                    <div class="setting-card"><h4>🎨 Theme</h4><button id="settingsThemeBtn" class="btn-secondary" type="button">Toggle Dark/Light</button></div>
+                    <div class="setting-card"><h4>🌐 Language</h4><select id="settingsLanguage" aria-label="Select language"><option>English</option><option>Urdu</option><option>Arabic</option></select></div>
+                   
+
+                    <div class="setting-card"><h4>🔐 Security</h4><button id="settingsChangePassword" class="btn-secondary" type="button">Change Password</button><button id="settingsEnable2FA" class="btn-secondary" type="button">Enable 2FA</button></div>
+                    <div class="setting-card"><h4>🔔 Notifications</h4><label><input type="checkbox" id="notifEmail" checked aria-label="Email notifications"> Email</label><label><input type="checkbox" id="notifPush" checked aria-label="Push notifications"> Push</label><label><input type="checkbox" id="notifSMS" aria-label="SMS notifications"> SMS</label></div>
+                    <div class="setting-card full-width"><h4>💾 Backup</h4><button id="settingsBackupBtn" class="btn-primary" type="button">Backup Now</button></div>
+                </div>
             </section>
 
             <!-- ===================================================
             PAGE 12: LOGIN
             ==================================================== -->
+                      
             <section id="page12" class="page-section" aria-label="Login">
-                <h2>🔐 PAGE 12 — Login</h2>
-                <p>Sign in to your account to access all features.</p>
+                <div class="login-container">
+                    <div class="login-card">
+                        <h2>🔐 Welcome Back</h2>
+                        <form id="loginForm" aria-label="Login form">
+                            <div class="form-group">
+                                <label for="loginEmail">Email</label>
+                                <input id="loginEmail" type="email" placeholder="student@university.com" required aria-label="Email address">
+                            </div>
+                            <div class="form-group">
+                                <label for="loginPassword">Password</label>
+                                <input id="loginPassword" type="password" placeholder="••••••••" required aria-label="Password">
+                            </div>
+                            <div class="form-options">
+                                <label><input type="checkbox" id="loginRemember" aria-label="Remember me"> Remember Me</label>
+                                <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+                            </div>
+                            <button id="loginSubmitBtn" type="submit" class="btn-primary">Sign In</button>
+                        </form>
+                        <p class="login-register">Don't have an account? <a href="#" id="registerLink">Register</a></p>
+                        <button id="loginOTPBtn" class="btn-secondary" type="button">Send OTP</button>
+                    </div>
+                </div>
             </section>
 
             <!-- ===================================================
