@@ -730,31 +730,48 @@
 </section>
 
 
-            <!-- ===================================================
-            PAGE 7: AI MENTOR
-            ==================================================== -->
+            <!-- =================================================== -->
+          <!-- PAGE 7: ADVANCED AI MENTOR & VIRTUAL TUTOR HUB -->
+           <!-- =================================================== -->
+   <section id="page7" class="page-section" aria-label="Advanced AI Mentor Chat">
+    <h2>🤖 ScaleFlow Elite AI Mentor & Smart Tutor Hub</h2>
+    <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Your 24/7 personal genius mentor for coding, science, and automation guidance.</p>
     
-<section id="page7" class="page-section" aria-label="AI Mentor Chat">
-    <h2>🤖 AI Mentor</h2>
-    <div class="ai-chat-container">
-        <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
-            <div class="message ai">Hello! How can I assist you today?</div>
-            <div class="message user">I need help with JavaScript closures.</div>
-            <div class="message ai">Sure! A closure is a function that retains access to its outer scope even after the outer function has returned. Would you like an example?</div>
+    <div class="ai-chat-container" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; height: 500px;">
+        
+        <!-- Chat Header with Active Mode -->
+        <div style="background: #f8f9fa; padding: 10px 15px; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 13px; font-weight: bold; color: #1967d2;">🟢 AI Mentor Online (GPT-5 & Claude Architecture)</span>
+            <span style="font-size: 11px; background: #e6f4ea; color: #137333; padding: 2px 8px; border-radius: 10px; font-weight: bold;">Voice & Code Mode Active</span>
         </div>
-        <div class="chat-input">
-            <input id="chatInput" type="text" placeholder="Ask anything..." aria-label="Chat input">
-            <button id="chatSendBtn" class="btn-primary" type="button">Send</button>
-            <button id="chatVoiceBtn" class="btn-secondary" type="button">🎤</button>
-            <button id="chatClearBtn" class="btn-secondary" type="button">🗑️</button>
+
+        <!-- Chat Messages Area -->
+        <div class="chat-messages" id="chatMessages" role="log" aria-live="polite" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #fdfdfd;">
+            <div class="message ai" style="background: #f1f3f4; padding: 10px 15px; border-radius: 8px; max-width: 80%; font-size: 14px;">Hello Sanaullah! How can I assist you with your advanced automation and web projects today?</div>
+            <div class="message user" style="background: #fbbc04; color: #000; padding: 10px 15px; border-radius: 8px; max-width: 80%; align-self: flex-end; font-size: 14px;">I need help structuring JavaScript closures and Apps Script triggers.</div>
+            <div class="message ai" style="background: #f1f3f4; padding: 10px 15px; border-radius: 8px; max-width: 80%; font-size: 14px;">Sure! A closure retains outer scope access, which is extremely useful in Apps Script for managing asynchronous form events. Would you like a live code template?</div>
         </div>
-        <div class="prompt-suggestions">
-            <button id="promptClosure" class="btn-secondary" type="button">Explain closures</button>
-            <button id="promptHoisting" class="btn-secondary" type="button">What is hoisting?</button>
-            <button id="promptAsync" class="btn-secondary" type="button">Help with async/await</button>
+
+        <!-- NEW FEATURE: Quick Smart Prompt Suggestions -->
+        <div class="prompt-suggestions" style="padding: 10px 15px; background: #f8f9fa; border-top: 1px solid #e0e0e0; display: flex; gap: 8px; flex-wrap: wrap;">
+            <button id="promptClosure" class="btn-secondary" type="button" style="font-size: 12px; padding: 5px 10px;">💡 Explain Closures</button>
+            <button id="promptHoisting" class="btn-secondary" type="button" style="font-size: 12px; padding: 5px 10px;">⚡ Debug My Code</button>
+            <button id="promptAsync" class="btn-secondary" type="button" style="font-size: 12px; padding: 5px 10px;">🌐 Apps Script Webhook</button>
+            <button id="promptVoice" class="btn-secondary" type="button" style="font-size: 12px; padding: 5px 10px;">🎙️ Audio Explanation</button>
         </div>
+
+        <!-- Chat Input Area -->
+        <div class="chat-input" style="padding: 15px; background: #fff; border-top: 1px solid #e0e0e0; display: flex; gap: 10px; align-items: center;">
+            <input id="chatInput" type="text" placeholder="Ask anything or paste code here..." aria-label="Chat input" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+            <button id="chatSendBtn" class="btn-primary" type="button" style="padding: 10px 20px;">Send</button>
+            <button id="chatVoiceBtn" class="btn-secondary" type="button" title="Voice Input" style="padding: 10px 12px;">🎤</button>
+            <button id="chatAttachBtn" class="btn-secondary" type="button" title="Attach Code/File" style="padding: 10px 12px;">📎</button>
+            <button id="chatClearBtn" class="btn-secondary" type="button" title="Clear Chat" style="padding: 10px 12px;">🗑️</button>
+        </div>
+
     </div>
 </section>
+
 
             <!-- ===================================================
             PAGE 8: MARKETPLACE
