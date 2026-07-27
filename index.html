@@ -943,23 +943,80 @@
     </div>
   </section>
 
-            <!-- ===================================================
-            PAGE 11: SETTINGS
-            ==================================================== -->
+
+             <!-- =================================================== -->
+           <!-- PAGE 11: ADVANCED SETTINGS & PREFERENCES HUB -->
+            <!-- =================================================== -->
+<section id="page11" class="page-section" aria-label="Advanced Settings">
+    <h2>⚙️ ScaleFlow Advanced Settings Hub</h2>
+    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Customize your workspace preferences, security controls, and AI sync options.</p>
+
+    <div class="settings-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        
+        <!-- Theme Setting -->
+        <div class="setting-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px;">
+            <h4 style="margin-bottom: 10px; color: #333; font-size: 16px;">🎨 Interface Theme</h4>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Switch between light, dark, or system mode.</p>
+            <button id="settingsThemeBtn" class="btn-secondary" type="button" style="width: 100%;">Toggle Dark/Light</button>
+        </div>
+
+        <!-- Language Setting -->
+        <div class="setting-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px;">
+            <h4 style="margin-bottom: 10px; color: #333; font-size: 16px;">🌐 Language & Region</h4>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Select your preferred display language.</p>
+            <select id="settingsLanguage" aria-label="Select language" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+                <option>English</option>
+                <option>Urdu (اردو)</option>
+                <option>Arabic (العربية)</option>
+            </select>
+        </div>
+
+        <!-- NEW FEATURE: AI Voice & Persona Preferences -->
+        <div class="setting-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px;">
+            <h4 style="margin-bottom: 10px; color: #333; font-size: 16px;">🤖 AI Mentor Voice</h4>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Configure your 24/7 tutor response style.</p>
+            <select id="aiVoicePersona" aria-label="AI Voice Style" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+                <option>Professional & Detailed</option>
+                <option>Simple & Friendly</option>
+                <option>Code-Focused Expert</option>
+            </select>
+        </div>
+
+        <!-- Security Setting -->
+        <div class="setting-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px;">
+            <h4 style="margin-bottom: 10px; color: #333; font-size: 16px;">🔐 Security & Access</h4>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Manage password and two-factor auth.</p>
+            <div style="display: flex; gap: 10px;">
+                <button id="settingsChangePassword" class="btn-secondary" type="button" style="flex: 1; padding: 8px;">Password</button>
+                <button id="settingsEnable2FA" class="btn-secondary" type="button" style="flex: 1; padding: 8px;">Enable 2FA</button>
+            </div>
+        </div>
+
+        <!-- Notifications Setting -->
+        <div class="setting-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px;">
+            <h4 style="margin-bottom: 10px; color: #333; font-size: 16px;">🔔 Notification Alerts</h4>
+            <p style="font-size: 13px; color: #666; margin-bottom: 12px;">Choose how you receive updates.</p>
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+                <label><input type="checkbox" id="notifEmail" checked aria-label="Email notifications"> Email Alerts</label>
+                <label><input type="checkbox" id="notifPush" checked aria-label="Push notifications"> Push Notifications</label>
+                <label><input type="checkbox" id="notifSMS" aria-label="SMS notifications"> SMS Alerts</label>
+            </div>
+        </div>
+
+        <!-- Backup Setting -->
+        <div class="setting-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h4 style="margin-bottom: 10px; color: #333; font-size: 16px;">💾 Cloud Backup & Sync</h4>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Secure your progress and project data instantly.</p>
+            </div>
+            <button id="settingsBackupBtn" class="btn-primary" type="button" style="width: 100%; background: #137333;">Backup & Sync Now</button>
+        </div>
+
+    </div>
+</section>
+
             
-            <section id="page11" class="page-section" aria-label="Settings">
-                <h2>⚙️ Settings</h2>
-                <div class="settings-grid">
-                    <div class="setting-card"><h4>🎨 Theme</h4><button id="settingsThemeBtn" class="btn-secondary" type="button">Toggle Dark/Light</button></div>
-                    <div class="setting-card"><h4>🌐 Language</h4><select id="settingsLanguage" aria-label="Select language"><option>English</option><option>Urdu</option><option>Arabic</option></select></div>
-                   
-
-                    <div class="setting-card"><h4>🔐 Security</h4><button id="settingsChangePassword" class="btn-secondary" type="button">Change Password</button><button id="settingsEnable2FA" class="btn-secondary" type="button">Enable 2FA</button></div>
-                    <div class="setting-card"><h4>🔔 Notifications</h4><label><input type="checkbox" id="notifEmail" checked aria-label="Email notifications"> Email</label><label><input type="checkbox" id="notifPush" checked aria-label="Push notifications"> Push</label><label><input type="checkbox" id="notifSMS" aria-label="SMS notifications"> SMS</label></div>
-                    <div class="setting-card full-width"><h4>💾 Backup</h4><button id="settingsBackupBtn" class="btn-primary" type="button">Backup Now</button></div>
-                </div>
-            </section>
-
+            
             <!-- ===================================================
             PAGE 12: LOGIN
             ==================================================== -->
