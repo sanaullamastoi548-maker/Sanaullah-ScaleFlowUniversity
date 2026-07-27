@@ -1075,13 +1075,92 @@
             
 
             
-            <!-- ===================================================
-            PAGE 13: PAYMENT GATEWAY
-            ==================================================== -->
-            <section id="page13" class="page-section" aria-label="Payment Gateway">
-                <h2>💳 PAGE 13 — Payment Gateway</h2>
-                <p>Subscription Plans • Stripe • PayPal • JazzCash • EasyPaisa</p>
-            </section>
+            <!-- =================================================== -->
+           <!-- PAGE 13: ADVANCED PAYMENT & CHECKOUT GATEWAY        -->
+          <!-- =================================================== -->
+<section id="page13" class="page-section" aria-label="Payment Gateway">
+    <div class="payment-hub-container" style="padding: 20px; max-width: 900px; margin: 0 auto;">
+        
+        <div style="text-align: center; margin-bottom: 25px;">
+            <h2 style="font-size: 24px; color: #333; margin-bottom: 8px;">💳 ScaleFlow Secure Payment Gateway</h2>
+            <p style="font-size: 14px; color: #666;">Choose your preferred local or international payment method to complete your subscription or checkout.</p>
+        </div>
+
+        <!-- Payment Methods Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+            
+            <!-- 1. JazzCash (Local Mobile Account) -->
+            <div class="payment-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                    <div style="background: #e65100; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">JC</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 16px; color: #333;">JazzCash Account</h4>
+                        <span style="font-size: 12px; color: #e65100; font-weight: 500;">Instant Pakistan Transfer</span>
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: #555; margin-bottom: 15px;">Send payment directly to our official JazzCash mobile wallet.</p>
+                <div style="background: #f9f9f9; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 15px; border: 1px dashed #ccc;">
+                    <strong>Account Title:</strong> Sanaullah Mastoi<br>
+                    <strong>Account No:</strong> 0300-XXXXXXX *(Add your number)*
+                </div>
+                <button type="button" class="btn-primary" style="width: 100%; padding: 10px; background: #e65100; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Pay via JazzCash</button>
+            </div>
+
+            <!-- 2. Bank Al Falah (Direct Bank Transfer) -->
+            <div class="payment-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                    <div style="background: #004d40; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px;">BAF</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 16px; color: #333;">Bank Al Falah</h4>
+                        <span style="font-size: 12px; color: #004d40; font-weight: 500;">Direct Bank Deposit</span>
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: #555; margin-bottom: 15px;">Transfer funds securely through Bank Al Falah banking portal.</p>
+                <div style="background: #f9f9f9; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 15px; border: 1px dashed #ccc;">
+                    <strong>Bank:</strong> Bank Al Falah Limited<br>
+                    <strong>IBAN/Acc:</strong> PK36ALFAXXXXXXXXXXXXXXXX
+                </div>
+                <button type="button" class="btn-primary" style="width: 100%; padding: 10px; background: #004d40; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Bank Transfer Details</button>
+            </div>
+
+            <!-- 3. Payoneer (International Freelance) -->
+            <div class="payment-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                    <div style="background: #ff6f00; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px;">PY</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 16px; color: #333;">Payoneer Account</h4>
+                        <span style="font-size: 12px; color: #ff6f00; font-weight: 500;">Global Freelance Payments</span>
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: #555; margin-bottom: 15px;">Ideal for international clients to send USD/EUR funds.</p>
+                <div style="background: #f9f9f9; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 15px; border: 1px dashed #ccc;">
+                    <strong>Email/ID:</strong> your-payoneer-email@domain.com
+                </div>
+                <button type="button" class="btn-primary" style="width: 100%; padding: 10px; background: #ff6f00; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Pay with Payoneer</button>
+            </div>
+
+            <!-- 4. Stripe & PayPal (Global Cards Gateway) -->
+            <div class="payment-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                    <div style="background: #1976d2; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px;">S/P</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 16px; color: #333;">Stripe / PayPal</h4>
+                        <span style="font-size: 12px; color: #1976d2; font-weight: 500;">Credit / Debit Cards</span>
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: #555; margin-bottom: 15px;">Instant automated checkout using Visa, MasterCard or PayPal.</p>
+                <div style="background: #f9f9f9; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 15px; border: 1px dashed #ccc;">
+                    <strong>Status:</strong> Live Secure Gateway Integration
+                </div>
+                <button type="button" class="btn-primary" style="width: 100%; padding: 10px; background: #1976d2; color: #fff; border: None; border-radius: 6px; cursor: pointer; font-weight: bold;">Checkout with Card</button>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+            
 
             <!-- ===================================================
             PAGE 14: SUBSCRIPTION & MEMBERSHIP
