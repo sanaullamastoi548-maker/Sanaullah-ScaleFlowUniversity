@@ -773,24 +773,81 @@
 </section>
 
 
-            <!-- ===================================================
-            PAGE 8: MARKETPLACE
-            ==================================================== -->
+            <!-- =================================================== -->
+            <!-- PAGE 8: ADVANCED DIGITAL MARKETPLACE & STORE -->
+          <!-- =================================================== -->
+<section id="page8" class="page-section" aria-label="Advanced Marketplace">
+    <h2>🛒 ScaleFlow Global Digital Marketplace</h2>
+    <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Discover professional e-books, AI bundles, and enterprise automation kits.</p>
     
-    <section id="page8" class="page-section" aria-label="Marketplace">
-    <h2>🛒 Marketplace</h2>
-    <div class="marketplace-header">
-        <input id="marketplaceSearch" type="text" placeholder="Search products..." aria-label="Search products">
-        <button id="marketplaceCategories" class="btn-secondary" type="button">Categories</button>
-        <button id="marketplaceCart" class="btn-primary" type="button">🛒 Cart (0)</button>
-        <button id="marketplaceCheckout" class="btn-primary" type="button">Checkout</button>
+    <!-- Marketplace Header & Controls -->
+    <div class="marketplace-header" style="background: #fff; padding: 15px; border: 1px solid #e0e0e0; border-radius: 10px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
+        <input id="marketplaceSearch" type="text" placeholder="Search products, AI guides, tools..." aria-label="Search products" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; min-width: 200px;">
+        <button id="marketplaceCategories" class="btn-secondary" type="button" style="padding: 10px 15px;">📂 Categories</button>
+        <button id="marketplaceCart" class="btn-primary" type="button" style="padding: 10px 15px;">🛒 Cart (0)</button>
+        <button id="marketplaceCheckout" class="btn-primary" type="button" style="background: #137333; padding: 10px 15px;">⚡ Instant Checkout</button>
     </div>
-    <div class="product-grid">
-        <article class="product-card" id="product1"><div class="product-icon">📘</div><h3>E-book: AI Guide</h3><p>$9.99</p><button id="addToCart1" class="btn-primary" type="button">Add to Cart</button></article>
-        <article class="product-card" id="product2"><div class="product-icon">🎓</div><h3>Course Bundle</h3><p>$49.99</p><button id="addToCart2" class="btn-primary" type="button">Add to Cart</button></article>
-        <article class="product-card" id="product3"><div class="product-icon">🛠️</div><h3>Pro Tools Kit</h3><p>$19.99</p><button id="addToCart3" class="btn-primary" type="button">Add to Cart</button></article>
+
+    <!-- NEW FEATURE: AI Recommendation Banner -->
+    <div style="background: linear-gradient(135deg, #e8f0fe, #fef7e0); border: 1px solid #d2e3fc; border-radius: 10px; padding: 12px 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 13px; color: #1967d2; font-weight: bold;">🤖 AI Pick For You: Based on your JavaScript & Automation profile, the Pro Tools Kit is 20% off today!</span>
+        <span style="font-size: 11px; background: #1967d2; color: #fff; padding: 3px 8px; border-radius: 10px;">Special Offer</span>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="product-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+        
+        <!-- Product 1 -->
+        <article class="product-card" id="product1" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div class="product-icon" style="font-size: 35px;">📘</div>
+                    <span style="font-size: 11px; background: #e6f4ea; color: #137333; padding: 3px 8px; border-radius: 10px; font-weight: bold;">INSTANT DOWNLOAD</span>
+                </div>
+                <h3 style="margin-bottom: 5px; color: #333; font-size: 16px;">E-book: AI Prompt & Automation Guide</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Comprehensive masterclass manual for modern developers.</p>
+            </div>
+            <div>
+                <div style="font-weight: bold; font-size: 18px; color: #b06000; margin-bottom: 10px;">$9.99</div>
+                <button id="addToCart1" class="btn-primary" type="button" style="width: 100%;">Add to Cart</button>
+            </div>
+        </article>
+
+        <!-- Product 2 -->
+        <article class="product-card" id="product2" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div class="product-icon" style="font-size: 35px;">🎓</div>
+                    <span style="font-size: 11px; background: #e8f0fe; color: #1967d2; padding: 3px 8px; border-radius: 10px; font-weight: bold;">BESTSELLER</span>
+                </div>
+                <h3 style="margin-bottom: 5px; color: #333; font-size: 16px;">Complete SaaS & Course Bundle</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">All-in-one bundle covering web apps and automation workflows.</p>
+            </div>
+            <div>
+                <div style="font-weight: bold; font-size: 18px; color: #b06000; margin-bottom: 10px;">$49.99</div>
+                <button id="addToCart2" class="btn-primary" type="button" style="width: 100%;">Add to Cart</button>
+            </div>
+        </article>
+
+        <!-- Product 3 -->
+        <article class="product-card" id="product3" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div class="product-icon" style="font-size: 35px;">🛠️</div>
+                    <span style="font-size: 11px; background: #fef7e0; color: #b06000; padding: 3px 8px; border-radius: 10px; font-weight: bold;">PRO EDITION</span>
+                </div>
+                <h3 style="margin-bottom: 5px; color: #333; font-size: 16px;">Pro Automation Tools Kit</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Ready-to-use scripts, templates, and serverless gateways.</p>
+            </div>
+            <div>
+                <div style="font-weight: bold; font-size: 18px; color: #b06000; margin-bottom: 10px;">$19.99</div>
+                <button id="addToCart3" class="btn-primary" type="button" style="width: 100%;">Add to Cart</button>
+            </div>
+        </article>
+
     </div>
 </section>
+
 
             <!-- ===================================================
             PAGE 9: BUSINESS
