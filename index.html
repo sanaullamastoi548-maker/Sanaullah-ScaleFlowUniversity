@@ -849,21 +849,74 @@
 </section>
 
 
-            <!-- ===================================================
-            PAGE 9: BUSINESS
+            <!-- =================================================== -->
+           <!-- PAGE 9: ADVANCED BUSINESS HUB & ENTERPRISE CRM -->
+          <!-- =================================================== -->
             
-        =================================================== -->
-            
-     <section id="page9" class="page-section" aria-label="Business Hub">
-    <h2>💼 Business Hub</h2>
-    <div class="business-grid">
-        <div class="business-card" id="businessCRM"><div class="business-icon">📋</div><h3>CRM</h3><p>Manage clients</p><button id="openCRM" class="btn-primary" type="button">Open</button></div>
-        <div class="business-card" id="businessProjects"><div class="business-icon">📁</div><h3>Projects</h3><p>Track progress</p><button id="openProjects" class="btn-primary" type="button">Open</button></div>
-        <div class="business-card" id="businessClients"><div class="business-icon">👥</div><h3>Clients</h3><p>Client list</p><button id="openClients" class="btn-primary" type="button">Open</button></div>
-        <div class="business-card" id="businessIncome"><div class="business-icon">💰</div><h3>Income</h3><p>Revenue tracker</p><button id="openIncome" class="btn-primary" type="button">Open</button></div>
-        <div class="business-card" id="businessReports"><div class="business-icon">📊</div><h3>Reports</h3><p>Analytics</p><button id="openReports" class="btn-primary" type="button">Open</button></div>
+       <section id="page9" class="page-section" aria-label="Advanced Business Hub">
+    <h2>💼 ScaleFlow Enterprise Business Hub</h2>
+    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Manage your clients, track revenue streams, and scale your freelance agency with AI.</p>
+
+    <!-- NEW FEATURE: AI Business Growth Banner -->
+    <div style="background: linear-gradient(135deg, #e8f0fe, #e6f4ea); border: 1px solid #d2e3fc; border-radius: 10px; padding: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+            <h4 style="color: #1967d2; margin-bottom: 5px; font-size: 15px;">🤖 AI Business Insight</h4>
+            <p style="font-size: 13px; color: #444; margin: 0;">Your active automation projects have a projected **35% revenue growth** this month!</p>
+        </div>
+        <button class="btn-primary" type="button" style="background: #137333; padding: 8px 15px; font-size: 13px;">Generate AI Invoice</button>
+    </div>
+
+    <!-- Business Cards Grid -->
+    <div class="business-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 25px;">
+        
+        <div class="business-card" id="businessCRM" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div class="business-icon" style="font-size: 30px; margin-bottom: 10px;">📋</div>
+                <h3 style="font-size: 16px; margin-bottom: 5px; color: #333;">Smart CRM</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Manage leads and client pipelines.</p>
+            </div>
+            <button id="openCRM" class="btn-primary" type="button" style="width: 100%;">Open CRM</button>
+        </div>
+
+        <div class="business-card" id="businessProjects" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div class="business-icon" style="font-size: 30px; margin-bottom: 10px;">📁</div>
+                <h3 style="font-size: 16px; margin-bottom: 5px; color: #333;">Active Projects</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Track milestones and deadlines.</p>
+            </div>
+            <button id="openProjects" class="btn-primary" type="button" style="width: 100%;">Open Projects</button>
+        </div>
+
+        <div class="business-card" id="businessClients" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div class="business-icon" style="font-size: 30px; margin-bottom: 10px;">👥</div>
+                <h3 style="font-size: 16px; margin-bottom: 5px; color: #333;">Global Clients</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Verified directory and contacts.</p>
+            </div>
+            <button id="openClients" class="btn-primary" type="button" style="width: 100%;">Open Clients</button>
+        </div>
+
+        <div class="business-card" id="businessIncome" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div class="business-icon" style="font-size: 30px; margin-bottom: 10px;">💰</div>
+                <h3 style="font-size: 16px; margin-bottom: 5px; color: #333;">Revenue Tracker</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Live earnings and payout metrics.</p>
+            </div>
+            <button id="openIncome" class="btn-primary" type="button" style="width: 100%;">Open Income</button>
+        </div>
+
+        <div class="business-card" id="businessReports" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div class="business-icon" style="font-size: 30px; margin-bottom: 10px;">📊</div>
+                <h3 style="font-size: 16px; margin-bottom: 5px; color: #333;">Analytics & Reports</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Performance and growth charts.</p>
+            </div>
+            <button id="openReports" class="btn-primary" type="button" style="width: 100%;">Open Reports</button>
+        </div>
+
     </div>
 </section>
+
 
             <!-- ===================================================
             PAGE 10: PROFILE
