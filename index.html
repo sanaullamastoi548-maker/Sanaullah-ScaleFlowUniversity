@@ -653,34 +653,82 @@
 </section>
 
             
-            <!-- ===================================================
-            PAGE 6: ACHIEVEMENTS
-            ==================================================== -->
-            
-<section id="page6" class="page-section" aria-label="Achievements">
-    <h2>🏆 Achievements</h2>
-    <div class="achievement-summary">
-        <div class="stat-box"><span>⭐ XP</span><strong id="xpTotal">250</strong></div>
-        <div class="stat-box"><span>🏅 Badges</span><strong id="badgeTotal">8</strong></div>
-        <div class="stat-box"><span>📈 Level</span><strong id="levelTotal">5</strong></div>
-        <div class="stat-box"><span>🎁 Rewards</span><strong id="rewardTotal">3</strong></div>
+            <!-- =================================================== -->
+           <!-- PAGE 6: ADVANCED ACHIEVEMENTS & GAMIFICATION HUB -->
+           <!-- =================================================== -->
+<section id="page6" class="page-section" aria-label="Advanced Achievements">
+    <h2>🏆 ScaleFlow Elite Achievements & Skill Ranks</h2>
+    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Earn XP, unlock AI-verified badges, and compete globally.</p>
+
+    <!-- Stats Summary -->
+    <div class="achievement-summary" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; margin-bottom: 25px;">
+        <div class="stat-box" style="background:#fff; padding:15px; border-radius:10px; border:1px solid #e0e0e0; text-align:center;">
+            <span style="font-size: 12px; color: #666;">⭐ Total XP</span><br>
+            <strong id="xpTotal" style="font-size: 20px; color: #b06000;">1,250</strong>
+        </div>
+        <div class="stat-box" style="background:#fff; padding:15px; border-radius:10px; border:1px solid #e0e0e0; text-align:center;">
+            <span style="font-size: 12px; color: #666;">🏅 AI Badges</span><br>
+            <strong id="badgeTotal" style="font-size: 20px; color: #137333;">12</strong>
+        </div>
+        <div class="stat-box" style="background:#fff; padding:15px; border-radius:10px; border:1px solid #e0e0e0; text-align:center;">
+            <span style="font-size: 12px; color: #666;">📈 Elite Level</span><br>
+            <strong id="levelTotal" style="font-size: 20px; color: #1967d2;">Level 8</strong>
+        </div>
+        <div class="stat-box" style="background:#fff; padding:15px; border-radius:10px; border:1px solid #e0e0e0; text-align:center;">
+            <span style="font-size: 12px; color: #666;">🎁 Rewards</span><br>
+            <strong id="rewardTotal" style="font-size: 20px; color: #7c3aed;">5 Unlocked</strong>
+        </div>
     </div>
-    <div class="achievement-grid">
-        <article class="achievement-card earned" id="achieveFirstCourse"><div class="icon">⭐</div><h4>First Course</h4><p>Earned Jan 2026</p></article>
-        <article class="achievement-card earned" id="achieveFiveDayStreak"><div class="icon">🔥</div><h4>5 Day Streak</h4><p>Earned Feb 2026</p></article>
-        <article class="achievement-card earned" id="achieveTopPerformer"><div class="icon">🏅</div><h4>Top Performer</h4><p>Earned Mar 2026</p></article>
-        <article class="achievement-card locked" id="achieveTenDayStreak"><div class="icon">🔒</div><h4>10 Day Streak</h4><p>Locked</p></article>
-        <article class="achievement-card locked" id="achieveExpertLevel"><div class="icon">🔒</div><h4>Expert Level</h4><p>Locked</p></article>
+
+    <!-- NEW FEATURE: AI Skill Rank Banner -->
+    <div class="ai-rank-banner" style="background: linear-gradient(135deg, #e8f0fe, #f3e8fd); border: 1px solid #d2e3fc; border-radius: 10px; padding: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h4 style="color: #1967d2; margin-bottom: 5px;">🤖 AI Global Skill Ranking</h4>
+            <p style="font-size: 13px; color: #444; margin: 0;">You are currently in the **Top 5%** of global learners in Automation & AI Prompting!</p>
+        </div>
+        <button class="btn-primary" type="button" style="background: #1967d2; padding: 8px 15px; font-size: 13px;">View Leaderboard</button>
     </div>
-    <div class="progress-timeline">
-        <h3>📈 Progress Timeline</h3>
-        <ul>
-            <li>✅ Completed AI Fundamentals (Jan 2026)</li>
-            <li>✅ Earned JavaScript Badge (Feb 2026)</li>
-            <li>⏳ Working on Web Development (Current)</li>
+
+    <!-- Achievements Grid -->
+    <div class="achievement-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px;">
+        <article class="achievement-card earned" id="achieveFirstCourse" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:15px; text-align:center;">
+            <div class="icon" style="font-size: 30px;">⭐</div>
+            <h4 style="margin: 10px 0 5px; font-size: 15px;">AI Fundamentals</h4>
+            <p style="font-size: 12px; color: #137333; font-weight: bold;">Earned Jan 2026</p>
+        </article>
+        <article class="achievement-card earned" id="achieveFiveDayStreak" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:15px; text-align:center;">
+            <div class="icon" style="font-size: 30px;">🔥</div>
+            <h4 style="margin: 10px 0 5px; font-size: 15px;">15 Day Streak</h4>
+            <p style="font-size: 12px; color: #137333; font-weight: bold;">Earned Feb 2026</p>
+        </article>
+        <article class="achievement-card earned" id="achieveTopPerformer" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:15px; text-align:center;">
+            <div class="icon" style="font-size: 30px;">🏅</div>
+            <h4 style="margin: 10px 0 5px; font-size: 15px;">Top Automation Master</h4>
+            <p style="font-size: 12px; color: #137333; font-weight: bold;">Earned Mar 2026</p>
+        </article>
+        <article class="achievement-card locked" id="achieveTenDayStreak" style="background:#fafafa; border:1px dashed #ccc; border-radius:10px; padding:15px; text-align:center; opacity: 0.7;">
+            <div class="icon" style="font-size: 30px;">🔒</div>
+            <h4 style="margin: 10px 0 5px; font-size: 15px;">30 Day Streak</h4>
+            <p style="font-size: 12px; color: #666;">Locked (Complete Daily Goals)</p>
+        </article>
+        <article class="achievement-card locked" id="achieveExpertLevel" style="background:#fafafa; border:1px dashed #ccc; border-radius:10px; padding:15px; text-align:center; opacity: 0.7;">
+            <div class="icon" style="font-size: 30px;">🔒</div>
+            <h4 style="margin: 10px 0 5px; font-size: 15px;">SaaS Creator Badge</h4>
+            <p style="font-size: 12px; color: #666;">Locked (Build Next App)</p>
+        </article>
+    </div>
+
+    <!-- Progress Timeline -->
+    <div class="progress-timeline" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px;">
+        <h3 style="margin-bottom: 15px; font-size: 16px;">📈 Professional Growth Timeline</h3>
+        <ul style="padding-left: 20px; font-size: 14px; line-height: 2; color: #333;">
+            <li>✅ Completed AI & Prompt Engineering Fundamentals (Jan 2026)</li>
+            <li>✅ Earned Advanced JavaScript & Apps Script Badge (Feb 2026)</li>
+            <li>⏳ Building ScaleFlow Full-Stack Automation SaaS (Current Active Project)</li>
         </ul>
     </div>
 </section>
+
 
             <!-- ===================================================
             PAGE 7: AI MENTOR
