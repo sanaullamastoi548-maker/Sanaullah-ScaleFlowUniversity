@@ -496,60 +496,114 @@
 </section>
 
             
-                <!-- ===================================================
-                    PAGE 4: LEARNING
-                 =================================================== -->
-     <section id="page4" class="page-section" aria-label="Learning Module">
-    <h2>📖 JavaScript Fundamentals</h2>
+                <!-- =================================================== -->
+<!-- PAGE 4: ADVANCED UNIVERSAL LEARNING HUB -->
+<!-- =================================================== -->
+<section id="page4" class="page-section" aria-label="Advanced Learning Module">
+    <h2>📖 ScaleFlow Advanced Learning & Smart Lab Hub</h2>
     <div class="learning-container">
+        
+        <!-- Main Content Area -->
         <div class="learning-main">
-            <div class="video-container">
-                <div class="video-placeholder">▶️</div>
-                <p>Video Player (Lesson 4: Functions & Scope)</p>
+            
+            <!-- Video Player & Interactive Media -->
+            <div class="video-container" style="background: #111; color: #fff; border-radius: 10px; padding: 20px; text-align: center;">
+                <div class="video-placeholder" style="font-size: 40px; cursor: pointer;">▶️</div>
+                <p style="margin-top: 10px; font-weight: bold;">Universal Video Player & Smart Captioning (Lesson 4)</p>
             </div>
-            <div class="pdf-viewer">
-                <p>📄 PDF Viewer: Lesson Notes</p>
+
+            <!-- Live Code & Practical Simulator (New Feature) -->
+            <div class="code-simulator-section" style="background: #fdfdfd; border: 1px solid #e0e0e0; border-radius: 10px; padding: 15px; margin-top: 20px;">
+                <h4 style="color: #333;">💻 Live Interactive Code & Science Sandbox</h4>
+                <p style="font-size: 13px; color: #666;">Test your code, formulas, or logic live without leaving the page.</p>
+                <textarea rows="4" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-family: monospace;" placeholder="// Write your live code or formula here..."></textarea>
+                <button id="runSimulatorBtn" class="btn-primary" type="button" style="margin-top: 10px;">Run & Test Live</button>
+            </div>
+
+            <!-- PDF Viewer: Lesson Notes -->
+            <div class="pdf-viewer" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                <p style="margin: 0;">📄 PDF Viewer: Comprehensive Lesson Notes & Research Papers</p>
                 <button id="downloadPdfBtn" class="btn-secondary" type="button">Download PDF</button>
             </div>
-            <div class="notes-section">
-                <h4>📝 Your Notes</h4>
-                <textarea id="notesInput" rows="4" placeholder="Write your notes here..." aria-label="Your notes"></textarea>
-                <button id="saveNotesBtn" class="btn-primary" type="button">Save Notes</button>
+
+            <!-- Your Personal Notes -->
+            <div class="notes-section" style="margin-top: 20px; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;">
+                <h4 style="margin-bottom: 10px;">📝 Your Cloud Notes</h4>
+                <textarea id="notesInput" rows="4" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;" placeholder="Write and auto-save your notes here..." aria-label="Your notes"></textarea>
+                <button id="saveNotesBtn" class="btn-primary" type="button" style="margin-top: 10px;">Save to Cloud</button>
             </div>
-            <div class="ai-reflection">
-                <h4>🤖 AI Reflection</h4>
-                <p>What did you learn today? Share your thoughts and get AI feedback.</p>
-                <input id="reflectionInput" type="text" placeholder="Type your reflection..." aria-label="Reflection input">
-                <button id="getReflectionBtn" class="btn-primary" type="button">Get Reflection</button>
+
+            <!-- AI Reflection & Smart Feedback -->
+            <div class="ai-reflection" style="margin-top: 20px; background: #e8f0fe; border: 1px solid #d2e3fc; border-radius: 8px; padding: 15px;">
+                <h4 style="color: #1967d2; margin-bottom: 5px;">🤖 AI Mentor Reflection & Smart Feedback</h4>
+                <p style="font-size: 13px; color: #444; margin-bottom: 10px;">What did you learn today? Share your thoughts and get instant AI evaluation.</p>
+                <input id="reflectionInput" type="text" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 10px;" placeholder="Type your reflection..." aria-label="Reflection input">
+                <button id="getReflectionBtn" class="btn-primary" type="button">Get AI Analysis</button>
             </div>
-            <div class="quiz-section">
-                <h4>📝 Quick Quiz</h4>
-                <p>What is a closure in JavaScript?</p>
-                <input id="quizAnswerInput" type="text" placeholder="Your answer..." aria-label="Quiz answer">
-                <button id="submitQuizBtn" class="btn-primary" type="button">Submit</button>
+
+            <!-- Quick Quiz -->
+            <div class="quiz-section" style="margin-top: 20px; background: #fef7e0; border: 1px solid #fce8b2; border-radius: 8px; padding: 15px;">
+                <h4 style="color: #b06000; margin-bottom: 5px;">📝 Quick Interactive Quiz & Assessment</h4>
+                <p style="font-size: 13px; color: #444; margin-bottom: 10px;">What is a closure in programming / core concept of this lesson?</p>
+                <input id="quizAnswerInput" type="text" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 10px;" placeholder="Your professional answer..." aria-label="Quiz answer">
+                <button id="submitQuizBtn" class="btn-primary" type="button">Submit Answer</button>
             </div>
+
+            <!-- NEW FEATURE: Instant Doubt Solver Hub -->
+            <div class="doubt-solver-section" style="margin-top: 20px; background: #fce8e6; border: 1px solid #fad2cf; border-radius: 8px; padding: 15px;">
+                <h4 style="color: #c5221f; margin-bottom: 5px;">❓ Instant AI Doubt Solver (Ask Anything)</h4>
+                <p style="font-size: 13px; color: #444; margin-bottom: 10px;">Stuck on a concept? Type your question and get an instant breakdown.</p>
+                <input id="doubtInput" type="text" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 10px;" placeholder="Ask your doubt here...">
+                <button id="solveDoubtBtn" class="btn-primary" type="button" style="background: #c5221f;">Solve Instantly</button>
+            </div>
+
         </div>
+
+        <!-- Sidebar Area -->
         <aside class="learning-sidebar">
-            <div class="progress-card">
+            
+            <!-- Lesson Progress -->
+            <div class="progress-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
                 <h4>📊 Lesson Progress</h4>
-                <div class="progress-bar"><div class="progress-fill" style="width:65%;"></div></div>
-                <p>65% Complete</p>
-                <div class="lesson-nav">
-                    <button id="prevLessonBtn" class="btn-secondary" type="button">◀ Previous</button>
-                    <button id="nextLessonBtn" class="btn-primary" type="button">Next ▶</button>
+                <div class="progress-bar" style="background: #eee; border-radius: 4px; overflow: hidden; height: 10px; margin: 10px 0;">
+                    <div class="progress-fill" style="width:65%; background: #fbbc04; height: 100%;"></div>
+                </div>
+                <p style="font-weight: bold; font-size: 14px;">65% Complete</p>
+                <div class="lesson-nav" style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button id="prevLessonBtn" class="btn-secondary" type="button" style="flex: 1;">◀ Previous</button>
+                    <button id="nextLessonBtn" class="btn-primary" type="button" style="flex: 1;">Next ▶</button>
                 </div>
             </div>
-            <div class="recommended-lessons">
-                <h4>📌 Related Lessons</h4>
-                <ul>
-                    <li>Lesson 3: Arrays & Objects</li>
-                    <li>Lesson 5: DOM Manipulation</li>
-                    <li>Lesson 6: Events</li>
+
+            <!-- NEW FEATURE: Live Audio Voice Tutor Card -->
+            <div class="audio-tutor-card" style="background: #e6f4ea; border: 1px solid #ceead6; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                <h4 style="color: #137333; margin-bottom: 5px;">🎧 AI Voice Audio Mentor</h4>
+                <p style="font-size: 12px; color: #444; margin-bottom: 10px;">Listen to lesson summary explained in audio format.</p>
+                <button id="playAudioTutorBtn" class="btn-primary" type="button" style="width: 100%; background: #137333;">▶ Play Audio Summary</button>
+            </div>
+
+            <!-- Related Lessons -->
+            <div class="recommended-lessons" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                <h4>📌 Related Lessons & Labs</h4>
+                <ul style="padding-left: 20px; margin-top: 10px; font-size: 14px; line-height: 1.8; color: #333;">
+                    <li>Lesson 3: Advanced Arrays & Objects</li>
+                    <li>Lesson 5: DOM & UI Manipulation</li>
+                    <li>Lesson 6: Event Handling & Triggers</li>
+                    <li>Special Lab: Practical Case Study</li>
                 </ul>
             </div>
+
+            <!-- NEW FEATURE: Peer Discussion & Community Hub -->
+            <div class="community-card" style="background: #f3e8fd; border: 1px solid #e9d5ff; border-radius: 8px; padding: 15px;">
+                <h4 style="color: #7c3aed; margin-bottom: 5px;">💬 Student Discussion Hub</h4>
+                <p style="font-size: 12px; color: #444; margin-bottom: 10px;">Discuss with fellow learners and share solutions.</p>
+                <button id="openChatBtn" class="btn-primary" type="button" style="width: 100%; background: #7c3aed;">Join Live Discussion</button>
+            </div>
+
         </aside>
     </div>
 </section>
+
 
             <!-- ===================================================
             PAGE 5: CERTIFICATES
