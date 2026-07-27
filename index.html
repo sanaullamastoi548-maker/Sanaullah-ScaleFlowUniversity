@@ -292,12 +292,49 @@
             
 
             <!-- ===================================================
-            PAGE 3: COURSES (Here you can put your courses html)
-            ==================================================== -->
-            <section id="page3" class="page-section" aria-label="All Courses">
-                <h2>📚 PAGE 3 — Courses</h2>
-                <p>Browse all available courses.</p>
-            </section>
+                PAGE 3: COURSES
+              =================================================== -->
+  <section id="page3" class="page-section" aria-label="All Courses">
+    <h2>📚 All Courses</h2>
+    <div class="learning-header">
+        <input id="courseSearchInput" type="text" placeholder="🔍 Search courses..." aria-label="Search courses">
+    </div>
+    <div class="filter-buttons">
+        <button id="filterAll" class="btn-secondary" type="button">All</button>
+        <button id="filterBeginner" class="btn-secondary" type="button">Beginner</button>
+        <button id="filterIntermediate" class="btn-secondary" type="button">Intermediate</button>
+        <button id="filterAdvanced" class="btn-secondary" type="button">Advanced</button>
+    </div>
+    <div class="course-grid" id="courseGrid">
+        <article class="course-card" id="courseCard001" data-difficulty="beginner"><h3>AI Fundamentals</h3><p>Beginner • 12 Lessons</p><button id="startCourse1" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard002" data-difficulty="intermediate"><h3>JavaScript Masterclass</h3><p>Intermediate • 20 Lessons</p><button id="startCourse2" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard003" data-difficulty="advanced"><h3>Data Science Pro</h3><p>Advanced • 15 Lessons</p><button id="startCourse3" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard004" data-difficulty="beginner"><h3>HTML & CSS</h3><p>Beginner • 8 Lessons</p><button id="startCourse4" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard005" data-difficulty="intermediate"><h3>React Development</h3><p>Intermediate • 18 Lessons</p><button id="startCourse5" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard006" data-difficulty="advanced"><h3>Machine Learning</h3><p>Advanced • 22 Lessons</p><button id="startCourse6" class="btn-primary" type="button">Start</button></article>
+    </div>
+    <div class="pagination">
+        <button id="paginationPrev" class="btn-secondary" type="button">Previous</button>
+        <button id="pagination1" class="btn-primary" type="button">1</button>
+        <button id="pagination2" class="btn-secondary" type="button">2</button>
+        <button id="pagination3" class="btn-secondary" type="button">3</button>
+        <button id="paginationNext" class="btn-secondary" type="button">Next</button>
+    </div>
+    <section class="featured-courses" aria-label="Featured Courses">
+        <h3>⭐ Featured Courses</h3>
+        <div class="course-grid">
+            <article class="course-card" id="featuredCourse1"><h3>AI for Everyone</h3><p>Featured • 10 Lessons</p><button id="enrollFeatured1" class="btn-primary" type="button">Enroll</button></article>
+            <article class="course-card" id="featuredCourse2"><h3>Web Dev Bootcamp</h3><p>Featured • 30 Lessons</p><button id="enrollFeatured2" class="btn-primary" type="button">Enroll</button></article>
+        </div>
+    </section>
+    <section class="recommended-courses" aria-label="Recommended Courses">
+        <h3>📌 Recommended for You</h3>
+        <div class="course-grid">
+            <article class="course-card" id="recommendedCourse1"><h3>Python for Data Science</h3><p>Recommended • 14 Lessons</p><button id="startRec1" class="btn-primary" type="button">Start</button></article>
+            <article class="course-card" id="recommendedCourse2"><h3>Cloud Computing</h3><p>Recommended • 12 Lessons</p><button id="startRec2" class="btn-primary" type="button">Start</button></article>
+        </div>
+    </section>
+</section>
 
             <!-- ===================================================
             PAGE 4: LEARNING
