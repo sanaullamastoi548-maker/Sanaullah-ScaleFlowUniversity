@@ -336,13 +336,60 @@
     </section>
 </section>
 
-            <!-- ===================================================
-            PAGE 4: LEARNING
-            ==================================================== -->
-            <section id="page4" class="page-section" aria-label="Learning Module">
-                <h2>📖 PAGE 4 — Learning</h2>
-                <p>Continue your learning journey with video lessons and quizzes.</p>
-            </section>
+                <!-- ===================================================
+                    PAGE 4: LEARNING
+                 =================================================== -->
+     <section id="page4" class="page-section" aria-label="Learning Module">
+    <h2>📖 JavaScript Fundamentals</h2>
+    <div class="learning-container">
+        <div class="learning-main">
+            <div class="video-container">
+                <div class="video-placeholder">▶️</div>
+                <p>Video Player (Lesson 4: Functions & Scope)</p>
+            </div>
+            <div class="pdf-viewer">
+                <p>📄 PDF Viewer: Lesson Notes</p>
+                <button id="downloadPdfBtn" class="btn-secondary" type="button">Download PDF</button>
+            </div>
+            <div class="notes-section">
+                <h4>📝 Your Notes</h4>
+                <textarea id="notesInput" rows="4" placeholder="Write your notes here..." aria-label="Your notes"></textarea>
+                <button id="saveNotesBtn" class="btn-primary" type="button">Save Notes</button>
+            </div>
+            <div class="ai-reflection">
+                <h4>🤖 AI Reflection</h4>
+                <p>What did you learn today? Share your thoughts and get AI feedback.</p>
+                <input id="reflectionInput" type="text" placeholder="Type your reflection..." aria-label="Reflection input">
+                <button id="getReflectionBtn" class="btn-primary" type="button">Get Reflection</button>
+            </div>
+            <div class="quiz-section">
+                <h4>📝 Quick Quiz</h4>
+                <p>What is a closure in JavaScript?</p>
+                <input id="quizAnswerInput" type="text" placeholder="Your answer..." aria-label="Quiz answer">
+                <button id="submitQuizBtn" class="btn-primary" type="button">Submit</button>
+            </div>
+        </div>
+        <aside class="learning-sidebar">
+            <div class="progress-card">
+                <h4>📊 Lesson Progress</h4>
+                <div class="progress-bar"><div class="progress-fill" style="width:65%;"></div></div>
+                <p>65% Complete</p>
+                <div class="lesson-nav">
+                    <button id="prevLessonBtn" class="btn-secondary" type="button">◀ Previous</button>
+                    <button id="nextLessonBtn" class="btn-primary" type="button">Next ▶</button>
+                </div>
+            </div>
+            <div class="recommended-lessons">
+                <h4>📌 Related Lessons</h4>
+                <ul>
+                    <li>Lesson 3: Arrays & Objects</li>
+                    <li>Lesson 5: DOM Manipulation</li>
+                    <li>Lesson 6: Events</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+</section>
 
             <!-- ===================================================
             PAGE 5: CERTIFICATES
