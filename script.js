@@ -588,7 +588,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (e.target.textContent.includes('Google') || e.currentTarget.innerHTML.includes('Google')) {
             let googleEmail = prompt("🌐 Enter your Google account email to sign in:");
             if (googleEmail) {
-                showToast('🔄 Checking Google account in database...', 'info');
+                showToast('🔄 Verifying credentials with ScaleFlow Server...', 'info');
+               
+
                 // لاگ ان یا رجسٹر کرتے وقت براہِ راست یہ استعمال کریں:
       fetch(`${SCALEFLOW_CONFIG.webAppUrl}?action=login&email=${email}&password=${password}`)
    
