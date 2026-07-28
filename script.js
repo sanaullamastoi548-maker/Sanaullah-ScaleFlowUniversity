@@ -565,11 +565,20 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         showToast('📝 Registration form will open soon.', 'info');
     });
-    
-    document.getElementById('loginOTPBtn')?.addEventListener('click', function() {
-        showToast('📱 OTP sent to your registered mobile number.', 'info');
-    });
 
+   
+    document.getElementById('registerLink')?.addEventListener('click', function(e) {
+    e.preventDefault();
+    // یہاں آپ اپنے رجسٹریشن پیج کا نام یا سیکشن دے سکتے ہیں، مثلاً 'page13' یا جو بھی آپ کا رجسٹر پیج ہو
+    if (typeof navigateTo === 'function') {
+        navigateTo('registerPage'); // یا اپنے رجسٹریشن سیکشن کی آئی ڈی یہاں لکھیں
+    } else {
+        showToast('📝 Opening registration portal...', 'success');
+        // اگر آپ چاہیں تو یہاں ری ڈائریکٹ لنک بھی دے سکتے ہیں
+    }
+});
+
+     
 
     // ============================================================
     // PART 16 — PROFILE EDIT MODAL
