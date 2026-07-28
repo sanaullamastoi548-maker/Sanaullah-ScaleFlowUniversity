@@ -70,19 +70,50 @@
         }, 3000);
     }
 
-    // ============================================================
-    // PART 3 — LOADER (صفحہ لوڈ ہونے پر چھپائیں)
-    // ============================================================
+   // ============================================================
+// PART 3 — LOADER & PAGE READY HANDLER (الگ JS فائل)
+// ============================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+    const loader = document.getElementById('loader'); // یقینی بنائیں کہ آپ کی HTML میں loader کی ID یہی ہے
+
     function hideLoader() {
-        if (!loader) return;
-        if (loader.classList.contains('hidden')) return;
-        loader.classList.add('hidden');
-        setTimeout(() => {
-            loader.style.display = 'none';
-            loader.setAttribute('aria-hidden', 'true');
-        }, 500);
+        try {
+            if (!loader) {
+                console.warn("⚠️ توجہ: صفحہ پر 'loader' کا عنصر نہیں ملا۔ براہِ مہربانی چیک کریں!");
+                return;
+            }
+            if (loader.classList.contains('hidden')) return;
+            
+            loader.classList.add('hidden');
+            
+            setTimeout(() => {
+                loader.style.display = 'none';
+                loader.setAttribute('aria-hidden', 'true');
+                console.log("✅ لوڈر کامیابی کے ساتھ چھپا دیا گیا ہے اور صفحہ بالکل تیار ہے۔");
+            }, 500);
+
+        } catch (error) {
+            console.error("❌ خرابی: لوڈر ہٹانے کے دوران ایک مسئلہ پیش آیا:", error);
+        }
     }
 
+    // ونڈو مکمل لوڈ ہونے پر لوڈر کو ہٹا دیں
+    window.addEventListener('load', function () {
+        hideLoader();
+    });
+
+    // فال سیف (Fallback): اگر کسی وجہ سے 'load' ایونٹ فائر نہ ہو تو 3 سیکنڈ بعد خود بخود ہٹا دیں
+    setTimeout(() => {
+        if (loader && !loader.classList.contains('hidden')) {
+            console.info("ℹ️ اطلاع: لوڈنگ کا وقت زیادہ ہونے کی وجہ سے لوڈر خودکار طریقے سے ہٹا دیا گیا ہے۔");
+            hideLoader();
+        }
+    }, 3000);
+});
+
+
+   
     // ============================================================
     // PART 4 — MODAL (کھلنا / بند ہونا)
     // ============================================================
