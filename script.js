@@ -12,10 +12,10 @@
     // SCALEFLOW GLOBAL WEB APP BRIDGE (یہاں نیا لنک پیسٹ کریں)
     // ============================================================
     const SCALEFLOW_CONFIG = {
-        webAppUrl: "https://script.google.com/macros/s/AKfycbzlBu8WiCFSyszAa0gB8Uj-YibclzKlo1Hhd5eBYULcayQIuS9YdNEIFLV68GHMY6x5/exec",
-        version: "1.0",
-        environment: "production"
-    };
+    webAppUrl: "https://script.google.com/macros/s/AKfycbzlBu8WiCFSyszAa0gB8Uj-YibclzKlo1Hhd5eBYULcayQIuS9YdNEIFLV68GHMY6x5/exec",
+    version: "1.0",
+    environment: "production"
+};
    
     // ============================================================
     // PART 1 — DOM REFERENCES (تمام اہم عناصر)
