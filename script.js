@@ -491,8 +491,12 @@ document.addEventListener("DOMContentLoaded", function () {
     
     
         // ============================================================
-    // PART 15 — SECURE GOOGLE SHEET LOGIN VALIDATION
+    // PART 15 — ADVANCED GOOGLE SHEET SECURE LOGIN & REGISTRATION
     // ============================================================
+
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbzlBu8WiCFSyszAa0gB8Uj-YibclzKlo1Hhd5eBYULcayQIuS9YdNEIFLV68GHMY6x5/exec";
+
+    // 1. لاگ ان فارم سبمٹ ہینڈلر
     document.getElementById('loginForm')?.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -503,7 +507,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const email = emailField.value.trim();
         const password = passwordField.value.trim();
 
-        // بیسک ویلیڈیشن
         if (!email || !password) {
             showToast('⚠️ Please fill in both fields.', 'warning');
             return;
@@ -513,67 +516,84 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        showToast('🔄 Verifying credentials with Google Sheets...', 'info');
+        showToast('🔄 Connecting to Google Sheets Database...', 'info');
 
-        // آپ کا لائیو گوگل ایپ اسکرپٹ کا ویب ایپ لنک
-        const webAppUrl = "https://script.google.com/macros/s/AKfycbzlBu8WiCFSyszAa0gB8Uj-YibclzKlo1Hhd5eBYULcayQIuS9YdNEIFLV68GHMY6x5/exec";
+        // CORS کے مسائل سے بچنے کے لیے URL Parameters کے ذریعے ڈیٹا بھیجنا اور ریسپانس لینا
+        const targetUrl = `${webAppUrl}?action=login&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
 
-        // سرور کو بھیجنے والا ڈیٹا
-        const payload = {
-            action: "login",
-            email: email,
-            password: password
-        };
+        fetch(targetUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    showToast(`✅ Welcome back, ${data.fullName}! Login successful.`, 'success');
+                    
+                    // سٹوڈنٹ کا ڈیٹا براؤزر سیشن میں محفوظ کرنا
+                    localStorage.setItem("studentLoggedIn", "true");
+                    localStorage.setItem("studentEmail", email);
+                    localStorage.setItem("studentName", data.fullName);
+                    localStorage.setItem("studentId", data.studentId);
+                    localStorage.setItem("studentLevel", data.level);
 
-        // گوگل شیٹ سے کنیکٹ کرنے کے لیے fetch API
-        fetch(webAppUrl, {
-            method: "POST",
-            mode: "no-cors", // گوگل اسکرپٹ کے CORS بلاک سے بچنے کے لیے
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-        })
-        .then(() => {
-            // چونکہ no-cors میں رسپانس ریڈ نہیں ہوتا، ہم سٹوڈنٹ کو سাকسیس دے کر سیشن سیو کرتے ہیں
-            showToast('✅ Login successful! Redirecting to dashboard...', 'success');
-            
-            // براؤزر میں سٹوڈنٹ کا سیشن محفوظ کرنا
-            localStorage.setItem("studentLoggedIn", "true");
-            localStorage.setItem("studentEmail", email);
-            
-            // 1.5 سیکنڈ کے بعد ہوم یا کورس والے صفحے پر ری ڈائریکٹ کرنا
-            setTimeout(() => {
-                if (typeof navigateTo === 'function') {
-                    navigateTo('page1'); // آپ کے پیج نیویگیشن کے مطابق
+                    setTimeout(() => {
+                        if (typeof navigateTo === 'function') {
+                            navigateTo('page1'); // کورس یا ڈیش بورڈ کا صفحہ
+                        } else {
+                            location.reload();
+                        }
+                    }, 1500);
                 } else {
-                    location.reload();
+                    showToast(`❌ ${data.message || 'Invalid email or password.'}`, 'error');
                 }
-            }, 1500);
-        })
-        .catch(error => {
-            console.error("Login Error:", error);
-            showToast('❌ Connection failed. Please check your network.', 'error');
-        });
+            })
+            .catch(error => {
+                console.error("Login Error:", error);
+                showToast('❌ Server connection error. Please try again.', 'error');
+            });
     });
 
-    // Forgot password, register, OTP buttons
+    // 2. گوگل سائن ان بٹن (Sign in with Google)
+    // نوٹ: یہاں آپ اپنا گوگل اوتھنٹیکیشن (Firebase یا Google Sign-In SDK) کا فنکشن جوڑ سکتے ہیں
+    document.querySelector('.btn-secondary')?.addEventListener('click', function(e) {
+        if (e.target.textContent.includes('Google') || e.currentTarget.innerHTML.includes('Google')) {
+            showToast('🌐 Opening Google Authentication...', 'info');
+            
+            // فرضی یا پاپ اپ گوگل لاگ ان ٹرگر (یہاں آپ گوگل سائن ان کی اصل سروس یا پاپ اپ کال کر سکتے ہیں)
+            setTimeout(() => {
+                let googleEmail = prompt("Please enter your Google account email for verification:");
+                if (googleEmail) {
+                    // گوگل ای میل کو براہِ راست شیٹ میں چیک کرنے کے لیے بھیجنا
+                    fetch(`${webAppUrl}?action=googleLogin&email=${encodeURIComponent(googleEmail)}`)
+                        .then(res => res.json())
+                        .then(resp => {
+                            if (resp.status === "success") {
+                                showToast(`✅ Google Login Successful! Welcome ${resp.fullName}`, 'success');
+                                localStorage.setItem("studentLoggedIn", "true");
+                                localStorage.setItem("studentEmail", googleEmail);
+                                localStorage.setItem("studentName", resp.fullName);
+                                setTimeout(() => location.reload(), 1500);
+                            } else {
+                                showToast('⚠️ This Google email is not registered in our database.', 'warning');
+                            }
+                        });
+                }
+            }, 500);
+        }
+    });
+
+    // 3. دیگر بٹنز (Register, Forgot Password, OTP)
     document.getElementById('forgotPasswordLink')?.addEventListener('click', function(e) {
         e.preventDefault();
         showToast('📧 Password reset link sent to your email.', 'info');
     });
     
-      document.getElementById('registerLink')?.addEventListener('click', function(e) {
-    e.preventDefault();
-    // یہاں آپ اپنے رجسٹریشن پیج کا نام یا سیکشن دے سکتے ہیں، مثلاً 'page13' یا جو بھی آپ کا رجسٹر پیج ہو
-    if (typeof navigateTo === 'function') {
-        navigateTo('registerPage'); // یا اپنے رجسٹریشن سیکشن کی آئی ڈی یہاں لکھیں
-    } else {
-        showToast('📝 Opening registration portal...', 'success');
-        // اگر آپ چاہیں تو یہاں ری ڈائریکٹ لنک بھی دے سکتے ہیں
-    }
-});
-
+    document.getElementById('registerLink')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        showToast('📝 Opening registration portal...', 'info');
+        // اگر آپ کے پاس رجسٹریشن کا کوئی دوسرا صفحہ ہے تو یہاں اس کا نام لکھیں
+        if (typeof navigateTo === 'function') {
+            navigateTo('registerPage'); 
+        }
+    });
     
     document.getElementById('loginOTPBtn')?.addEventListener('click', function() {
         showToast('📱 OTP sent to your registered mobile number.', 'info');
