@@ -47,14 +47,16 @@ body {
     --dark-muted: #94a3b8;
 }
 
-/* ==========================================================
-   PART 3 — DARK MODE
+
+       /* ==========================================================
+   PART 3 — DARK MODE & PAGE 3 STYLES
    ========================================================== */
 
 body.dark-mode {
     background: var(--dark-bg);
     color: var(--dark-text);
 }
+
 body.dark-mode .header,
 body.dark-mode .sidebar,
 body.dark-mode .footer,
@@ -79,9 +81,11 @@ body.dark-mode .modal {
     border-color: var(--dark-border);
     color: var(--dark-text);
 }
+
 body.dark-mode .main-content {
     background: var(--dark-bg);
 }
+
 body.dark-mode .search-section input,
 body.dark-mode .learning-header input,
 body.dark-mode .notes-section textarea,
@@ -96,110 +100,133 @@ body.dark-mode .settings-grid select {
     border-color: var(--dark-border);
     color: var(--dark-text);
 }
+
 body.dark-mode .btn-secondary {
     background: transparent;
     color: var(--dark-text);
     border: 2px solid var(--dark-border);
 }
+
 body.dark-mode .btn-secondary:hover {
     background: var(--primary);
     color: #000;
     border-color: var(--primary);
 }
+
 body.dark-mode .quick-btn,
 body.dark-mode .quick-action-btn {
     background: var(--primary);
     color: #000;
 }
+
 body.dark-mode .quick-btn:hover,
 body.dark-mode .quick-action-btn:hover {
     background: var(--primary-hover);
 }
+
 body.dark-mode .hero-stat {
     background: rgba(255,255,255,0.05);
     border-color: var(--dark-border);
 }
+
 body.dark-mode .section-header span {
     background: var(--dark-border);
     color: var(--dark-text);
 }
+
 body.dark-mode .day p {
     color: var(--dark-muted);
 }
+
 body.dark-mode .badge {
     background: var(--dark-border);
     color: var(--dark-text);
 }
+
 body.dark-mode .footer a {
     color: var(--dark-muted);
 }
+
 body.dark-mode .footer a:hover {
     color: var(--primary);
 }
 
-<!-- CSS Styles -->
-<style>
-    .page-section {
-        padding: 30px 20px;
-        background-color: #f9fbfd;
-    }
-    .course-container {
-        max-width: 1100px;
-        margin: 0 auto;
-    }
-    .section-title {
-        font-size: 24px;
-        color: #333;
-        margin-bottom: 8px;
-        font-weight: bold;
-    }
-    .section-subtitle {
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 25px;
-    }
-    .course-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-    }
-    .course-card {
-        background: #fff;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        padding: 25px;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.02);
-        transition: transform 0.2s ease;
-    }
-    .course-card:hover {
-        transform: translateY(-3px);
-    }
-    .course-heading {
-        font-size: 18px;
-        color: #333;
-        margin-bottom: 10px;
-    }
-    .course-desc {
-        font-size: 13px;
-        color: #666;
-        margin-bottom: 20px;
-        line-height: 1.5;
-    }
-    .btn-primary-custom {
-        width: 100%;
-        padding: 10px 15px;
-        background: #1967d2;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-    .btn-primary-custom:hover {
-        background: #1557b0;
-    }
-</style>
+/* ==========================================================
+   PAGE 3 STYLES (EXACT DESIGN PRESERVED)
+   ========================================================== */
+
+.page-section {
+    padding: 30px 20px;
+    background-color: #f9fbfd;
+}
+
+.course-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.section-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.course-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-3px);
+}
+
+.course-heading {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.course-desc {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.btn-primary-custom {
+    width: 100%;
+    padding: 10px 15px;
+    background: #1967d2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary-custom:hover {
+    background: #1557b0;
+}
+
+
 /* ==========================================================
    PART 4 — LOADER
    ========================================================== */
