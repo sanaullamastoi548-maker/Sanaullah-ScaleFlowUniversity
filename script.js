@@ -589,7 +589,9 @@ document.addEventListener("DOMContentLoaded", function () {
             let googleEmail = prompt("🌐 Enter your Google account email to sign in:");
             if (googleEmail) {
                 showToast('🔄 Checking Google account in database...', 'info');
-                fetch(`${webAppUrl}?action=login&email=${encodeURIComponent(googleEmail)}&password=GOOGLE_AUTH`)
+                // لاگ ان یا رجسٹر کرتے وقت براہِ راست یہ استعمال کریں:
+      fetch(`${SCALEFLOW_CONFIG.webAppUrl}?action=login&email=${email}&password=${password}`)
+   
                     .then(res => res.json())
                     .then(data => {
                         if (data.status === "success") {
