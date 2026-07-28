@@ -498,117 +498,111 @@ document.addEventListener("DOMContentLoaded", function () {
     });
    
 
-    
-                // ============================================================
-    // PART 15 — SCALEFLOW SECURE AUTHENTICATION BRIDGE
     // ============================================================
+// PART 15 — SCALEFLOW AUTHENTICATION (FIXED)
+// ============================================================
 
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbzlBu8WiCFSyszAa0gB8Uj-YibclzKlo1Hhd5eBYULcayQIuS9YdNEIFLV68GHMY6x5/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzlBu8WiCFSyszAa0gB8Uj-YibclzKlo1Hhd5eBYULcayQIuS9YdNEIFLV68GHMY6x5/exec";
 
-    // 1. لاگ ان فارم سبمٹ ہینڈلر
-    document.getElementById('loginForm')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value.trim();
 
-        if (!email || !password) {
-            showToast('⚠️ Please fill in both fields.', 'warning');
-            return;
+// ================= LOGIN =================
+
+document.getElementById("loginForm")?.addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    if (!email || !password) {
+        showToast("⚠️ Please enter Email and Password", "warning");
+        return;
+    }
+
+    try {
+
+        showToast("🔄 Checking account...", "info");
+
+        const res = await fetch(
+            `${WEB_APP_URL}?action=login&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+        );
+
+        const data = await res.json();
+
+        if (data.status === "success") {
+
+            localStorage.setItem("studentLoggedIn", "true");
+            localStorage.setItem("studentName", data.fullName);
+            localStorage.setItem("studentEmail", email);
+
+            showToast("✅ Login Successful", "success");
+
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+
+        } else {
+
+            showToast(data.message || "❌ Invalid Email or Password", "error");
+
         }
 
-        showToast('🔄 Verifying login with Google Sheets...', 'info');
+    } catch (err) {
 
-        fetch(`${webAppUrl}?action=login&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === "success") {
-                    showToast(`✅ Welcome back, ${data.fullName}!`, 'success');
-                    localStorage.setItem("studentLoggedIn", "true");
-                    localStorage.setItem("studentName", data.fullName);
-                    localStorage.setItem("studentEmail", email);
-                    
-                    setTimeout(() => {
-                        if (typeof navigateTo === 'function') {
-                            navigateTo('page1');
-                        } else {
-                            location.reload();
-                        }
-                    }, 1500);
-                } else {
-                    showToast(`❌ ${data.message || 'Invalid credentials.'}`, 'error');
-                }
-            })
-            .catch(err => {
-                console.error("Login Error:", err);
-                showToast('❌ Connection error to server.', 'error');
-            });
-    });
+        console.error(err);
+        showToast("❌ Server Connection Error", "error");
 
-    // 2. رجسٹریشن بٹن (Register Now) - اب یہ براہِ راست شیٹ میں نیا اکاؤنٹ بنائے گا
-    document.getElementById('registerLink')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        let fullName = prompt("📝 Enter your Full Name for Registration:");
-        if (!fullName) return;
-        
-        let email = prompt("Enter your Email Address:");
-        if (!email || !email.includes('@')) {
-            showToast('⚠️ Valid email is required.', 'warning');
-            return;
+    }
+
+});
+
+
+// ================= REGISTER =================
+
+document.getElementById("registerLink")?.addEventListener("click", async function(e){
+
+    e.preventDefault();
+
+    const name = prompt("Full Name");
+    if(!name) return;
+
+    const email = prompt("Email");
+    if(!email) return;
+
+    const password = prompt("Password");
+    if(!password) return;
+
+    try{
+
+        showToast("🔄 Creating Account...", "info");
+
+        const res = await fetch(
+            `${WEB_APP_URL}?action=register&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+        );
+
+        const data = await res.json();
+
+        if(data.status==="success"){
+
+            showToast("✅ Registration Successful", "success");
+
+            document.getElementById("loginEmail").value=email;
+            document.getElementById("loginPassword").value=password;
+
+        }else{
+
+            showToast(data.message || "Registration Failed","error");
+
         }
-        
-        let password = prompt("Create a Password (min 6 characters):");
-        if (!password || password.length < 6) {
-            showToast('⚠️ Password must be at least 6 characters.', 'warning');
-            return;
-        }
 
-        showToast('🔄 Registering account to Google Sheets...', 'info');
+    }catch(err){
 
-        fetch(`${webAppUrl}?action=register&name=${encodeURIComponent(fullName)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === "success") {
-                    showToast('✅ Registration Successful! You can now sign in.', 'success');
-                    document.getElementById('loginEmail').value = email;
-                    document.getElementById('loginPassword').value = password;
-                } else {
-                    showToast(`❌ ${data.message || 'Registration failed.'}`, 'error');
-                }
-            })
-            .catch(err => {
-                console.error("Reg Error:", err);
-                showToast('❌ Server error during registration.', 'error');
-            });
-    });
+        console.error(err);
+        showToast("❌ Server Error","error");
 
-    // 3. گوگل سائن ان بٹن (Sign in with Google)
-    document.querySelector('.btn-secondary')?.addEventListener('click', function(e) {
-        if (e.target.textContent.includes('Google') || e.currentTarget.innerHTML.includes('Google')) {
-            let googleEmail = prompt("🌐 Enter your Google account email to sign in:");
-            if (googleEmail) {
-                showToast('🔄 Verifying credentials with ScaleFlow Server...', 'info');
-               
+    }
 
-                // لاگ ان یا رجسٹر کرتے وقت براہِ راست یہ استعمال کریں:
-      fetch(`${SCALEFLOW_CONFIG.webAppUrl}?action=login&email=${email}&password=${password}`)
-   
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.status === "success") {
-                            showToast(`✅ Google Sign-In Successful! Welcome ${data.fullName}`, 'success');
-                            localStorage.setItem("studentLoggedIn", "true");
-                            localStorage.setItem("studentEmail", googleEmail);
-                            setTimeout(() => location.reload(), 1500);
-                        } else {
-                            showToast('⚠️ Email not found. Please register first.', 'warning');
-                        }
-                    });
-            }
-        }
-    });
-
+});
 
      
 
