@@ -488,7 +488,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
    
 
-    // ============================================================
+    
+    
+        // ============================================================
     // PART 15 — SECURE GOOGLE SHEET LOGIN VALIDATION
     // ============================================================
     document.getElementById('loginForm')?.addEventListener('submit', function(e) {
@@ -561,13 +563,7 @@ document.addEventListener("DOMContentLoaded", function () {
         showToast('📧 Password reset link sent to your email.', 'info');
     });
     
-    document.getElementById('registerLink')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        showToast('📝 Registration form will open soon.', 'info');
-    });
-
-   
-    document.getElementById('registerLink')?.addEventListener('click', function(e) {
+      document.getElementById('registerLink')?.addEventListener('click', function(e) {
     e.preventDefault();
     // یہاں آپ اپنے رجسٹریشن پیج کا نام یا سیکشن دے سکتے ہیں، مثلاً 'page13' یا جو بھی آپ کا رجسٹر پیج ہو
     if (typeof navigateTo === 'function') {
@@ -577,6 +573,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // اگر آپ چاہیں تو یہاں ری ڈائریکٹ لنک بھی دے سکتے ہیں
     }
 });
+
+    
+    document.getElementById('loginOTPBtn')?.addEventListener('click', function() {
+        showToast('📱 OTP sent to your registered mobile number.', 'info');
+    });
 
      
 
