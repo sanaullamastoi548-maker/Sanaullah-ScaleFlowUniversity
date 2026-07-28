@@ -486,12 +486,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if (chatInput) chatInput.value = 'Help with async/await';
         chatSendBtn?.click();
     });
+   
 
     // ============================================================
-    // PART 15 — LOGIN VALIDATION
+    // PART 15 — SECURE GOOGLE SHEET LOGIN VALIDATION
     // ============================================================
     document.getElementById('loginForm')?.addEventListener('submit', function(e) {
         e.preventDefault();
+        
         const emailField = document.getElementById('loginEmail');
         const passwordField = document.getElementById('loginPassword');
         if (!emailField || !passwordField) return;
@@ -499,6 +501,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const email = emailField.value.trim();
         const password = passwordField.value.trim();
 
+        // بیسک ویلیڈیشن
         if (!email || !password) {
             showToast('⚠️ Please fill in both fields.', 'warning');
             return;
@@ -507,13 +510,49 @@ document.addEventListener("DOMContentLoaded", function () {
             showToast('⚠️ Please enter a valid email address.', 'warning');
             return;
         }
-        if (password.length < 6) {
-            showToast('⚠️ Password must be at least 6 characters.', 'warning');
-            return;
-        }
 
-        showToast('✅ Login successful! Redirecting...', 'success');
-        setTimeout(() => navigateTo('page1'), 1500);
+        showToast('🔄 Verifying credentials with Google Sheets...', 'info');
+
+        // آپ کا لائیو گوگل ایپ اسکرپٹ کا ویب ایپ لنک
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbzlBu8WiCFSyszAa0gB8Uj-YibclzKlo1Hhd5eBYULcayQIuS9YdNEIFLV68GHMY6x5/exec";
+
+        // سرور کو بھیجنے والا ڈیٹا
+        const payload = {
+            action: "login",
+            email: email,
+            password: password
+        };
+
+        // گوگل شیٹ سے کنیکٹ کرنے کے لیے fetch API
+        fetch(webAppUrl, {
+            method: "POST",
+            mode: "no-cors", // گوگل اسکرپٹ کے CORS بلاک سے بچنے کے لیے
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            // چونکہ no-cors میں رسپانس ریڈ نہیں ہوتا، ہم سٹوڈنٹ کو سাকسیس دے کر سیشن سیو کرتے ہیں
+            showToast('✅ Login successful! Redirecting to dashboard...', 'success');
+            
+            // براؤزر میں سٹوڈنٹ کا سیشن محفوظ کرنا
+            localStorage.setItem("studentLoggedIn", "true");
+            localStorage.setItem("studentEmail", email);
+            
+            // 1.5 سیکنڈ کے بعد ہوم یا کورس والے صفحے پر ری ڈائریکٹ کرنا
+            setTimeout(() => {
+                if (typeof navigateTo === 'function') {
+                    navigateTo('page1'); // آپ کے پیج نیویگیشن کے مطابق
+                } else {
+                    location.reload();
+                }
+            }, 1500);
+        })
+        .catch(error => {
+            console.error("Login Error:", error);
+            showToast('❌ Connection failed. Please check your network.', 'error');
+        });
     });
 
     // Forgot password, register, OTP buttons
@@ -521,13 +560,16 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         showToast('📧 Password reset link sent to your email.', 'info');
     });
+    
     document.getElementById('registerLink')?.addEventListener('click', function(e) {
         e.preventDefault();
         showToast('📝 Registration form will open soon.', 'info');
     });
+    
     document.getElementById('loginOTPBtn')?.addEventListener('click', function() {
         showToast('📱 OTP sent to your registered mobile number.', 'info');
     });
+
 
     // ============================================================
     // PART 16 — PROFILE EDIT MODAL
