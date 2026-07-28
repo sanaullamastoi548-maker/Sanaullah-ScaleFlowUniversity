@@ -47,9 +47,8 @@ body {
     --dark-muted: #94a3b8;
 }
 
-
-       /* ==========================================================
-   PART 3 — DARK MODE & PAGE 3 STYLES
+     /* ==========================================================
+   PART 3 — DARK MODE & PAGE 3 STYLES (GOLDEN & YELLOW THEME)
    ========================================================== */
 
 body.dark-mode {
@@ -103,29 +102,29 @@ body.dark-mode .settings-grid select {
 
 body.dark-mode .btn-secondary {
     background: transparent;
-    color: var(--dark-text);
-    border: 2px solid var(--dark-border);
+    color: #ffd700;
+    border: 2px solid #ffd700;
 }
 
 body.dark-mode .btn-secondary:hover {
-    background: var(--primary);
+    background: #ffd700;
     color: #000;
-    border-color: var(--primary);
+    border-color: #ffd700;
 }
 
 body.dark-mode .quick-btn,
 body.dark-mode .quick-action-btn {
-    background: var(--primary);
+    background: linear-gradient(135deg, #ffd700, #ffcc00);
     color: #000;
 }
 
 body.dark-mode .quick-btn:hover,
 body.dark-mode .quick-action-btn:hover {
-    background: var(--primary-hover);
+    background: #e6b800;
 }
 
 body.dark-mode .hero-stat {
-    background: rgba(255,255,255,0.05);
+    background: rgba(255,215,0,0.05);
     border-color: var(--dark-border);
 }
 
@@ -139,8 +138,8 @@ body.dark-mode .day p {
 }
 
 body.dark-mode .badge {
-    background: var(--dark-border);
-    color: var(--dark-text);
+    background: #ffd700;
+    color: #000;
 }
 
 body.dark-mode .footer a {
@@ -148,11 +147,11 @@ body.dark-mode .footer a {
 }
 
 body.dark-mode .footer a:hover {
-    color: var(--primary);
+    color: #ffd700;
 }
 
 /* ==========================================================
-   PAGE 3 STYLES (EXACT DESIGN PRESERVED)
+   PAGE 3 STYLES (GOLDEN & YELLOW ACCENTS PRESERVED)
    ========================================================== */
 
 .page-section {
@@ -213,17 +212,17 @@ body.dark-mode .footer a:hover {
 .btn-primary-custom {
     width: 100%;
     padding: 10px 15px;
-    background: #1967d2;
-    color: #fff;
+    background: linear-gradient(135deg, #ffd700, #ffcc00);
+    color: #000;
     border: none;
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.1s;
 }
 
 .btn-primary-custom:hover {
-    background: #1557b0;
+    background: linear-gradient(135deg, #ffcc00, #e6b800);
 }
 
 
