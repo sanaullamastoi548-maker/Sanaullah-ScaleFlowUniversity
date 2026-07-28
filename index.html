@@ -290,9 +290,247 @@
 
 
 
-                
+                <!-- =================================================== -->
+<!-- PAGE 3: SCALEFLOW UNIVERSITY - COMPLETE COURSES HUB -->
+<!-- =================================================== -->
+<section id="page3" class="page-section" aria-label="All Courses and Universal Skills">
+    <div class="course-container">
+        <h2 class="section-title">📚 ScaleFlow University - Universal Courses & Practical Skills</h2>
+        <p class="section-subtitle">Explore medical, engineering, science, and professional automation paths.</p>
+        
+        <!-- Search and Filter Header -->
+        <div class="learning-header" style="margin-bottom: 15px;">
+            <input id="courseSearchInput" type="text" placeholder="🔍 Search medical, engineering, science & coding courses..." aria-label="Search courses" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+        </div>
+        <div class="filter-buttons" style="display: flex; gap: 10px; margin-bottom: 25px;">
+            <button id="filterAll" class="btn-secondary" type="button" style="padding: 6px 15px; border-radius: 4px; border: 1px solid #ccc; background: #fff; cursor: pointer;">All</button>
+            <button id="filterBeginner" class="btn-secondary" type="button" style="padding: 6px 15px; border-radius: 4px; border: 1px solid #ccc; background: #fff; cursor: pointer;">Beginner</button>
+            <button id="filterIntermediate" class="btn-secondary" type="button" style="padding: 6px 15px; border-radius: 4px; border: 1px solid #ccc; background: #fff; cursor: pointer;">Intermediate</button>
+            <button id="filterAdvanced" class="btn-secondary" type="button" style="padding: 6px 15px; border-radius: 4px; border: 1px solid #ccc; background: #fff; cursor: pointer;">Advanced</button>
+        </div>
 
+        <!-- Active & Universal Courses Grid -->
+        <div class="course-grid" id="courseGrid">
             
+            <!-- Medical / Doctor Path -->
+            <article class="course-card" id="courseCardMedical" data-difficulty="beginner">
+                <h3>Medical Science & Healthcare Basics</h3>
+                <p>Beginner • 15 Lessons • Future Doctor Path</p>
+                <button id="startCourseMed" class="btn-primary-custom" type="button">Start Learning</button>
+            </article>
+
+            <!-- Engineering Path -->
+            <article class="course-card" id="courseCardEngineering" data-difficulty="intermediate">
+                <h3>Modern Engineering & Mechanics</h3>
+                <p>Intermediate • 18 Lessons • Core Engineering</p>
+                <button id="startCourseEng" class="btn-primary-custom" type="button">Start Learning</button>
+            </article>
+
+            <!-- Applied Science Path -->
+            <article class="course-card" id="courseCardScience" data-difficulty="advanced">
+                <h3>Advanced Scientific Research & Physics</h3>
+                <p>Advanced • 20 Lessons • Scientist Path</p>
+                <button id="startCourseSci" class="btn-primary-custom" type="button">Start Learning</button>
+            </article>
+
+            <!-- AI Fundamentals -->
+            <article class="course-card" id="courseCard001" data-difficulty="beginner">
+                <h3>AI Fundamentals & Prompt Engineering</h3>
+                <p>Beginner • 12 Lessons • Practical AI</p>
+                <button id="startCourse1" class="btn-primary-custom" type="button">Start Learning</button>
+            </article>
+            
+            <!-- JavaScript Development -->
+            <article class="course-card" id="courseCard002" data-difficulty="intermediate">
+                <h3>JavaScript & Frontend Development</h3>
+                <p>Intermediate • 20 Lessons • Web Power</p>
+                <button id="startCourse2" class="btn-primary-custom" type="button">Start Learning</button>
+            </article>
+            
+            <!-- Python Automation -->
+            <article class="course-card" id="courseCard003" data-difficulty="advanced">
+                <h3>Python for Data Science & Automation</h3>
+                <p>Advanced • 15 Lessons • Real Automation</p>
+                <button id="startCourse3" class="btn-primary-custom" type="button">Start Learning</button>
+            </article>
+            
+            <!-- HTML & CSS Design -->
+            <article class="course-card" id="courseCard004" data-difficulty="beginner">
+                <h3>HTML, CSS & Modern UI Design</h3>
+                <p>Beginner • 8 Lessons • Design Foundation</p>
+                <button id="startCourse4" class="btn-primary-custom" type="button">Start Learning</button>
+            </article>
+            
+            <!-- React Applications -->
+            <article class="course-card" id="courseCard005" data-difficulty="intermediate">
+                <h3>React Web Applications</h3>
+                <p>Intermediate • 18 Lessons • Pro Apps</p>
+                <button id="startCourse5" class="btn-primary-custom" type="button">Start Learning</button>
+            </article>
+            
+            <!-- Machine Learning -->
+            <article class="course-card" id="courseCard006" data-difficulty="advanced">
+                <h3>Machine Learning & Practical AI</h3>
+                <p>Advanced • 22 Lessons • Future Tech</p>
+                <button id="startCourse6" class="btn-primary-custom" type="button">Start Learning</button>
+            </article>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" style="display: flex; gap: 5px; margin: 25px 0;">
+            <button id="paginationPrev" class="btn-secondary" type="button" style="padding: 6px 12px;">Previous</button>
+            <button id="pagination1" class="btn-primary-custom" type="button" style="width: auto; padding: 6px 12px;">1</button>
+            <button id="pagination2" class="btn-secondary" type="button" style="padding: 6px 12px;">2</button>
+            <button id="pagination3" class="btn-secondary" type="button" style="padding: 6px 12px;">3</button>
+            <button id="paginationNext" class="btn-secondary" type="button" style="padding: 6px 12px;">Next</button>
+        </div>
+
+        <!-- =================================================== -->
+        <!-- CORE AUTOMATION & E-LEARNING MODULES (ADDED TOGETHER) -->
+        <!-- =================================================== -->
+        <div style="margin-top: 40px; border-top: 2px solid #e0e0e0; padding-top: 30px;">
+            <h2 class="section-title">🎓 Core Automation & SaaS Courses</h2>
+            <p class="section-subtitle">Master Google Apps Script, Google Sheets, and Workflow Automations step by step.</p>
+            
+            <div class="course-grid">
+                <!-- Course Card 1 -->
+                <div class="course-card">
+                    <div class="course-icon" style="font-size: 32px; margin-bottom: 10px;">📊</div>
+                    <h3 class="course-heading">Google Workspace Automation</h3>
+                    <p class="course-desc">Learn how to automate Google Forms, Sheets, and Drive using advanced scripts.</p>
+                    <button id="enrollWorkspaceBtn" class="btn-primary-custom" type="button">Start Course</button>
+                </div>
+
+                <!-- Course Card 2 -->
+                <div class="course-card">
+                    <div class="course-icon" style="font-size: 32px; margin-bottom: 10px;">⚡</div>
+                    <h3 class="course-heading">n8n & Make.com Masterclass</h3>
+                    <p class="course-desc">Build complex multi-step APIs and workflows without writing heavy code.</p>
+                    <button id="enrollN8nBtn" class="btn-primary-custom" type="button">Start Course</button>
+                </div>
+
+                <!-- Course Card 3 -->
+                <div class="course-card">
+                    <div class="course-icon" style="font-size: 32px; margin-bottom: 10px;">🤖</div>
+                    <h3 class="course-heading">AI Integration & SaaS Dev</h3>
+                    <p class="course-desc">Connect Gemini API and cloud tools to build intelligent automated platforms.</p>
+                    <button id="enrollAiBtn" class="btn-primary-custom" type="button">Start Course</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Courses Section -->
+        <section class="featured-courses" aria-label="Featured Career Paths" style="margin-top: 30px;">
+            <h3>⭐ Featured Career Paths</h3>
+            <div class="course-grid" style="margin-top: 15px;">
+                <article class="course-card" id="featuredCourse1">
+                    <h3>Freelancing & Upwork Mastery</h3>
+                    <p>Featured • 10 Lessons • Earn Online</p>
+                    <button id="enrollFeatured1" class="btn-primary-custom" type="button" style="margin-top: 15px;">Enroll</button>
+                </article>
+                <article class="course-card" id="featuredCourse2">
+                    <h3>Google Workspace & Apps Script Automation</h3>
+                    <p>Featured • 15 Lessons • Business Ready</p>
+                    <button id="enrollFeatured2" class="btn-primary-custom" type="button" style="margin-top: 15px;">Enroll</button>
+                </article>
+            </div>
+        </section>
+
+        <!-- Recommended for You Section -->
+        <section class="recommended-courses" aria-label="Recommended Courses" style="margin-top: 30px;">
+            <h3>📌 Recommended for Your Growth</h3>
+            <div class="course-grid" style="margin-top: 15px;">
+                <article class="course-card" id="recommendedCourse1">
+                    <h3>Biotech & Modern Medical Technology</h3>
+                    <p>Recommended • 14 Lessons • Core Science</p>
+                    <button id="startRec1" class="btn-primary-custom" type="button" style="margin-top: 15px;">Start</button>
+                </article>
+                <article class="course-card" id="recommendedCourse2">
+                    <h3>Smart Career & Resume Building</h3>
+                    <p>Recommended • 12 Lessons • Job Ready</p>
+                    <button id="startRec2" class="btn-primary-custom" type="button" style="margin-top: 15px;">Start</button>
+                </article>
+            </div>
+        </section>
+
+        <!-- COMING SOON MULTIPLY TOOLS & FEATURES SECTION -->
+        <div class="coming-soon-wrapper" style="margin-top: 40px; border-top: 2px dashed #ddd; padding-top: 20px;">
+            <h2>🚀 Upcoming Career, Scientific & Employment Tools (Coming Soon)</h2>
+            
+            <div class="tool-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 20px;">
+                
+                <div class="tool-card" style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                    <h3>🩺 Virtual Medical Lab</h3>
+                    <p style="font-size: 13px; color: #666; margin: 5px 0;">COMING SOON</p>
+                    <span style="font-size: 12px; background: #e6f4ea; padding: 2px 6px; border-radius: 4px; color: #137333;">DOCTOR READY</span>
+                </div>
+
+                <div class="tool-card" style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                    <h3>⚙ 3D Engineering Simulator</h3>
+                    <p style="font-size: 13px; color: #666; margin: 5px 0;">COMING SOON</p>
+                    <span style="font-size: 12px; background: #e8f0fe; padding: 2px 6px; border-radius: 4px; color: #1967d2;">ENGINEER READY</span>
+                </div>
+
+                <div class="tool-card" style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                    <h3>🔬 Scientific Research Hub</h3>
+                    <p style="font-size: 13px; color: #666; margin: 5px 0;">COMING SOON</p>
+                    <span style="font-size: 12px; background: #fffae6; padding: 2px 6px; border-radius: 4px; color: #b78103;">SCIENCE READY</span>
+                </div>
+
+                <div class="tool-card" style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                    <h3>🌍 Freelance Hub</h3>
+                    <p style="font-size: 13px; color: #666; margin: 5px 0;">COMING SOON</p>
+                    <span style="font-size: 12px; background: #fffae6; padding: 2px 6px; border-radius: 4px; color: #b78103;">CAREER READY</span>
+                </div>
+
+                <div class="tool-card" style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                    <h3>🤖 AI Mentor & Teacher</h3>
+                    <p style="font-size: 13px; color: #666; margin: 5px 0;">COMING SOON</p>
+                    <span style="font-size: 12px; background: #e6f4ea; padding: 2px 6px; border-radius: 4px; color: #137333;">AI READY</span>
+                </div>
+
+                <div class="tool-card" style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                    <h3>📄 AI Resume Builder</h3>
+                    <p style="font-size: 13px; color: #666; margin: 5px 0;">COMING SOON</p>
+                    <span style="font-size: 12px; background: #e8f0fe; padding: 2px 6px; border-radius: 4px; color: #1967d2;">JOB READY</span>
+                </div>
+
+                <div class="tool-card" style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                    <h3>🎓 Smart Certificates (QR)</h3>
+                    <p style="font-size: 13px; color: #666; margin: 5px 0;">COMING SOON</p>
+                    <span style="font-size: 12px; background: #fce8e6; padding: 2px 6px; border-radius: 4px; color: #c5221f;">VERIFIED</span>
+                </div>
+
+                <div class="tool-card" style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                    <h3>💼 Business & CRM Hub</h3>
+                    <p style="font-size: 13px; color: #666; margin: 5px 0;">COMING SOON</p>
+                    <span style="font-size: 12px; background: #fef7e0; padding: 2px 6px; border-radius: 4px; color: #b06000;">BUSINESS READY</span>
+                </div>
+
+                <div class="tool-card" style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                    <h3>⚙ Automation Engine</h3>
+                    <p style="font-size: 13px; color: #666; margin: 5px 0;">COMING SOON</p>
+                    <span style="font-size: 12px; background: #e6f4ea; padding: 2px 6px; border-radius: 4px; color: #137333;">WORKFLOW READY</span>
+                </div>
+
+                <div class="tool-card" style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                    <h3>🏆 Scholarship & Rewards</h3>
+                    <p style="font-size: 13px; color: #666; margin: 5px 0;">COMING SOON</p>
+                    <span style="font-size: 12px; background: #f3e8fd; padding: 2px 6px; border-radius: 4px; color: #8430ce;">REWARD READY</span>
+                </div>
+
+                <div class="tool-card" style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                    <h3>🚀 Global Marketplace</h3>
+                    <p style="font-size: 13px; color: #666; margin: 5px 0;">COMING SOON</p>
+                    <span style="font-size: 12px; background: #e8f0fe; padding: 2px 6px; border-radius: 4px; color: #1967d2;">FUTURE READY</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+       
                 <!-- =================================================== -->
 <!-- PAGE 4: ADVANCED UNIVERSAL LEARNING HUB -->
 <!-- =================================================== -->
