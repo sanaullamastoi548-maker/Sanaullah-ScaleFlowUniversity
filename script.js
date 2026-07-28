@@ -582,7 +582,7 @@ document.getElementById("registerLink")?.addEventListener("click", async functio
 
         const data = await res.json();
 
-        if(data.status==="success"){
+        if (data.status.toLowerCase() === "success")
 
             showToast("✅ Registration Successful", "success");
 
