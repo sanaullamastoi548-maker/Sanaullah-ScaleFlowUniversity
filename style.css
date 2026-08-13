@@ -2272,6 +2272,7 @@ textarea:focus-visible {
     color: #000;
 }
 
+
 /* =========================================
    EDUCATION HOME
    ========================================= */
@@ -2281,17 +2282,22 @@ textarea:focus-visible {
     padding: 25px;
     background: #ffffff;
     border-radius: 15px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #d4af37;
 }
+
+
+/* =========================================
+   EDUCATION TITLE
+   ========================================= */
 
 #educationHome h2 {
     margin-bottom: 8px;
-    color: #166534;
+    color: #b8860b;
 }
 
 #educationHome > p {
     margin-bottom: 20px;
-    color: #6b7280;
+    color: #666;
 }
 
 
@@ -2308,37 +2314,40 @@ textarea:focus-visible {
 #educationSearchInput {
     flex: 1;
     padding: 13px;
-    border: 1px solid #d1d5db;
+    border: 1px solid #d4af37;
     border-radius: 8px;
     font-size: 15px;
     outline: none;
 }
 
 #educationSearchInput:focus {
-    border-color: #16a34a;
+    border-color: #b8860b;
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.25);
 }
 
 #educationSearchBtn {
     padding: 13px 22px;
-    border: none;
+    border: 1px solid #d4af37;
     border-radius: 8px;
-    background: #16a34a;
-    color: white;
+    background: #ffffff;
+    color: #b8860b;
     cursor: pointer;
     font-size: 15px;
-}
-
-#educationSearchBtn:hover {
-    background: #15803d;
+    transition: 0.2s;
 }
 
 
 /* =========================================
-   SEARCH RESULTS
+   SEARCH BUTTON TOUCH
    ========================================= */
 
-#educationSearchResults {
-    margin-bottom: 25px;
+#educationSearchBtn:hover {
+    background: #fffaf0;
+}
+
+#educationSearchBtn:active {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -2352,28 +2361,57 @@ textarea:focus-visible {
     gap: 15px;
 }
 
+
+/* =========================================
+   EDUCATION CARD
+   ========================================= */
+
 .education-card {
     padding: 18px;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    border: 1px solid #d4af37;
     border-radius: 12px;
     cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 }
 
+
+/* =========================================
+   CARD TOUCH / HOVER
+   ========================================= */
+
 .education-card:hover {
-    border-color: #16a34a;
-    background: #f0fdf4;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+    background: #fffdf7;
 }
+
+
+/* موبائل Touch */
+
+.education-card:active {
+    transform: translateY(-5px) scale(1.04);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+}
+
+
+/* =========================================
+   CARD TEXT
+   ========================================= */
 
 .education-card h3 {
     margin-bottom: 8px;
-    color: #166534;
+    color: #b8860b;
     font-size: 17px;
 }
 
 .education-card p {
     margin: 0;
-    color: #6b7280;
+    color: #666;
     font-size: 14px;
     line-height: 1.5;
 }
@@ -2386,16 +2424,12 @@ textarea:focus-visible {
 #relatedEducation {
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid #d4af37;
 }
 
 #relatedEducation h3 {
     margin-bottom: 15px;
-    color: #166534;
-}
-
-#relatedEducationList {
-    min-height: 40px;
+    color: #b8860b;
 }
 
 
