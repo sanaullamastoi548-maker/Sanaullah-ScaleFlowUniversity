@@ -760,3 +760,110 @@ document.getElementById("registerLink")?.addEventListener("click", async functio
     });
 
 })(window);
+
+/* =========================================
+   EDUCATION HOME
+   ========================================= */
+
+function searchEducation() {
+
+    const input = document.getElementById("educationSearchInput");
+    const results = document.getElementById("educationSearchResults");
+
+    if (!input || !results) {
+        return;
+    }
+
+    const searchText = input.value.trim().toLowerCase();
+
+    results.innerHTML = "";
+
+    if (!searchText) {
+        return;
+    }
+
+    const educationCards = document.querySelectorAll(".education-card");
+
+    let found = 0;
+
+    educationCards.forEach(function(card) {
+
+        const text = card.innerText.toLowerCase();
+
+        if (text.includes(searchText)) {
+
+            const result = card.cloneNode(true);
+
+            results.appendChild(result);
+
+            found++;
+
+        }
+
+    });
+
+    if (found === 0) {
+
+        results.innerHTML =
+            "<p>❌ No related education found.</p>";
+
+    }
+
+}
+
+
+/* =========================================
+   SEARCH BUTTON
+   ========================================= */
+
+function setupEducationSearch() {
+
+    const button =
+        document.getElementById("educationSearchBtn");
+
+    const input =
+        document.getElementById("educationSearchInput");
+
+    if (!button || !input) {
+        return;
+    }
+
+    button.addEventListener("click", function() {
+
+        searchEducation();
+
+    });
+
+    input.addEventListener("keyup", function(event) {
+
+        if (event.key === "Enter") {
+
+            searchEducation();
+
+        }
+
+    });
+
+}
+
+
+/* =========================================
+   EDUCATION HOME START
+   ========================================= */
+
+function startEducationHome() {
+
+    setupEducationSearch();
+
+}
+
+
+/* =========================================
+   START
+   ========================================= */
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    startEducationHome();
+
+});
