@@ -1,3 +1,7 @@
+
+(function(window) {
+
+    
 // ============================================================
 // PART 1 — DOM REFERENCES & PAGE REGISTRY
 // ============================================================
@@ -3297,4 +3301,6 @@ if (document.readyState === "loading") {
     startEducationHome();
 
 }
- 
+
+    })(window);
+
