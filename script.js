@@ -64,93 +64,378 @@ console.log(
     Object.keys(pageSections)
 );
 
-    // ============================================================
-    // PART 2 — TOAST (نوٹیفکیشن دکھانے کا فنکشن)
-    // ============================================================
-    function showToast(message, type = "info") {
-        if (!toastContainer) return;
-        const toast = document.createElement("div");
-        toast.className = `toast toast-${type}`;
-        toast.textContent = message;
-        toastContainer.appendChild(toast);
-        setTimeout(() => {
-            toast.style.opacity = "0";
-            setTimeout(() => {
-                toast.remove();
-            }, 300);
-        }, 3000);
-    }
-
-   // ============================================================
-// PART 3 — LOADER & PAGE READY HANDLER (الگ JS فائل)
+// ============================================================
+// PART 2 — TOAST NOTIFICATION SYSTEM
 // ============================================================
 
-document.addEventListener("DOMContentLoaded", function () {
-    const loader = document.getElementById('loader'); // یقینی بنائیں کہ آپ کی HTML میں loader کی ID یہی ہے
+function showToast(message, type = "info") {
 
-    function hideLoader() {
-        try {
-            if (!loader) {
-                console.warn("⚠️ توجہ: صفحہ پر 'loader' کا عنصر نہیں ملا۔ براہِ مہربانی چیک کریں!");
-                return;
+    try {
+
+        // اگر Toast Container موجود نہیں ہے
+        if (!toastContainer) {
+
+            console.log(
+                "🔔 Toast:",
+                message
+            );
+
+            return;
+
+        }
+
+        // Toast Element
+        const toast = document.createElement("div");
+
+        toast.className = "toast toast-" + type;
+
+        toast.textContent = message;
+
+        // Accessibility
+        toast.setAttribute("role", "alert");
+
+        // Container میں شامل کریں
+        toastContainer.appendChild(toast);
+
+        // تھوڑی دیر بعد hide کریں
+        setTimeout(function() {
+
+            toast.style.opacity = "0";
+
+            toast.style.transition = "opacity 0.3s ease";
+
+            setTimeout(function() {
+
+                if (toast && toast.parentNode) {
+                    toast.remove();
+                }
+
+            }, 300);
+
+        }, 3000);
+
+    } catch (error) {
+
+        console.error(
+            "❌ Toast Error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+// ============================================================
+// PART 3 — LOADER & PAGE READY HANDLER
+// ============================================================
+
+function hideLoader() {
+
+    try {
+
+        const loaderElement = document.getElementById("loader");
+
+        // اگر Loader HTML میں موجود ہی نہیں
+        if (!loaderElement) {
+
+            console.log(
+                "ℹ️ Loader element not found. Website can continue normally."
+            );
+
+            return;
+
+        }
+
+        // پہلے ہی hide ہو چکا ہے
+        if (
+            loaderElement.classList.contains("hidden") ||
+            loaderElement.style.display === "none"
+        ) {
+
+            return;
+
+        }
+
+        // Loader کو hide کریں
+        loaderElement.classList.add("hidden");
+
+        // CSS transition کے لیے مختصر وقت
+        setTimeout(function () {
+
+            try {
+
+                loaderElement.style.display = "none";
+                loaderElement.setAttribute("aria-hidden", "true");
+
+                console.log(
+                    "✅ ScaleFlow Loader hidden successfully."
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "❌ Loader hide error:",
+                    error
+                );
+
             }
-            if (loader.classList.contains('hidden')) return;
-            
-            loader.classList.add('hidden');
-            
-            setTimeout(() => {
-                loader.style.display = 'none';
-                loader.setAttribute('aria-hidden', 'true');
-                console.log("✅ لوڈر کامیابی کے ساتھ چھپا دیا گیا ہے اور صفحہ بالکل تیار ہے۔");
-            }, 500);
 
-        } catch (error) {
-            console.error("❌ خرابی: لوڈر ہٹانے کے دوران ایک مسئلہ پیش آیا:", error);
+        }, 300);
+
+    } catch (error) {
+
+        console.error(
+            "❌ Loader System Error:",
+            error
+        );
+
+        // آخری حفاظتی کوشش
+        const emergencyLoader =
+            document.getElementById("loader");
+
+        if (emergencyLoader) {
+            emergencyLoader.style.display = "none";
         }
+
     }
 
-    // ونڈو مکمل لوڈ ہونے پر لوڈر کو ہٹا دیں
-    window.addEventListener('load', function () {
+}
+
+
+// ============================================================
+// DOM READY
+// ============================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        console.log(
+            "✅ ScaleFlow DOM is ready."
+        );
+
+        // فوراً Loader ختم کرنے کی کوشش
         hideLoader();
-    });
 
-    // فال سیف (Fallback): اگر کسی وجہ سے 'load' ایونٹ فائر نہ ہو تو 3 سیکنڈ بعد خود بخود ہٹا دیں
-    setTimeout(() => {
-        if (loader && !loader.classList.contains('hidden')) {
-            console.info("ℹ️ اطلاع: لوڈنگ کا وقت زیادہ ہونے کی وجہ سے لوڈر خودکار طریقے سے ہٹا دیا گیا ہے۔");
+    }
+);
+
+
+// ============================================================
+// WINDOW LOAD
+// ============================================================
+
+window.addEventListener(
+    "load",
+    function () {
+
+        console.log(
+            "✅ ScaleFlow Window loaded."
+        );
+
+        hideLoader();
+
+    }
+);
+
+
+// ============================================================
+// EMERGENCY FALLBACK
+// ============================================================
+
+setTimeout(
+    function () {
+
+        const loaderElement =
+            document.getElementById("loader");
+
+        if (
+            loaderElement &&
+            loaderElement.style.display !== "none"
+        ) {
+
+            console.log(
+                "⚠️ Loader fallback activated."
+            );
+
             hideLoader();
+
         }
-    }, 3000);
-});
+
+    },
+    2000
+);
 
 
-   
-    // ============================================================
-    // PART 4 — MODAL (کھلنا / بند ہونا)
-    // ============================================================
-    function openModal(title, bodyHTML, options = {}) {
-        if (modalTitle) modalTitle.textContent = title || 'Modal';
-        if (modalBody) modalBody.innerHTML = bodyHTML || 'No content';
-        if (modalContainer) modalContainer.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        if (options.onOpen) options.onOpen();
+// ============================================================
+// PART 4 — MODAL SYSTEM (SAFE & STABLE)
+// ============================================================
+
+function openModal(title, bodyHTML, options = {}) {
+
+    try {
+
+        if (modalTitle) {
+            modalTitle.textContent = title || "Modal";
+        }
+
+        if (modalBody) {
+            modalBody.innerHTML = bodyHTML || "No content available.";
+        }
+
+        if (modalContainer) {
+            modalContainer.classList.add("open");
+            modalContainer.setAttribute("aria-hidden", "false");
+        }
+
+        document.body.style.overflow = "hidden";
+
+        if (
+            options &&
+            typeof options.onOpen === "function"
+        ) {
+            options.onOpen();
+        }
+
+    } catch (error) {
+
+        console.error(
+            "❌ Modal Open Error:",
+            error
+        );
+
     }
 
-    function closeModal() {
-        if (modalContainer) modalContainer.classList.remove('open');
-        document.body.style.overflow = '';
+}
+
+
+function closeModal() {
+
+    try {
+
+        if (modalContainer) {
+
+            modalContainer.classList.remove("open");
+
+            modalContainer.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+        }
+
+        document.body.style.overflow = "";
+
+    } catch (error) {
+
+        console.error(
+            "❌ Modal Close Error:",
+            error
+        );
+
     }
 
-    modalCloseBtn?.addEventListener('click', closeModal);
-    modalCancelBtn?.addEventListener('click', closeModal);
-    modalConfirmBtn?.addEventListener('click', function() {
-        showToast('✅ Confirmed!', 'success');
-        closeModal();
-    });
-    modalContainer?.addEventListener('click', function(e) {
-        if (e.target === modalContainer) closeModal();
-    });
+}
 
+
+// ================= MODAL CLOSE BUTTON =================
+
+if (modalCloseBtn) {
+
+    modalCloseBtn.addEventListener(
+        "click",
+        function () {
+
+            closeModal();
+
+        }
+    );
+
+}
+
+
+// ================= MODAL CANCEL BUTTON =================
+
+if (modalCancelBtn) {
+
+    modalCancelBtn.addEventListener(
+        "click",
+        function () {
+
+            closeModal();
+
+        }
+    );
+
+}
+
+
+// ================= MODAL CONFIRM BUTTON =================
+
+if (modalConfirmBtn) {
+
+    modalConfirmBtn.addEventListener(
+        "click",
+        function () {
+
+            showToast(
+                "✅ Confirmed!",
+                "success"
+            );
+
+            closeModal();
+
+        }
+    );
+
+}
+
+
+// ================= CLICK OUTSIDE MODAL =================
+
+if (modalContainer) {
+
+    modalContainer.addEventListener(
+        "click",
+        function (event) {
+
+            if (event.target === modalContainer) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+// ================= ESC KEY =================
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (event.key === "Escape") {
+
+            if (
+                modalContainer &&
+                modalContainer.classList.contains("open")
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+
+    }
+);
+
+    
     // ============================================================
     // PART 5 — DARK MODE (تھیم تبدیل کریں اور محفوظ کریں)
     // ============================================================
