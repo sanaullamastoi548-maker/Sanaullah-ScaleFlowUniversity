@@ -561,49 +561,8 @@ document.getElementById("loginForm")?.addEventListener("submit", async function(
 
 document.getElementById("registerLink")?.addEventListener("click", async function(e){
 
-    e.preventDefault();
-
-    const name = prompt("Full Name");
-    if(!name) return;
-
-    const email = prompt("Email");
-    if(!email) return;
-
-    const password = prompt("Password");
-    if(!password) return;
-
-    try{
-
-        showToast("🔄 Creating Account...", "info");
-
-        const res = await fetch(
-            `${WEB_APP_URL}?action=register&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
-        );
-
-        const data = await res.json();
-
-        if (data.status.toLowerCase() === "success")
-
-            showToast("✅ Registration Successful", "success");
-
-            document.getElementById("loginEmail").value=email;
-            document.getElementById("loginPassword").value=password;
-
-        }else{
-
-            showToast(data.message || "Registration Failed","error");
-
-        }
-
-    }catch(err){
-
-        console.error(err);
-        showToast("❌ Server Error","error");
-
-    }
-
+    ...
 });
-
      
 
     // ============================================================
