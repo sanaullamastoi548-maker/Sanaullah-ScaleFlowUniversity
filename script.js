@@ -4,64 +4,65 @@
    Version: 1.0 FINAL FIXED
    ============================================================ */
 
-(function(global) {
-    "use strict";
-
-   
 // ============================================================
-    // SCALEFLOW GLOBAL WEB APP BRIDGE (یہاں نیا لنک پیسٹ کریں)
-    // ============================================================
-    const SCALEFLOW_CONFIG = {
-    webAppUrl: "https://script.google.com/macros/s/AKfycbzlBu8WiCFSyszAa0gB8Uj-YibclzKlo1Hhd5eBYULcayQIuS9YdNEIFLV68GHMY6x5/exec",
-    version: "1.0",
-    environment: "production"
-};
-   
-    // ============================================================
-    // PART 1 — DOM REFERENCES (تمام اہم عناصر)
-    // ============================================================
-    const loader = document.getElementById('loader');
-    const toastContainer = document.getElementById('toast-container');
-    const modalContainer = document.getElementById('modal-container');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBody = document.getElementById('modalBody');
-    const modalCloseBtn = document.getElementById('modalCloseBtn');
-    const modalCancelBtn = document.getElementById('modalCancelBtn');
-    const modalConfirmBtn = document.getElementById('modalConfirmBtn');
-    const darkModeBtn = document.getElementById('darkModeBtn');
-    const notificationBell = document.getElementById('notificationBell');
-    const notificationPanel = document.getElementById('notificationPanel');
-    const notificationCount = document.getElementById('notificationCount');
-    const markAllReadBtn = document.getElementById('markAllReadBtn');
-    const scrollTopBtn = document.getElementById('scrollTopBtn');
-    const currentYear = document.getElementById('currentYear');
-    const globalSearch = document.getElementById('globalSearchInput');
-    const navLinks = document.querySelectorAll('.sidebar-menu a[data-page]');
+// PART 1 — DOM REFERENCES & PAGE REGISTRY
+// ============================================================
 
-    // ===== PAGE SECTIONS (1 to 20) =====
-    const pageSections = {
-        page1: document.getElementById('page1'),
-        page2: document.getElementById('page2'),
-        page3: document.getElementById('page3'),
-        page4: document.getElementById('page4'),
-        page5: document.getElementById('page5'),
-        page6: document.getElementById('page6'),
-        page7: document.getElementById('page7'),
-        page8: document.getElementById('page8'),
-        page9: document.getElementById('page9'),
-        page10: document.getElementById('page10'),
-        page11: document.getElementById('page11'),
-        page12: document.getElementById('page12'),
-        // ===== NEW PAGES 13 TO 20 =====
-        page13: document.getElementById('page13'),
-        page14: document.getElementById('page14'),
-        page15: document.getElementById('page15'),
-        page16: document.getElementById('page16'),
-        page17: document.getElementById('page17'),
-        page18: document.getElementById('page18'),
-        page19: document.getElementById('page19'),
-        page20: document.getElementById('page20')
-    };
+const loader = document.getElementById("loader");
+const toastContainer = document.getElementById("toast-container");
+
+const modalContainer = document.getElementById("modal-container");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody = document.getElementById("modalBody");
+const modalCloseBtn = document.getElementById("modalCloseBtn");
+const modalCancelBtn = document.getElementById("modalCancelBtn");
+const modalConfirmBtn = document.getElementById("modalConfirmBtn");
+
+const darkModeBtn = document.getElementById("darkModeBtn");
+
+const notificationBell = document.getElementById("notificationBell");
+const notificationPanel = document.getElementById("notificationPanel");
+const notificationCount = document.getElementById("notificationCount");
+const markAllReadBtn = document.getElementById("markAllReadBtn");
+
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+const currentYear = document.getElementById("currentYear");
+
+const globalSearchInput =
+    document.getElementById("globalSearchInput");
+
+const navLinks =
+    document.querySelectorAll(".sidebar-menu a[data-page]");
+
+
+// ============================================================
+// SCALEFLOW PAGE REGISTRY
+// ============================================================
+
+const pageSections = {};
+
+for (let i = 1; i <= 20; i++) {
+
+    const pageId = "page" + i;
+    const section = document.getElementById(pageId);
+
+    if (section) {
+        pageSections[pageId] = section;
+    }
+
+}
+
+
+// ============================================================
+// SCALEFLOW BASIC STATUS
+// ============================================================
+
+console.log("✅ ScaleFlow Part 1 loaded successfully.");
+
+console.log(
+    "📄 Available Pages:",
+    Object.keys(pageSections)
+);
 
     // ============================================================
     // PART 2 — TOAST (نوٹیفکیشن دکھانے کا فنکشن)
