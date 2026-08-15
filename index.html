@@ -1181,6 +1181,238 @@
                <!-- =================================================== -->
                <!-- PAGE 12: ADVANCED SECURE LOGIN PORTAL               -->
                <!-- =================================================== -->
+
+                <!-- =================================================== -->
+<!-- PAGE 13: STUDENT REGISTRATION PORTAL                -->
+<!-- =================================================== -->
+<section id="page13" class="page-section" aria-label="Student Registration">
+
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <!-- REGISTRATION HEADER -->
+            <div style="text-align: center; margin-bottom: 20px;">
+
+                <h2 style="font-size: 22px; color: #333; margin-bottom: 5px;">
+                    🎓 Create Your Account
+                </h2>
+
+                <p style="font-size: 13px; color: #666;">
+                    Join ScaleFlow University and start your learning journey.
+                </p>
+
+            </div>
+
+
+            <!-- REGISTRATION FORM -->
+            <form id="registrationForm" aria-label="Student Registration Form">
+
+                <!-- FULL NAME -->
+                <div class="form-group">
+
+                    <label for="registerFullName">
+                        Full Name
+                    </label>
+
+                    <input
+                        id="registerFullName"
+                        name="fullName"
+                        type="text"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        required
+                        aria-label="Full name"
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="form-group">
+
+                    <label for="registerEmail">
+                        Email Address
+                    </label>
+
+                    <input
+                        id="registerEmail"
+                        name="email"
+                        type="email"
+                        placeholder="student@example.com"
+                        autocomplete="email"
+                        required
+                        aria-label="Email address"
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="form-group">
+
+                    <label for="registerPassword">
+                        Password
+                    </label>
+
+                    <input
+                        id="registerPassword"
+                        name="password"
+                        type="password"
+                        placeholder="Create a strong password"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                        aria-label="Password"
+                    >
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+                <div class="form-group">
+
+                    <label for="registerConfirmPassword">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        id="registerConfirmPassword"
+                        name="confirmPassword"
+                        type="password"
+                        placeholder="Confirm your password"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                        aria-label="Confirm password"
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD REQUIREMENT -->
+                <div
+                    id="passwordRequirement"
+                    style="
+                        font-size: 12px;
+                        color: #777;
+                        margin-top: -5px;
+                        margin-bottom: 15px;
+                        line-height: 1.5;
+                    "
+                >
+                    Password must contain at least 8 characters.
+                </div>
+
+
+                <!-- TERMS -->
+                <div
+                    class="form-options"
+                    style="
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: flex-start;
+                        margin-bottom: 20px;
+                    "
+                >
+
+                    <label
+                        for="registerTerms"
+                        style="
+                            display: flex;
+                            align-items: flex-start;
+                            gap: 8px;
+                            cursor: pointer;
+                            font-size: 13px;
+                            line-height: 1.5;
+                        "
+                    >
+
+                        <input
+                            type="checkbox"
+                            id="registerTerms"
+                            name="terms"
+                            required
+                            aria-label="Accept terms and conditions"
+                        >
+
+                        <span>
+                            I agree to the ScaleFlow University
+                            Terms and Conditions and Privacy Policy.
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- CREATE ACCOUNT -->
+                <button
+                    id="registerSubmitBtn"
+                    type="submit"
+                    class="btn-primary"
+                    style="
+                        width: 100%;
+                        padding: 11px;
+                        margin-bottom: 10px;
+                    "
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <!-- LOGIN LINK -->
+            <p
+                class="login-register"
+                style="
+                    text-align: center;
+                    font-size: 13px;
+                    margin-top: 20px;
+                    color: #666;
+                "
+            >
+
+                Already have an account?
+
+                <a
+                    href="#"
+                    id="backToLoginLink"
+                    style="
+                        color: #1967d2;
+                        text-decoration: none;
+                        font-weight: 600;
+                    "
+                >
+                    Sign In
+                </a>
+
+            </p>
+
+
+            <!-- REGISTRATION STATUS -->
+            <div
+                id="registrationStatus"
+                role="status"
+                aria-live="polite"
+                style="
+                    display: none;
+                    margin-top: 15px;
+                    padding: 10px 12px;
+                    border-radius: 8px;
+                    font-size: 13px;
+                    text-align: center;
+                "
+            >
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+            
 <section id="page12" class="page-section" aria-label="Advanced Login">
     <div class="login-container" style="display: flex; justify-content: center; align-items: center; min-height: 70vh; padding: 20px;">
         <div class="login-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 30px; width: 100%; max-width: 420px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
