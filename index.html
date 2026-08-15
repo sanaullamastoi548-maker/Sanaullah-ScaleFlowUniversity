@@ -1439,34 +1439,116 @@
                     <label for="loginEmail" style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 5px; color: #444;">Email Address</label>
                     <input id="loginEmail" type="email" placeholder="student@university.com" required aria-label="Email address" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
                 </div>
-                
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="loginPassword" style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 5px; color: #444;">Password</label>
-                    <input id="loginPassword" type="password" placeholder="••••••••" required aria-label="Password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+
+
+            <!-- =================================================== -->
+<!-- PAGE 12: ADVANCED SECURE LOGIN & REGISTRATION PORTAL -->
+<!-- =================================================== -->
+<section id="page12" class="page-section active" aria-label="Login and Registration Portal">
+    <div class="login-container" style="display: flex; justify-content: center; align-items: center; min-height: 70vh; padding: 20px;">
+        <div class="login-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 30px; width: 100%; max-width: 420px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            
+            <!-- ========================================== -->
+            <!-- 1. LOGIN FORM WRAPPER -->
+            <!-- ========================================== -->
+            <div id="loginSectionWrapper">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2 style="font-size: 22px; color: #333; margin-bottom: 5px;">🔐 ScaleFlow Secure Login</h2>
+                    <p style="font-size: 13px; color: #666;">Access your university portal, courses, and business hub.</p>
                 </div>
 
-                <div class="form-options" style="display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 20px;">
-                    <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;"><input type="checkbox" id="loginRemember" aria-label="Remember me"> Remember Me</label>
-                    <a href="#" id="forgotPasswordLink" style="color: #1967d2; text-decoration: none;">Forgot Password?</a>
+                <!-- Google Login Button -->
+                <button type="button" class="btn-secondary" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; background: #fff; font-weight: 500; cursor: pointer;">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.18v3.14C3.15 21.32 7.22 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.62H1.18C.43 8.12 0 9.81 0 12s.43 3.88 1.18 5.38l4.09-3.14z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.22 0 3.15 2.68 1.18 6.62l4.09 3.14c.95-2.85 3.6-4.91 6.73-4.91z"/></svg>
+                    Sign in with Google
+                </button>
+
+                <div style="display: flex; align-items: center; text-align: center; color: #aaa; margin: 15px 0; font-size: 12px;">
+                    <div style="flex: 1; border-bottom: 1px solid #eee;"></div>
+                    <span style="padding: 0 10px;">OR WITH EMAIL</span>
+                    <div style="flex: 1; border-bottom: 1px solid #eee;"></div>
                 </div>
 
-                <button id="loginSubmitBtn" type="submit" class="btn-primary" style="width: 100%; padding: 11px; background: #fbc02d; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: #000; margin-bottom: 10px;">Sign In</button>
-            </form>
+                <form id="loginForm" aria-label="Login form">
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="loginEmail" style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 5px; color: #444;">Email Address</label>
+                        <input id="loginEmail" type="email" placeholder="student@university.com" required aria-label="Email address" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="loginPassword" style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 5px; color: #444;">Password</label>
+                        <input id="loginPassword" type="password" placeholder="••••••••" required aria-label="Password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+                    </div>
 
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <button id="loginOTPBtn" class="btn-secondary" type="button" style="flex: 1; padding: 8px; font-size: 13px; border: 1px solid #ccc; background: #f5f5f5; border-radius: 6px; cursor: pointer;">Send OTP</button>
-                <!-- NEW FEATURE: Biometric Passkey option -->
-                <button id="loginBiometricBtn" class="btn-secondary" type="button" style="flex: 1; padding: 8px; font-size: 13px; border: 1px solid #ccc; background: #f5f5f5; border-radius: 6px; cursor: pointer;">🔑 Passkey</button>
+                    <div class="form-options" style="display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 20px;">
+                        <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;"><input type="checkbox" id="loginRemember" aria-label="Remember me"> Remember Me</label>
+                        <a href="#" id="forgotPasswordLink" style="color: #1967d2; text-decoration: none;">Forgot Password?</a>
+                    </div>
+
+                    <button id="loginSubmitBtn" type="submit" class="btn-primary" style="width: 100%; padding: 11px; background: #fbc02d; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: #000; margin-bottom: 10px;">Sign In</button>
+                </form>
+
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button id="loginOTPBtn" class="btn-secondary" type="button" style="flex: 1; padding: 8px; font-size: 13px; border: 1px solid #ccc; background: #f5f5f5; border-radius: 6px; cursor: pointer;">Send OTP</button>
+                    <button id="loginBiometricBtn" class="btn-secondary" type="button" style="flex: 1; padding: 8px; font-size: 13px; border: 1px solid #ccc; background: #f5f5f5; border-radius: 6px; cursor: pointer;">🔑 Passkey</button>
+                </div>
+
+                <p class="login-register" style="text-align: center; font-size: 13px; margin-top: 20px; color: #666;">
+                    Don't have an account? <a href="#" id="showRegisterBtn" style="color: #1967d2; text-decoration: none; font-weight: 600;">Register Now</a>
+                </p>
             </div>
 
-            <p class="login-register" style="text-align: center; font-size: 13px; margin-top: 20px; color: #666;">
-                Don't have an account? <a href="#" id="registerLink" style="color: #1967d2; text-decoration: none; font-weight: 500;">Register Now</a>
-            </p>
+
+            <!-- ========================================== -->
+            <!-- 2. REGISTRATION FORM WRAPPER (شروع میں چھپا ہوگا) -->
+            <!-- ========================================== -->
+            <div id="registerSectionWrapper" style="display: none;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2 style="font-size: 22px; color: #333; margin-bottom: 5px;">🎓 Create Your Account</h2>
+                    <p style="font-size: 13px; color: #666;">Join ScaleFlow University and start your learning journey.</p>
+                </div>
+
+                <form id="registrationForm" aria-label="Student Registration Form">
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label for="registerFullName" style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #444;">Full Name</label>
+                        <input id="registerFullName" name="fullName" type="text" placeholder="Enter your full name" required style="width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label for="registerEmail" style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #444;">Email Address</label>
+                        <input id="registerEmail" name="email" type="email" placeholder="student@example.com" required style="width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label for="registerPassword" style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #444;">Password</label>
+                        <input id="registerPassword" name="password" type="password" placeholder="Min 8 characters" minlength="8" required style="width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label for="registerConfirmPassword" style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #444;">Confirm Password</label>
+                        <input id="registerConfirmPassword" name="confirmPassword" type="password" placeholder="Confirm password" minlength="8" required style="width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+                    </div>
+
+                    <div style="font-size: 11px; color: #777; margin-bottom: 12px;">Password must contain at least 8 characters.</div>
+
+                    <div style="display: flex; align-items: flex-start; gap: 8px; font-size: 12px; margin-bottom: 15px;">
+                        <input type="checkbox" id="registerTerms" name="terms" required style="margin-top: 2px;">
+                        <label for="registerTerms" style="cursor: pointer; line-height: 1.4;">I agree to ScaleFlow Terms and Privacy Policy.</label>
+                    </div>
+
+                    <button id="registerSubmitBtn" type="submit" class="btn-primary" style="width: 100%; padding: 11px; background: #fbc02d; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: #000; margin-bottom: 10px;">Create Account</button>
+                </form>
+
+                <p style="text-align: center; font-size: 13px; margin-top: 15px; color: #666;">
+                    Already have an account? <a href="#" id="showLoginBtn" style="color: #1967d2; text-decoration: none; font-weight: 600;">Sign In</a>
+                </p>
+            </div>
+
         </div>
     </div>
 </section>
 
-            
+                
 
             
             <!-- =================================================== -->
