@@ -352,448 +352,815 @@ if (continueProgress) {
 }
 
 
-// ============================================================
-// PART 12 — DASHBOARD STATS & METRICS
+
+ // ============================================================
+// PART 12C — SCALEFLOW LOGIN & REGISTRATION BACKEND
 // ============================================================
 
-function updateDashboardStats() {
-    const statElements = document.querySelectorAll(".stat-box strong, .dashboard-box span");
-    statElements.forEach(el => {
-        // Safe update placeholder
-    });
+
+// ============================================================
+// STUDENTS SHEET
+// ============================================================
+
+function getStudentsSheet_() {
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName("Students");
+
+  if (!sheet) {
+    throw new Error("Students sheet was not found.");
+  }
+
+  return sheet;
 }
 
-    
-// ============================================================
-// PART 12B — STUDENT REGISTRATION SYSTEM
-// ============================================================
-
-const registrationForm = document.getElementById("registrationForm");
-const registerFullName = document.getElementById("registerFullName");
-const registerEmail = document.getElementById("registerEmail");
-const registerPassword = document.getElementById("registerPassword");
-const registerConfirmPassword = document.getElementById("registerConfirmPassword");
-const registerTerms = document.getElementById("registerTerms");
-const registerSubmitBtn = document.getElementById("registerSubmitBtn");
-const registrationStatus = document.getElementById("registrationStatus");
-const backToLoginLink = document.getElementById("backToLoginLink");
-const passwordRequirement = document.getElementById("passwordRequirement");
-
 
 // ============================================================
-// REGISTRATION STATUS MESSAGE
+// STUDENTS HEADERS
 // ============================================================
 
-function showRegistrationStatus(message, type) {
+function getStudentsHeaders_() {
 
-    if (!registrationStatus) return;
+  return [
+    "Student_ID",
+    "Full_Name",
+    "Email",
+    "Password",
+    "Join_Date",
+    "Status",
+    "XP",
+    "Level",
+    "Badge",
+    "Current_Course",
+    "Current_Lesson",
+    "Last_Login"
+  ];
+}
 
-    registrationStatus.textContent = message;
-    registrationStatus.style.display = "block";
 
-    if (type === "success") {
+// ============================================================
+// FIND HEADER COLUMN
+// ============================================================
 
-        registrationStatus.style.background = "#dcfce7";
-        registrationStatus.style.color = "#166534";
-        registrationStatus.style.border = "1px solid #86efac";
+function getColumnIndex_(headers, headerName) {
 
-    } else if (type === "error") {
+  const index = headers.indexOf(headerName);
 
-        registrationStatus.style.background = "#fee2e2";
-        registrationStatus.style.color = "#991b1b";
-        registrationStatus.style.border = "1px solid #fca5a5";
+  if (index === -1) {
+    throw new Error(
+      "Required column not found: " + headerName
+    );
+  }
 
-    } else if (type === "warning") {
+  return index;
+}
 
-        registrationStatus.style.background = "#fef3c7";
-        registrationStatus.style.color = "#92400e";
-        registrationStatus.style.border = "1px solid #fcd34d";
 
-    } else {
+// ============================================================
+// NORMALIZE EMAIL
+// ============================================================
 
-        registrationStatus.style.background = "#dbeafe";
-        registrationStatus.style.color = "#1e40af";
-        registrationStatus.style.border = "1px solid #93c5fd";
+function normalizeEmail_(email) {
+
+  return String(email || "")
+    .trim()
+    .toLowerCase();
+}
+
+
+// ============================================================
+// PASSWORD HASH
+// ============================================================
+
+function hashPassword_(password) {
+
+  const value = String(password || "");
+
+  const bytes = Utilities.computeDigest(
+    Utilities.DigestAlgorithm.SHA_256,
+    value,
+    Utilities.Charset.UTF_8
+  );
+
+  return bytes
+    .map(function(byte) {
+
+      const v = byte < 0 ? byte + 256 : byte;
+
+      return ("0" + v.toString(16)).slice(-2);
+
+    })
+    .join("");
+}
+
+
+// ============================================================
+// GENERATE STUDENT ID
+// ============================================================
+
+function generateStudentId_(sheet, studentIdColumn) {
+
+  const lastRow = sheet.getLastRow();
+
+  if (lastRow < 2) {
+    return "ST001";
+  }
+
+  const values = sheet
+    .getRange(
+      2,
+      studentIdColumn,
+      lastRow - 1,
+      1
+    )
+    .getValues();
+
+  let highestNumber = 0;
+
+  values.forEach(function(row) {
+
+    const id = String(row[0] || "").trim();
+
+    const match = id.match(/^ST(\d+)$/i);
+
+    if (match) {
+
+      const number = parseInt(
+        match[1],
+        10
+      );
+
+      if (number > highestNumber) {
+        highestNumber = number;
+      }
     }
+  });
+
+  return "ST" + String(
+    highestNumber + 1
+  ).padStart(3, "0");
 }
 
 
 // ============================================================
-// CLEAR REGISTRATION STATUS
+// FIND STUDENT BY EMAIL
 // ============================================================
 
-function clearRegistrationStatus() {
+function findStudentByEmail_(email) {
 
-    if (!registrationStatus) return;
+  const sheet = getStudentsSheet_();
 
-    registrationStatus.textContent = "";
-    registrationStatus.style.display = "none";
+  const data = sheet.getDataRange().getValues();
+
+  if (data.length < 2) {
+    return null;
+  }
+
+  const headers = data[0];
+
+  const emailColumn =
+    getColumnIndex_(headers, "Email");
+
+  const normalizedEmail =
+    normalizeEmail_(email);
+
+  for (let i = 1; i < data.length; i++) {
+
+    const rowEmail =
+      normalizeEmail_(data[i][emailColumn]);
+
+    if (rowEmail === normalizedEmail) {
+
+      return {
+        rowNumber: i + 1,
+        row: data[i],
+        headers: headers
+      };
+    }
+  }
+
+  return null;
 }
 
 
 // ============================================================
-// PASSWORD VALIDATION
+// REGISTER STUDENT
 // ============================================================
 
-function validateRegistrationPassword(password) {
+function registerStudent(formData) {
 
-    if (!password) {
+  try {
 
-        return {
-            valid: false,
-            message: "Password is required."
-        };
+    if (!formData) {
 
+      return {
+        success: false,
+        message: "Registration data is required."
+      };
     }
 
-    if (password.length < 8) {
 
-        return {
-            valid: false,
-            message: "Password must contain at least 8 characters."
-        };
+    const fullName =
+      String(formData.fullName || "").trim();
 
+    const email =
+      normalizeEmail_(formData.email);
+
+    const password =
+      String(formData.password || "");
+
+    const confirmPassword =
+      String(formData.confirmPassword || "");
+
+
+    // --------------------------------------------------------
+    // NAME VALIDATION
+    // --------------------------------------------------------
+
+    if (!fullName) {
+
+      return {
+        success: false,
+        message: "Full name is required."
+      };
     }
 
-    return {
-        valid: true,
-        message: "Password is valid."
-    };
-}
+
+    if (fullName.length < 2) {
+
+      return {
+        success: false,
+        message: "Please enter a valid full name."
+      };
+    }
 
 
-// ============================================================
-// EMAIL VALIDATION
-// ============================================================
-
-function validateRegistrationEmail(email) {
+    // --------------------------------------------------------
+    // EMAIL VALIDATION
+    // --------------------------------------------------------
 
     if (!email) {
 
-        return {
-            valid: false,
-            message: "Email address is required."
-        };
-
+      return {
+        success: false,
+        message: "Email address is required."
+      };
     }
 
+
     const emailPattern =
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailPattern.test(email)) {
 
-        return {
-            valid: false,
-            message: "Please enter a valid email address."
-        };
-
+      return {
+        success: false,
+        message: "Please enter a valid email address."
+      };
     }
+
+
+    // --------------------------------------------------------
+    // PASSWORD VALIDATION
+    // --------------------------------------------------------
+
+    if (!password) {
+
+      return {
+        success: false,
+        message: "Password is required."
+      };
+    }
+
+
+    if (password.length < 8) {
+
+      return {
+        success: false,
+        message: "Password must contain at least 8 characters."
+      };
+    }
+
+
+    // --------------------------------------------------------
+    // CONFIRM PASSWORD
+    // --------------------------------------------------------
+
+    if (password !== confirmPassword) {
+
+      return {
+        success: false,
+        message: "Passwords do not match."
+      };
+    }
+
+
+    // --------------------------------------------------------
+    // DUPLICATE EMAIL CHECK
+    // --------------------------------------------------------
+
+    const existingStudent =
+      findStudentByEmail_(email);
+
+    if (existingStudent) {
+
+      return {
+        success: false,
+        message: "An account with this email already exists."
+      };
+    }
+
+
+    // --------------------------------------------------------
+    // SHEET
+    // --------------------------------------------------------
+
+    const sheet =
+      getStudentsSheet_();
+
+    const headers =
+      sheet
+        .getRange(
+          1,
+          1,
+          1,
+          sheet.getLastColumn()
+        )
+        .getValues()[0];
+
+
+    // --------------------------------------------------------
+    // REQUIRED COLUMNS
+    // --------------------------------------------------------
+
+    const studentIdColumn =
+      getColumnIndex_(
+        headers,
+        "Student_ID"
+      ) + 1;
+
+    const fullNameColumn =
+      getColumnIndex_(
+        headers,
+        "Full_Name"
+      ) + 1;
+
+    const emailColumn =
+      getColumnIndex_(
+        headers,
+        "Email"
+      ) + 1;
+
+    const passwordColumn =
+      getColumnIndex_(
+        headers,
+        "Password"
+      ) + 1;
+
+    const joinDateColumn =
+      getColumnIndex_(
+        headers,
+        "Join_Date"
+      ) + 1;
+
+    const statusColumn =
+      getColumnIndex_(
+        headers,
+        "Status"
+      ) + 1;
+
+    const xpColumn =
+      getColumnIndex_(
+        headers,
+        "XP"
+      ) + 1;
+
+    const levelColumn =
+      getColumnIndex_(
+        headers,
+        "Level"
+      ) + 1;
+
+    const badgeColumn =
+      getColumnIndex_(
+        headers,
+        "Badge"
+      ) + 1;
+
+    const currentCourseColumn =
+      getColumnIndex_(
+        headers,
+        "Current_Course"
+      ) + 1;
+
+    const currentLessonColumn =
+      getColumnIndex_(
+        headers,
+        "Current_Lesson"
+      ) + 1;
+
+    const lastLoginColumn =
+      getColumnIndex_(
+        headers,
+        "Last_Login"
+      ) + 1;
+
+
+    // --------------------------------------------------------
+    // GENERATE STUDENT ID
+    // --------------------------------------------------------
+
+    const studentId =
+      generateStudentId_(
+        sheet,
+        studentIdColumn
+      );
+
+
+    // --------------------------------------------------------
+    // PASSWORD HASH
+    // --------------------------------------------------------
+
+    const passwordHash =
+      hashPassword_(password);
+
+
+    // --------------------------------------------------------
+    // NEW STUDENT ROW
+    // --------------------------------------------------------
+
+    const newRow =
+      new Array(headers.length).fill("");
+
+
+    newRow[studentIdColumn - 1] =
+      studentId;
+
+    newRow[fullNameColumn - 1] =
+      fullName;
+
+    newRow[emailColumn - 1] =
+      email;
+
+    newRow[passwordColumn - 1] =
+      passwordHash;
+
+    newRow[joinDateColumn - 1] =
+      new Date();
+
+    newRow[statusColumn - 1] =
+      "Active";
+
+    newRow[xpColumn - 1] =
+      0;
+
+    newRow[levelColumn - 1] =
+      1;
+
+    newRow[badgeColumn - 1] =
+      "Basic";
+
+    newRow[currentCourseColumn - 1] =
+      "";
+
+    newRow[currentLessonColumn - 1] =
+      0;
+
+    newRow[lastLoginColumn - 1] =
+      "";
+
+
+    // --------------------------------------------------------
+    // WRITE STUDENT
+    // --------------------------------------------------------
+
+    sheet.appendRow(newRow);
+
+
+    // --------------------------------------------------------
+    // SUCCESS
+    // --------------------------------------------------------
 
     return {
-        valid: true,
-        message: "Email is valid."
+
+      success: true,
+
+      message:
+        "Account created successfully.",
+
+      studentId:
+        studentId,
+
+      fullName:
+        fullName,
+
+      email:
+        email
+
     };
-}
 
 
-// ============================================================
-// FULL NAME VALIDATION
-// ============================================================
+  } catch (error) {
 
-function validateRegistrationName(name) {
-
-    if (!name) {
-
-        return {
-            valid: false,
-            message: "Full name is required."
-        };
-
-    }
-
-    if (name.length < 2) {
-
-        return {
-            valid: false,
-            message: "Please enter your full name."
-        };
-
-    }
+    console.error(
+      "Registration Error:",
+      error
+    );
 
     return {
-        valid: true,
-        message: "Name is valid."
+
+      success: false,
+
+      message:
+        error.message ||
+        "Registration failed."
+
     };
+  }
 }
 
 
 // ============================================================
-// PASSWORD REQUIREMENT DISPLAY
+// LOGIN STUDENT
 // ============================================================
 
-if (registerPassword) {
+function loginStudent(email, password) {
 
-    registerPassword.addEventListener("input", function () {
+  try {
 
-        const password = this.value;
+    const normalizedEmail =
+      normalizeEmail_(email);
 
-        if (!passwordRequirement) return;
+    const enteredPassword =
+      String(password || "");
 
-        if (!password) {
 
-            passwordRequirement.textContent =
-                "Password must contain at least 8 characters.";
+    // --------------------------------------------------------
+    // BASIC VALIDATION
+    // --------------------------------------------------------
 
-            passwordRequirement.style.color = "#777";
+    if (!normalizedEmail) {
 
-            return;
-        }
+      return {
+        success: false,
+        message: "Email address is required."
+      };
+    }
 
-        if (password.length < 8) {
 
-            passwordRequirement.textContent =
-                "⚠️ Password must contain at least 8 characters.";
+    if (!enteredPassword) {
 
-            passwordRequirement.style.color = "#92400e";
+      return {
+        success: false,
+        message: "Password is required."
+      };
+    }
 
-        } else {
 
-            passwordRequirement.textContent =
-                "✅ Password length is valid.";
+    // --------------------------------------------------------
+    // FIND STUDENT
+    // --------------------------------------------------------
 
-            passwordRequirement.style.color = "#166534";
-        }
-    });
-}
+    const student =
+      findStudentByEmail_(
+        normalizedEmail
+      );
+
+
+    if (!student) {
+
+      return {
+        success: false,
+        message: "Invalid email or password."
+      };
+    }
+
+
+    const headers =
+      student.headers;
+
+    const row =
+      student.row;
+
+
+    // --------------------------------------------------------
+    // GET COLUMNS
+    // --------------------------------------------------------
+
+    const passwordColumn =
+      getColumnIndex_(
+        headers,
+        "Password"
+      );
+
+    const statusColumn =
+      getColumnIndex_(
+        headers,
+        "Status"
+      );
+
+    const studentIdColumn =
+      getColumnIndex_(
+        headers,
+        "Student_ID"
+      );
+
+    const fullNameColumn =
+      getColumnIndex_(
+        headers,
+        "Full_Name"
+      );
+
+    const emailColumn =
+      getColumnIndex_(
+        headers,
+        "Email"
+      );
+
+
+    // --------------------------------------------------------
+    // STATUS CHECK
+    // --------------------------------------------------------
+
+    const status =
+      String(
+        row[statusColumn] || ""
+      ).trim();
+
+
+    if (
+      status &&
+      status.toLowerCase() !== "active"
+    ) {
+
+      return {
+
+        success: false,
+
+        message:
+          "Your account is not active. Please contact support."
+
+      };
+    }
+
+
+    // --------------------------------------------------------
+    // PASSWORD CHECK
+    // --------------------------------------------------------
+
+    const storedPassword =
+      String(
+        row[passwordColumn] || ""
+      );
+
+
+    const enteredPasswordHash =
+      hashPassword_(
+        enteredPassword
+      );
+
+
+    if (
+      storedPassword !==
+      enteredPasswordHash
+    ) {
+
+      return {
+
+        success: false,
+
+        message:
+          "Invalid email or password."
+
+      };
+    }
+
+
+    // --------------------------------------------------------
+    // UPDATE LAST LOGIN
+    // --------------------------------------------------------
+
+    const sheet =
+      getStudentsSheet_();
+
+    const lastLoginColumn =
+      getColumnIndex_(
+        headers,
+        "Last_Login"
+      ) + 1;
+
+
+    sheet
+      .getRange(
+        student.rowNumber,
+        lastLoginColumn
+      )
+      .setValue(new Date());
+
+
+    // --------------------------------------------------------
+    // LOGIN RESULT
+    // --------------------------------------------------------
+
+    return {
+
+      success: true,
+
+      message:
+        "Login successful.",
+
+      student: {
+
+        studentId:
+          row[studentIdColumn],
+
+        fullName:
+          row[fullNameColumn],
+
+        email:
+          row[emailColumn],
+
+        status:
+          status || "Active"
+
+      }
+
+    };
+
+
+  } catch (error) {
+
+    console.error(
+      "Login Error:",
+      error
+    );
+
+    return {
+
+      success: false,
+
+      message:
+        error.message ||
+        "Login failed."
+
+    };
+  }
+} 
+
+    // ============================================================
+// PART 12D — LOGIN + REGISTRATION BACKEND CONNECTION
+// ============================================================
+
+const loginForm = document.getElementById("loginForm");
+
+const loginEmail =
+    document.getElementById("loginEmail");
+
+const loginPassword =
+    document.getElementById("loginPassword");
+
+const loginSubmitBtn =
+    document.getElementById("loginSubmitBtn");
+
+const loginSection =
+    document.getElementById("loginSection");
+
+const registrationSection =
+    document.getElementById("registrationSection");
+
+const registerLink =
+    document.getElementById("registerLink");
+
+const backToLoginLink =
+    document.getElementById("backToLoginLink");
+
+const registrationForm =
+    document.getElementById("registrationForm");
+
+const registerSubmitBtn =
+    document.getElementById("registerSubmitBtn");
 
 
 // ============================================================
-// CONFIRM PASSWORD CHECK
+// SHOW REGISTRATION
 // ============================================================
 
-if (registerConfirmPassword) {
+if (registerLink) {
 
-    registerConfirmPassword.addEventListener("input", function () {
-
-        if (!registerPassword) return;
-
-        const password = registerPassword.value;
-        const confirmPassword = this.value;
-
-        if (!confirmPassword) {
-
-            this.style.borderColor = "";
-
-            return;
-        }
-
-        if (password !== confirmPassword) {
-
-            this.style.borderColor = "#ef4444";
-
-        } else {
-
-            this.style.borderColor = "#22c55e";
-        }
-    });
-}
-
-
-// ============================================================
-// REGISTRATION FORM SUBMIT
-// ============================================================
-
-if (registrationForm) {
-
-    registrationForm.addEventListener("submit", function (event) {
+    registerLink.addEventListener("click", function(event) {
 
         event.preventDefault();
 
-        clearRegistrationStatus();
-
-
-        // ----------------------------------------------------
-        // GET FORM VALUES
-        // ----------------------------------------------------
-
-        const fullName =
-            registerFullName
-                ? registerFullName.value.trim()
-                : "";
-
-        const email =
-            registerEmail
-                ? registerEmail.value.trim().toLowerCase()
-                : "";
-
-        const password =
-            registerPassword
-                ? registerPassword.value
-                : "";
-
-        const confirmPassword =
-            registerConfirmPassword
-                ? registerConfirmPassword.value
-                : "";
-
-        const termsAccepted =
-            registerTerms
-                ? registerTerms.checked
-                : false;
-
-
-        // ----------------------------------------------------
-        // VALIDATE NAME
-        // ----------------------------------------------------
-
-        const nameValidation =
-            validateRegistrationName(fullName);
-
-        if (!nameValidation.valid) {
-
-            showRegistrationStatus(
-                "⚠️ " + nameValidation.message,
-                "warning"
-            );
-
-            if (registerFullName) {
-                registerFullName.focus();
-            }
-
-            return;
+        if (loginSection) {
+            loginSection.style.display = "none";
         }
 
-
-        // ----------------------------------------------------
-        // VALIDATE EMAIL
-        // ----------------------------------------------------
-
-        const emailValidation =
-            validateRegistrationEmail(email);
-
-        if (!emailValidation.valid) {
-
-            showRegistrationStatus(
-                "⚠️ " + emailValidation.message,
-                "warning"
-            );
-
-            if (registerEmail) {
-                registerEmail.focus();
-            }
-
-            return;
+        if (registrationSection) {
+            registrationSection.style.display = "block";
         }
-
-
-        // ----------------------------------------------------
-        // VALIDATE PASSWORD
-        // ----------------------------------------------------
-
-        const passwordValidation =
-            validateRegistrationPassword(password);
-
-        if (!passwordValidation.valid) {
-
-            showRegistrationStatus(
-                "⚠️ " + passwordValidation.message,
-                "warning"
-            );
-
-            if (registerPassword) {
-                registerPassword.focus();
-            }
-
-            return;
-        }
-
-
-        // ----------------------------------------------------
-        // CONFIRM PASSWORD
-        // ----------------------------------------------------
-
-        if (password !== confirmPassword) {
-
-            showRegistrationStatus(
-                "⚠️ Password and Confirm Password do not match.",
-                "warning"
-            );
-
-            if (registerConfirmPassword) {
-                registerConfirmPassword.focus();
-            }
-
-            return;
-        }
-
-
-        // ----------------------------------------------------
-        // TERMS CHECK
-        // ----------------------------------------------------
-
-        if (!termsAccepted) {
-
-            showRegistrationStatus(
-                "⚠️ Please accept the Terms and Conditions.",
-                "warning"
-            );
-
-            if (registerTerms) {
-                registerTerms.focus();
-            }
-
-            return;
-        }
-
-
-        // ----------------------------------------------------
-        // DISABLE BUTTON
-        // ----------------------------------------------------
-
-        if (registerSubmitBtn) {
-
-            registerSubmitBtn.disabled = true;
-
-            registerSubmitBtn.textContent =
-                "Creating Account...";
-
-            registerSubmitBtn.style.opacity = "0.7";
-            registerSubmitBtn.style.cursor = "wait";
-        }
-
-
-        // ----------------------------------------------------
-        // FRONTEND REGISTRATION DEMO
-        // ----------------------------------------------------
-
-        setTimeout(function () {
-
-            if (registerSubmitBtn) {
-
-                registerSubmitBtn.disabled = false;
-
-                registerSubmitBtn.textContent =
-                    "Create Account";
-
-                registerSubmitBtn.style.opacity = "1";
-                registerSubmitBtn.style.cursor = "pointer";
-            }
-
-
-            showRegistrationStatus(
-                "✅ Registration information is valid. Backend connection is ready for the next step.",
-                "success"
-            );
-
-            showToast(
-                "✅ Registration form validated successfully.",
-                "success"
-            );
-
-
-        }, 800);
 
     });
+
 }
 
 
@@ -803,63 +1170,415 @@ if (registrationForm) {
 
 if (backToLoginLink) {
 
-    backToLoginLink.addEventListener("click", function (event) {
+    backToLoginLink.addEventListener("click", function(event) {
 
         event.preventDefault();
 
-        clearRegistrationStatus();
-
-        if (typeof navigateTo === "function") {
-
-            navigateTo("page12");
-
-        } else {
-
-            console.warn(
-                "navigateTo() function is not available."
-            );
+        if (registrationSection) {
+            registrationSection.style.display = "none";
         }
+
+        if (loginSection) {
+            loginSection.style.display = "block";
+        }
+
     });
+
 }
 
 
 // ============================================================
-// REGISTER LINK FROM LOGIN PAGE
+// LOGIN
 // ============================================================
 
-if (typeof document !== "undefined") {
+if (loginForm) {
 
-    const registerLink =
-        document.getElementById("registerLink");
+    loginForm.addEventListener("submit", function(event) {
 
-    if (registerLink) {
+        event.preventDefault();
 
-        registerLink.addEventListener("click", function (event) {
 
-            event.preventDefault();
+        const email =
+            loginEmail
+                ? loginEmail.value.trim()
+                : "";
 
-            if (typeof navigateTo === "function") {
+        const password =
+            loginPassword
+                ? loginPassword.value
+                : "";
 
-                navigateTo("page13");
 
-            } else {
+        if (!email || !password) {
 
-                console.warn(
-                    "navigateTo() function is not available."
+            showToast(
+                "⚠️ Please enter Email and Password.",
+                "warning"
+            );
+
+            return;
+        }
+
+
+        if (loginSubmitBtn) {
+
+            loginSubmitBtn.disabled = true;
+
+            loginSubmitBtn.textContent =
+                "Signing In...";
+
+            loginSubmitBtn.style.opacity =
+                "0.7";
+
+        }
+
+
+        google.script.run
+
+            .withSuccessHandler(function(result) {
+
+                if (loginSubmitBtn) {
+
+                    loginSubmitBtn.disabled =
+                        false;
+
+                    loginSubmitBtn.textContent =
+                        "Sign In";
+
+                    loginSubmitBtn.style.opacity =
+                        "1";
+                }
+
+
+                if (!result || !result.success) {
+
+                    showToast(
+                        "❌ " +
+                        (
+                            result?.message ||
+                            "Login failed."
+                        ),
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                showToast(
+                    "✅ Welcome, " +
+                    result.student.fullName +
+                    "!",
+                    "success"
                 );
-            }
-        });
-    }
+
+
+                console.log(
+                    "Logged in student:",
+                    result.student
+                );
+
+
+                // Future Session Engine connection
+                window.ScaleFlowCurrentStudent =
+                    result.student;
+
+
+                // Move to Home
+                if (
+                    typeof navigateTo ===
+                    "function"
+                ) {
+
+                    navigateTo("page1");
+                }
+
+            })
+
+            .withFailureHandler(function(error) {
+
+                if (loginSubmitBtn) {
+
+                    loginSubmitBtn.disabled =
+                        false;
+
+                    loginSubmitBtn.textContent =
+                        "Sign In";
+
+                    loginSubmitBtn.style.opacity =
+                        "1";
+                }
+
+
+                console.error(
+                    "Login backend error:",
+                    error
+                );
+
+
+                showToast(
+                    "❌ Login system error.",
+                    "error"
+                );
+
+            })
+
+            .loginStudent(
+                email,
+                password
+            );
+
+    });
+
 }
 
 
 // ============================================================
-// PART 12B COMPLETE
+// REGISTRATION
+// ============================================================
+
+if (registrationForm) {
+
+    registrationForm.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+
+        const fullName =
+            document.getElementById(
+                "registerFullName"
+            )?.value.trim() || "";
+
+
+        const email =
+            document.getElementById(
+                "registerEmail"
+            )?.value.trim() || "";
+
+
+        const password =
+            document.getElementById(
+                "registerPassword"
+            )?.value || "";
+
+
+        const confirmPassword =
+            document.getElementById(
+                "registerConfirmPassword"
+            )?.value || "";
+
+
+        const terms =
+            document.getElementById(
+                "registerTerms"
+            );
+
+
+        if (!fullName) {
+
+            showToast(
+                "⚠️ Please enter your full name.",
+                "warning"
+            );
+
+            return;
+        }
+
+
+        if (!email) {
+
+            showToast(
+                "⚠️ Please enter your email.",
+                "warning"
+            );
+
+            return;
+        }
+
+
+        if (password.length < 8) {
+
+            showToast(
+                "⚠️ Password must contain at least 8 characters.",
+                "warning"
+            );
+
+            return;
+        }
+
+
+        if (password !== confirmPassword) {
+
+            showToast(
+                "⚠️ Passwords do not match.",
+                "warning"
+            );
+
+            return;
+        }
+
+
+        if (!terms || !terms.checked) {
+
+            showToast(
+                "⚠️ Please accept the Terms and Conditions.",
+                "warning"
+            );
+
+            return;
+        }
+
+
+        if (registerSubmitBtn) {
+
+            registerSubmitBtn.disabled =
+                true;
+
+            registerSubmitBtn.textContent =
+                "Creating Account...";
+
+            registerSubmitBtn.style.opacity =
+                "0.7";
+
+        }
+
+
+        google.script.run
+
+            .withSuccessHandler(function(result) {
+
+                if (registerSubmitBtn) {
+
+                    registerSubmitBtn.disabled =
+                        false;
+
+                    registerSubmitBtn.textContent =
+                        "Create Account";
+
+                    registerSubmitBtn.style.opacity =
+                        "1";
+                }
+
+
+                if (!result || !result.success) {
+
+                    showToast(
+                        "❌ " +
+                        (
+                            result?.message ||
+                            "Registration failed."
+                        ),
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                showToast(
+                    "🎉 Account created successfully!",
+                    "success"
+                );
+
+
+                console.log(
+                    "New Student:",
+                    result
+                );
+
+
+                // Clear registration form
+
+                registrationForm.reset();
+
+
+                // Return to Login
+
+                if (registrationSection) {
+
+                    registrationSection.style.display =
+                        "none";
+                }
+
+
+                if (loginSection) {
+
+                    loginSection.style.display =
+                        "block";
+                }
+
+
+                // Put registered email
+                // into login email field
+
+                if (loginEmail) {
+
+                    loginEmail.value =
+                        result.email;
+                }
+
+            })
+
+            .withFailureHandler(function(error) {
+
+                if (registerSubmitBtn) {
+
+                    registerSubmitBtn.disabled =
+                        false;
+
+                    registerSubmitBtn.textContent =
+                        "Create Account";
+
+                    registerSubmitBtn.style.opacity =
+                        "1";
+                }
+
+
+                console.error(
+                    "Registration backend error:",
+                    error
+                );
+
+
+                showToast(
+                    "❌ Registration system error.",
+                    "error"
+                );
+
+            })
+
+            .registerStudent({
+
+                fullName:
+                    fullName,
+
+                email:
+                    email,
+
+                password:
+                    password,
+
+                confirmPassword:
+                    confirmPassword
+
+            });
+
+    });
+
+}
+
+
+// ============================================================
+// PART 12D COMPLETE
 // ============================================================
 
 console.log(
-    "✅ Part 12B — Student Registration Frontend initialized successfully."
+    "✅ Part 12D — Login & Registration backend connection ready."
 );
+
+
+
+
 
 // ============================================================
 // PART 13 — QUICK ACTIONS
