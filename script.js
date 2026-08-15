@@ -351,7 +351,18 @@ if (continueProgress) {
     updateContinueLearningProgress(65);
 }
 
+    
+// ============================================================
+// PART 12 — DASHBOARD STATS & METRICS
+// ============================================================
 
+function updateDashboardStats() {
+const statElements = document.querySelectorAll(".stat-box strong, .dashboard-box span");
+statElements.forEach(el => {
+// Safe update placeholder
+});
+}
+    
 
  // ============================================================
 // PART 12C — SCALEFLOW LOGIN & REGISTRATION BACKEND
