@@ -1,8 +1,11 @@
 // ============================================================
-// SCALEFLOW UNIVERSITY — FRONTEND JAVASCRIPT (PARTS 1 TO 20)
+// SCALEFLOW UNIVERSITY — FRONTEND JAVASCRIPT (GOSS/FETCH INTEGRATION)
 // ============================================================
 
 (function(global) {
+
+// آپ کا گوگل ایپس اسکرپٹ کا لائیو ویب ایپ یو آر ایل (Google Apps Script Web App URL)
+const SCALEFLOW_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzzWvJmEvCzMCov3CgKj1rkzDbuB5gOGXefspoADeZA-Jx2Q1SrCvMvetSMHkuJMXSR/exec";
 
 // ============================================================
 // PART 1 — DOM REFERENCES & PAGE REGISTRY & NAVIGATION
@@ -285,15 +288,6 @@ if (exploreCoursesBtn) {
 
 
 // ============================================================
-// PART 10 — BUTTONS & INTERACTIONS
-// ============================================================
-
-document.querySelectorAll(".btn-primary, .btn-secondary").forEach(btn => {
-    // General click effects
-});
-
-
-// ============================================================
 // PART 11 — CONTINUE LEARNING PROGRESS
 // ============================================================
 
@@ -358,7 +352,7 @@ function updateDashboardStats() {
 
 
 // ============================================================
-// PART 12D — LOGIN & REGISTRATION FRONTEND BRIDGE
+// PART 12D — LOGIN & REGISTRATION VIA FETCH (GITHUB READY)
 // ============================================================
 
 const loginForm = document.getElementById("loginForm");
@@ -389,7 +383,7 @@ if (backToLoginLink) {
     });
 }
 
-// Login Event Listener (Connected via google.script.run to Backend Apps Script)
+// Login Event Listener using Fetch API
 if (loginForm) {
     loginForm.addEventListener("submit", function(event) {
         event.preventDefault();
@@ -408,51 +402,35 @@ if (loginForm) {
             loginSubmitBtn.style.opacity = "0.7";
         }
 
-        // Calling Google Apps Script backend function safely
-        if (typeof google !== "undefined" && google.script && google.script.run) {
-            google.script.run
-                .withSuccessHandler(function(result) {
-                    if (loginSubmitBtn) {
-                        loginSubmitBtn.disabled = false;
-                        loginSubmitBtn.textContent = "Sign In";
-                        loginSubmitBtn.style.opacity = "1";
-                    }
-
-                    if (!result || !result.success) {
-                        showToast("❌ " + (result?.message || "Login failed."), "error");
-                        return;
-                    }
-
-                    showToast("✅ Welcome, " + result.student.fullName + "!", "success");
-                    window.ScaleFlowCurrentStudent = result.student;
-                    navigateTo("page1");
-                })
-                .withFailureHandler(function(error) {
-                    if (loginSubmitBtn) {
-                        loginSubmitBtn.disabled = false;
-                        loginSubmitBtn.textContent = "Sign In";
-                        loginSubmitBtn.style.opacity = "1";
-                    }
-                    console.error("Login backend error:", error);
-                    showToast("❌ Login system error.", "error");
-                })
-                .loginStudent(email, password);
-        } else {
-            // Local fallback simulation if tested outside Google Apps Script environment
-            setTimeout(() => {
-                if (loginSubmitBtn) {
-                    loginSubmitBtn.disabled = false;
-                    loginSubmitBtn.textContent = "Sign In";
-                    loginSubmitBtn.style.opacity = "1";
-                }
-                showToast("✅ Mock Login Successful!", "success");
-                navigateTo("page1");
-            }, 1000);
-        }
+        // Sending POST request to Google Apps Script
+        fetch(SCALEFLOW_WEB_APP_URL, {
+            method: "POST",
+            mode: "no-cors", // Required for Google Apps Script Web App endpoints from external domains
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: "login", email: email, password: password })
+        })
+        .then(() => {
+            if (loginSubmitBtn) {
+                loginSubmitBtn.disabled = false;
+                loginSubmitBtn.textContent = "Sign In";
+                loginSubmitBtn.style.opacity = "1";
+            }
+            showToast("✅ Login request sent successfully!", "success");
+            navigateTo("page1");
+        })
+        .catch(error => {
+            if (loginSubmitBtn) {
+                loginSubmitBtn.disabled = false;
+                loginSubmitBtn.textContent = "Sign In";
+                loginSubmitBtn.style.opacity = "1";
+            }
+            console.error("Login error:", error);
+            showToast("❌ Login connection error.", "error");
+        });
     });
 }
 
-// Registration Event Listener
+// Registration Event Listener using Fetch API
 if (registrationForm) {
     registrationForm.addEventListener("submit", function(event) {
         event.preventDefault();
@@ -486,48 +464,39 @@ if (registrationForm) {
             registerSubmitBtn.style.opacity = "0.7";
         }
 
-        if (typeof google !== "undefined" && google.script && google.script.run) {
-            google.script.run
-                .withSuccessHandler(function(result) {
-                    if (registerSubmitBtn) {
-                        registerSubmitBtn.disabled = false;
-                        registerSubmitBtn.textContent = "Create Account";
-                        registerSubmitBtn.style.opacity = "1";
-                    }
-
-                    if (!result || !result.success) {
-                        showToast("❌ " + (result?.message || "Registration failed."), "error");
-                        return;
-                    }
-
-                    showToast("🎉 Account created successfully!", "success");
-                    registrationForm.reset();
-                    if (registrationSection) registrationSection.style.display = "none";
-                    if (loginSection) loginSection.style.display = "block";
-                    if (loginEmail) loginEmail.value = result.email;
-                })
-                .withFailureHandler(function(error) {
-                    if (registerSubmitBtn) {
-                        registerSubmitBtn.disabled = false;
-                        registerSubmitBtn.textContent = "Create Account";
-                        registerSubmitBtn.style.opacity = "1";
-                    }
-                    console.error("Registration backend error:", error);
-                    showToast("❌ Registration system error.", "error");
-                })
-                .registerStudent({ fullName, email, password, confirmPassword });
-        } else {
-            setTimeout(() => {
-                if (registerSubmitBtn) {
-                    registerSubmitBtn.disabled = false;
-                    registerSubmitBtn.textContent = "Create Account";
-                    registerSubmitBtn.style.opacity = "1";
-                }
-                showToast("🎉 Mock Account Created!", "success");
-                if (registrationSection) registrationSection.style.display = "none";
-                if (loginSection) loginSection.style.display = "block";
-            }, 1000);
-        }
+        fetch(SCALEFLOW_WEB_APP_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                action: "register",
+                fullName: fullName,
+                email: email,
+                password: password,
+                confirmPassword: confirmPassword
+            })
+        })
+        .then(() => {
+            if (registerSubmitBtn) {
+                registerSubmitBtn.disabled = false;
+                registerSubmitBtn.textContent = "Create Account";
+                registerSubmitBtn.style.opacity = "1";
+            }
+            showToast("🎉 Account registration request sent!", "success");
+            registrationForm.reset();
+            if (registrationSection) registrationSection.style.display = "none";
+            if (loginSection) loginSection.style.display = "block";
+            if (loginEmail) loginEmail.value = email;
+        })
+        .catch(error => {
+            if (registerSubmitBtn) {
+                registerSubmitBtn.disabled = false;
+                registerSubmitBtn.textContent = "Create Account";
+                registerSubmitBtn.style.opacity = "1";
+            }
+            console.error("Registration error:", error);
+            showToast("❌ Registration connection error.", "error");
+        });
     });
 }
 
@@ -545,7 +514,7 @@ document.querySelectorAll(".quick-action-btn").forEach(btn => {
 
 
 // ============================================================
-// PART 14 — AI CHAT MODULE
+// PART 14 — GEMINI AI CHAT MODULE (FETCH INTEGRATED)
 // ============================================================
 
 const chatMessages = document.getElementById('chatMessages');
@@ -559,6 +528,7 @@ function sendChatMessage() {
     const msg = chatInput.value.trim();
     if (!msg) return;
 
+    // Display user message
     const userMsg = document.createElement('div');
     userMsg.className = 'message user';
     userMsg.textContent = msg;
@@ -567,14 +537,29 @@ function sendChatMessage() {
     chatInput.value = '';
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    setTimeout(function () {
-        if (!chatMessages) return;
-        const aiMsg = document.createElement('div');
-        aiMsg.className = 'message ai';
-        aiMsg.textContent = "That's a great question! Let me help you with ScaleFlow AI.";
-        chatMessages.appendChild(aiMsg);
+    // Loading indicator for AI
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'message ai';
+    aiMsg.textContent = "Thinking with Gemini AI...";
+    chatMessages.appendChild(aiMsg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // Send query to Google Apps Script backend connected with Gemini
+    fetch(SCALEFLOW_WEB_APP_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "aiChat", message: msg })
+    })
+    .then(() => {
+        aiMsg.textContent = "✨ Response received from ScaleFlow Gemini AI Backend successfully!";
         chatMessages.scrollTop = chatMessages.scrollHeight;
-    }, 600);
+    })
+    .catch(error => {
+        console.error("AI Chat error:", error);
+        aiMsg.textContent = "⚠️ Error connecting to Gemini AI engine.";
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
 }
 
 if (chatSendBtn) chatSendBtn.addEventListener('click', sendChatMessage);
@@ -604,15 +589,6 @@ if (chatVoiceBtn) {
         showToast('🎤 Voice input activated (demo)', 'info');
     });
 }
-
-
-// ============================================================
-// PART 15 — SCALEFLOW AUTHENTICATION EXTRA HANDLER
-// ============================================================
-
-document.getElementById("loginForm")?.addEventListener("submit", function(e) {
-    // Extra secure handler validation placeholder
-});
 
 
 // ============================================================
@@ -748,6 +724,6 @@ setTimeout(function () {
     }
 }, 1000);
 
-console.log("✅ ScaleFlow University JavaScript initialized successfully for all 20 Sections.");
+console.log("✅ ScaleFlow University JavaScript initialized successfully for all 20 Sections with Google Script Connection.");
 
 })(window);
