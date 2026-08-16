@@ -1,8 +1,12 @@
 // ============================================================
-// PART 1 — DOM REFERENCES & PAGE REGISTRY & NAVIGATION
+// SCALEFLOW UNIVERSITY — FRONTEND JAVASCRIPT (PARTS 1 TO 20)
 // ============================================================
 
 (function(global) {
+
+// ============================================================
+// PART 1 — DOM REFERENCES & PAGE REGISTRY & NAVIGATION
+// ============================================================
 
 const loader = document.getElementById("loader");
 const toastContainer = document.getElementById("toast-container");
@@ -26,11 +30,6 @@ const currentYear = document.getElementById("currentYear");
 
 const globalSearchInput = document.getElementById("globalSearchInput");
 const navLinks = document.querySelectorAll(".sidebar-menu a[data-page]");
-
-
-// ============================================================
-// SCALEFLOW PAGE REGISTRY & NAVIGATION
-// ============================================================
 
 const pageSections = {};
 
@@ -79,13 +78,8 @@ navLinks.forEach(link => {
     });
 });
 
-
-// ============================================================
-// SCALEFLOW BASIC STATUS
-// ============================================================
-
 console.log("✅ ScaleFlow Part 1 loaded successfully.");
-console.log("📄 Available Pages:", Object.keys(pageSections));
+
 
 // ============================================================
 // PART 2 — TOAST NOTIFICATION SYSTEM
@@ -118,6 +112,7 @@ function showToast(message, type = "info") {
     }
 }
 
+
 // ============================================================
 // PART 3 — LOADER & PAGE READY HANDLER
 // ============================================================
@@ -125,9 +120,7 @@ function showToast(message, type = "info") {
 function hideLoader() {
     try {
         const loaderElement = document.getElementById("loader");
-        if (!loaderElement) {
-            return;
-        }
+        if (!loaderElement) return;
 
         if (loaderElement.classList.contains("hidden") || loaderElement.style.display === "none") {
             return;
@@ -296,7 +289,7 @@ if (exploreCoursesBtn) {
 // ============================================================
 
 document.querySelectorAll(".btn-primary, .btn-secondary").forEach(btn => {
-    // General click effects if needed
+    // General click effects
 });
 
 
@@ -351,1244 +344,192 @@ if (continueProgress) {
     updateContinueLearningProgress(65);
 }
 
-    
+
 // ============================================================
 // PART 12 — DASHBOARD STATS & METRICS
 // ============================================================
 
 function updateDashboardStats() {
-const statElements = document.querySelectorAll(".stat-box strong, .dashboard-box span");
-statElements.forEach(el => {
-// Safe update placeholder
-});
-}
-    
-
- // ============================================================
-// PART 12C — SCALEFLOW LOGIN & REGISTRATION BACKEND
-// ============================================================
-
-
-// ============================================================
-// STUDENTS SHEET
-// ============================================================
-
-function getStudentsSheet_() {
-
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName("Students");
-
-  if (!sheet) {
-    throw new Error("Students sheet was not found.");
-  }
-
-  return sheet;
+    const statElements = document.querySelectorAll(".stat-box strong, .dashboard-box span");
+    statElements.forEach(el => {
+        // Safe update placeholder
+    });
 }
 
 
 // ============================================================
-// STUDENTS HEADERS
-// ============================================================
-
-function getStudentsHeaders_() {
-
-  return [
-    "Student_ID",
-    "Full_Name",
-    "Email",
-    "Password",
-    "Join_Date",
-    "Status",
-    "XP",
-    "Level",
-    "Badge",
-    "Current_Course",
-    "Current_Lesson",
-    "Last_Login"
-  ];
-}
-
-
-// ============================================================
-// FIND HEADER COLUMN
-// ============================================================
-
-function getColumnIndex_(headers, headerName) {
-
-  const index = headers.indexOf(headerName);
-
-  if (index === -1) {
-    throw new Error(
-      "Required column not found: " + headerName
-    );
-  }
-
-  return index;
-}
-
-
-// ============================================================
-// NORMALIZE EMAIL
-// ============================================================
-
-function normalizeEmail_(email) {
-
-  return String(email || "")
-    .trim()
-    .toLowerCase();
-}
-
-
-// ============================================================
-// PASSWORD HASH
-// ============================================================
-
-function hashPassword_(password) {
-
-  const value = String(password || "");
-
-  const bytes = Utilities.computeDigest(
-    Utilities.DigestAlgorithm.SHA_256,
-    value,
-    Utilities.Charset.UTF_8
-  );
-
-  return bytes
-    .map(function(byte) {
-
-      const v = byte < 0 ? byte + 256 : byte;
-
-      return ("0" + v.toString(16)).slice(-2);
-
-    })
-    .join("");
-}
-
-
-// ============================================================
-// GENERATE STUDENT ID
-// ============================================================
-
-function generateStudentId_(sheet, studentIdColumn) {
-
-  const lastRow = sheet.getLastRow();
-
-  if (lastRow < 2) {
-    return "ST001";
-  }
-
-  const values = sheet
-    .getRange(
-      2,
-      studentIdColumn,
-      lastRow - 1,
-      1
-    )
-    .getValues();
-
-  let highestNumber = 0;
-
-  values.forEach(function(row) {
-
-    const id = String(row[0] || "").trim();
-
-    const match = id.match(/^ST(\d+)$/i);
-
-    if (match) {
-
-      const number = parseInt(
-        match[1],
-        10
-      );
-
-      if (number > highestNumber) {
-        highestNumber = number;
-      }
-    }
-  });
-
-  return "ST" + String(
-    highestNumber + 1
-  ).padStart(3, "0");
-}
-
-
-// ============================================================
-// FIND STUDENT BY EMAIL
-// ============================================================
-
-function findStudentByEmail_(email) {
-
-  const sheet = getStudentsSheet_();
-
-  const data = sheet.getDataRange().getValues();
-
-  if (data.length < 2) {
-    return null;
-  }
-
-  const headers = data[0];
-
-  const emailColumn =
-    getColumnIndex_(headers, "Email");
-
-  const normalizedEmail =
-    normalizeEmail_(email);
-
-  for (let i = 1; i < data.length; i++) {
-
-    const rowEmail =
-      normalizeEmail_(data[i][emailColumn]);
-
-    if (rowEmail === normalizedEmail) {
-
-      return {
-        rowNumber: i + 1,
-        row: data[i],
-        headers: headers
-      };
-    }
-  }
-
-  return null;
-}
-
-
-// ============================================================
-// REGISTER STUDENT
-// ============================================================
-
-function registerStudent(formData) {
-
-  try {
-
-    if (!formData) {
-
-      return {
-        success: false,
-        message: "Registration data is required."
-      };
-    }
-
-
-    const fullName =
-      String(formData.fullName || "").trim();
-
-    const email =
-      normalizeEmail_(formData.email);
-
-    const password =
-      String(formData.password || "");
-
-    const confirmPassword =
-      String(formData.confirmPassword || "");
-
-
-    // --------------------------------------------------------
-    // NAME VALIDATION
-    // --------------------------------------------------------
-
-    if (!fullName) {
-
-      return {
-        success: false,
-        message: "Full name is required."
-      };
-    }
-
-
-    if (fullName.length < 2) {
-
-      return {
-        success: false,
-        message: "Please enter a valid full name."
-      };
-    }
-
-
-    // --------------------------------------------------------
-    // EMAIL VALIDATION
-    // --------------------------------------------------------
-
-    if (!email) {
-
-      return {
-        success: false,
-        message: "Email address is required."
-      };
-    }
-
-
-    const emailPattern =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailPattern.test(email)) {
-
-      return {
-        success: false,
-        message: "Please enter a valid email address."
-      };
-    }
-
-
-    // --------------------------------------------------------
-    // PASSWORD VALIDATION
-    // --------------------------------------------------------
-
-    if (!password) {
-
-      return {
-        success: false,
-        message: "Password is required."
-      };
-    }
-
-
-    if (password.length < 8) {
-
-      return {
-        success: false,
-        message: "Password must contain at least 8 characters."
-      };
-    }
-
-
-    // --------------------------------------------------------
-    // CONFIRM PASSWORD
-    // --------------------------------------------------------
-
-    if (password !== confirmPassword) {
-
-      return {
-        success: false,
-        message: "Passwords do not match."
-      };
-    }
-
-
-    // --------------------------------------------------------
-    // DUPLICATE EMAIL CHECK
-    // --------------------------------------------------------
-
-    const existingStudent =
-      findStudentByEmail_(email);
-
-    if (existingStudent) {
-
-      return {
-        success: false,
-        message: "An account with this email already exists."
-      };
-    }
-
-
-    // --------------------------------------------------------
-    // SHEET
-    // --------------------------------------------------------
-
-    const sheet =
-      getStudentsSheet_();
-
-    const headers =
-      sheet
-        .getRange(
-          1,
-          1,
-          1,
-          sheet.getLastColumn()
-        )
-        .getValues()[0];
-
-
-    // --------------------------------------------------------
-    // REQUIRED COLUMNS
-    // --------------------------------------------------------
-
-    const studentIdColumn =
-      getColumnIndex_(
-        headers,
-        "Student_ID"
-      ) + 1;
-
-    const fullNameColumn =
-      getColumnIndex_(
-        headers,
-        "Full_Name"
-      ) + 1;
-
-    const emailColumn =
-      getColumnIndex_(
-        headers,
-        "Email"
-      ) + 1;
-
-    const passwordColumn =
-      getColumnIndex_(
-        headers,
-        "Password"
-      ) + 1;
-
-    const joinDateColumn =
-      getColumnIndex_(
-        headers,
-        "Join_Date"
-      ) + 1;
-
-    const statusColumn =
-      getColumnIndex_(
-        headers,
-        "Status"
-      ) + 1;
-
-    const xpColumn =
-      getColumnIndex_(
-        headers,
-        "XP"
-      ) + 1;
-
-    const levelColumn =
-      getColumnIndex_(
-        headers,
-        "Level"
-      ) + 1;
-
-    const badgeColumn =
-      getColumnIndex_(
-        headers,
-        "Badge"
-      ) + 1;
-
-    const currentCourseColumn =
-      getColumnIndex_(
-        headers,
-        "Current_Course"
-      ) + 1;
-
-    const currentLessonColumn =
-      getColumnIndex_(
-        headers,
-        "Current_Lesson"
-      ) + 1;
-
-    const lastLoginColumn =
-      getColumnIndex_(
-        headers,
-        "Last_Login"
-      ) + 1;
-
-
-    // --------------------------------------------------------
-    // GENERATE STUDENT ID
-    // --------------------------------------------------------
-
-    const studentId =
-      generateStudentId_(
-        sheet,
-        studentIdColumn
-      );
-
-
-    // --------------------------------------------------------
-    // PASSWORD HASH
-    // --------------------------------------------------------
-
-    const passwordHash =
-      hashPassword_(password);
-
-
-    // --------------------------------------------------------
-    // NEW STUDENT ROW
-    // --------------------------------------------------------
-
-    const newRow =
-      new Array(headers.length).fill("");
-
-
-    newRow[studentIdColumn - 1] =
-      studentId;
-
-    newRow[fullNameColumn - 1] =
-      fullName;
-
-    newRow[emailColumn - 1] =
-      email;
-
-    newRow[passwordColumn - 1] =
-      passwordHash;
-
-    newRow[joinDateColumn - 1] =
-      new Date();
-
-    newRow[statusColumn - 1] =
-      "Active";
-
-    newRow[xpColumn - 1] =
-      0;
-
-    newRow[levelColumn - 1] =
-      1;
-
-    newRow[badgeColumn - 1] =
-      "Basic";
-
-    newRow[currentCourseColumn - 1] =
-      "";
-
-    newRow[currentLessonColumn - 1] =
-      0;
-
-    newRow[lastLoginColumn - 1] =
-      "";
-
-
-    // --------------------------------------------------------
-    // WRITE STUDENT
-    // --------------------------------------------------------
-
-    sheet.appendRow(newRow);
-
-
-    // --------------------------------------------------------
-    // SUCCESS
-    // --------------------------------------------------------
-
-    return {
-
-      success: true,
-
-      message:
-        "Account created successfully.",
-
-      studentId:
-        studentId,
-
-      fullName:
-        fullName,
-
-      email:
-        email
-
-    };
-
-
-  } catch (error) {
-
-    console.error(
-      "Registration Error:",
-      error
-    );
-
-    return {
-
-      success: false,
-
-      message:
-        error.message ||
-        "Registration failed."
-
-    };
-  }
-}
-
-
-// ============================================================
-// LOGIN STUDENT
-// ============================================================
-
-function loginStudent(email, password) {
-
-  try {
-
-    const normalizedEmail =
-      normalizeEmail_(email);
-
-    const enteredPassword =
-      String(password || "");
-
-
-    // --------------------------------------------------------
-    // BASIC VALIDATION
-    // --------------------------------------------------------
-
-    if (!normalizedEmail) {
-
-      return {
-        success: false,
-        message: "Email address is required."
-      };
-    }
-
-
-    if (!enteredPassword) {
-
-      return {
-        success: false,
-        message: "Password is required."
-      };
-    }
-
-
-    // --------------------------------------------------------
-    // FIND STUDENT
-    // --------------------------------------------------------
-
-    const student =
-      findStudentByEmail_(
-        normalizedEmail
-      );
-
-
-    if (!student) {
-
-      return {
-        success: false,
-        message: "Invalid email or password."
-      };
-    }
-
-
-    const headers =
-      student.headers;
-
-    const row =
-      student.row;
-
-
-    // --------------------------------------------------------
-    // GET COLUMNS
-    // --------------------------------------------------------
-
-    const passwordColumn =
-      getColumnIndex_(
-        headers,
-        "Password"
-      );
-
-    const statusColumn =
-      getColumnIndex_(
-        headers,
-        "Status"
-      );
-
-    const studentIdColumn =
-      getColumnIndex_(
-        headers,
-        "Student_ID"
-      );
-
-    const fullNameColumn =
-      getColumnIndex_(
-        headers,
-        "Full_Name"
-      );
-
-    const emailColumn =
-      getColumnIndex_(
-        headers,
-        "Email"
-      );
-
-
-    // --------------------------------------------------------
-    // STATUS CHECK
-    // --------------------------------------------------------
-
-    const status =
-      String(
-        row[statusColumn] || ""
-      ).trim();
-
-
-    if (
-      status &&
-      status.toLowerCase() !== "active"
-    ) {
-
-      return {
-
-        success: false,
-
-        message:
-          "Your account is not active. Please contact support."
-
-      };
-    }
-
-
-    // --------------------------------------------------------
-    // PASSWORD CHECK
-    // --------------------------------------------------------
-
-    const storedPassword =
-      String(
-        row[passwordColumn] || ""
-      );
-
-
-    const enteredPasswordHash =
-      hashPassword_(
-        enteredPassword
-      );
-
-
-    if (
-      storedPassword !==
-      enteredPasswordHash
-    ) {
-
-      return {
-
-        success: false,
-
-        message:
-          "Invalid email or password."
-
-      };
-    }
-
-
-    // --------------------------------------------------------
-    // UPDATE LAST LOGIN
-    // --------------------------------------------------------
-
-    const sheet =
-      getStudentsSheet_();
-
-    const lastLoginColumn =
-      getColumnIndex_(
-        headers,
-        "Last_Login"
-      ) + 1;
-
-
-    sheet
-      .getRange(
-        student.rowNumber,
-        lastLoginColumn
-      )
-      .setValue(new Date());
-
-
-    // --------------------------------------------------------
-    // LOGIN RESULT
-    // --------------------------------------------------------
-
-    return {
-
-      success: true,
-
-      message:
-        "Login successful.",
-
-      student: {
-
-        studentId:
-          row[studentIdColumn],
-
-        fullName:
-          row[fullNameColumn],
-
-        email:
-          row[emailColumn],
-
-        status:
-          status || "Active"
-
-      }
-
-    };
-
-
-  } catch (error) {
-
-    console.error(
-      "Login Error:",
-      error
-    );
-
-    return {
-
-      success: false,
-
-      message:
-        error.message ||
-        "Login failed."
-
-    };
-  }
-} 
-
-    // ============================================================
-// PART 12D — LOGIN + REGISTRATION BACKEND CONNECTION
+// PART 12D — LOGIN & REGISTRATION FRONTEND BRIDGE
 // ============================================================
 
 const loginForm = document.getElementById("loginForm");
+const loginEmail = document.getElementById("loginEmail");
+const loginPassword = document.getElementById("loginPassword");
+const loginSubmitBtn = document.getElementById("loginSubmitBtn");
 
-const loginEmail =
-    document.getElementById("loginEmail");
-
-const loginPassword =
-    document.getElementById("loginPassword");
-
-const loginSubmitBtn =
-    document.getElementById("loginSubmitBtn");
-
-const loginSection =
-    document.getElementById("loginSection");
-
-const registrationSection =
-    document.getElementById("registrationSection");
-
-const registerLink =
-    document.getElementById("registerLink");
-
-const backToLoginLink =
-    document.getElementById("backToLoginLink");
-
-const registrationForm =
-    document.getElementById("registrationForm");
-
-const registerSubmitBtn =
-    document.getElementById("registerSubmitBtn");
-
-
-// ============================================================
-// SHOW REGISTRATION
-// ============================================================
+const loginSection = document.getElementById("loginSection");
+const registrationSection = document.getElementById("registrationSection");
+const registerLink = document.getElementById("registerLink");
+const backToLoginLink = document.getElementById("backToLoginLink");
+const registrationForm = document.getElementById("registrationForm");
+const registerSubmitBtn = document.getElementById("registerSubmitBtn");
 
 if (registerLink) {
-
     registerLink.addEventListener("click", function(event) {
-
         event.preventDefault();
-
-        if (loginSection) {
-            loginSection.style.display = "none";
-        }
-
-        if (registrationSection) {
-            registrationSection.style.display = "block";
-        }
-
+        if (loginSection) loginSection.style.display = "none";
+        if (registrationSection) registrationSection.style.display = "block";
     });
-
 }
-
-
-// ============================================================
-// BACK TO LOGIN
-// ============================================================
 
 if (backToLoginLink) {
-
     backToLoginLink.addEventListener("click", function(event) {
-
         event.preventDefault();
-
-        if (registrationSection) {
-            registrationSection.style.display = "none";
-        }
-
-        if (loginSection) {
-            loginSection.style.display = "block";
-        }
-
+        if (registrationSection) registrationSection.style.display = "none";
+        if (loginSection) loginSection.style.display = "block";
     });
-
 }
 
-
-// ============================================================
-// LOGIN
-// ============================================================
-
+// Login Event Listener (Connected via google.script.run to Backend Apps Script)
 if (loginForm) {
-
     loginForm.addEventListener("submit", function(event) {
-
         event.preventDefault();
 
-
-        const email =
-            loginEmail
-                ? loginEmail.value.trim()
-                : "";
-
-        const password =
-            loginPassword
-                ? loginPassword.value
-                : "";
-
+        const email = loginEmail ? loginEmail.value.trim() : "";
+        const password = loginPassword ? loginPassword.value : "";
 
         if (!email || !password) {
-
-            showToast(
-                "⚠️ Please enter Email and Password.",
-                "warning"
-            );
-
+            showToast("⚠️ Please enter Email and Password.", "warning");
             return;
         }
-
 
         if (loginSubmitBtn) {
-
             loginSubmitBtn.disabled = true;
-
-            loginSubmitBtn.textContent =
-                "Signing In...";
-
-            loginSubmitBtn.style.opacity =
-                "0.7";
-
+            loginSubmitBtn.textContent = "Signing In...";
+            loginSubmitBtn.style.opacity = "0.7";
         }
 
+        // Calling Google Apps Script backend function safely
+        if (typeof google !== "undefined" && google.script && google.script.run) {
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    if (loginSubmitBtn) {
+                        loginSubmitBtn.disabled = false;
+                        loginSubmitBtn.textContent = "Sign In";
+                        loginSubmitBtn.style.opacity = "1";
+                    }
 
-        google.script.run
+                    if (!result || !result.success) {
+                        showToast("❌ " + (result?.message || "Login failed."), "error");
+                        return;
+                    }
 
-            .withSuccessHandler(function(result) {
-
-                if (loginSubmitBtn) {
-
-                    loginSubmitBtn.disabled =
-                        false;
-
-                    loginSubmitBtn.textContent =
-                        "Sign In";
-
-                    loginSubmitBtn.style.opacity =
-                        "1";
-                }
-
-
-                if (!result || !result.success) {
-
-                    showToast(
-                        "❌ " +
-                        (
-                            result?.message ||
-                            "Login failed."
-                        ),
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                showToast(
-                    "✅ Welcome, " +
-                    result.student.fullName +
-                    "!",
-                    "success"
-                );
-
-
-                console.log(
-                    "Logged in student:",
-                    result.student
-                );
-
-
-                // Future Session Engine connection
-                window.ScaleFlowCurrentStudent =
-                    result.student;
-
-
-                // Move to Home
-                if (
-                    typeof navigateTo ===
-                    "function"
-                ) {
-
+                    showToast("✅ Welcome, " + result.student.fullName + "!", "success");
+                    window.ScaleFlowCurrentStudent = result.student;
                     navigateTo("page1");
-                }
-
-            })
-
-            .withFailureHandler(function(error) {
-
+                })
+                .withFailureHandler(function(error) {
+                    if (loginSubmitBtn) {
+                        loginSubmitBtn.disabled = false;
+                        loginSubmitBtn.textContent = "Sign In";
+                        loginSubmitBtn.style.opacity = "1";
+                    }
+                    console.error("Login backend error:", error);
+                    showToast("❌ Login system error.", "error");
+                })
+                .loginStudent(email, password);
+        } else {
+            // Local fallback simulation if tested outside Google Apps Script environment
+            setTimeout(() => {
                 if (loginSubmitBtn) {
-
-                    loginSubmitBtn.disabled =
-                        false;
-
-                    loginSubmitBtn.textContent =
-                        "Sign In";
-
-                    loginSubmitBtn.style.opacity =
-                        "1";
+                    loginSubmitBtn.disabled = false;
+                    loginSubmitBtn.textContent = "Sign In";
+                    loginSubmitBtn.style.opacity = "1";
                 }
-
-
-                console.error(
-                    "Login backend error:",
-                    error
-                );
-
-
-                showToast(
-                    "❌ Login system error.",
-                    "error"
-                );
-
-            })
-
-            .loginStudent(
-                email,
-                password
-            );
-
+                showToast("✅ Mock Login Successful!", "success");
+                navigateTo("page1");
+            }, 1000);
+        }
     });
-
 }
 
-
-// ============================================================
-// REGISTRATION
-// ============================================================
-
+// Registration Event Listener
 if (registrationForm) {
-
     registrationForm.addEventListener("submit", function(event) {
-
         event.preventDefault();
 
+        const fullName = document.getElementById("registerFullName")?.value.trim() || "";
+        const email = document.getElementById("registerEmail")?.value.trim() || "";
+        const password = document.getElementById("registerPassword")?.value || "";
+        const confirmPassword = document.getElementById("registerConfirmPassword")?.value || "";
+        const terms = document.getElementById("registerTerms");
 
-        const fullName =
-            document.getElementById(
-                "registerFullName"
-            )?.value.trim() || "";
-
-
-        const email =
-            document.getElementById(
-                "registerEmail"
-            )?.value.trim() || "";
-
-
-        const password =
-            document.getElementById(
-                "registerPassword"
-            )?.value || "";
-
-
-        const confirmPassword =
-            document.getElementById(
-                "registerConfirmPassword"
-            )?.value || "";
-
-
-        const terms =
-            document.getElementById(
-                "registerTerms"
-            );
-
-
-        if (!fullName) {
-
-            showToast(
-                "⚠️ Please enter your full name.",
-                "warning"
-            );
-
+        if (!fullName || !email) {
+            showToast("⚠️ Please fill in all required fields.", "warning");
             return;
         }
-
-
-        if (!email) {
-
-            showToast(
-                "⚠️ Please enter your email.",
-                "warning"
-            );
-
-            return;
-        }
-
-
         if (password.length < 8) {
-
-            showToast(
-                "⚠️ Password must contain at least 8 characters.",
-                "warning"
-            );
-
+            showToast("⚠️ Password must contain at least 8 characters.", "warning");
             return;
         }
-
-
         if (password !== confirmPassword) {
-
-            showToast(
-                "⚠️ Passwords do not match.",
-                "warning"
-            );
-
+            showToast("⚠️ Passwords do not match.", "warning");
             return;
         }
-
-
         if (!terms || !terms.checked) {
-
-            showToast(
-                "⚠️ Please accept the Terms and Conditions.",
-                "warning"
-            );
-
+            showToast("⚠️ Please accept the Terms and Conditions.", "warning");
             return;
         }
-
 
         if (registerSubmitBtn) {
-
-            registerSubmitBtn.disabled =
-                true;
-
-            registerSubmitBtn.textContent =
-                "Creating Account...";
-
-            registerSubmitBtn.style.opacity =
-                "0.7";
-
+            registerSubmitBtn.disabled = true;
+            registerSubmitBtn.textContent = "Creating Account...";
+            registerSubmitBtn.style.opacity = "0.7";
         }
 
+        if (typeof google !== "undefined" && google.script && google.script.run) {
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    if (registerSubmitBtn) {
+                        registerSubmitBtn.disabled = false;
+                        registerSubmitBtn.textContent = "Create Account";
+                        registerSubmitBtn.style.opacity = "1";
+                    }
 
-        google.script.run
+                    if (!result || !result.success) {
+                        showToast("❌ " + (result?.message || "Registration failed."), "error");
+                        return;
+                    }
 
-            .withSuccessHandler(function(result) {
-
+                    showToast("🎉 Account created successfully!", "success");
+                    registrationForm.reset();
+                    if (registrationSection) registrationSection.style.display = "none";
+                    if (loginSection) loginSection.style.display = "block";
+                    if (loginEmail) loginEmail.value = result.email;
+                })
+                .withFailureHandler(function(error) {
+                    if (registerSubmitBtn) {
+                        registerSubmitBtn.disabled = false;
+                        registerSubmitBtn.textContent = "Create Account";
+                        registerSubmitBtn.style.opacity = "1";
+                    }
+                    console.error("Registration backend error:", error);
+                    showToast("❌ Registration system error.", "error");
+                })
+                .registerStudent({ fullName, email, password, confirmPassword });
+        } else {
+            setTimeout(() => {
                 if (registerSubmitBtn) {
-
-                    registerSubmitBtn.disabled =
-                        false;
-
-                    registerSubmitBtn.textContent =
-                        "Create Account";
-
-                    registerSubmitBtn.style.opacity =
-                        "1";
+                    registerSubmitBtn.disabled = false;
+                    registerSubmitBtn.textContent = "Create Account";
+                    registerSubmitBtn.style.opacity = "1";
                 }
-
-
-                if (!result || !result.success) {
-
-                    showToast(
-                        "❌ " +
-                        (
-                            result?.message ||
-                            "Registration failed."
-                        ),
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                showToast(
-                    "🎉 Account created successfully!",
-                    "success"
-                );
-
-
-                console.log(
-                    "New Student:",
-                    result
-                );
-
-
-                // Clear registration form
-
-                registrationForm.reset();
-
-
-                // Return to Login
-
-                if (registrationSection) {
-
-                    registrationSection.style.display =
-                        "none";
-                }
-
-
-                if (loginSection) {
-
-                    loginSection.style.display =
-                        "block";
-                }
-
-
-                // Put registered email
-                // into login email field
-
-                if (loginEmail) {
-
-                    loginEmail.value =
-                        result.email;
-                }
-
-            })
-
-            .withFailureHandler(function(error) {
-
-                if (registerSubmitBtn) {
-
-                    registerSubmitBtn.disabled =
-                        false;
-
-                    registerSubmitBtn.textContent =
-                        "Create Account";
-
-                    registerSubmitBtn.style.opacity =
-                        "1";
-                }
-
-
-                console.error(
-                    "Registration backend error:",
-                    error
-                );
-
-
-                showToast(
-                    "❌ Registration system error.",
-                    "error"
-                );
-
-            })
-
-            .registerStudent({
-
-                fullName:
-                    fullName,
-
-                email:
-                    email,
-
-                password:
-                    password,
-
-                confirmPassword:
-                    confirmPassword
-
-            });
-
+                showToast("🎉 Mock Account Created!", "success");
+                if (registrationSection) registrationSection.style.display = "none";
+                if (loginSection) loginSection.style.display = "block";
+            }, 1000);
+        }
     });
-
 }
-
-
-// ============================================================
-// PART 12D COMPLETE
-// ============================================================
-
-console.log(
-    "✅ Part 12D — Login & Registration backend connection ready."
-);
-
-
-
 
 
 // ============================================================
@@ -1666,21 +607,11 @@ if (chatVoiceBtn) {
 
 
 // ============================================================
-// PART 15 — SCALEFLOW AUTHENTICATION
+// PART 15 — SCALEFLOW AUTHENTICATION EXTRA HANDLER
 // ============================================================
 
 document.getElementById("loginForm")?.addEventListener("submit", function(e) {
-    e.preventDefault();
-    const emailInput = document.getElementById("loginEmail");
-    const passwordInput = document.getElementById("loginPassword");
-    const email = emailInput ? emailInput.value.trim() : "";
-    const password = passwordInput ? passwordInput.value.trim() : "";
-
-    if (!email || !password) {
-        showToast("⚠️ Please enter Email and Password", "warning");
-        return;
-    }
-    showToast("🔄 Login system ready.", "info");
+    // Extra secure handler validation placeholder
 });
 
 
