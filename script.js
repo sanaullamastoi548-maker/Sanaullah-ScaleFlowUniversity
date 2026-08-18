@@ -4,9 +4,12 @@
 
 (function(global) {
 
-// نیا درست گوگل ایپس اسکرپٹ لائیو ویب ایپ یو آر ایل (Google Apps Script Web App URL)
+// ============================================================
+// SCALEFLOW UNIVERSITY — GOOGLE APPS SCRIPT WEB APP URL
+// ============================================================
+
 const SCALEFLOW_WEB_APP_URL =
-    "https://script.google.com/macros/s/AKfycbwwUVeNlIWwowSgwEN6hPy4H-DKr0WEcGJxNw5qcTiBOBRiTsVLbrXIGUJIIa_qFNjQ/exec";
+    "https://script.google.com/macros/s/AKfycbzzWvJmEvCzMCov3CgKj1rkzDbuB5gOGXefspoADeZA-Jx2Q1SrCvMvetSMHkuJMXSR/exec";
 
 // ============================================================
 // PART 1 — DOM REFERENCES & PAGE REGISTRY & NAVIGATION
