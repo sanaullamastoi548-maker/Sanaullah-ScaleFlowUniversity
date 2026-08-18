@@ -4,9 +4,10 @@
 
 (function(global) {
 
-// آپ کا گوگل ایپس اسکرپٹ کا لائیو ویب ایپ یو آر ایل (Google Apps Script Web App URL)
+// نیا درست گوگل ایپس اسکرپٹ لائیو ویب ایپ یو آر ایل (Google Apps Script Web App URL)
 const SCALEFLOW_WEB_APP_URL =
-    "https://script.google.com/macros/s/AKfycbzzWvJmEvCzMCov3CgKj1rkzDbuB5gOGXefspoADeZA-Jx2Q1SrCvMvetSMHkuJMXSR/exec";
+    "https://script.google.com/macros/s/AKfycbwwUVeNlIWwowSgwEN6hPy4H-DKr0WEcGJxNw5qcTiBOBRiTsVLbrXIGUJIIa_qFNjQ/exec";
+
 // ============================================================
 // PART 1 — DOM REFERENCES & PAGE REGISTRY & NAVIGATION
 // ============================================================
@@ -351,7 +352,6 @@ function updateDashboardStats() {
 }
 
 
-
 // ============================================================
 // PART 12D — LOGIN & REGISTRATION VIA FETCH
 // GITHUB READY — PRODUCTION CONNECTION
@@ -368,11 +368,8 @@ const registrationSection = document.getElementById("registrationSection");
 const registerLink = document.getElementById("registerLink");
 const backToLoginLink = document.getElementById("backToLoginLink");
 
-const registrationForm =
-    document.getElementById("registrationForm");
-
-const registerSubmitBtn =
-    document.getElementById("registerSubmitBtn");
+const registrationForm = document.getElementById("registrationForm");
+const registerSubmitBtn = document.getElementById("registerSubmitBtn");
 
 
 // ============================================================
@@ -380,40 +377,19 @@ const registerSubmitBtn =
 // ============================================================
 
 if (registerLink) {
-
     registerLink.addEventListener("click", function(event) {
-
         event.preventDefault();
-
-        if (loginSection) {
-            loginSection.style.display = "none";
-        }
-
-        if (registrationSection) {
-            registrationSection.style.display = "block";
-        }
-
+        if (loginSection) loginSection.style.display = "none";
+        if (registrationSection) registrationSection.style.display = "block";
     });
-
 }
 
-
 if (backToLoginLink) {
-
     backToLoginLink.addEventListener("click", function(event) {
-
         event.preventDefault();
-
-        if (registrationSection) {
-            registrationSection.style.display = "none";
-        }
-
-        if (loginSection) {
-            loginSection.style.display = "block";
-        }
-
+        if (registrationSection) registrationSection.style.display = "none";
+        if (loginSection) loginSection.style.display = "block";
     });
-
 }
 
 
@@ -422,48 +398,21 @@ if (backToLoginLink) {
 // ============================================================
 
 async function parseScaleFlowAPIResponse(response) {
-
     if (!response) {
-
-        throw new Error(
-            "No response received from server."
-        );
-
+        throw new Error("No response received from server.");
     }
-
-    const responseText =
-        await response.text();
-
+    const responseText = await response.text();
     if (!responseText) {
-
-        throw new Error(
-            "Empty response received from server."
-        );
-
+        throw new Error("Empty response received from server.");
     }
-
     let data;
-
     try {
-
-        data =
-            JSON.parse(responseText);
-
+        data = JSON.parse(responseText);
     } catch (error) {
-
-        console.error(
-            "Invalid API JSON Response:",
-            responseText
-        );
-
-        throw new Error(
-            "Invalid response received from server."
-        );
-
+        console.error("Invalid API JSON Response:", responseText);
+        throw new Error("Invalid response received from server.");
     }
-
     return data;
-
 }
 
 
@@ -472,34 +421,10 @@ async function parseScaleFlowAPIResponse(response) {
 // ============================================================
 
 function getScaleFlowAPIErrorMessage(data) {
-
-    if (!data) {
-
-        return "Unknown server error.";
-
-    }
-
-    if (
-        data.error &&
-        data.error.message
-    ) {
-
-        return String(
-            data.error.message
-        );
-
-    }
-
-    if (data.message) {
-
-        return String(
-            data.message
-        );
-
-    }
-
+    if (!data) return "Unknown server error.";
+    if (data.error && data.error.message) return String(data.error.message);
+    if (data.message) return String(data.message);
     return "Request could not be completed.";
-
 }
 
 
@@ -508,246 +433,74 @@ function getScaleFlowAPIErrorMessage(data) {
 // ============================================================
 
 if (loginForm) {
-
-    loginForm.addEventListener(
-        "submit",
-        async function(event) {
-
-            event.preventDefault();
-
-
-            const email =
-                loginEmail
-                    ? loginEmail.value.trim()
-                    : "";
-
-
-            const password =
-                loginPassword
-                    ? loginPassword.value
-                    : "";
-
-
-            // ====================================================
-            // LOGIN VALIDATION
-            // ====================================================
-
-            if (!email) {
-
-                showToast(
-                    "⚠️ Please enter your email.",
-                    "warning"
-                );
-
-                return;
-
-            }
-
-
-            if (!password) {
-
-                showToast(
-                    "⚠️ Please enter your password.",
-                    "warning"
-                );
-
-                return;
-
-            }
-
-
-            // ====================================================
-            // LOGIN BUTTON STATE
-            // ====================================================
-
-            if (loginSubmitBtn) {
-
-                loginSubmitBtn.disabled = true;
-
-                loginSubmitBtn.textContent =
-                    "Signing In...";
-
-                loginSubmitBtn.style.opacity =
-                    "0.7";
-
-            }
-
-
-            try {
-
-                // =================================================
-                // LOGIN API REQUEST
-                // =================================================
-
-                const response =
-                    await fetch(
-                        SCALEFLOW_WEB_APP_URL,
-                        {
-
-                            method: "POST",
-
-                            headers: {
-
-                                "Content-Type":
-                                    "application/json"
-
-                            },
-
-                            body:
-                                JSON.stringify({
-
-                                    action:
-                                        "login",
-
-                                    engine:
-                                        "authentication",
-
-                                    email:
-                                        email,
-
-                                    password:
-                                        password
-
-                                })
-
-                        }
-                    );
-
-
-                // =================================================
-                // READ API RESPONSE
-                // =================================================
-
-                const data =
-                    await parseScaleFlowAPIResponse(
-                        response
-                    );
-
-
-                console.log(
-                    "Login API Response:",
-                    data
-                );
-
-
-                // =================================================
-                // LOGIN SUCCESS
-                // =================================================
-
-                if (data.success === true) {
-
-                    showToast(
-                        "✅ Login successful!",
-                        "success"
-                    );
-
-
-                    // ---------------------------------------------
-                    // Save safe login information
-                    // ---------------------------------------------
-
-                    if (
-                        data.data &&
-                        data.data.Student_ID
-                    ) {
-
-                        sessionStorage.setItem(
-                            "ScaleFlow_Student_ID",
-                            data.data.Student_ID
-                        );
-
-                    }
-
-
-                    if (
-                        data.data &&
-                        data.data.Email
-                    ) {
-
-                        sessionStorage.setItem(
-                            "ScaleFlow_Student_Email",
-                            data.data.Email
-                        );
-
-                    }
-
-
-                    // ---------------------------------------------
-                    // Navigate to Dashboard
-                    // ---------------------------------------------
-
-                    setTimeout(function() {
-
-                        if (
-                            typeof navigateTo ===
-                            "function"
-                        ) {
-
-                            navigateTo("page1");
-
-                        }
-
-                    }, 500);
-
-
-                } else {
-
-                    // =================================================
-                    // LOGIN FAILED
-                    // =================================================
-
-                    const message =
-                        getScaleFlowAPIErrorMessage(
-                            data
-                        );
-
-
-                    showToast(
-                        "❌ " + message,
-                        "error"
-                    );
-
-                }
-
-
-            } catch (error) {
-
-                console.error(
-                    "Login API Error:",
-                    error
-                );
-
-
-                showToast(
-                    "❌ Unable to connect to the server.",
-                    "error"
-                );
-
-
-            } finally {
-
-                // =================================================
-                // RESTORE LOGIN BUTTON
-                // =================================================
-
-                if (loginSubmitBtn) {
-
-                    loginSubmitBtn.disabled =
-                        false;
-
-                    loginSubmitBtn.textContent =
-                        "Sign In";
-
-                    loginSubmitBtn.style.opacity =
-                        "1";
-
-                }
-
-            }
-
+    loginForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const email = loginEmail ? loginEmail.value.trim() : "";
+        const password = loginPassword ? loginPassword.value : "";
+
+        if (!email) {
+            showToast("⚠️ Please enter your email.", "warning");
+            return;
         }
-    );
+        if (!password) {
+            showToast("⚠️ Please enter your password.", "warning");
+            return;
+        }
 
+        if (loginSubmitBtn) {
+            loginSubmitBtn.disabled = true;
+            loginSubmitBtn.textContent = "Signing In...";
+            loginSubmitBtn.style.opacity = "0.7";
+        }
+
+        try {
+            const response = await fetch(SCALEFLOW_WEB_APP_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    action: "login",
+                    engine: "authentication",
+                    email: email,
+                    password: password
+                })
+            });
+
+            const data = await parseScaleFlowAPIResponse(response);
+            console.log("Login API Response:", data);
+
+            if (data.success === true) {
+                showToast("✅ Login successful!", "success");
+
+                if (data.data && data.data.Student_ID) {
+                    sessionStorage.setItem("ScaleFlow_Student_ID", data.data.Student_ID);
+                }
+                if (data.data && data.data.Email) {
+                    sessionStorage.setItem("ScaleFlow_Student_Email", data.data.Email);
+                }
+
+                setTimeout(function() {
+                    if (typeof navigateTo === "function") {
+                        navigateTo("page1");
+                    }
+                }, 500);
+
+            } else {
+                const message = getScaleFlowAPIErrorMessage(data);
+                showToast("❌ " + message, "error");
+            }
+
+        } catch (error) {
+            console.error("Login API Error:", error);
+            showToast("❌ Unable to connect to the server.", "error");
+        } finally {
+            if (loginSubmitBtn) {
+                loginSubmitBtn.disabled = false;
+                loginSubmitBtn.textContent = "Sign In";
+                loginSubmitBtn.style.opacity = "1";
+            }
+        }
+    });
 }
 
 
@@ -756,398 +509,105 @@ if (loginForm) {
 // ============================================================
 
 if (registrationForm) {
-
-    registrationForm.addEventListener(
-        "submit",
-        async function(event) {
-
-            event.preventDefault();
-
-
-            // ====================================================
-            // GET REGISTRATION FIELDS
-            // ====================================================
-
-            const fullName =
-                document
-                    .getElementById(
-                        "registerFullName"
-                    )
-                    ?.value
-                    .trim() || "";
-
-
-            const email =
-                document
-                    .getElementById(
-                        "registerEmail"
-                    )
-                    ?.value
-                    .trim()
-                    .toLowerCase() || "";
-
-
-            const password =
-                document
-                    .getElementById(
-                        "registerPassword"
-                    )
-                    ?.value || "";
-
-
-            const confirmPassword =
-                document
-                    .getElementById(
-                        "registerConfirmPassword"
-                    )
-                    ?.value || "";
-
-
-            const terms =
-                document.getElementById(
-                    "registerTerms"
-                );
-
-
-            // ====================================================
-            // REGISTRATION VALIDATION
-            // ====================================================
-
-            if (!fullName) {
-
-                showToast(
-                    "⚠️ Please enter your full name.",
-                    "warning"
-                );
-
-                return;
-
-            }
-
-
-            if (!email) {
-
-                showToast(
-                    "⚠️ Please enter your email.",
-                    "warning"
-                );
-
-                return;
-
-            }
-
-
-            // ====================================================
-            // EMAIL FORMAT
-            // ====================================================
-
-            const emailPattern =
-                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
-            if (
-                !emailPattern.test(email)
-            ) {
-
-                showToast(
-                    "⚠️ Please enter a valid email address.",
-                    "warning"
-                );
-
-                return;
-
-            }
-
-
-            // ====================================================
-            // PASSWORD VALIDATION
-            // ====================================================
-
-            if (password.length < 8) {
-
-                showToast(
-                    "⚠️ Password must contain at least 8 characters.",
-                    "warning"
-                );
-
-                return;
-
-            }
-
-
-            if (
-                password !==
-                confirmPassword
-            ) {
-
-                showToast(
-                    "⚠️ Passwords do not match.",
-                    "warning"
-                );
-
-                return;
-
-            }
-
-
-            // ====================================================
-            // TERMS VALIDATION
-            // ====================================================
-
-            if (
-                !terms ||
-                !terms.checked
-            ) {
-
-                showToast(
-                    "⚠️ Please accept the Terms and Conditions.",
-                    "warning"
-                );
-
-                return;
-
-            }
-
-
-            // ====================================================
-            // REGISTRATION BUTTON STATE
-            // ====================================================
-
-            if (registerSubmitBtn) {
-
-                registerSubmitBtn.disabled =
-                    true;
-
-                registerSubmitBtn.textContent =
-                    "Creating Account...";
-
-                registerSubmitBtn.style.opacity =
-                    "0.7";
-
-            }
-
-
-            try {
-
-                // =================================================
-                // REGISTRATION API REQUEST
-                // =================================================
-
-                const response =
-                    await fetch(
-                        SCALEFLOW_WEB_APP_URL,
-                        {
-
-                            method: "POST",
-
-                            headers: {
-
-                                "Content-Type":
-                                    "application/json"
-
-                            },
-
-                            body:
-                                JSON.stringify({
-
-                                    action:
-                                        "register",
-
-                                    engine:
-                                        "authentication",
-
-                                    fullName:
-                                        fullName,
-
-                                    email:
-                                        email,
-
-                                    password:
-                                        password,
-
-                                    confirmPassword:
-                                        confirmPassword
-
-                                })
-
-                        }
-                    );
-
-
-                // =================================================
-                // READ API RESPONSE
-                // =================================================
-
-                const data =
-                    await parseScaleFlowAPIResponse(
-                        response
-                    );
-
-
-                console.log(
-                    "Registration API Response:",
-                    data
-                );
-
-
-                // =================================================
-                // REGISTRATION SUCCESS
-                // =================================================
-
-                if (data.success === true) {
-
-                    let successMessage =
-                        "🎉 Registration successful!";
-
-
-                    if (
-                        data.message
-                    ) {
-
-                        successMessage =
-                            "🎉 " +
-                            data.message;
-
-                    }
-
-
-                    showToast(
-                        successMessage,
-                        "success"
-                    );
-
-
-                    // ---------------------------------------------
-                    // Log Student ID
-                    // ---------------------------------------------
-
-                    if (
-                        data.data &&
-                        data.data.Student_ID
-                    ) {
-
-                        console.log(
-                            "New Student ID:",
-                            data.data.Student_ID
-                        );
-
-                    }
-
-
-                    // ---------------------------------------------
-                    // Reset Form
-                    // ---------------------------------------------
-
-                    registrationForm.reset();
-
-
-                    // ---------------------------------------------
-                    // Return To Login
-                    // ---------------------------------------------
-
-                    setTimeout(function() {
-
-                        if (
-                            registrationSection
-                        ) {
-
-                            registrationSection
-                                .style.display =
-                                "none";
-
-                        }
-
-
-                        if (
-                            loginSection
-                        ) {
-
-                            loginSection
-                                .style.display =
-                                "block";
-
-                        }
-
-
-                        if (loginEmail) {
-
-                            loginEmail.value =
-                                email;
-
-                        }
-
-                    }, 800);
-
-
-                } else {
-
-                    // =================================================
-                    // REGISTRATION FAILED
-                    // =================================================
-
-                    const message =
-                        getScaleFlowAPIErrorMessage(
-                            data
-                        );
-
-
-                    showToast(
-                        "❌ " + message,
-                        "error"
-                    );
-
-                }
-
-
-            } catch (error) {
-
-                console.error(
-                    "Registration API Error:",
-                    error
-                );
-
-
-                showToast(
-                    "❌ Unable to connect to the registration server.",
-                    "error"
-                );
-
-
-            } finally {
-
-                // =================================================
-                // RESTORE REGISTRATION BUTTON
-                // =================================================
-
-                if (registerSubmitBtn) {
-
-                    registerSubmitBtn.disabled =
-                        false;
-
-                    registerSubmitBtn.textContent =
-                        "Create Account";
-
-                    registerSubmitBtn.style.opacity =
-                        "1";
-
-                }
-
-            }
-
+    registrationForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const fullName = document.getElementById("registerFullName")?.value.trim() || "";
+        const email = document.getElementById("registerEmail")?.value.trim().toLowerCase() || "";
+        const password = document.getElementById("registerPassword")?.value || "";
+        const confirmPassword = document.getElementById("registerConfirmPassword")?.value || "";
+        const terms = document.getElementById("registerTerms");
+
+        if (!fullName) {
+            showToast("⚠️ Please enter your full name.", "warning");
+            return;
         }
-    );
+        if (!email) {
+            showToast("⚠️ Please enter your email.", "warning");
+            return;
+        }
 
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            showToast("⚠️ Please enter a valid email address.", "warning");
+            return;
+        }
+
+        if (password.length < 8) {
+            showToast("⚠️ Password must contain at least 8 characters.", "warning");
+            return;
+        }
+        if (password !== confirmPassword) {
+            showToast("⚠️ Passwords do not match.", "warning");
+            return;
+        }
+        if (!terms || !terms.checked) {
+            showToast("⚠️ Please accept the Terms and Conditions.", "warning");
+            return;
+        }
+
+        if (registerSubmitBtn) {
+            registerSubmitBtn.disabled = true;
+            registerSubmitBtn.textContent = "Creating Account...";
+            registerSubmitBtn.style.opacity = "0.7";
+        }
+
+        try {
+            const response = await fetch(SCALEFLOW_WEB_APP_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    action: "register",
+                    engine: "authentication",
+                    fullName: fullName,
+                    email: email,
+                    password: password,
+                    confirmPassword: confirmPassword
+                })
+            });
+
+            const data = await parseScaleFlowAPIResponse(response);
+            console.log("Registration API Response:", data);
+
+            if (data.success === true) {
+                let successMessage = "🎉 Registration successful!";
+                if (data.message) {
+                    successMessage = "🎉 " + data.message;
+                }
+                showToast(successMessage, "success");
+
+                if (data.data && data.data.Student_ID) {
+                    console.log("New Student ID:", data.data.Student_ID);
+                }
+
+                registrationForm.reset();
+
+                setTimeout(function() {
+                    if (registrationSection) registrationSection.style.display = "none";
+                    if (loginSection) loginSection.style.display = "block";
+                    if (loginEmail) loginEmail.value = email;
+                }, 800);
+
+            } else {
+                const message = getScaleFlowAPIErrorMessage(data);
+                showToast("❌ " + message, "error");
+            }
+
+        } catch (error) {
+            console.error("Registration API Error:", error);
+            showToast("❌ Unable to connect to the registration server.", "error");
+        } finally {
+            if (registerSubmitBtn) {
+                registerSubmitBtn.disabled = false;
+                registerSubmitBtn.textContent = "Create Account";
+                registerSubmitBtn.style.opacity = "1";
+            }
+        }
+    });
 }
 
+console.log("ScaleFlow University Part 12D loaded successfully.");
 
-// ============================================================
-// PART 12D STATUS
-// ============================================================
-
-console.log(
-    "ScaleFlow University Part 12D loaded successfully."
-);
-    
 
 // ============================================================
 // PART 13 — QUICK ACTIONS
@@ -1176,7 +636,6 @@ function sendChatMessage() {
     const msg = chatInput.value.trim();
     if (!msg) return;
 
-    // Display user message
     const userMsg = document.createElement('div');
     userMsg.className = 'message user';
     userMsg.textContent = msg;
@@ -1185,14 +644,12 @@ function sendChatMessage() {
     chatInput.value = '';
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    // Loading indicator for AI
     const aiMsg = document.createElement('div');
     aiMsg.className = 'message ai';
     aiMsg.textContent = "Thinking with Gemini AI...";
     chatMessages.appendChild(aiMsg);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    // Send query to Google Apps Script backend connected with Gemini
     fetch(SCALEFLOW_WEB_APP_URL, {
         method: "POST",
         mode: "no-cors",
