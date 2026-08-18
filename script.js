@@ -5,8 +5,8 @@
 (function(global) {
 
 // آپ کا گوگل ایپس اسکرپٹ کا لائیو ویب ایپ یو آر ایل (Google Apps Script Web App URL)
-const SCALEFLOW_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzzWvJmEvCzMCov3CgKj1rkzDbuB5gOGXefspoADeZA-Jx2Q1SrCvMvetSMHkuJMXSR/exec";
-
+const SCALEFLOW_WEB_APP_URL =
+    "https://script.google.com/macros/s/AKfycbzzWvJmEvCzMCov3CgKj1rkzDbuB5gOGXefspoADeZA-Jx2Q1SrCvMvetSMHkuJMXSR/exec";
 // ============================================================
 // PART 1 — DOM REFERENCES & PAGE REGISTRY & NAVIGATION
 // ============================================================
