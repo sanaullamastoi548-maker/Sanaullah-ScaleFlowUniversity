@@ -9,7 +9,7 @@
 // ============================================================
 
 const SCALEFLOW_WEB_APP_URL =
-    "https://script.google.com/macros/s/AKfycbzzWvJmEvCzMCov3CgKj1rkzDbuB5gOGXefspoADeZA-Jx2Q1SrCvMvetSMHkuJMXSR/exec";
+    "https://script.google.com/macros/s/AKfycbwwUVeNlIWwowSgwEN6hPy4H-DKr0WEcGJxNw5qcTiBOBRiTsVLbrXIGUJIIa_qFNjQ/exec";
 
 // ============================================================
 // PART 1 — DOM REFERENCES & PAGE REGISTRY & NAVIGATION
