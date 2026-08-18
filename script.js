@@ -351,8 +351,10 @@ function updateDashboardStats() {
 }
 
 
+
 // ============================================================
-// PART 12D — LOGIN & REGISTRATION VIA FETCH (GITHUB READY)
+// PART 12D — LOGIN & REGISTRATION VIA FETCH
+// GITHUB READY — PRODUCTION CONNECTION
 // ============================================================
 
 const loginForm = document.getElementById("loginForm");
@@ -362,144 +364,790 @@ const loginSubmitBtn = document.getElementById("loginSubmitBtn");
 
 const loginSection = document.getElementById("loginSection");
 const registrationSection = document.getElementById("registrationSection");
+
 const registerLink = document.getElementById("registerLink");
 const backToLoginLink = document.getElementById("backToLoginLink");
-const registrationForm = document.getElementById("registrationForm");
-const registerSubmitBtn = document.getElementById("registerSubmitBtn");
+
+const registrationForm =
+    document.getElementById("registrationForm");
+
+const registerSubmitBtn =
+    document.getElementById("registerSubmitBtn");
+
+
+// ============================================================
+// LOGIN / REGISTRATION UI SWITCH
+// ============================================================
 
 if (registerLink) {
+
     registerLink.addEventListener("click", function(event) {
+
         event.preventDefault();
-        if (loginSection) loginSection.style.display = "none";
-        if (registrationSection) registrationSection.style.display = "block";
+
+        if (loginSection) {
+            loginSection.style.display = "none";
+        }
+
+        if (registrationSection) {
+            registrationSection.style.display = "block";
+        }
+
     });
+
 }
+
 
 if (backToLoginLink) {
+
     backToLoginLink.addEventListener("click", function(event) {
+
         event.preventDefault();
-        if (registrationSection) registrationSection.style.display = "none";
-        if (loginSection) loginSection.style.display = "block";
+
+        if (registrationSection) {
+            registrationSection.style.display = "none";
+        }
+
+        if (loginSection) {
+            loginSection.style.display = "block";
+        }
+
     });
+
 }
 
-// Login Event Listener using Fetch API
+
+// ============================================================
+// API RESPONSE PARSER
+// ============================================================
+
+async function parseScaleFlowAPIResponse(response) {
+
+    if (!response) {
+
+        throw new Error(
+            "No response received from server."
+        );
+
+    }
+
+    const responseText =
+        await response.text();
+
+    if (!responseText) {
+
+        throw new Error(
+            "Empty response received from server."
+        );
+
+    }
+
+    let data;
+
+    try {
+
+        data =
+            JSON.parse(responseText);
+
+    } catch (error) {
+
+        console.error(
+            "Invalid API JSON Response:",
+            responseText
+        );
+
+        throw new Error(
+            "Invalid response received from server."
+        );
+
+    }
+
+    return data;
+
+}
+
+
+// ============================================================
+// GET API ERROR MESSAGE
+// ============================================================
+
+function getScaleFlowAPIErrorMessage(data) {
+
+    if (!data) {
+
+        return "Unknown server error.";
+
+    }
+
+    if (
+        data.error &&
+        data.error.message
+    ) {
+
+        return String(
+            data.error.message
+        );
+
+    }
+
+    if (data.message) {
+
+        return String(
+            data.message
+        );
+
+    }
+
+    return "Request could not be completed.";
+
+}
+
+
+// ============================================================
+// LOGIN EVENT
+// ============================================================
+
 if (loginForm) {
-    loginForm.addEventListener("submit", function(event) {
-        event.preventDefault();
 
-        const email = loginEmail ? loginEmail.value.trim() : "";
-        const password = loginPassword ? loginPassword.value : "";
+    loginForm.addEventListener(
+        "submit",
+        async function(event) {
 
-        if (!email || !password) {
-            showToast("⚠️ Please enter Email and Password.", "warning");
-            return;
-        }
+            event.preventDefault();
 
-        if (loginSubmitBtn) {
-            loginSubmitBtn.disabled = true;
-            loginSubmitBtn.textContent = "Signing In...";
-            loginSubmitBtn.style.opacity = "0.7";
-        }
 
-        // Sending POST request to Google Apps Script
-        fetch(SCALEFLOW_WEB_APP_URL, {
-            method: "POST",
-            mode: "no-cors", // Required for Google Apps Script Web App endpoints from external domains
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ action: "login", email: email, password: password })
-        })
-        .then(() => {
-            if (loginSubmitBtn) {
-                loginSubmitBtn.disabled = false;
-                loginSubmitBtn.textContent = "Sign In";
-                loginSubmitBtn.style.opacity = "1";
+            const email =
+                loginEmail
+                    ? loginEmail.value.trim()
+                    : "";
+
+
+            const password =
+                loginPassword
+                    ? loginPassword.value
+                    : "";
+
+
+            // ====================================================
+            // LOGIN VALIDATION
+            // ====================================================
+
+            if (!email) {
+
+                showToast(
+                    "⚠️ Please enter your email.",
+                    "warning"
+                );
+
+                return;
+
             }
-            showToast("✅ Login request sent successfully!", "success");
-            navigateTo("page1");
-        })
-        .catch(error => {
-            if (loginSubmitBtn) {
-                loginSubmitBtn.disabled = false;
-                loginSubmitBtn.textContent = "Sign In";
-                loginSubmitBtn.style.opacity = "1";
+
+
+            if (!password) {
+
+                showToast(
+                    "⚠️ Please enter your password.",
+                    "warning"
+                );
+
+                return;
+
             }
-            console.error("Login error:", error);
-            showToast("❌ Login connection error.", "error");
-        });
-    });
+
+
+            // ====================================================
+            // LOGIN BUTTON STATE
+            // ====================================================
+
+            if (loginSubmitBtn) {
+
+                loginSubmitBtn.disabled = true;
+
+                loginSubmitBtn.textContent =
+                    "Signing In...";
+
+                loginSubmitBtn.style.opacity =
+                    "0.7";
+
+            }
+
+
+            try {
+
+                // =================================================
+                // LOGIN API REQUEST
+                // =================================================
+
+                const response =
+                    await fetch(
+                        SCALEFLOW_WEB_APP_URL,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    action:
+                                        "login",
+
+                                    engine:
+                                        "authentication",
+
+                                    email:
+                                        email,
+
+                                    password:
+                                        password
+
+                                })
+
+                        }
+                    );
+
+
+                // =================================================
+                // READ API RESPONSE
+                // =================================================
+
+                const data =
+                    await parseScaleFlowAPIResponse(
+                        response
+                    );
+
+
+                console.log(
+                    "Login API Response:",
+                    data
+                );
+
+
+                // =================================================
+                // LOGIN SUCCESS
+                // =================================================
+
+                if (data.success === true) {
+
+                    showToast(
+                        "✅ Login successful!",
+                        "success"
+                    );
+
+
+                    // ---------------------------------------------
+                    // Save safe login information
+                    // ---------------------------------------------
+
+                    if (
+                        data.data &&
+                        data.data.Student_ID
+                    ) {
+
+                        sessionStorage.setItem(
+                            "ScaleFlow_Student_ID",
+                            data.data.Student_ID
+                        );
+
+                    }
+
+
+                    if (
+                        data.data &&
+                        data.data.Email
+                    ) {
+
+                        sessionStorage.setItem(
+                            "ScaleFlow_Student_Email",
+                            data.data.Email
+                        );
+
+                    }
+
+
+                    // ---------------------------------------------
+                    // Navigate to Dashboard
+                    // ---------------------------------------------
+
+                    setTimeout(function() {
+
+                        if (
+                            typeof navigateTo ===
+                            "function"
+                        ) {
+
+                            navigateTo("page1");
+
+                        }
+
+                    }, 500);
+
+
+                } else {
+
+                    // =================================================
+                    // LOGIN FAILED
+                    // =================================================
+
+                    const message =
+                        getScaleFlowAPIErrorMessage(
+                            data
+                        );
+
+
+                    showToast(
+                        "❌ " + message,
+                        "error"
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Login API Error:",
+                    error
+                );
+
+
+                showToast(
+                    "❌ Unable to connect to the server.",
+                    "error"
+                );
+
+
+            } finally {
+
+                // =================================================
+                // RESTORE LOGIN BUTTON
+                // =================================================
+
+                if (loginSubmitBtn) {
+
+                    loginSubmitBtn.disabled =
+                        false;
+
+                    loginSubmitBtn.textContent =
+                        "Sign In";
+
+                    loginSubmitBtn.style.opacity =
+                        "1";
+
+                }
+
+            }
+
+        }
+    );
+
 }
 
-// Registration Event Listener using Fetch API
+
+// ============================================================
+// REGISTRATION EVENT
+// ============================================================
+
 if (registrationForm) {
-    registrationForm.addEventListener("submit", function(event) {
-        event.preventDefault();
 
-        const fullName = document.getElementById("registerFullName")?.value.trim() || "";
-        const email = document.getElementById("registerEmail")?.value.trim() || "";
-        const password = document.getElementById("registerPassword")?.value || "";
-        const confirmPassword = document.getElementById("registerConfirmPassword")?.value || "";
-        const terms = document.getElementById("registerTerms");
+    registrationForm.addEventListener(
+        "submit",
+        async function(event) {
 
-        if (!fullName || !email) {
-            showToast("⚠️ Please fill in all required fields.", "warning");
-            return;
-        }
-        if (password.length < 8) {
-            showToast("⚠️ Password must contain at least 8 characters.", "warning");
-            return;
-        }
-        if (password !== confirmPassword) {
-            showToast("⚠️ Passwords do not match.", "warning");
-            return;
-        }
-        if (!terms || !terms.checked) {
-            showToast("⚠️ Please accept the Terms and Conditions.", "warning");
-            return;
-        }
+            event.preventDefault();
 
-        if (registerSubmitBtn) {
-            registerSubmitBtn.disabled = true;
-            registerSubmitBtn.textContent = "Creating Account...";
-            registerSubmitBtn.style.opacity = "0.7";
-        }
 
-        fetch(SCALEFLOW_WEB_APP_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                action: "register",
-                fullName: fullName,
-                email: email,
-                password: password,
-                confirmPassword: confirmPassword
-            })
-        })
-        .then(() => {
-            if (registerSubmitBtn) {
-                registerSubmitBtn.disabled = false;
-                registerSubmitBtn.textContent = "Create Account";
-                registerSubmitBtn.style.opacity = "1";
+            // ====================================================
+            // GET REGISTRATION FIELDS
+            // ====================================================
+
+            const fullName =
+                document
+                    .getElementById(
+                        "registerFullName"
+                    )
+                    ?.value
+                    .trim() || "";
+
+
+            const email =
+                document
+                    .getElementById(
+                        "registerEmail"
+                    )
+                    ?.value
+                    .trim()
+                    .toLowerCase() || "";
+
+
+            const password =
+                document
+                    .getElementById(
+                        "registerPassword"
+                    )
+                    ?.value || "";
+
+
+            const confirmPassword =
+                document
+                    .getElementById(
+                        "registerConfirmPassword"
+                    )
+                    ?.value || "";
+
+
+            const terms =
+                document.getElementById(
+                    "registerTerms"
+                );
+
+
+            // ====================================================
+            // REGISTRATION VALIDATION
+            // ====================================================
+
+            if (!fullName) {
+
+                showToast(
+                    "⚠️ Please enter your full name.",
+                    "warning"
+                );
+
+                return;
+
             }
-            showToast("🎉 Account registration request sent!", "success");
-            registrationForm.reset();
-            if (registrationSection) registrationSection.style.display = "none";
-            if (loginSection) loginSection.style.display = "block";
-            if (loginEmail) loginEmail.value = email;
-        })
-        .catch(error => {
-            if (registerSubmitBtn) {
-                registerSubmitBtn.disabled = false;
-                registerSubmitBtn.textContent = "Create Account";
-                registerSubmitBtn.style.opacity = "1";
+
+
+            if (!email) {
+
+                showToast(
+                    "⚠️ Please enter your email.",
+                    "warning"
+                );
+
+                return;
+
             }
-            console.error("Registration error:", error);
-            showToast("❌ Registration connection error.", "error");
-        });
-    });
+
+
+            // ====================================================
+            // EMAIL FORMAT
+            // ====================================================
+
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+            if (
+                !emailPattern.test(email)
+            ) {
+
+                showToast(
+                    "⚠️ Please enter a valid email address.",
+                    "warning"
+                );
+
+                return;
+
+            }
+
+
+            // ====================================================
+            // PASSWORD VALIDATION
+            // ====================================================
+
+            if (password.length < 8) {
+
+                showToast(
+                    "⚠️ Password must contain at least 8 characters.",
+                    "warning"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                password !==
+                confirmPassword
+            ) {
+
+                showToast(
+                    "⚠️ Passwords do not match.",
+                    "warning"
+                );
+
+                return;
+
+            }
+
+
+            // ====================================================
+            // TERMS VALIDATION
+            // ====================================================
+
+            if (
+                !terms ||
+                !terms.checked
+            ) {
+
+                showToast(
+                    "⚠️ Please accept the Terms and Conditions.",
+                    "warning"
+                );
+
+                return;
+
+            }
+
+
+            // ====================================================
+            // REGISTRATION BUTTON STATE
+            // ====================================================
+
+            if (registerSubmitBtn) {
+
+                registerSubmitBtn.disabled =
+                    true;
+
+                registerSubmitBtn.textContent =
+                    "Creating Account...";
+
+                registerSubmitBtn.style.opacity =
+                    "0.7";
+
+            }
+
+
+            try {
+
+                // =================================================
+                // REGISTRATION API REQUEST
+                // =================================================
+
+                const response =
+                    await fetch(
+                        SCALEFLOW_WEB_APP_URL,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    action:
+                                        "register",
+
+                                    engine:
+                                        "authentication",
+
+                                    fullName:
+                                        fullName,
+
+                                    email:
+                                        email,
+
+                                    password:
+                                        password,
+
+                                    confirmPassword:
+                                        confirmPassword
+
+                                })
+
+                        }
+                    );
+
+
+                // =================================================
+                // READ API RESPONSE
+                // =================================================
+
+                const data =
+                    await parseScaleFlowAPIResponse(
+                        response
+                    );
+
+
+                console.log(
+                    "Registration API Response:",
+                    data
+                );
+
+
+                // =================================================
+                // REGISTRATION SUCCESS
+                // =================================================
+
+                if (data.success === true) {
+
+                    let successMessage =
+                        "🎉 Registration successful!";
+
+
+                    if (
+                        data.message
+                    ) {
+
+                        successMessage =
+                            "🎉 " +
+                            data.message;
+
+                    }
+
+
+                    showToast(
+                        successMessage,
+                        "success"
+                    );
+
+
+                    // ---------------------------------------------
+                    // Log Student ID
+                    // ---------------------------------------------
+
+                    if (
+                        data.data &&
+                        data.data.Student_ID
+                    ) {
+
+                        console.log(
+                            "New Student ID:",
+                            data.data.Student_ID
+                        );
+
+                    }
+
+
+                    // ---------------------------------------------
+                    // Reset Form
+                    // ---------------------------------------------
+
+                    registrationForm.reset();
+
+
+                    // ---------------------------------------------
+                    // Return To Login
+                    // ---------------------------------------------
+
+                    setTimeout(function() {
+
+                        if (
+                            registrationSection
+                        ) {
+
+                            registrationSection
+                                .style.display =
+                                "none";
+
+                        }
+
+
+                        if (
+                            loginSection
+                        ) {
+
+                            loginSection
+                                .style.display =
+                                "block";
+
+                        }
+
+
+                        if (loginEmail) {
+
+                            loginEmail.value =
+                                email;
+
+                        }
+
+                    }, 800);
+
+
+                } else {
+
+                    // =================================================
+                    // REGISTRATION FAILED
+                    // =================================================
+
+                    const message =
+                        getScaleFlowAPIErrorMessage(
+                            data
+                        );
+
+
+                    showToast(
+                        "❌ " + message,
+                        "error"
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Registration API Error:",
+                    error
+                );
+
+
+                showToast(
+                    "❌ Unable to connect to the registration server.",
+                    "error"
+                );
+
+
+            } finally {
+
+                // =================================================
+                // RESTORE REGISTRATION BUTTON
+                // =================================================
+
+                if (registerSubmitBtn) {
+
+                    registerSubmitBtn.disabled =
+                        false;
+
+                    registerSubmitBtn.textContent =
+                        "Create Account";
+
+                    registerSubmitBtn.style.opacity =
+                        "1";
+
+                }
+
+            }
+
+        }
+    );
+
 }
 
+
+// ============================================================
+// PART 12D STATUS
+// ============================================================
+
+console.log(
+    "ScaleFlow University Part 12D loaded successfully."
+);
+    
 
 // ============================================================
 // PART 13 — QUICK ACTIONS
