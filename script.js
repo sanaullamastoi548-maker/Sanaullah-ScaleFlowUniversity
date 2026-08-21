@@ -1,10 +1,4 @@
-// ============================================================
-// SCALEFLOW UNIVERSITY — FRONTEND JAVASCRIPT (GOSS/FETCH INTEGRATION)
-// ============================================================
-
-(function(global) {
-
-    // ============================================================
+  // ============================================================
 // SCALEFLOW UNIVERSITY
 // FRONTEND JAVASCRIPT
 // CENTRAL WEB APP API CONNECTOR
