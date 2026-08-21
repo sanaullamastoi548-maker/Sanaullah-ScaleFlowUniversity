@@ -1,586 +1,88 @@
   // ============================================================
-// SCALEFLOW UNIVERSITY
-// FRONTEND JAVASCRIPT
-// CENTRAL WEB APP API CONNECTOR
+// SCALEFLOW UNIVERSITY — FRONTEND JAVASCRIPT (GOSS/FETCH INTEGRATION)
 // ============================================================
 
 (function(global) {
 
-    // ============================================================
-    // SCALEFLOW UNIVERSITY — WEB APP API CONFIGURATION
-    // ============================================================
+// آپ کا گوگل ایپس اسکرپٹ کا لائیو ویب ایپ یو آر ایل (Google Apps Script Web App URL)
+const SCALEFLOW_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzzWvJmEvCzMCov3CgKj1rkzDbuB5gOGXefspoADeZA-Jx2Q1SrCvMvetSMHkuJMXSR/exec";
 
-    const SCALEFLOW_API_CONFIG = {
+// ============================================================
+// PART 1 — DOM REFERENCES & PAGE REGISTRY & NAVIGATION
+// ============================================================
 
-        WEB_APP_URL:
-            "https://script.google.com/macros/s/AKfycbwBOEHqq2ytQxU7XKieTeBOPCzBtyLYf4m_zD6SLRY_FRPFWpAevMOlAMes0SH9JoV7/exec",
+const loader = document.getElementById("loader");
+const toastContainer = document.getElementById("toast-container");
 
-        VERSION:
-            "v1",
+const modalContainer = document.getElementById("modal-container");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody = document.getElementById("modalBody");
+const modalCloseBtn = document.getElementById("modalCloseBtn");
+const modalCancelBtn = document.getElementById("modalCancelBtn");
+const modalConfirmBtn = document.getElementById("modalConfirmBtn");
 
-        TIMEOUT:
-            30000
+const darkModeBtn = document.getElementById("darkModeBtn");
 
-    };
+const notificationBell = document.getElementById("notificationBell");
+const notificationPanel = document.getElementById("notificationPanel");
+const notificationCount = document.getElementById("notificationCount");
+const markAllReadBtn = document.getElementById("markAllReadBtn");
 
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+const currentYear = document.getElementById("currentYear");
 
-    // ============================================================
-    // SCALEFLOW API REQUEST ID
-    // ============================================================
+const globalSearchInput = document.getElementById("globalSearchInput");
+const navLinks = document.querySelectorAll(".sidebar-menu a[data-page]");
 
-    function createFrontendRequestId() {
+const pageSections = {};
 
-        return (
-            "WEB-" +
-            Date.now() +
-            "-" +
-            Math.random()
-                .toString(36)
-                .substring(2, 10)
-                .toUpperCase()
-        );
-
+for (let i = 1; i <= 20; i++) {
+    const pageId = "page" + i;
+    const section = document.getElementById(pageId);
+    if (section) {
+        pageSections[pageId] = section;
     }
+}
 
-
-    // ============================================================
-    // SCALEFLOW API REQUEST
-    // CENTRAL WEBSITE → BACKEND COMMUNICATION
-    // ============================================================
-
-    async function scaleFlowAPIRequest(
-        action,
-        data = {}
-    ) {
-
-        const requestId =
-            createFrontendRequestId();
-
-
-        if (
-            !action ||
-            typeof action !== "string"
-        ) {
-
-            throw new Error(
-                "ScaleFlow API action is required."
-            );
-
-        }
-
-
-        const controller =
-            new AbortController();
-
-
-        const timeoutId =
-            setTimeout(
-                function() {
-
-                    controller.abort();
-
-                },
-                SCALEFLOW_API_CONFIG.TIMEOUT
-            );
-
-
-        try {
-
-            console.log(
-                "🔄 ScaleFlow API Request:",
-                action
-            );
-
-
-            const response =
-                await fetch(
-                    SCALEFLOW_API_CONFIG.WEB_APP_URL,
-                    {
-
-                        method:
-                            "POST",
-
-                        headers: {
-
-                            "Content-Type":
-                                "text/plain;charset=utf-8"
-
-                        },
-
-                        body:
-                            JSON.stringify({
-
-                                action:
-                                    action,
-
-                                data:
-                                    data,
-
-                                requestId:
-                                    requestId
-
-                            }),
-
-                        signal:
-                            controller.signal
-
-                    }
-                );
-
-
-            clearTimeout(
-                timeoutId
-            );
-
-
-            if (
-                !response.ok
-            ) {
-
-                throw new Error(
-                    "ScaleFlow API HTTP Error: " +
-                    response.status
-                );
-
+function navigateTo(pageId) {
+    try {
+        Object.keys(pageSections).forEach(id => {
+            if (pageSections[id]) {
+                pageSections[id].classList.remove("active");
             }
+        });
 
+        if (pageSections[pageId]) {
+            pageSections[pageId].classList.add("active");
+        }
 
-            const result =
-                await response.json();
-
-
-            console.log(
-                "✅ ScaleFlow API Response:",
-                result
-            );
-
-
-            if (
-                !result ||
-                typeof result !== "object"
-            ) {
-
-                throw new Error(
-                    "Invalid ScaleFlow API response."
-                );
-
+        navLinks.forEach(link => {
+            if (link.getAttribute("data-page") === pageId) {
+                link.classList.add("active");
+            } else {
+                link.classList.remove("active");
             }
+        });
 
-
-            return result;
-
-        }
-
-        catch (error) {
-
-            clearTimeout(
-                timeoutId
-            );
-
-
-            console.error(
-                "❌ ScaleFlow API Request Error:",
-                error
-            );
-
-
-            throw error;
-
-        }
-
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        console.log("📄 Navigated to:", pageId);
+    } catch (error) {
+        console.error("❌ Navigation Error:", error);
     }
+}
 
-
-    // ============================================================
-    // SCALEFLOW SYSTEM HEALTH
-    // WEBSITE → WEB APP API → CONFIG
-    // ============================================================
-
-    async function testScaleFlowWebsiteConnection() {
-
-        console.log(
-            "================================================"
-        );
-
-        console.log(
-            "ScaleFlow University"
-        );
-
-        console.log(
-            "Website → Web App API Connection Test"
-        );
-
-        console.log(
-            "================================================"
-        );
-
-
-        try {
-
-            const result =
-                await scaleFlowAPIRequest(
-                    "system.health",
-                    {}
-                );
-
-
-            if (
-                result &&
-                result.success === true &&
-                result.code ===
-                    "SYSTEM_HEALTHY"
-            ) {
-
-                console.log(
-                    "================================================"
-                );
-
-
-                console.log(
-                    "✅ WEBSITE API CONNECTION SUCCESSFUL"
-                );
-
-
-                console.log(
-                    "Application:",
-                    result.data &&
-                    result.data.application
-                );
-
-
-                console.log(
-                    "API Engine:",
-                    result.data &&
-                    result.data.engine
-                );
-
-
-                console.log(
-                    "API Version:",
-                    result.data &&
-                    result.data.engineVersion
-                );
-
-
-                console.log(
-                    "Gemini Configured:",
-                    result.data &&
-                    result.data.geminiConfigured
-                );
-
-
-                console.log(
-                    "Request ID:",
-                    result.requestId
-                );
-
-
-                console.log(
-                    "================================================"
-                );
-
-
-                return result;
-
-            }
-
-
-            console.error(
-                "❌ WEBSITE API HEALTH CHECK FAILED",
-                result
-            );
-
-
-            return result;
-
+navLinks.forEach(link => {
+    link.addEventListener("click", function(e) {
+        e.preventDefault();
+        const pageId = this.getAttribute("data-page");
+        if (pageId) {
+            navigateTo(pageId);
         }
+    });
+});
 
-        catch (error) {
+console.log("✅ ScaleFlow Part 1 loaded successfully.");
 
-            console.error(
-                "❌ WEBSITE API CONNECTION FAILED",
-                error
-            );
-
-
-            return {
-
-                success:
-                    false,
-
-                code:
-                    "WEBSITE_API_CONNECTION_FAILED",
-
-                message:
-                    "ScaleFlow University backend connection failed.",
-
-                error:
-                    String(error)
-
-            };
-
-        }
-
-    }
-
-
-    // ============================================================
-    // PUBLIC SCALEFLOW API
-    // OTHER FRONTEND MODULES WILL USE THIS
-    // ============================================================
-
-    global.ScaleFlowAPI = {
-
-        request:
-            scaleFlowAPIRequest,
-
-        health:
-            testScaleFlowWebsiteConnection,
-
-        config:
-            SCALEFLOW_API_CONFIG
-
-    };
-
-
-    // ============================================================
-    // DOM REFERENCES & PAGE REGISTRY & NAVIGATION
-    // ============================================================
-
-    const loader =
-        document.getElementById("loader");
-
-    const toastContainer =
-        document.getElementById("toast-container");
-
-    const modalContainer =
-        document.getElementById("modal-container");
-
-    const modalTitle =
-        document.getElementById("modalTitle");
-
-    const modalBody =
-        document.getElementById("modalBody");
-
-    const modalCloseBtn =
-        document.getElementById("modalCloseBtn");
-
-    const modalCancelBtn =
-        document.getElementById("modalCancelBtn");
-
-    const modalConfirmBtn =
-        document.getElementById("modalConfirmBtn");
-
-    const darkModeBtn =
-        document.getElementById("darkModeBtn");
-
-    const notificationBell =
-        document.getElementById("notificationBell");
-
-    const notificationPanel =
-        document.getElementById("notificationPanel");
-
-    const notificationCount =
-        document.getElementById("notificationCount");
-
-    const markAllReadBtn =
-        document.getElementById("markAllReadBtn");
-
-    const scrollTopBtn =
-        document.getElementById("scrollTopBtn");
-
-    const currentYear =
-        document.getElementById("currentYear");
-
-    const globalSearchInput =
-        document.getElementById("globalSearchInput");
-
-    const navLinks =
-        document.querySelectorAll(
-            ".sidebar-menu a[data-page]"
-        );
-
-
-    const pageSections = {};
-
-
-    for (
-        let i = 1;
-        i <= 20;
-        i++
-    ) {
-
-        const pageId =
-            "page" + i;
-
-        const section =
-            document.getElementById(
-                pageId
-            );
-
-
-        if (section) {
-
-            pageSections[pageId] =
-                section;
-
-        }
-
-    }
-
-
-    function navigateTo(
-        pageId
-    ) {
-
-        try {
-
-            Object.keys(
-                pageSections
-            ).forEach(
-                function(id) {
-
-                    if (
-                        pageSections[id]
-                    ) {
-
-                        pageSections[id]
-                            .classList
-                            .remove(
-                                "active"
-                            );
-
-                    }
-
-                }
-            );
-
-
-            if (
-                pageSections[pageId]
-            ) {
-
-                pageSections[pageId]
-                    .classList
-                    .add(
-                        "active"
-                    );
-
-            }
-
-
-            navLinks.forEach(
-                function(link) {
-
-                    if (
-                        link.getAttribute(
-                            "data-page"
-                        ) === pageId
-                    ) {
-
-                        link.classList.add(
-                            "active"
-                        );
-
-                    }
-
-                    else {
-
-                        link.classList.remove(
-                            "active"
-                        );
-
-                    }
-
-                }
-            );
-
-
-            window.scrollTo({
-
-                top:
-                    0,
-
-                behavior:
-                    "smooth"
-
-            });
-
-
-            console.log(
-                "📄 Navigated to:",
-                pageId
-            );
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "❌ Navigation Error:",
-                error
-            );
-
-        }
-
-    }
-
-
-    navLinks.forEach(
-        function(link) {
-
-            link.addEventListener(
-                "click",
-                function(e) {
-
-                    e.preventDefault();
-
-
-                    const pageId =
-                        this.getAttribute(
-                            "data-page"
-                        );
-
-
-                    if (pageId) {
-
-                        navigateTo(
-                            pageId
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
-
-    console.log(
-        "✅ ScaleFlow Part 1 loaded successfully."
-    );
-
-
-    // ============================================================
-    // FRONTEND API CONNECTOR TEST
-    // ============================================================
-
-    window.addEventListener(
-        "load",
-        function() {
-
-            console.log(
-                "🔄 Starting ScaleFlow Website API Health Check..."
-            );
-
-
-            testScaleFlowWebsiteConnection();
-
-        }
-    );
-
-})(window);
 
 // ============================================================
 // PART 2 — TOAST NOTIFICATION SYSTEM
