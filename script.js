@@ -2847,3 +2847,1165 @@
 
 
 })(window);
+
+// ============================================================
+// SCALEFLOW UNIVERSITY
+// FRONTEND JAVASCRIPT
+// PART 3 — AI CHAT, COURSES, ACHIEVEMENTS, MARKETPLACE,
+// SETTINGS & FINAL APPLICATION STARTUP
+// ============================================================
+
+
+// ============================================================
+// PART 14 — GEMINI AI CHAT MODULE
+// WEBSITE → WEB APP API → AI ENGINE
+// ============================================================
+
+const chatMessages =
+    document.getElementById("chatMessages");
+
+const chatInput =
+    document.getElementById("chatInput");
+
+const chatSendBtn =
+    document.getElementById("chatSendBtn");
+
+const chatClearBtn =
+    document.getElementById("chatClearBtn");
+
+const chatVoiceBtn =
+    document.getElementById("chatVoiceBtn");
+
+
+// ============================================================
+// AI CHAT MESSAGE HELPER
+// ============================================================
+
+function appendChatMessage(
+    message,
+    type = "ai"
+) {
+
+    if (!chatMessages) {
+        return null;
+    }
+
+
+    const messageElement =
+        document.createElement("div");
+
+
+    messageElement.className =
+        "message " + type;
+
+
+    messageElement.textContent =
+        String(message || "");
+
+
+    chatMessages.appendChild(
+        messageElement
+    );
+
+
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+
+
+    return messageElement;
+}
+
+
+// ============================================================
+// AI CHAT LOADING MESSAGE
+// ============================================================
+
+function createAIThinkingMessage() {
+
+    return appendChatMessage(
+        "Thinking with ScaleFlow AI...",
+        "ai"
+    );
+
+}
+
+
+// ============================================================
+// EXTRACT AI ANSWER FROM API RESPONSE
+// ============================================================
+
+function extractAIAnswer(
+    result
+) {
+
+    if (!result) {
+        return "";
+    }
+
+
+    // --------------------------------------------------------
+    // Standard ScaleFlow API response
+    // --------------------------------------------------------
+
+    if (
+        result.data &&
+        typeof result.data.answer === "string"
+    ) {
+
+        return result.data.answer.trim();
+
+    }
+
+
+    // --------------------------------------------------------
+    // Alternative response field
+    // --------------------------------------------------------
+
+    if (
+        result.data &&
+        typeof result.data.text === "string"
+    ) {
+
+        return result.data.text.trim();
+
+    }
+
+
+    if (
+        typeof result.answer === "string"
+    ) {
+
+        return result.answer.trim();
+
+    }
+
+
+    if (
+        typeof result.text === "string"
+    ) {
+
+        return result.text.trim();
+
+    }
+
+
+    return "";
+
+}
+
+
+// ============================================================
+// SEND AI CHAT MESSAGE
+// ============================================================
+
+async function sendChatMessage() {
+
+    if (
+        !chatMessages ||
+        !chatInput
+    ) {
+
+        return;
+
+    }
+
+
+    const message =
+        chatInput.value.trim();
+
+
+    if (!message) {
+
+        showToast(
+            "⚠️ Please enter a question first.",
+            "warning"
+        );
+
+        return;
+
+    }
+
+
+    // --------------------------------------------------------
+    // Prevent duplicate requests
+    // --------------------------------------------------------
+
+    if (
+        chatSendBtn &&
+        chatSendBtn.disabled
+    ) {
+
+        return;
+
+    }
+
+
+    // --------------------------------------------------------
+    // Show student message
+    // --------------------------------------------------------
+
+    appendChatMessage(
+        message,
+        "user"
+    );
+
+
+    chatInput.value = "";
+
+
+    // --------------------------------------------------------
+    // Disable send button
+    // --------------------------------------------------------
+
+    if (chatSendBtn) {
+
+        chatSendBtn.disabled =
+            true;
+
+        chatSendBtn.dataset.originalText =
+            chatSendBtn.textContent;
+
+        chatSendBtn.textContent =
+            "Thinking...";
+
+    }
+
+
+    // --------------------------------------------------------
+    // AI loading message
+    // --------------------------------------------------------
+
+    const aiMessage =
+        createAIThinkingMessage();
+
+
+    try {
+
+        console.log(
+            "================================================"
+        );
+
+        console.log(
+            "ScaleFlow AI Chat Request"
+        );
+
+        console.log(
+            "================================================"
+        );
+
+        console.log(
+            "Question:",
+            message
+        );
+
+
+        // ----------------------------------------------------
+        // IMPORTANT:
+        // Use CENTRAL ScaleFlow API Connector.
+        // Do NOT create another fetch connection here.
+        // ----------------------------------------------------
+
+        const result =
+            await global.ScaleFlowAPI.request(
+                "ai.chat",
+                {
+                    message:
+                        message
+                }
+            );
+
+
+        console.log(
+            "ScaleFlow AI Chat Response:",
+            result
+        );
+
+
+        // ----------------------------------------------------
+        // Validate API response
+        // ----------------------------------------------------
+
+        if (
+            !result ||
+            typeof result !== "object"
+        ) {
+
+            throw new Error(
+                "Invalid AI API response."
+            );
+
+        }
+
+
+        // ----------------------------------------------------
+        // Backend rejected request
+        // ----------------------------------------------------
+
+        if (
+            result.success !== true
+        ) {
+
+            const backendMessage =
+                result.message ||
+                "The AI Learning Assistant is temporarily unavailable.";
+
+            throw new Error(
+                backendMessage
+            );
+
+        }
+
+
+        // ----------------------------------------------------
+        // Extract AI answer
+        // ----------------------------------------------------
+
+        const answer =
+            extractAIAnswer(
+                result
+            );
+
+
+        if (!answer) {
+
+            throw new Error(
+                "AI returned an empty response."
+            );
+
+        }
+
+
+        // ----------------------------------------------------
+        // Display real AI answer
+        // ----------------------------------------------------
+
+        if (aiMessage) {
+
+            aiMessage.textContent =
+                answer;
+
+        }
+
+
+        console.log(
+            "✅ ScaleFlow AI answer received."
+        );
+
+
+        console.log(
+            "================================================"
+        );
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "❌ ScaleFlow AI Chat Error:",
+            error
+        );
+
+
+        // ----------------------------------------------------
+        // Student-friendly fallback
+        // ----------------------------------------------------
+
+        if (aiMessage) {
+
+            aiMessage.textContent =
+                "ہمارا AI Learning Assistant اس وقت جواب دینے میں عارضی دشواری محسوس کر رہا ہے۔ براہِ کرم کچھ دیر بعد دوبارہ کوشش کریں۔ آپ کی learning progress محفوظ ہے۔ 💚";
+
+        }
+
+
+        showToast(
+            "⚠️ AI Assistant temporarily unavailable.",
+            "warning"
+        );
+
+    }
+
+    finally {
+
+        // ----------------------------------------------------
+        // Re-enable send button
+        // ----------------------------------------------------
+
+        if (chatSendBtn) {
+
+            chatSendBtn.disabled =
+                false;
+
+            chatSendBtn.textContent =
+                chatSendBtn.dataset.originalText ||
+                "Send";
+
+        }
+
+
+        if (chatInput) {
+
+            chatInput.focus();
+
+        }
+
+    }
+
+}
+
+
+// ============================================================
+// AI CHAT SEND BUTTON
+// ============================================================
+
+if (chatSendBtn) {
+
+    chatSendBtn.addEventListener(
+        "click",
+        sendChatMessage
+    );
+
+}
+
+
+// ============================================================
+// AI CHAT ENTER KEY
+// ============================================================
+
+if (chatInput) {
+
+    chatInput.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey
+            ) {
+
+                event.preventDefault();
+
+                sendChatMessage();
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// AI CHAT CLEAR
+// ============================================================
+
+if (chatClearBtn) {
+
+    chatClearBtn.addEventListener(
+        "click",
+        function() {
+
+            if (!chatMessages) {
+                return;
+            }
+
+
+            chatMessages.innerHTML = "";
+
+
+            appendChatMessage(
+                "Hello! How can I assist you with your learning today?",
+                "ai"
+            );
+
+
+            showToast(
+                "🧹 Chat cleared.",
+                "info"
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// AI VOICE INPUT
+// ============================================================
+
+if (chatVoiceBtn) {
+
+    chatVoiceBtn.addEventListener(
+        "click",
+        function() {
+
+            const SpeechRecognition =
+                window.SpeechRecognition ||
+                window.webkitSpeechRecognition;
+
+
+            if (!SpeechRecognition) {
+
+                showToast(
+                    "🎤 Voice input is not supported by this browser.",
+                    "warning"
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const recognition =
+                    new SpeechRecognition();
+
+
+                recognition.lang =
+                    document.documentElement.lang ||
+                    "en-US";
+
+
+                recognition.interimResults =
+                    false;
+
+
+                recognition.maxAlternatives =
+                    1;
+
+
+                recognition.onstart =
+                    function() {
+
+                        showToast(
+                            "🎤 Listening...",
+                            "info"
+                        );
+
+                    };
+
+
+                recognition.onresult =
+                    function(event) {
+
+                        const transcript =
+                            event.results?.[0]?.[0]?.transcript ||
+                            "";
+
+
+                        if (chatInput) {
+
+                            chatInput.value =
+                                transcript;
+
+                        }
+
+                    };
+
+
+                recognition.onerror =
+                    function(error) {
+
+                        console.error(
+                            "Voice input error:",
+                            error
+                        );
+
+
+                        showToast(
+                            "⚠️ Voice input could not be completed.",
+                            "warning"
+                        );
+
+                    };
+
+
+                recognition.start();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Voice initialization error:",
+                    error
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// PART 16 — COURSES & FILTERS
+// ============================================================
+
+const courseFilterButtons =
+    document.querySelectorAll(
+        ".filter-buttons button"
+    );
+
+
+courseFilterButtons.forEach(
+    function(button) {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                courseFilterButtons.forEach(
+                    function(btn) {
+
+                        btn.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                this.classList.add(
+                    "active"
+                );
+
+
+                const filterName =
+                    this.dataset.filter ||
+                    this.textContent.trim() ||
+                    "All";
+
+
+                console.log(
+                    "📚 Course filter:",
+                    filterName
+                );
+
+
+                showToast(
+                    "📚 Course filter applied.",
+                    "info"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+// ============================================================
+// PART 17 — ACHIEVEMENTS & PROGRESS TIMELINE
+// ============================================================
+
+const achievementCards =
+    document.querySelectorAll(
+        ".achievement-card"
+    );
+
+
+achievementCards.forEach(
+    function(card) {
+
+        card.addEventListener(
+            "click",
+            function() {
+
+                if (
+                    this.classList.contains(
+                        "locked"
+                    )
+                ) {
+
+                    showToast(
+                        "🔒 Complete previous milestones to unlock this achievement.",
+                        "warning"
+                    );
+
+                    return;
+
+                }
+
+
+                showToast(
+                    "🏆 Achievement opened successfully.",
+                    "success"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+// ============================================================
+// PART 18 — MARKETPLACE & BUSINESS HUBS
+// ============================================================
+
+const businessButtons =
+    document.querySelectorAll(
+        ".business-card .btn-primary"
+    );
+
+
+businessButtons.forEach(
+    function(button) {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                const card =
+                    this.closest(
+                        ".business-card"
+                    );
+
+
+                const title =
+                    card?.querySelector("h3")
+                        ?.textContent
+                        ?.trim() ||
+                    "Business";
+
+
+                showToast(
+                    `📂 Opening ${title}...`,
+                    "info"
+                );
+
+
+                console.log(
+                    "Business Hub opened:",
+                    title
+                );
+
+            }
+        );
+
+    }
+);
+
+
+// ============================================================
+// PART 19 — MARKETPLACE CART SYSTEM
+// ============================================================
+
+let cartCount = 0;
+
+
+const productButtons =
+    document.querySelectorAll(
+        ".product-card .btn-primary"
+    );
+
+
+function updateMarketplaceCartUI() {
+
+    const cartButton =
+        document.getElementById(
+            "marketplaceCart"
+        );
+
+
+    if (cartButton) {
+
+        cartButton.textContent =
+            `🛒 Cart (${cartCount})`;
+
+    }
+
+}
+
+
+productButtons.forEach(
+    function(button) {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                cartCount++;
+
+                updateMarketplaceCartUI();
+
+
+                showToast(
+                    "🛒 Item added to cart.",
+                    "success"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+const marketplaceCart =
+    document.getElementById(
+        "marketplaceCart"
+    );
+
+
+if (marketplaceCart) {
+
+    marketplaceCart.addEventListener(
+        "click",
+        function() {
+
+            showToast(
+                `🛒 You have ${cartCount} item(s) in your cart.`,
+                "info"
+            );
+
+        }
+    );
+
+}
+
+
+const marketplaceCheckout =
+    document.getElementById(
+        "marketplaceCheckout"
+    );
+
+
+if (marketplaceCheckout) {
+
+    marketplaceCheckout.addEventListener(
+        "click",
+        function() {
+
+            if (
+                cartCount === 0
+            ) {
+
+                showToast(
+                    "⚠️ Your cart is empty.",
+                    "warning"
+                );
+
+                return;
+
+            }
+
+
+            showToast(
+                "✅ Checkout interface is ready.",
+                "success"
+            );
+
+
+            console.log(
+                "Marketplace checkout requested."
+            );
+
+        }
+    );
+
+}
+
+
+updateMarketplaceCartUI();
+
+
+// ============================================================
+// PART 20 — SETTINGS ACTIONS
+// ============================================================
+
+const settingsBackupBtn =
+    document.getElementById(
+        "settingsBackupBtn"
+    );
+
+
+if (settingsBackupBtn) {
+
+    settingsBackupBtn.addEventListener(
+        "click",
+        function() {
+
+            showToast(
+                "💾 Backup system is ready.",
+                "info"
+            );
+
+        }
+    );
+
+}
+
+
+const settingsChangePassword =
+    document.getElementById(
+        "settingsChangePassword"
+    );
+
+
+if (settingsChangePassword) {
+
+    settingsChangePassword.addEventListener(
+        "click",
+        function() {
+
+            showToast(
+                "🔐 Password change interface is ready.",
+                "info"
+            );
+
+        }
+    );
+
+}
+
+
+const settingsEnable2FA =
+    document.getElementById(
+        "settingsEnable2FA"
+    );
+
+
+if (settingsEnable2FA) {
+
+    settingsEnable2FA.addEventListener(
+        "click",
+        function() {
+
+            showToast(
+                "📱 Two-factor authentication interface is ready.",
+                "info"
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// SCALEFLOW GLOBAL APPLICATION API
+// ============================================================
+
+global.ScaleFlow = {
+
+    showToast:
+        showToast,
+
+    openModal:
+        openModal,
+
+    closeModal:
+        closeModal,
+
+    navigateTo:
+        navigateTo,
+
+    toggleDarkMode:
+        toggleDarkMode,
+
+    hideLoader:
+        hideLoader,
+
+    updateDashboardStats:
+        updateDashboardStats,
+
+    updateContinueLearningProgress:
+        updateContinueLearningProgress,
+
+    sendChatMessage:
+        sendChatMessage
+
+};
+
+
+// ============================================================
+// FINAL APPLICATION STARTUP
+// ============================================================
+
+function startScaleFlowApp() {
+
+    console.log(
+        "================================================"
+    );
+
+    console.log(
+        "🚀 ScaleFlow University Starting..."
+    );
+
+    console.log(
+        "================================================"
+    );
+
+
+    // --------------------------------------------------------
+    // Navigation
+    // --------------------------------------------------------
+
+    try {
+
+        navigateTo(
+            "page1"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "❌ Navigation startup error:",
+            error
+        );
+
+    }
+
+
+    // --------------------------------------------------------
+    // Dashboard
+    // --------------------------------------------------------
+
+    try {
+
+        updateDashboardStats();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "❌ Dashboard startup error:",
+            error
+        );
+
+    }
+
+
+    // --------------------------------------------------------
+    // Welcome message
+    // --------------------------------------------------------
+
+    try {
+
+        showToast(
+            "🎓 Welcome to ScaleFlow University.",
+            "success"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "❌ Welcome message error:",
+            error
+        );
+
+    }
+
+
+    console.log(
+        "================================================"
+    );
+
+    console.log(
+        "✅ ScaleFlow University frontend is running."
+    );
+
+    console.log(
+        "================================================"
+    );
+
+}
+
+
+// ============================================================
+// SAFE DOM STARTUP
+// ============================================================
+
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        startScaleFlowApp,
+        {
+            once: true
+        }
+    );
+
+}
+
+else {
+
+    startScaleFlowApp();
+
+}
+
+
+// ============================================================
+// FINAL LOADER SAFETY
+// ============================================================
+
+setTimeout(
+    function() {
+
+        try {
+
+            hideLoader();
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Final loader error:",
+                error
+            );
+
+
+            const safeLoader =
+                document.getElementById(
+                    "loader"
+                );
+
+
+            if (safeLoader) {
+
+                safeLoader.style.display =
+                    "none";
+
+            }
+
+        }
+
+    },
+    1500
+);
+
+
+// ============================================================
+// JAVASCRIPT INITIALIZATION COMPLETE
+// ============================================================
+
+console.log(
+    "✅ ScaleFlow University JavaScript Part 3 initialized."
+);
+
+console.log(
+    "✅ Parts 1–3 frontend architecture loaded."
+);
+
+console.log(
+    "✅ Central Web App API Connector enabled."
+);
+
+console.log(
+    "✅ AI Chat routed through ScaleFlow API."
+);
