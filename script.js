@@ -13,10 +13,10 @@
     // SCALEFLOW UNIVERSITY — WEB APP API CONFIGURATION
     // ============================================================
 
-    const SCALEFLOW_API_CONFIG = {
+        const SCALEFLOW_API_CONFIG = {
 
         WEB_APP_URL:
-            "۔Https://script.google.com/macros/s/AKfycbzi-xw_9P5h9xvrG-WzmbCub6tR9PVBAxP98WyFyUd-XKIWvwziedjFaEvP9JPQ_GUy/exec",
+            "https://script.google.com/macros/s/AKfycbzi-xw_9P5h9xvrG-WzmbCub6tR9PVBAxP98WyFyUd-XKIWvwziedjFaEvP9JPQ_GUy/exec",
 
         VERSION:
             "v1",
@@ -28,6 +28,7 @@
             "ScaleFlow University"
 
     };
+
 
 
     // ============================================================
