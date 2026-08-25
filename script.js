@@ -16,7 +16,7 @@
     const SCALEFLOW_API_CONFIG = {
 
         WEB_APP_URL:
-            "۔ https://script.google.com/macros/s/AKfycbzi-xw_9P5h9xvrG-WzmbCub6tR9PVBAxP98WyFyUd-XKIWvwziedjFaEvP9JPQ_GUy/exec",
+            "https://script.google.com/macros/s/AKfycbzi-xw_9P5h9xvrG-WzmbCub6tR9PVBAxP98WyFyUd-XKIWvwziedjFaEvP9JPQ_GUy/exec",
 
         VERSION:
             "v1",
@@ -151,6 +151,11 @@
             );
 
             console.log(
+                "Endpoint:",
+                SCALEFLOW_API_CONFIG.WEB_APP_URL
+            );
+
+            console.log(
                 "Action:",
                 action
             );
@@ -160,12 +165,6 @@
                 requestId
             );
 
-
-            // ----------------------------------------------------
-            // IMPORTANT
-            // Do NOT use no-cors.
-            // We need to read the JSON response from Apps Script.
-            // ----------------------------------------------------
 
             const response =
                 await fetch(
@@ -204,6 +203,11 @@
                 response.status
             );
 
+            console.log(
+                "HTTP OK:",
+                response.ok
+            );
+
 
             if (!response.ok) {
 
@@ -215,8 +219,12 @@
                     "HTTP_ERROR",
 
                     {
+
                         status:
                             response.status,
+
+                        statusText:
+                            response.statusText,
 
                         requestId:
                             requestId
@@ -228,12 +236,14 @@
             }
 
 
-            // ----------------------------------------------------
-            // Read response safely
-            // ----------------------------------------------------
-
             const responseText =
                 await response.text();
+
+
+            console.log(
+                "Raw Backend Response:",
+                responseText
+            );
 
 
             if (
@@ -248,6 +258,7 @@
                     "EMPTY_RESPONSE",
 
                     {
+
                         requestId:
                             requestId
 
@@ -285,6 +296,7 @@
                     "INVALID_JSON",
 
                     {
+
                         requestId:
                             requestId,
 
@@ -310,6 +322,7 @@
                     "INVALID_RESPONSE",
 
                     {
+
                         requestId:
                             requestId
 
@@ -321,7 +334,7 @@
 
 
             console.log(
-                "✅ ScaleFlow API Response:",
+                "✅ Parsed ScaleFlow API Response:",
                 result
             );
 
@@ -347,7 +360,8 @@
             ) {
 
                 console.error(
-                    "❌ ScaleFlow API Timeout"
+                    "❌ ScaleFlow API Timeout:",
+                    requestId
                 );
 
 
@@ -358,6 +372,7 @@
                     "TIMEOUT",
 
                     {
+
                         requestId:
                             requestId
 
@@ -368,13 +383,39 @@
             }
 
 
+            if (
+                error &&
+                error.code
+            ) {
+
+                throw error;
+
+            }
+
+
             console.error(
-                "❌ ScaleFlow API Error:",
+                "❌ ScaleFlow API Network Error:",
                 error
             );
 
 
-            throw error;
+            throw createScaleFlowAPIError(
+
+                "Unable to reach the ScaleFlow Web App backend.",
+
+                "NETWORK_ERROR",
+
+                {
+
+                    requestId:
+                        requestId,
+
+                    originalError:
+                        String(error)
+
+                }
+
+            );
 
         }
 
@@ -383,7 +424,6 @@
 
     // ============================================================
     // SCALEFLOW SYSTEM HEALTH CHECK
-    // WEBSITE → WEB APP API ENGINE
     // ============================================================
 
     async function testScaleFlowWebsiteConnection() {
@@ -416,9 +456,7 @@
 
             if (
                 result &&
-                result.success === true &&
-                result.code ===
-                    "SYSTEM_HEALTHY"
+                result.success === true
             ) {
 
                 console.log(
@@ -454,12 +492,6 @@
                 );
 
                 console.log(
-                    "Gemini Configured:",
-                    result.data &&
-                    result.data.geminiConfigured
-                );
-
-                console.log(
                     "Request ID:",
                     result.requestId
                 );
@@ -475,12 +507,35 @@
 
 
             console.error(
-                "❌ WEBSITE API HEALTH CHECK FAILED",
+                "❌ WEBSITE API HEALTH CHECK FAILED:",
                 result
             );
 
 
-            return result;
+            return {
+
+                success:
+                    false,
+
+                code:
+                    result &&
+                    result.code
+                        ? result.code
+                        : "HEALTH_CHECK_FAILED",
+
+                message:
+                    result &&
+                    result.message
+                        ? result.message
+                        : "ScaleFlow backend health check failed.",
+
+                data:
+                    result &&
+                    result.data
+                        ? result.data
+                        : null
+
+            };
 
         }
 
@@ -495,7 +550,18 @@
             );
 
             console.error(
-                error
+                "Error Code:",
+                error.code
+            );
+
+            console.error(
+                "Error Message:",
+                error.message
+            );
+
+            console.error(
+                "Error Details:",
+                error.details
             );
 
             console.error(
@@ -513,6 +579,7 @@
                     "WEBSITE_API_CONNECTION_FAILED",
 
                 message:
+                    error.message ||
                     "ScaleFlow University backend connection failed.",
 
                 requestId:
@@ -942,19 +1009,6 @@
             }
 
 
-            if (
-                loaderElement.classList.contains(
-                    "hidden"
-                ) ||
-                loaderElement.style.display ===
-                    "none"
-            ) {
-
-                return;
-
-            }
-
-
             loaderElement.classList.add(
                 "hidden"
             );
@@ -963,24 +1017,16 @@
             setTimeout(
                 function () {
 
-                    try {
+                    if (
+                        loaderElement
+                    ) {
 
                         loaderElement.style.display =
                             "none";
 
-
                         loaderElement.setAttribute(
                             "aria-hidden",
                             "true"
-                        );
-
-                    }
-
-                    catch (error) {
-
-                        console.error(
-                            "❌ Loader Hide Error:",
-                            error
                         );
 
                     }
@@ -1120,9 +1166,7 @@
     // MODAL EVENTS
     // ============================================================
 
-    if (
-        modalCloseBtn
-    ) {
+    if (modalCloseBtn) {
 
         modalCloseBtn.addEventListener(
             "click",
@@ -1132,9 +1176,7 @@
     }
 
 
-    if (
-        modalCancelBtn
-    ) {
+    if (modalCancelBtn) {
 
         modalCancelBtn.addEventListener(
             "click",
@@ -1144,9 +1186,7 @@
     }
 
 
-    if (
-        modalConfirmBtn
-    ) {
+    if (modalConfirmBtn) {
 
         modalConfirmBtn.addEventListener(
             "click",
@@ -1157,7 +1197,6 @@
                     "success"
                 );
 
-
                 closeModal();
 
             }
@@ -1166,9 +1205,7 @@
     }
 
 
-    if (
-        modalContainer
-    ) {
+    if (modalContainer) {
 
         modalContainer.addEventListener(
             "click",
@@ -1239,9 +1276,7 @@
     }
 
 
-    if (
-        darkModeBtn
-    ) {
+    if (darkModeBtn) {
 
         darkModeBtn.addEventListener(
             "click",
@@ -1303,17 +1338,13 @@
     // MARK ALL NOTIFICATIONS READ
     // ============================================================
 
-    if (
-        markAllReadBtn
-    ) {
+    if (markAllReadBtn) {
 
         markAllReadBtn.addEventListener(
             "click",
             function () {
 
-                if (
-                    notificationCount
-                ) {
+                if (notificationCount) {
 
                     notificationCount.style.display =
                         "none";
@@ -1336,9 +1367,7 @@
     // FOOTER YEAR
     // ============================================================
 
-    if (
-        currentYear
-    ) {
+    if (currentYear) {
 
         currentYear.textContent =
             new Date().getFullYear();
@@ -1350,9 +1379,7 @@
     // SCROLL TO TOP
     // ============================================================
 
-    if (
-        scrollTopBtn
-    ) {
+    if (scrollTopBtn) {
 
         scrollTopBtn.addEventListener(
             "click",
@@ -1376,7 +1403,6 @@
 
     // ============================================================
     // PUBLIC SCALEFLOW API
-    // OTHER PARTS WILL USE THIS
     // ============================================================
 
     global.ScaleFlowAPI = {
@@ -1395,7 +1421,8 @@
 
     // ============================================================
     // PUBLIC SCALEFLOW CORE
-    // OTHER PARTS WILL USE THIS
+    // IMPORTANT:
+    // All functions required by Parts 2 and 3 are exposed here.
     // ============================================================
 
     global.ScaleFlow = {
@@ -1452,13 +1479,7 @@
             hideLoader();
 
 
-            // ----------------------------------------------------
-            // Start on Home Page
-            // ----------------------------------------------------
-
-            if (
-                pageSections.page1
-            ) {
+            if (pageSections.page1) {
 
                 navigateTo(
                     "page1"
@@ -1468,7 +1489,7 @@
 
 
             // ----------------------------------------------------
-            // Website → Backend Health Check
+            // Backend health check
             // ----------------------------------------------------
 
             testScaleFlowWebsiteConnection()
@@ -1481,7 +1502,7 @@
                         ) {
 
                             showToast(
-                                "🟢 ScaleFlow AI Backend Connected",
+                                "🟢 ScaleFlow Backend Connected",
                                 "success"
                             );
 
@@ -1489,9 +1510,9 @@
 
                         else {
 
-                            showToast(
-                                "⚠️ Backend connection unavailable",
-                                "warning"
+                            console.warn(
+                                "⚠️ Backend health check failed:",
+                                result
                             );
 
                         }
@@ -1637,10 +1658,6 @@
                     query
                 );
 
-
-                // ------------------------------------------------
-                // Search visible website content
-                // ------------------------------------------------
 
                 const searchableElements =
                     document.querySelectorAll(
@@ -2235,7 +2252,13 @@
         event
     ) {
 
-        event.preventDefault();
+        if (
+            event
+        ) {
+
+            event.preventDefault();
+
+        }
 
 
         const email =
@@ -2315,8 +2338,9 @@
 
 
                 if (
+                    result.data &&
                     typeof result.data ===
-                    "object"
+                        "object"
                 ) {
 
                     global.ScaleFlowStudent =
@@ -2358,7 +2382,16 @@
 
             ScaleFlow.showToast(
 
-                "❌ Unable to connect to the login service.",
+                error &&
+                error.code ===
+                    "NETWORK_ERROR"
+
+                    ? "❌ Backend server could not be reached."
+
+                    : error &&
+                      error.message
+                        ? error.message
+                        : "❌ Unable to connect to the login service.",
 
                 "error"
 
@@ -2433,7 +2466,13 @@
         event
     ) {
 
-        event.preventDefault();
+        if (
+            event
+        ) {
+
+            event.preventDefault();
+
+        }
 
 
         const fullName =
@@ -2589,7 +2628,13 @@
                 );
 
 
-                registrationForm.reset();
+                if (
+                    registrationForm
+                ) {
+
+                    registrationForm.reset();
+
+                }
 
 
                 if (
@@ -2650,7 +2695,16 @@
 
             ScaleFlow.showToast(
 
-                "❌ Unable to connect to the registration service.",
+                error &&
+                error.code ===
+                    "NETWORK_ERROR"
+
+                    ? "❌ Backend server could not be reached."
+
+                    : error &&
+                      error.message
+                        ? error.message
+                        : "❌ Unable to connect to the registration service.",
 
                 "error"
 
@@ -2725,6 +2779,8 @@
 
     // ============================================================
     // PUBLIC PART 2 FUNCTIONS
+    // IMPORTANT:
+    // Preserve the ScaleFlow object created by Part 1.
     // ============================================================
 
     ScaleFlow.updateDashboardStats =
@@ -2771,6 +2827,15 @@
         console.log(
             "ScaleFlow API:",
             !!global.ScaleFlowAPI
+        );
+
+
+        console.log(
+            "Backend URL:",
+            global.ScaleFlowAPI &&
+            global.ScaleFlowAPI.config
+                ? global.ScaleFlowAPI.config.WEB_APP_URL
+                : "UNAVAILABLE"
         );
 
 
@@ -2827,6 +2892,10 @@
     }
 
 
+    // ============================================================
+    // SAFE PART 2 STARTUP
+    // ============================================================
+
     if (
         document.readyState ===
         "loading"
@@ -2834,7 +2903,11 @@
 
         document.addEventListener(
             "DOMContentLoaded",
-            startPart2
+            startPart2,
+            {
+                once:
+                    true
+            }
         );
 
     }
@@ -2846,19 +2919,21 @@
     }
 
 
-})(window);
+    // ============================================================
+    // FINAL PART 2 MESSAGE
+    // ============================================================
 
-// ============================================================
-// SCALEFLOW UNIVERSITY
-// FRONTEND JAVASCRIPT
-// PART 3 — AI CHAT, COURSES, ACHIEVEMENTS, MARKETPLACE,
-// SETTINGS & FINAL APPLICATION STARTUP
-// ============================================================
+    console.log(
+        "✅ ScaleFlow University JavaScript Part 2 initialized."
+    );
+
+
+})(window);
 
 
 // ============================================================
 // PART 14 — GEMINI AI CHAT MODULE
-// WEBSITE → WEB APP API → AI ENGINE
+// WEBSITE → CENTRAL SCALEFLOW API → AI ENGINE
 // ============================================================
 
 const chatMessages =
@@ -2887,7 +2962,9 @@ function appendChatMessage(
 ) {
 
     if (!chatMessages) {
+
         return null;
+
     }
 
 
@@ -2913,6 +2990,7 @@ function appendChatMessage(
 
 
     return messageElement;
+
 }
 
 
@@ -2931,7 +3009,7 @@ function createAIThinkingMessage() {
 
 
 // ============================================================
-// EXTRACT AI ANSWER FROM API RESPONSE
+// EXTRACT AI ANSWER
 // ============================================================
 
 function extractAIAnswer(
@@ -2939,17 +3017,16 @@ function extractAIAnswer(
 ) {
 
     if (!result) {
+
         return "";
+
     }
 
 
-    // --------------------------------------------------------
-    // Standard ScaleFlow API response
-    // --------------------------------------------------------
-
     if (
         result.data &&
-        typeof result.data.answer === "string"
+        typeof result.data.answer ===
+            "string"
     ) {
 
         return result.data.answer.trim();
@@ -2957,13 +3034,10 @@ function extractAIAnswer(
     }
 
 
-    // --------------------------------------------------------
-    // Alternative response field
-    // --------------------------------------------------------
-
     if (
         result.data &&
-        typeof result.data.text === "string"
+        typeof result.data.text ===
+            "string"
     ) {
 
         return result.data.text.trim();
@@ -2972,7 +3046,8 @@ function extractAIAnswer(
 
 
     if (
-        typeof result.answer === "string"
+        typeof result.answer ===
+            "string"
     ) {
 
         return result.answer.trim();
@@ -2981,7 +3056,8 @@ function extractAIAnswer(
 
 
     if (
-        typeof result.text === "string"
+        typeof result.text ===
+            "string"
     ) {
 
         return result.text.trim();
@@ -3016,7 +3092,7 @@ async function sendChatMessage() {
 
     if (!message) {
 
-        showToast(
+        ScaleFlow.showToast(
             "⚠️ Please enter a question first.",
             "warning"
         );
@@ -3025,10 +3101,6 @@ async function sendChatMessage() {
 
     }
 
-
-    // --------------------------------------------------------
-    // Prevent duplicate requests
-    // --------------------------------------------------------
 
     if (
         chatSendBtn &&
@@ -3040,10 +3112,6 @@ async function sendChatMessage() {
     }
 
 
-    // --------------------------------------------------------
-    // Show student message
-    // --------------------------------------------------------
-
     appendChatMessage(
         message,
         "user"
@@ -3053,27 +3121,20 @@ async function sendChatMessage() {
     chatInput.value = "";
 
 
-    // --------------------------------------------------------
-    // Disable send button
-    // --------------------------------------------------------
-
     if (chatSendBtn) {
 
         chatSendBtn.disabled =
             true;
 
         chatSendBtn.dataset.originalText =
-            chatSendBtn.textContent;
+            chatSendBtn.textContent ||
+            "Send";
 
         chatSendBtn.textContent =
             "Thinking...";
 
     }
 
-
-    // --------------------------------------------------------
-    // AI loading message
-    // --------------------------------------------------------
 
     const aiMessage =
         createAIThinkingMessage();
@@ -3100,10 +3161,23 @@ async function sendChatMessage() {
 
 
         // ----------------------------------------------------
-        // IMPORTANT:
-        // Use CENTRAL ScaleFlow API Connector.
-        // Do NOT create another fetch connection here.
+        // CRITICAL:
+        // Use Part 1 Central API Connector.
+        // NEVER create another fetch() here.
         // ----------------------------------------------------
+
+        if (
+            !global.ScaleFlowAPI ||
+            typeof global.ScaleFlowAPI.request !==
+                "function"
+        ) {
+
+            throw new Error(
+                "ScaleFlow Central API Connector is unavailable."
+            );
+
+        }
+
 
         const result =
             await global.ScaleFlowAPI.request(
@@ -3121,13 +3195,10 @@ async function sendChatMessage() {
         );
 
 
-        // ----------------------------------------------------
-        // Validate API response
-        // ----------------------------------------------------
-
         if (
             !result ||
-            typeof result !== "object"
+            typeof result !==
+                "object"
         ) {
 
             throw new Error(
@@ -3137,28 +3208,18 @@ async function sendChatMessage() {
         }
 
 
-        // ----------------------------------------------------
-        // Backend rejected request
-        // ----------------------------------------------------
-
         if (
-            result.success !== true
+            result.success !==
+                true
         ) {
 
-            const backendMessage =
-                result.message ||
-                "The AI Learning Assistant is temporarily unavailable.";
-
             throw new Error(
-                backendMessage
+                result.message ||
+                "AI Learning Assistant is temporarily unavailable."
             );
 
         }
 
-
-        // ----------------------------------------------------
-        // Extract AI answer
-        // ----------------------------------------------------
 
         const answer =
             extractAIAnswer(
@@ -3175,10 +3236,6 @@ async function sendChatMessage() {
         }
 
 
-        // ----------------------------------------------------
-        // Display real AI answer
-        // ----------------------------------------------------
-
         if (aiMessage) {
 
             aiMessage.textContent =
@@ -3192,11 +3249,6 @@ async function sendChatMessage() {
         );
 
 
-        console.log(
-            "================================================"
-        );
-
-
     }
 
     catch (error) {
@@ -3207,19 +3259,15 @@ async function sendChatMessage() {
         );
 
 
-        // ----------------------------------------------------
-        // Student-friendly fallback
-        // ----------------------------------------------------
-
         if (aiMessage) {
 
             aiMessage.textContent =
-                "ہمارا AI Learning Assistant اس وقت جواب دینے میں عارضی دشواری محسوس کر رہا ہے۔ براہِ کرم کچھ دیر بعد دوبارہ کوشش کریں۔ آپ کی learning progress محفوظ ہے۔ 💚";
+                "ہمارا AI Learning Assistant اس وقت جواب دینے میں عارضی دشواری محسوس کر رہا ہے۔ براہِ کرم کچھ دیر بعد دوبارہ کوشش کریں۔";
 
         }
 
 
-        showToast(
+        ScaleFlow.showToast(
             "⚠️ AI Assistant temporarily unavailable.",
             "warning"
         );
@@ -3227,10 +3275,6 @@ async function sendChatMessage() {
     }
 
     finally {
-
-        // ----------------------------------------------------
-        // Re-enable send button
-        // ----------------------------------------------------
 
         if (chatSendBtn) {
 
@@ -3253,759 +3297,3 @@ async function sendChatMessage() {
     }
 
 }
-
-
-// ============================================================
-// AI CHAT SEND BUTTON
-// ============================================================
-
-if (chatSendBtn) {
-
-    chatSendBtn.addEventListener(
-        "click",
-        sendChatMessage
-    );
-
-}
-
-
-// ============================================================
-// AI CHAT ENTER KEY
-// ============================================================
-
-if (chatInput) {
-
-    chatInput.addEventListener(
-        "keydown",
-        function(event) {
-
-            if (
-                event.key === "Enter" &&
-                !event.shiftKey
-            ) {
-
-                event.preventDefault();
-
-                sendChatMessage();
-
-            }
-
-        }
-    );
-
-}
-
-
-// ============================================================
-// AI CHAT CLEAR
-// ============================================================
-
-if (chatClearBtn) {
-
-    chatClearBtn.addEventListener(
-        "click",
-        function() {
-
-            if (!chatMessages) {
-                return;
-            }
-
-
-            chatMessages.innerHTML = "";
-
-
-            appendChatMessage(
-                "Hello! How can I assist you with your learning today?",
-                "ai"
-            );
-
-
-            showToast(
-                "🧹 Chat cleared.",
-                "info"
-            );
-
-        }
-    );
-
-}
-
-
-// ============================================================
-// AI VOICE INPUT
-// ============================================================
-
-if (chatVoiceBtn) {
-
-    chatVoiceBtn.addEventListener(
-        "click",
-        function() {
-
-            const SpeechRecognition =
-                window.SpeechRecognition ||
-                window.webkitSpeechRecognition;
-
-
-            if (!SpeechRecognition) {
-
-                showToast(
-                    "🎤 Voice input is not supported by this browser.",
-                    "warning"
-                );
-
-                return;
-
-            }
-
-
-            try {
-
-                const recognition =
-                    new SpeechRecognition();
-
-
-                recognition.lang =
-                    document.documentElement.lang ||
-                    "en-US";
-
-
-                recognition.interimResults =
-                    false;
-
-
-                recognition.maxAlternatives =
-                    1;
-
-
-                recognition.onstart =
-                    function() {
-
-                        showToast(
-                            "🎤 Listening...",
-                            "info"
-                        );
-
-                    };
-
-
-                recognition.onresult =
-                    function(event) {
-
-                        const transcript =
-                            event.results?.[0]?.[0]?.transcript ||
-                            "";
-
-
-                        if (chatInput) {
-
-                            chatInput.value =
-                                transcript;
-
-                        }
-
-                    };
-
-
-                recognition.onerror =
-                    function(error) {
-
-                        console.error(
-                            "Voice input error:",
-                            error
-                        );
-
-
-                        showToast(
-                            "⚠️ Voice input could not be completed.",
-                            "warning"
-                        );
-
-                    };
-
-
-                recognition.start();
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Voice initialization error:",
-                    error
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-// ============================================================
-// PART 16 — COURSES & FILTERS
-// ============================================================
-
-const courseFilterButtons =
-    document.querySelectorAll(
-        ".filter-buttons button"
-    );
-
-
-courseFilterButtons.forEach(
-    function(button) {
-
-        button.addEventListener(
-            "click",
-            function() {
-
-                courseFilterButtons.forEach(
-                    function(btn) {
-
-                        btn.classList.remove(
-                            "active"
-                        );
-
-                    }
-                );
-
-
-                this.classList.add(
-                    "active"
-                );
-
-
-                const filterName =
-                    this.dataset.filter ||
-                    this.textContent.trim() ||
-                    "All";
-
-
-                console.log(
-                    "📚 Course filter:",
-                    filterName
-                );
-
-
-                showToast(
-                    "📚 Course filter applied.",
-                    "info"
-                );
-
-            }
-        );
-
-    }
-);
-
-
-// ============================================================
-// PART 17 — ACHIEVEMENTS & PROGRESS TIMELINE
-// ============================================================
-
-const achievementCards =
-    document.querySelectorAll(
-        ".achievement-card"
-    );
-
-
-achievementCards.forEach(
-    function(card) {
-
-        card.addEventListener(
-            "click",
-            function() {
-
-                if (
-                    this.classList.contains(
-                        "locked"
-                    )
-                ) {
-
-                    showToast(
-                        "🔒 Complete previous milestones to unlock this achievement.",
-                        "warning"
-                    );
-
-                    return;
-
-                }
-
-
-                showToast(
-                    "🏆 Achievement opened successfully.",
-                    "success"
-                );
-
-            }
-        );
-
-    }
-);
-
-
-// ============================================================
-// PART 18 — MARKETPLACE & BUSINESS HUBS
-// ============================================================
-
-const businessButtons =
-    document.querySelectorAll(
-        ".business-card .btn-primary"
-    );
-
-
-businessButtons.forEach(
-    function(button) {
-
-        button.addEventListener(
-            "click",
-            function() {
-
-                const card =
-                    this.closest(
-                        ".business-card"
-                    );
-
-
-                const title =
-                    card?.querySelector("h3")
-                        ?.textContent
-                        ?.trim() ||
-                    "Business";
-
-
-                showToast(
-                    `📂 Opening ${title}...`,
-                    "info"
-                );
-
-
-                console.log(
-                    "Business Hub opened:",
-                    title
-                );
-
-            }
-        );
-
-    }
-);
-
-
-// ============================================================
-// PART 19 — MARKETPLACE CART SYSTEM
-// ============================================================
-
-let cartCount = 0;
-
-
-const productButtons =
-    document.querySelectorAll(
-        ".product-card .btn-primary"
-    );
-
-
-function updateMarketplaceCartUI() {
-
-    const cartButton =
-        document.getElementById(
-            "marketplaceCart"
-        );
-
-
-    if (cartButton) {
-
-        cartButton.textContent =
-            `🛒 Cart (${cartCount})`;
-
-    }
-
-}
-
-
-productButtons.forEach(
-    function(button) {
-
-        button.addEventListener(
-            "click",
-            function() {
-
-                cartCount++;
-
-                updateMarketplaceCartUI();
-
-
-                showToast(
-                    "🛒 Item added to cart.",
-                    "success"
-                );
-
-            }
-        );
-
-    }
-);
-
-
-const marketplaceCart =
-    document.getElementById(
-        "marketplaceCart"
-    );
-
-
-if (marketplaceCart) {
-
-    marketplaceCart.addEventListener(
-        "click",
-        function() {
-
-            showToast(
-                `🛒 You have ${cartCount} item(s) in your cart.`,
-                "info"
-            );
-
-        }
-    );
-
-}
-
-
-const marketplaceCheckout =
-    document.getElementById(
-        "marketplaceCheckout"
-    );
-
-
-if (marketplaceCheckout) {
-
-    marketplaceCheckout.addEventListener(
-        "click",
-        function() {
-
-            if (
-                cartCount === 0
-            ) {
-
-                showToast(
-                    "⚠️ Your cart is empty.",
-                    "warning"
-                );
-
-                return;
-
-            }
-
-
-            showToast(
-                "✅ Checkout interface is ready.",
-                "success"
-            );
-
-
-            console.log(
-                "Marketplace checkout requested."
-            );
-
-        }
-    );
-
-}
-
-
-updateMarketplaceCartUI();
-
-
-// ============================================================
-// PART 20 — SETTINGS ACTIONS
-// ============================================================
-
-const settingsBackupBtn =
-    document.getElementById(
-        "settingsBackupBtn"
-    );
-
-
-if (settingsBackupBtn) {
-
-    settingsBackupBtn.addEventListener(
-        "click",
-        function() {
-
-            showToast(
-                "💾 Backup system is ready.",
-                "info"
-            );
-
-        }
-    );
-
-}
-
-
-const settingsChangePassword =
-    document.getElementById(
-        "settingsChangePassword"
-    );
-
-
-if (settingsChangePassword) {
-
-    settingsChangePassword.addEventListener(
-        "click",
-        function() {
-
-            showToast(
-                "🔐 Password change interface is ready.",
-                "info"
-            );
-
-        }
-    );
-
-}
-
-
-const settingsEnable2FA =
-    document.getElementById(
-        "settingsEnable2FA"
-    );
-
-
-if (settingsEnable2FA) {
-
-    settingsEnable2FA.addEventListener(
-        "click",
-        function() {
-
-            showToast(
-                "📱 Two-factor authentication interface is ready.",
-                "info"
-            );
-
-        }
-    );
-
-}
-
-
-// ============================================================
-// SCALEFLOW GLOBAL APPLICATION API
-// ============================================================
-
-global.ScaleFlow = {
-
-    showToast:
-        showToast,
-
-    openModal:
-        openModal,
-
-    closeModal:
-        closeModal,
-
-    navigateTo:
-        navigateTo,
-
-    toggleDarkMode:
-        toggleDarkMode,
-
-    hideLoader:
-        hideLoader,
-
-    updateDashboardStats:
-        updateDashboardStats,
-
-    updateContinueLearningProgress:
-        updateContinueLearningProgress,
-
-    sendChatMessage:
-        sendChatMessage
-
-};
-
-
-// ============================================================
-// FINAL APPLICATION STARTUP
-// ============================================================
-
-function startScaleFlowApp() {
-
-    console.log(
-        "================================================"
-    );
-
-    console.log(
-        "🚀 ScaleFlow University Starting..."
-    );
-
-    console.log(
-        "================================================"
-    );
-
-
-    // --------------------------------------------------------
-    // Navigation
-    // --------------------------------------------------------
-
-    try {
-
-        navigateTo(
-            "page1"
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "❌ Navigation startup error:",
-            error
-        );
-
-    }
-
-
-    // --------------------------------------------------------
-    // Dashboard
-    // --------------------------------------------------------
-
-    try {
-
-        updateDashboardStats();
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "❌ Dashboard startup error:",
-            error
-        );
-
-    }
-
-
-    // --------------------------------------------------------
-    // Welcome message
-    // --------------------------------------------------------
-
-    try {
-
-        showToast(
-            "🎓 Welcome to ScaleFlow University.",
-            "success"
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "❌ Welcome message error:",
-            error
-        );
-
-    }
-
-
-    console.log(
-        "================================================"
-    );
-
-    console.log(
-        "✅ ScaleFlow University frontend is running."
-    );
-
-    console.log(
-        "================================================"
-    );
-
-}
-
-
-// ============================================================
-// SAFE DOM STARTUP
-// ============================================================
-
-if (
-    document.readyState ===
-    "loading"
-) {
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        startScaleFlowApp,
-        {
-            once: true
-        }
-    );
-
-}
-
-else {
-
-    startScaleFlowApp();
-
-}
-
-
-// ============================================================
-// FINAL LOADER SAFETY
-// ============================================================
-
-setTimeout(
-    function() {
-
-        try {
-
-            hideLoader();
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "Final loader error:",
-                error
-            );
-
-
-            const safeLoader =
-                document.getElementById(
-                    "loader"
-                );
-
-
-            if (safeLoader) {
-
-                safeLoader.style.display =
-                    "none";
-
-            }
-
-        }
-
-    },
-    1500
-);
-
-
-// ============================================================
-// JAVASCRIPT INITIALIZATION COMPLETE
-// ============================================================
-
-console.log(
-    "✅ ScaleFlow University JavaScript Part 3 initialized."
-);
-
-console.log(
-    "✅ Parts 1–3 frontend architecture loaded."
-);
-
-console.log(
-    "✅ Central Web App API Connector enabled."
-);
-
-console.log(
-    "✅ AI Chat routed through ScaleFlow API."
-);
