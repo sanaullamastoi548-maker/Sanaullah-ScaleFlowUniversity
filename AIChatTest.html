@@ -1,1 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ScaleFlow AI Test</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 12px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 12px 20px;
+      cursor: pointer;
+    }
+
+    #status {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f3f3f3;
+    }
+
+    #answer {
+      margin-top: 20px;
+      padding: 15px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>ScaleFlow AI Mentor</h2>
+
+  <textarea
+    id="question"
+    placeholder="Ask your question..."
+  ></textarea>
+
+  <br>
+
+  <button id="sendButton">
+    Ask AI
+  </button>
+
+  <div id="status"></div>
+
+  <div id="answer"></div>
+
+
+  <script>
+
+    const SCALEFLOW_WEB_APP_URL =
+      "https://script.google.com/macros/s/AKfycbwBPdo7TflhmyiUIU8rZQx7hvUYPMpJJX7LszL1YxNUQrcLrf8lh8ZUIxGrp4jK_PvY/exec";
+
+
+    async function askScaleFlowAI() {
+
+      const question =
+        document
+          .getElementById("question")
+          .value
+          .trim();
+
+      const status =
+        document.getElementById("status");
+
+      const answer =
+        document.getElementById("answer");
+
+
+      if (!question) {
+
+        status.textContent =
+          "Please enter a question.";
+
+        return;
+      }
+
+
+      status.textContent =
+        "AI is thinking...";
+
+      answer.textContent = "";
+
+
+      try {
+
+        const response =
+          await fetch(
+            SCALEFLOW_WEB_APP_URL,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "text/plain;charset=utf-8"
+              },
+
+              body: JSON.stringify({
+
+                action: "ai.chat",
+
+                data: {
+
+                  question: question,
+
+                  language: "en"
+                },
+
+                version: "v1",
+
+                requestId:
+                  "WEB-" + Date.now()
+
+              })
+            }
+          );
+
+
+        const result =
+          await response.json();
+
+
+        if (result.success) {
+
+          status.textContent =
+            "AI Response received ✅";
+
+          answer.textContent =
+            result.data.answer;
+
+        } else {
+
+          status.textContent =
+            "AI service is temporarily unavailable.";
+
+          answer.textContent =
+            result.message ||
+            "Please try again later.";
+        }
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+          "Connection problem.";
+
+        answer.textContent =
+          "The AI Mentor is temporarily unavailable. Please try again later.";
+      }
+    }
+
+
+    document
+      .getElementById("sendButton")
+      .addEventListener(
+        "click",
+        askScaleFlowAI
+      );
+
+  </script>
+
+</body>
+
+</html>
