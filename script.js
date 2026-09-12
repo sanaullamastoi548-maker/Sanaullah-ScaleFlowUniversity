@@ -2480,3 +2480,1034 @@
 
 
 })(window);
+
+
+
+/* ============================================================
+   SCALEFLOW UNIVERSITY
+   MAIN WEBSITE FRONTEND
+   PART 3 — AI MENTOR + QUESTION LIBRARY
+   ============================================================ */
+
+(function (global) {
+
+    "use strict";
+
+
+    /* ============================================================
+       DEPENDENCY CHECK
+       ============================================================ */
+
+    if (!global.ScaleFlowAPI) {
+        console.error(
+            "ScaleFlow Part 3: ScaleFlowAPI not found."
+        );
+        return;
+    }
+
+    if (!global.ScaleFlow) {
+        global.ScaleFlow = {};
+    }
+
+
+    /* ============================================================
+       AI STATE
+       ============================================================ */
+
+    const AIState = {
+
+        busy: false,
+
+        lastQuestion: "",
+
+        lastLanguage: "en",
+
+        lastSubject: "Web Development"
+
+    };
+
+
+    /* ============================================================
+       DOM HELPERS
+       ============================================================ */
+
+    function getAIElements() {
+
+        return {
+
+            input:
+                document.querySelector("#aiQuestion") ||
+                document.querySelector("#question") ||
+                document.querySelector("#chatInput") ||
+                document.querySelector(
+                    "[data-ai-question]"
+                ),
+
+            subject:
+                document.querySelector("#aiSubject") ||
+                document.querySelector("#subject") ||
+                document.querySelector(
+                    "[data-ai-subject]"
+                ),
+
+            language:
+                document.querySelector("#aiLanguage") ||
+                document.querySelector("#language") ||
+                document.querySelector(
+                    "[data-ai-language]"
+                ),
+
+            sendButton:
+                document.querySelector("#aiSendButton") ||
+                document.querySelector("#askAI") ||
+                document.querySelector(
+                    "[data-action='ask-ai']"
+                ),
+
+            clearButton:
+                document.querySelector("#clearAI") ||
+                document.querySelector(
+                    "[data-action='clear-ai']"
+                ),
+
+            answer:
+                document.querySelector("#aiAnswer") ||
+                document.querySelector("#aiResponse") ||
+                document.querySelector(
+                    "[data-ai-answer]"
+                ),
+
+            status:
+                document.querySelector("#aiStatus") ||
+                document.querySelector(
+                    "[data-ai-status]"
+                ),
+
+            libraryStatus:
+                document.querySelector("#aiLibraryStatus") ||
+                document.querySelector(
+                    "[data-ai-library-status]"
+                )
+
+        };
+
+    }
+
+
+    /* ============================================================
+       LANGUAGE NORMALIZATION
+       ============================================================ */
+
+    function normalizeAILanguage(language) {
+
+        const value =
+            String(language || "")
+                .trim()
+                .toLowerCase();
+
+
+        if (!value) {
+            return "en";
+        }
+
+
+        const aliases = {
+
+            english: "en",
+            en: "en",
+
+            urdu: "ur",
+            اردو: "ur",
+            ur: "ur",
+
+            sindhi: "sd",
+            سنڌي: "sd",
+            sd: "sd",
+
+            arabic: "ar",
+            العربية: "ar",
+            ar: "ar",
+
+            hindi: "hi",
+            हिन्दी: "hi",
+            hi: "hi",
+
+            bengali: "bn",
+            বাংলা: "bn",
+            bn: "bn",
+
+            french: "fr",
+            français: "fr",
+            fr: "fr",
+
+            spanish: "es",
+            español: "es",
+            es: "es",
+
+            german: "de",
+            deutsch: "de",
+            de: "de",
+
+            portuguese: "pt",
+            português: "pt",
+            pt: "pt",
+
+            italian: "it",
+            italiano: "it",
+            it: "it",
+
+            russian: "ru",
+            русский: "ru",
+            ru: "ru",
+
+            chinese: "zh",
+            中文: "zh",
+            zh: "zh",
+
+            japanese: "ja",
+            日本語: "ja",
+            ja: "ja",
+
+            korean: "ko",
+            한국어: "ko",
+            ko: "ko",
+
+            turkish: "tr",
+            türkçe: "tr",
+            tr: "tr",
+
+            indonesian: "id",
+            "bahasa indonesia": "id",
+            id: "id"
+
+        };
+
+
+        return aliases[value] || "en";
+
+    }
+
+
+    /* ============================================================
+       GET SELECTED LANGUAGE
+       ============================================================ */
+
+    function getSelectedLanguage() {
+
+        const elements =
+            getAIElements();
+
+        if (!elements.language) {
+            return "en";
+        }
+
+        return normalizeAILanguage(
+            elements.language.value
+        );
+
+    }
+
+
+    /* ============================================================
+       GET SUBJECT
+       ============================================================ */
+
+    function getSelectedSubject() {
+
+        const elements =
+            getAIElements();
+
+        if (!elements.subject) {
+            return "";
+        }
+
+        return String(
+            elements.subject.value || ""
+        ).trim();
+
+    }
+
+
+    /* ============================================================
+       SET AI STATUS
+       ============================================================ */
+
+    function setAIStatus(
+        message,
+        success
+    ) {
+
+        const elements =
+            getAIElements();
+
+
+        if (!elements.status) {
+            return;
+        }
+
+
+        elements.status.textContent =
+            message;
+
+
+        if (success === true) {
+
+            elements.status.dataset.status =
+                "success";
+
+        } else if (success === false) {
+
+            elements.status.dataset.status =
+                "error";
+
+        } else {
+
+            elements.status.dataset.status =
+                "working";
+
+        }
+
+    }
+
+
+    /* ============================================================
+       SET AI ANSWER
+       ============================================================ */
+
+    function setAIAnswer(answer) {
+
+        const elements =
+            getAIElements();
+
+
+        if (!elements.answer) {
+            return;
+        }
+
+
+        elements.answer.textContent =
+            String(answer || "");
+
+    }
+
+
+    /* ============================================================
+       SET LIBRARY STATUS
+       ============================================================ */
+
+    function setLibraryStatus(
+        message,
+        success
+    ) {
+
+        const elements =
+            getAIElements();
+
+
+        if (!elements.libraryStatus) {
+            return;
+        }
+
+
+        elements.libraryStatus.textContent =
+            message;
+
+
+        if (success === true) {
+
+            elements.libraryStatus.dataset.status =
+                "success";
+
+        } else if (success === false) {
+
+            elements.libraryStatus.dataset.status =
+                "error";
+
+        } else {
+
+            elements.libraryStatus.dataset.status =
+                "working";
+
+        }
+
+    }
+
+
+    /* ============================================================
+       BUTTON STATE
+       ============================================================ */
+
+    function setAIButtonBusy(
+        busy
+    ) {
+
+        const elements =
+            getAIElements();
+
+
+        if (!elements.sendButton) {
+            return;
+        }
+
+
+        elements.sendButton.disabled =
+            Boolean(busy);
+
+
+        if (busy) {
+
+            elements.sendButton.dataset.originalText =
+                elements.sendButton.textContent;
+
+            elements.sendButton.textContent =
+                "Thinking...";
+
+        } else {
+
+            const original =
+                elements.sendButton.dataset.originalText;
+
+            if (original) {
+
+                elements.sendButton.textContent =
+                    original;
+
+            }
+
+        }
+
+    }
+
+
+    /* ============================================================
+       VALIDATE AI REQUEST
+       ============================================================ */
+
+    function validateAIRequest(
+        question,
+        subject
+    ) {
+
+        if (!question) {
+
+            setAIStatus(
+                "Please enter your question.",
+                false
+            );
+
+            return false;
+
+        }
+
+
+        if (!subject) {
+
+            setAIStatus(
+                "Please enter a subject.",
+                false
+            );
+
+            return false;
+
+        }
+
+
+        if (
+            typeof SCALEFLOW_AI_SETTINGS !==
+            "undefined" &&
+            question.length >
+            SCALEFLOW_AI_SETTINGS.MAX_QUESTION_LENGTH
+        ) {
+
+            setAIStatus(
+                "Question is too long.",
+                false
+            );
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* ============================================================
+       ASK SCALEFLOW AI
+       ============================================================ */
+
+    async function sendAIQuestion() {
+
+        if (AIState.busy) {
+            return;
+        }
+
+
+        const elements =
+            getAIElements();
+
+
+        if (!elements.input) {
+
+            console.error(
+                "ScaleFlow Part 3: AI question input not found."
+            );
+
+            return;
+
+        }
+
+
+        const question =
+            String(
+                elements.input.value || ""
+            ).trim();
+
+
+        const subject =
+            getSelectedSubject();
+
+
+        const language =
+            getSelectedLanguage();
+
+
+        if (
+            !validateAIRequest(
+                question,
+                subject
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        AIState.busy = true;
+
+        AIState.lastQuestion =
+            question;
+
+        AIState.lastLanguage =
+            language;
+
+        AIState.lastSubject =
+            subject;
+
+
+        setAIButtonBusy(true);
+
+        setAIStatus(
+            "Connecting to ScaleFlow AI...",
+            null
+        );
+
+        setAIAnswer("");
+
+        setLibraryStatus(
+            "Question Library processing...",
+            null
+        );
+
+
+        try {
+
+            /*
+             * IMPORTANT
+             *
+             * Tested backend expects:
+             *
+             * action: ai.chat
+             *
+             * data:
+             * {
+             *     question,
+             *     language,
+             *     subject
+             * }
+             */
+
+            const result =
+                await global.ScaleFlowAPI.request(
+                    "ai.chat",
+                    {
+
+                        question:
+                            question,
+
+                        language:
+                            language,
+
+                        subject:
+                            subject
+
+                    }
+                );
+
+
+            console.log(
+                "ScaleFlow AI Response:",
+                result
+            );
+
+
+            if (
+                !result ||
+                result.success !== true
+            ) {
+
+                const message =
+                    result &&
+                    result.message
+                        ? result.message
+                        : "AI request failed.";
+
+
+                setAIStatus(
+                    message,
+                    false
+                );
+
+                setLibraryStatus(
+                    "Question Library not updated.",
+                    false
+                );
+
+                return;
+
+            }
+
+
+            /* ----------------------------------------------------
+               AI ANSWER
+               ---------------------------------------------------- */
+
+            const data =
+                result.data || {};
+
+
+            const answer =
+                String(
+                    data.answer || ""
+                ).trim();
+
+
+            if (!answer) {
+
+                setAIStatus(
+                    "AI returned an empty response.",
+                    false
+                );
+
+                setLibraryStatus(
+                    "Question Library not updated.",
+                    false
+                );
+
+                return;
+
+            }
+
+
+            setAIAnswer(
+                answer
+            );
+
+
+            setAIStatus(
+                "AI response received successfully.",
+                true
+            );
+
+
+            /* ----------------------------------------------------
+               QUESTION LIBRARY RESULT
+               ---------------------------------------------------- */
+
+            const library =
+                data.library || null;
+
+
+            if (!library) {
+
+                setLibraryStatus(
+                    "Question Library result not returned.",
+                    false
+                );
+
+                return;
+
+            }
+
+
+            if (
+                library.success === true &&
+                library.duplicate === true
+            ) {
+
+                setLibraryStatus(
+                    "Existing question found in Question Library. ID: " +
+                    String(
+                        library.questionId || "N/A"
+                    ),
+                    true
+                );
+
+            } else if (
+                library.success === true &&
+                library.duplicate !== true
+            ) {
+
+                setLibraryStatus(
+                    "Question saved successfully. ID: " +
+                    String(
+                        library.questionId || "N/A"
+                    ),
+                    true
+                );
+
+            } else {
+
+                setLibraryStatus(
+                    library.message ||
+                    "Question Library save failed.",
+                    false
+                );
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "ScaleFlow Part 3 AI Error:",
+                error
+            );
+
+
+            setAIStatus(
+                "Unable to connect to AI.",
+                false
+            );
+
+
+            setLibraryStatus(
+                "Question Library could not be processed.",
+                false
+            );
+
+
+        } finally {
+
+            AIState.busy =
+                false;
+
+            setAIButtonBusy(
+                false
+            );
+
+        }
+
+    }
+
+
+    /* ============================================================
+       CLEAR AI
+       ============================================================ */
+
+    function clearAI() {
+
+        const elements =
+            getAIElements();
+
+
+        if (elements.input) {
+            elements.input.value = "";
+        }
+
+
+        setAIAnswer("");
+
+        setLibraryStatus(
+            ""
+        );
+
+        setAIStatus(
+            "AI Ready"
+        );
+
+
+        AIState.lastQuestion =
+            "";
+
+    }
+
+
+    /* ============================================================
+       QUICK AI QUESTION
+       ============================================================ */
+
+    function askQuickQuestion(
+        question,
+        subject,
+        language
+    ) {
+
+        const elements =
+            getAIElements();
+
+
+        if (elements.input) {
+
+            elements.input.value =
+                question;
+
+        }
+
+
+        if (elements.subject) {
+
+            elements.subject.value =
+                subject;
+
+        }
+
+
+        if (elements.language) {
+
+            elements.language.value =
+                normalizeAILanguage(
+                    language
+                );
+
+        }
+
+
+        sendAIQuestion();
+
+    }
+
+
+    /* ============================================================
+       ENTER KEY SUPPORT
+       ============================================================ */
+
+    function handleAIKeydown(
+        event
+    ) {
+
+        if (!event) {
+            return;
+        }
+
+
+        /*
+         * Ctrl + Enter or
+         * Android/desktop Enter handling
+         */
+
+        if (
+            event.ctrlKey &&
+            event.key === "Enter"
+        ) {
+
+            event.preventDefault();
+
+            sendAIQuestion();
+
+        }
+
+    }
+
+
+    /* ============================================================
+       QUICK QUESTION BUTTONS
+       ============================================================ */
+
+    function bindQuickQuestions() {
+
+        const buttons =
+            document.querySelectorAll(
+                "[data-ai-question-text]"
+            );
+
+
+        buttons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const question =
+                            button.getAttribute(
+                                "data-ai-question-text"
+                            );
+
+                        const subject =
+                            button.getAttribute(
+                                "data-ai-subject"
+                            ) ||
+                            "Web Development";
+
+                        const language =
+                            button.getAttribute(
+                                "data-ai-language"
+                            ) ||
+                            "en";
+
+
+                        if (!question) {
+                            return;
+                        }
+
+
+                        askQuickQuestion(
+                            question,
+                            subject,
+                            language
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    }
+
+
+    /* ============================================================
+       EVENT BINDING
+       ============================================================ */
+
+    function bindAIEvents() {
+
+        const elements =
+            getAIElements();
+
+
+        /* --------------------------------------------------------
+           Ask Button
+           -------------------------------------------------------- */
+
+        if (elements.sendButton) {
+
+            elements.sendButton.addEventListener(
+                "click",
+                sendAIQuestion
+            );
+
+        }
+
+
+        /* --------------------------------------------------------
+           Clear Button
+           -------------------------------------------------------- */
+
+        if (elements.clearButton) {
+
+            elements.clearButton.addEventListener(
+                "click",
+                clearAI
+            );
+
+        }
+
+
+        /* --------------------------------------------------------
+           Input
+           -------------------------------------------------------- */
+
+        if (elements.input) {
+
+            elements.input.addEventListener(
+                "keydown",
+                handleAIKeydown
+            );
+
+        }
+
+
+        bindQuickQuestions();
+
+    }
+
+
+    /* ============================================================
+       PUBLIC SCALEFLOW METHODS
+       ============================================================ */
+
+    Object.assign(
+        global.ScaleFlow,
+        {
+
+            sendAIQuestion:
+                sendAIQuestion,
+
+            askScaleFlowAI:
+                sendAIQuestion,
+
+            clearAI:
+                clearAI,
+
+            askQuickQuestion:
+                askQuickQuestion,
+
+            getSelectedAILanguage:
+                getSelectedLanguage,
+
+            getSelectedAISubject:
+                getSelectedSubject
+
+        }
+    );
+
+
+    /* ============================================================
+       DOM READY
+       ============================================================ */
+
+    function initializePart3() {
+
+        console.log(
+            "ScaleFlow Part 3: Initializing AI Mentor..."
+        );
+
+
+        bindAIEvents();
+
+
+        setAIStatus(
+            "AI Ready"
+        );
+
+
+        console.log(
+            "ScaleFlow Part 3: AI Mentor ready."
+        );
+
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializePart3
+        );
+
+    } else {
+
+        initializePart3();
+
+    }
+
+
+})(window);
