@@ -1573,3 +1573,910 @@
 
 })(window);
 
+
+
+/* ============================================================
+   SCALEFLOW UNIVERSITY
+   MAIN WEBSITE FRONTEND
+   PART 2 — CORE FRONTEND SYSTEMS
+   ============================================================ */
+
+(function (global) {
+
+    "use strict";
+
+
+    /* ============================================================
+       DEPENDENCY CHECK
+       ============================================================ */
+
+    if (!global.ScaleFlowAPI) {
+        console.error(
+            "ScaleFlow Part 2: ScaleFlowAPI not found."
+        );
+        return;
+    }
+
+    if (!global.ScaleFlow) {
+        global.ScaleFlow = {};
+    }
+
+
+    /* ============================================================
+       DOM READY HELPER
+       ============================================================ */
+
+    function onDOMReady(callback) {
+
+        if (document.readyState === "loading") {
+            document.addEventListener(
+                "DOMContentLoaded",
+                callback
+            );
+        } else {
+            callback();
+        }
+
+    }
+
+
+    /* ============================================================
+       GLOBAL SEARCH
+       ============================================================ */
+
+    function performGlobalSearch() {
+
+        const input =
+            document.querySelector("#globalSearchInput") ||
+            document.querySelector(".global-search-input") ||
+            document.querySelector('input[type="search"]');
+
+        if (!input) {
+            showFrontendMessage(
+                "Search field not found."
+            );
+            return;
+        }
+
+        const query = input.value.trim();
+
+        if (!query) {
+            showFrontendMessage(
+                "Please enter something to search."
+            );
+            return;
+        }
+
+        console.log(
+            "ScaleFlow Search:",
+            query
+        );
+
+        showFrontendMessage(
+            "Search is ready. Search engine integration will be connected later."
+        );
+
+    }
+
+
+    /* ============================================================
+       HERO — VIEW COURSES
+       ============================================================ */
+
+    function viewCourses() {
+
+        if (typeof global.ScaleFlow.navigateTo === "function") {
+
+            global.ScaleFlow.navigateTo(
+                "courses"
+            );
+
+            return;
+        }
+
+        const coursesPage =
+            document.querySelector(
+                '[data-page="courses"]'
+            );
+
+        if (coursesPage) {
+            coursesPage.scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+
+    }
+
+
+    /* ============================================================
+       CONTINUE LEARNING
+       ============================================================ */
+
+    function continueLearning() {
+
+        console.log(
+            "ScaleFlow: Continue Learning"
+        );
+
+        showFrontendMessage(
+            "Continue Learning system is ready."
+        );
+
+    }
+
+
+    /* ============================================================
+       DASHBOARD STATS
+       ============================================================ */
+
+    function updateDashboardStats(stats) {
+
+        if (!stats || typeof stats !== "object") {
+            return;
+        }
+
+        const mapping = {
+
+            activeTasks:
+                [
+                    "#activeTasksCount",
+                    "[data-stat='activeTasks']"
+                ],
+
+            projects:
+                [
+                    "#projectsCount",
+                    "[data-stat='projects']"
+                ],
+
+            aiTasks:
+                [
+                    "#aiTasksCount",
+                    "[data-stat='aiTasks']"
+                ],
+
+            aiCredits:
+                [
+                    "#aiCreditsCount",
+                    "[data-stat='aiCredits']"
+                ]
+
+        };
+
+
+        Object.keys(mapping).forEach(function (key) {
+
+            if (
+                stats[key] === undefined ||
+                stats[key] === null
+            ) {
+                return;
+            }
+
+            const selectors = mapping[key];
+
+            for (let i = 0; i < selectors.length; i++) {
+
+                const element =
+                    document.querySelector(
+                        selectors[i]
+                    );
+
+                if (element) {
+
+                    element.textContent =
+                        stats[key];
+
+                    break;
+                }
+
+            }
+
+        });
+
+    }
+
+
+    /* ============================================================
+       CONTINUE LEARNING PROGRESS
+       ============================================================ */
+
+    function updateContinueLearningProgress(
+        percentage
+    ) {
+
+        let value =
+            Number(percentage);
+
+        if (Number.isNaN(value)) {
+            return;
+        }
+
+        value =
+            Math.max(
+                0,
+                Math.min(100, value)
+            );
+
+
+        const progressElements =
+            document.querySelectorAll(
+                "[data-progress]"
+            );
+
+
+        progressElements.forEach(
+            function (element) {
+
+                const current =
+                    element.getAttribute(
+                        "data-progress"
+                    );
+
+                if (current !== null) {
+
+                    element.style.width =
+                        value + "%";
+
+                    element.setAttribute(
+                        "data-progress",
+                        value
+                    );
+
+                }
+
+            }
+        );
+
+
+        const progressText =
+            document.querySelector(
+                "#learningProgress"
+            );
+
+        if (progressText) {
+
+            progressText.textContent =
+                value + "%";
+
+        }
+
+    }
+
+
+    /* ============================================================
+       LOGIN UI
+       ============================================================ */
+
+    function getLoginElements() {
+
+        return {
+
+            form:
+                document.querySelector(
+                    "#loginForm"
+                ),
+
+            email:
+                document.querySelector(
+                    "#loginEmail"
+                ),
+
+            password:
+                document.querySelector(
+                    "#loginPassword"
+                ),
+
+            message:
+                document.querySelector(
+                    "#loginMessage"
+                )
+
+        };
+
+    }
+
+
+    /* ============================================================
+       LOGIN VALIDATION
+       ============================================================ */
+
+    function validateLoginForm() {
+
+        const elements =
+            getLoginElements();
+
+
+        if (!elements.email ||
+            !elements.password) {
+
+            showFrontendMessage(
+                "Login fields not found."
+            );
+
+            return false;
+        }
+
+
+        const email =
+            elements.email.value.trim();
+
+        const password =
+            elements.password.value;
+
+
+        if (!email) {
+
+            showFrontendMessage(
+                "Please enter your email."
+            );
+
+            elements.email.focus();
+
+            return false;
+        }
+
+
+        if (!email.includes("@")) {
+
+            showFrontendMessage(
+                "Please enter a valid email."
+            );
+
+            elements.email.focus();
+
+            return false;
+        }
+
+
+        if (!password) {
+
+            showFrontendMessage(
+                "Please enter your password."
+            );
+
+            elements.password.focus();
+
+            return false;
+        }
+
+
+        return true;
+
+    }
+
+
+    /* ============================================================
+       LOGIN
+       
+       IMPORTANT:
+       Authentication backend is NOT connected yet.
+       ============================================================ */
+
+    function handleLogin(event) {
+
+        if (event) {
+            event.preventDefault();
+        }
+
+
+        if (!validateLoginForm()) {
+            return false;
+        }
+
+
+        console.log(
+            "ScaleFlow Login:",
+            "Frontend validation passed."
+        );
+
+
+        showFrontendMessage(
+            "Login interface is ready. Authentication Engine will be connected after its separate testing."
+        );
+
+
+        return false;
+
+    }
+
+
+    /* ============================================================
+       REGISTER UI
+       ============================================================ */
+
+    function getRegisterElements() {
+
+        return {
+
+            form:
+                document.querySelector(
+                    "#registerForm"
+                ),
+
+            fullName:
+                document.querySelector(
+                    "#registerFullName"
+                ),
+
+            email:
+                document.querySelector(
+                    "#registerEmail"
+                ),
+
+            password:
+                document.querySelector(
+                    "#registerPassword"
+                ),
+
+            confirmPassword:
+                document.querySelector(
+                    "#registerConfirmPassword"
+                ),
+
+            message:
+                document.querySelector(
+                    "#registerMessage"
+                )
+
+        };
+
+    }
+
+
+    /* ============================================================
+       REGISTER VALIDATION
+       ============================================================ */
+
+    function validateRegisterForm() {
+
+        const elements =
+            getRegisterElements();
+
+
+        if (
+            !elements.fullName ||
+            !elements.email ||
+            !elements.password ||
+            !elements.confirmPassword
+        ) {
+
+            showFrontendMessage(
+                "Registration fields not found."
+            );
+
+            return false;
+        }
+
+
+        const fullName =
+            elements.fullName.value.trim();
+
+        const email =
+            elements.email.value.trim();
+
+        const password =
+            elements.password.value;
+
+        const confirmPassword =
+            elements.confirmPassword.value;
+
+
+        if (!fullName) {
+
+            showFrontendMessage(
+                "Please enter your full name."
+            );
+
+            elements.fullName.focus();
+
+            return false;
+        }
+
+
+        if (!email) {
+
+            showFrontendMessage(
+                "Please enter your email."
+            );
+
+            elements.email.focus();
+
+            return false;
+        }
+
+
+        if (!email.includes("@")) {
+
+            showFrontendMessage(
+                "Please enter a valid email."
+            );
+
+            elements.email.focus();
+
+            return false;
+        }
+
+
+        if (password.length < 6) {
+
+            showFrontendMessage(
+                "Password must contain at least 6 characters."
+            );
+
+            elements.password.focus();
+
+            return false;
+        }
+
+
+        if (password !== confirmPassword) {
+
+            showFrontendMessage(
+                "Passwords do not match."
+            );
+
+            elements.confirmPassword.focus();
+
+            return false;
+        }
+
+
+        return true;
+
+    }
+
+
+    /* ============================================================
+       REGISTER
+       
+       IMPORTANT:
+       Authentication backend is NOT connected yet.
+       ============================================================ */
+
+    function handleRegister(event) {
+
+        if (event) {
+            event.preventDefault();
+        }
+
+
+        if (!validateRegisterForm()) {
+            return false;
+        }
+
+
+        console.log(
+            "ScaleFlow Registration:",
+            "Frontend validation passed."
+        );
+
+
+        showFrontendMessage(
+            "Registration interface is ready. Authentication Engine will be connected after its separate testing."
+        );
+
+
+        return false;
+
+    }
+
+
+    /* ============================================================
+       LOGIN / REGISTER SWITCH
+       ============================================================ */
+
+    function switchAuthMode(mode) {
+
+        const loginPanel =
+            document.querySelector(
+                "#loginPanel"
+            );
+
+        const registerPanel =
+            document.querySelector(
+                "#registerPanel"
+            );
+
+
+        if (mode === "register") {
+
+            if (loginPanel) {
+                loginPanel.style.display =
+                    "none";
+            }
+
+            if (registerPanel) {
+                registerPanel.style.display =
+                    "";
+            }
+
+        } else {
+
+            if (loginPanel) {
+                loginPanel.style.display =
+                    "";
+            }
+
+            if (registerPanel) {
+                registerPanel.style.display =
+                    "none";
+            }
+
+        }
+
+    }
+
+
+    /* ============================================================
+       QUICK ACTIONS
+       ============================================================ */
+
+    function runQuickAction(action) {
+
+        const normalized =
+            String(action || "")
+                .trim()
+                .toLowerCase();
+
+
+        switch (normalized) {
+
+            case "courses":
+
+                viewCourses();
+
+                break;
+
+
+            case "learning":
+
+                continueLearning();
+
+                break;
+
+
+            case "search":
+
+                performGlobalSearch();
+
+                break;
+
+
+            case "login":
+
+                switchAuthMode(
+                    "login"
+                );
+
+                break;
+
+
+            case "register":
+
+                switchAuthMode(
+                    "register"
+                );
+
+                break;
+
+
+            default:
+
+                console.log(
+                    "ScaleFlow Quick Action:",
+                    action
+                );
+
+                showFrontendMessage(
+                    "This action is ready for future engine integration."
+                );
+
+        }
+
+    }
+
+
+    /* ============================================================
+       FRONTEND MESSAGE
+       ============================================================ */
+
+    function showFrontendMessage(message) {
+
+        if (
+            global.ScaleFlow &&
+            typeof global.ScaleFlow.showToast ===
+                "function"
+        ) {
+
+            global.ScaleFlow.showToast(
+                message
+            );
+
+            return;
+        }
+
+
+        console.log(
+            "ScaleFlow:",
+            message
+        );
+
+    }
+
+
+    /* ============================================================
+       EVENT BINDING
+       ============================================================ */
+
+    function bindPart2Events() {
+
+        /* --------------------------------------------------------
+           Login Form
+           -------------------------------------------------------- */
+
+        const loginForm =
+            document.querySelector(
+                "#loginForm"
+            );
+
+        if (loginForm) {
+
+            loginForm.addEventListener(
+                "submit",
+                handleLogin
+            );
+
+        }
+
+
+        /* --------------------------------------------------------
+           Register Form
+           -------------------------------------------------------- */
+
+        const registerForm =
+            document.querySelector(
+                "#registerForm"
+            );
+
+        if (registerForm) {
+
+            registerForm.addEventListener(
+                "submit",
+                handleRegister
+            );
+
+        }
+
+
+        /* --------------------------------------------------------
+           Search
+           -------------------------------------------------------- */
+
+        const searchButtons =
+            document.querySelectorAll(
+                "[data-action='search']"
+            );
+
+
+        searchButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    performGlobalSearch
+                );
+
+            }
+        );
+
+
+        /* --------------------------------------------------------
+           View Courses
+           -------------------------------------------------------- */
+
+        const courseButtons =
+            document.querySelectorAll(
+                "[data-action='courses']"
+            );
+
+
+        courseButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    viewCourses
+                );
+
+            }
+        );
+
+
+        /* --------------------------------------------------------
+           Continue Learning
+           -------------------------------------------------------- */
+
+        const learningButtons =
+            document.querySelectorAll(
+                "[data-action='learning']"
+            );
+
+
+        learningButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    continueLearning
+                );
+
+            }
+        );
+
+    }
+
+
+    /* ============================================================
+       PUBLIC SCALEFLOW API
+       ============================================================ */
+
+    Object.assign(
+        global.ScaleFlow,
+        {
+
+            performGlobalSearch:
+                performGlobalSearch,
+
+            viewCourses:
+                viewCourses,
+
+            continueLearning:
+                continueLearning,
+
+            updateDashboardStats:
+                updateDashboardStats,
+
+            updateContinueLearningProgress:
+                updateContinueLearningProgress,
+
+            handleLogin:
+                handleLogin,
+
+            handleRegister:
+                handleRegister,
+
+            switchAuthMode:
+                switchAuthMode,
+
+            runQuickAction:
+                runQuickAction
+
+        }
+    );
+
+
+    /* ============================================================
+       DOM READY
+       ============================================================ */
+
+    onDOMReady(
+        function () {
+
+            console.log(
+                "ScaleFlow Part 2: DOM ready."
+            );
+
+
+            bindPart2Events();
+
+
+            console.log(
+                "ScaleFlow Part 2: Core frontend systems ready."
+            );
+
+        }
+    );
+
+
+})(window);
