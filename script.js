@@ -11,12 +11,13 @@
 
     // ============================================================
     // SCALEFLOW UNIVERSITY — WEB APP API CONFIGURATION
+    // TESTED DEPLOYMENT
     // ============================================================
 
     const SCALEFLOW_API_CONFIG = {
 
         WEB_APP_URL:
-            "https://script.google.com/macros/s/AKfycbzi-xw_9P5h9xvrG-WzmbCub6tR9PVBAxP98WyFyUd-XKIWvwziedjFaEvP9JPQ_GUy/exec",
+            "https://script.google.com/macros/s/AKfycbwBPdo7TflhmyiUIU8rZQx7hvUYPMpJJX7LszL1YxNUQrcLrf8lh8ZUIxGrp4jK_PvY/exec",
 
         VERSION:
             "v1",
@@ -80,7 +81,12 @@
 
     // ============================================================
     // CENTRAL SCALEFLOW API REQUEST
-    // WEBSITE → WEB APP API ENGINE
+    //
+    // WEBSITE
+    //    ↓
+    // WEB APP API
+    //
+    // All current backend communication goes through here.
     // ============================================================
 
     async function scaleFlowAPIRequest(
@@ -151,11 +157,6 @@
             );
 
             console.log(
-                "Endpoint:",
-                SCALEFLOW_API_CONFIG.WEB_APP_URL
-            );
-
-            console.log(
                 "Action:",
                 action
             );
@@ -165,6 +166,13 @@
                 requestId
             );
 
+
+            // ----------------------------------------------------
+            // IMPORTANT
+            //
+            // Do NOT use no-cors.
+            // We need to read the JSON response.
+            // ----------------------------------------------------
 
             const response =
                 await fetch(
@@ -203,11 +211,6 @@
                 response.status
             );
 
-            console.log(
-                "HTTP OK:",
-                response.ok
-            );
-
 
             if (!response.ok) {
 
@@ -223,9 +226,6 @@
                         status:
                             response.status,
 
-                        statusText:
-                            response.statusText,
-
                         requestId:
                             requestId
 
@@ -236,14 +236,12 @@
             }
 
 
+            // ----------------------------------------------------
+            // Read response
+            // ----------------------------------------------------
+
             const responseText =
                 await response.text();
-
-
-            console.log(
-                "Raw Backend Response:",
-                responseText
-            );
 
 
             if (
@@ -334,7 +332,7 @@
 
 
             console.log(
-                "✅ Parsed ScaleFlow API Response:",
+                "✅ ScaleFlow API Response:",
                 result
             );
 
@@ -360,8 +358,7 @@
             ) {
 
                 console.error(
-                    "❌ ScaleFlow API Timeout:",
-                    requestId
+                    "❌ ScaleFlow API Timeout"
                 );
 
 
@@ -383,39 +380,13 @@
             }
 
 
-            if (
-                error &&
-                error.code
-            ) {
-
-                throw error;
-
-            }
-
-
             console.error(
-                "❌ ScaleFlow API Network Error:",
+                "❌ ScaleFlow API Error:",
                 error
             );
 
 
-            throw createScaleFlowAPIError(
-
-                "Unable to reach the ScaleFlow Web App backend.",
-
-                "NETWORK_ERROR",
-
-                {
-
-                    requestId:
-                        requestId,
-
-                    originalError:
-                        String(error)
-
-                }
-
-            );
+            throw error;
 
         }
 
@@ -424,6 +395,12 @@
 
     // ============================================================
     // SCALEFLOW SYSTEM HEALTH CHECK
+    //
+    // CURRENT BACKEND:
+    // system.health
+    //
+    // Expected current response:
+    // success === true
     // ============================================================
 
     async function testScaleFlowWebsiteConnection() {
@@ -454,6 +431,10 @@
                 );
 
 
+            // ----------------------------------------------------
+            // Current Web App API health response
+            // ----------------------------------------------------
+
             if (
                 result &&
                 result.success === true
@@ -467,29 +448,28 @@
                     "✅ WEBSITE API CONNECTION SUCCESSFUL"
                 );
 
-                console.log(
-                    "Application:",
-                    result.data &&
-                    result.data.application
-                );
 
-                console.log(
-                    "Engine:",
-                    result.data &&
-                    result.data.engine
-                );
+                if (
+                    result.data
+                ) {
 
-                console.log(
-                    "Engine Version:",
-                    result.data &&
-                    result.data.engineVersion
-                );
+                    console.log(
+                        "Service:",
+                        result.data.service
+                    );
 
-                console.log(
-                    "Engine Status:",
-                    result.data &&
-                    result.data.engineStatus
-                );
+                    console.log(
+                        "Version:",
+                        result.data.version
+                    );
+
+                    console.log(
+                        "Status:",
+                        result.data.status
+                    );
+
+                }
+
 
                 console.log(
                     "Request ID:",
@@ -507,35 +487,12 @@
 
 
             console.error(
-                "❌ WEBSITE API HEALTH CHECK FAILED:",
+                "❌ WEBSITE API HEALTH CHECK FAILED",
                 result
             );
 
 
-            return {
-
-                success:
-                    false,
-
-                code:
-                    result &&
-                    result.code
-                        ? result.code
-                        : "HEALTH_CHECK_FAILED",
-
-                message:
-                    result &&
-                    result.message
-                        ? result.message
-                        : "ScaleFlow backend health check failed.",
-
-                data:
-                    result &&
-                    result.data
-                        ? result.data
-                        : null
-
-            };
+            return result;
 
         }
 
@@ -550,18 +507,7 @@
             );
 
             console.error(
-                "Error Code:",
-                error.code
-            );
-
-            console.error(
-                "Error Message:",
-                error.message
-            );
-
-            console.error(
-                "Error Details:",
-                error.details
+                error
             );
 
             console.error(
@@ -579,7 +525,6 @@
                     "WEBSITE_API_CONNECTION_FAILED",
 
                 message:
-                    error.message ||
                     "ScaleFlow University backend connection failed.",
 
                 requestId:
@@ -1009,6 +954,19 @@
             }
 
 
+            if (
+                loaderElement.classList.contains(
+                    "hidden"
+                ) ||
+                loaderElement.style.display ===
+                    "none"
+            ) {
+
+                return;
+
+            }
+
+
             loaderElement.classList.add(
                 "hidden"
             );
@@ -1017,16 +975,24 @@
             setTimeout(
                 function () {
 
-                    if (
-                        loaderElement
-                    ) {
+                    try {
 
                         loaderElement.style.display =
                             "none";
 
+
                         loaderElement.setAttribute(
                             "aria-hidden",
                             "true"
+                        );
+
+                    }
+
+                    catch (error) {
+
+                        console.error(
+                            "❌ Loader Hide Error:",
+                            error
                         );
 
                     }
@@ -1166,7 +1132,9 @@
     // MODAL EVENTS
     // ============================================================
 
-    if (modalCloseBtn) {
+    if (
+        modalCloseBtn
+    ) {
 
         modalCloseBtn.addEventListener(
             "click",
@@ -1176,7 +1144,9 @@
     }
 
 
-    if (modalCancelBtn) {
+    if (
+        modalCancelBtn
+    ) {
 
         modalCancelBtn.addEventListener(
             "click",
@@ -1186,7 +1156,9 @@
     }
 
 
-    if (modalConfirmBtn) {
+    if (
+        modalConfirmBtn
+    ) {
 
         modalConfirmBtn.addEventListener(
             "click",
@@ -1197,6 +1169,7 @@
                     "success"
                 );
 
+
                 closeModal();
 
             }
@@ -1205,7 +1178,9 @@
     }
 
 
-    if (modalContainer) {
+    if (
+        modalContainer
+    ) {
 
         modalContainer.addEventListener(
             "click",
@@ -1276,7 +1251,9 @@
     }
 
 
-    if (darkModeBtn) {
+    if (
+        darkModeBtn
+    ) {
 
         darkModeBtn.addEventListener(
             "click",
@@ -1338,13 +1315,17 @@
     // MARK ALL NOTIFICATIONS READ
     // ============================================================
 
-    if (markAllReadBtn) {
+    if (
+        markAllReadBtn
+    ) {
 
         markAllReadBtn.addEventListener(
             "click",
             function () {
 
-                if (notificationCount) {
+                if (
+                    notificationCount
+                ) {
 
                     notificationCount.style.display =
                         "none";
@@ -1367,7 +1348,9 @@
     // FOOTER YEAR
     // ============================================================
 
-    if (currentYear) {
+    if (
+        currentYear
+    ) {
 
         currentYear.textContent =
             new Date().getFullYear();
@@ -1379,7 +1362,9 @@
     // SCROLL TO TOP
     // ============================================================
 
-    if (scrollTopBtn) {
+    if (
+        scrollTopBtn
+    ) {
 
         scrollTopBtn.addEventListener(
             "click",
@@ -1421,34 +1406,48 @@
 
     // ============================================================
     // PUBLIC SCALEFLOW CORE
+    //
     // IMPORTANT:
-    // All functions required by Parts 2 and 3 are exposed here.
+    // Part 2 and Part 3 will EXTEND this object.
+    // They must NOT replace it.
     // ============================================================
 
-    global.ScaleFlow = {
+    if (
+        !global.ScaleFlow
+    ) {
 
-        showToast:
-            showToast,
+        global.ScaleFlow = {};
 
-        openModal:
-            openModal,
+    }
 
-        closeModal:
-            closeModal,
 
-        navigateTo:
-            navigateTo,
+    Object.assign(
+        global.ScaleFlow,
+        {
 
-        toggleDarkMode:
-            toggleDarkMode,
+            showToast:
+                showToast,
 
-        hideLoader:
-            hideLoader,
+            openModal:
+                openModal,
 
-        api:
-            global.ScaleFlowAPI
+            closeModal:
+                closeModal,
 
-    };
+            navigateTo:
+                navigateTo,
+
+            toggleDarkMode:
+                toggleDarkMode,
+
+            hideLoader:
+                hideLoader,
+
+            api:
+                global.ScaleFlowAPI
+
+        }
+    );
 
 
     // ============================================================
@@ -1479,7 +1478,13 @@
             hideLoader();
 
 
-            if (pageSections.page1) {
+            // ----------------------------------------------------
+            // Start on Home Page
+            // ----------------------------------------------------
+
+            if (
+                pageSections.page1
+            ) {
 
                 navigateTo(
                     "page1"
@@ -1489,7 +1494,7 @@
 
 
             // ----------------------------------------------------
-            // Backend health check
+            // Website → Backend Health Check
             // ----------------------------------------------------
 
             testScaleFlowWebsiteConnection()
@@ -1502,7 +1507,7 @@
                         ) {
 
                             showToast(
-                                "🟢 ScaleFlow Backend Connected",
+                                "🟢 ScaleFlow AI Backend Connected",
                                 "success"
                             );
 
@@ -1510,9 +1515,9 @@
 
                         else {
 
-                            console.warn(
-                                "⚠️ Backend health check failed:",
-                                result
+                            showToast(
+                                "⚠️ Backend connection unavailable",
+                                "warning"
                             );
 
                         }
@@ -1568,1732 +1573,3 @@
 
 })(window);
 
-// ============================================================
-// SCALEFLOW UNIVERSITY
-// FRONTEND JAVASCRIPT — PART 2
-// WEBSITE FEATURES + LOGIN + REGISTRATION
-// ============================================================
-
-(function (global) {
-
-    "use strict";
-
-
-    // ============================================================
-    // SCALEFLOW CORE DEPENDENCY CHECK
-    // ============================================================
-
-    if (
-        !global.ScaleFlow ||
-        !global.ScaleFlowAPI
-    ) {
-
-        console.error(
-            "❌ ScaleFlow Part 2 cannot start because Part 1 is unavailable."
-        );
-
-        return;
-
-    }
-
-
-    const ScaleFlow =
-        global.ScaleFlow;
-
-
-    const ScaleFlowAPI =
-        global.ScaleFlowAPI;
-
-
-    console.log(
-        "================================================"
-    );
-
-    console.log(
-        "ScaleFlow University"
-    );
-
-    console.log(
-        "JavaScript Part 2 Starting..."
-    );
-
-    console.log(
-        "================================================"
-    );
-
-
-    // ============================================================
-    // PART 8 — GLOBAL SEARCH SYSTEM
-    // ============================================================
-
-    const globalSearchInput =
-        document.getElementById(
-            "globalSearchInput"
-        );
-
-
-    if (
-        globalSearchInput
-    ) {
-
-        globalSearchInput.addEventListener(
-            "input",
-            function () {
-
-                const query =
-                    this.value
-                        .toLowerCase()
-                        .trim();
-
-
-                if (!query) {
-
-                    return;
-
-                }
-
-
-                console.log(
-                    "🔎 Global Search:",
-                    query
-                );
-
-
-                const searchableElements =
-                    document.querySelectorAll(
-                        "h1, h2, h3, h4, p, .card, .course-card, .dashboard-box"
-                    );
-
-
-                let matchFound =
-                    false;
-
-
-                searchableElements.forEach(
-                    function (element) {
-
-                        const text =
-                            (
-                                element.textContent ||
-                                ""
-                            )
-                            .toLowerCase();
-
-
-                        if (
-                            text.includes(
-                                query
-                            )
-                        ) {
-
-                            matchFound =
-                                true;
-
-                        }
-
-                    }
-                );
-
-
-                if (
-                    matchFound
-                ) {
-
-                    console.log(
-                        "✅ Search match found."
-                    );
-
-                }
-
-                else {
-
-                    console.log(
-                        "ℹ️ No search match found."
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    // ============================================================
-    // PART 9 — HERO SECTION ACTIONS
-    // ============================================================
-
-    const exploreCoursesBtn =
-        document.getElementById(
-            "exploreCoursesBtn"
-        );
-
-
-    if (
-        exploreCoursesBtn
-    ) {
-
-        exploreCoursesBtn.addEventListener(
-            "click",
-            function () {
-
-                console.log(
-                    "📚 Opening Courses..."
-                );
-
-
-                const success =
-                    ScaleFlow.navigateTo(
-                        "page2"
-                    );
-
-
-                if (
-                    success
-                ) {
-
-                    ScaleFlow.showToast(
-                        "📚 Courses opened.",
-                        "success"
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    // ============================================================
-    // PART 11 — CONTINUE LEARNING PROGRESS
-    // ============================================================
-
-    const continueProgressBtn =
-        document.getElementById(
-            "continueProgressBtn"
-        );
-
-
-    const continueProgress =
-        document.getElementById(
-            "continueProgress"
-        );
-
-
-    const progressText =
-        document.getElementById(
-            "progressText"
-        );
-
-
-    function updateContinueLearningProgress(
-        value
-    ) {
-
-        if (
-            !continueProgress
-        ) {
-
-            return 0;
-
-        }
-
-
-        let progress =
-            Number(
-                value
-            );
-
-
-        if (
-            !Number.isFinite(
-                progress
-            )
-        ) {
-
-            progress =
-                0;
-
-        }
-
-
-        progress =
-            Math.max(
-                0,
-                Math.min(
-                    100,
-                    progress
-                )
-            );
-
-
-        continueProgress.style.width =
-            progress + "%";
-
-
-        continueProgress.setAttribute(
-            "aria-valuenow",
-            String(
-                progress
-            )
-        );
-
-
-        if (
-            progressText
-        ) {
-
-            progressText.textContent =
-                progress +
-                "% Complete";
-
-        }
-
-
-        return progress;
-
-    }
-
-
-    if (
-        continueProgressBtn
-    ) {
-
-        continueProgressBtn.addEventListener(
-            "click",
-            function () {
-
-                const currentWidth =
-                    continueProgress
-                        ? parseFloat(
-                            continueProgress.style.width
-                        )
-                        : 65;
-
-
-                let currentProgress =
-                    Number.isFinite(
-                        currentWidth
-                    )
-                    ? currentWidth
-                    : 65;
-
-
-                if (
-                    currentProgress >=
-                    100
-                ) {
-
-                    updateContinueLearningProgress(
-                        100
-                    );
-
-
-                    ScaleFlow.showToast(
-                        "🎉 Course Completed Successfully!",
-                        "success"
-                    );
-
-
-                    return;
-
-                }
-
-
-                currentProgress +=
-                    5;
-
-
-                if (
-                    currentProgress >
-                    100
-                ) {
-
-                    currentProgress =
-                        100;
-
-                }
-
-
-                const updatedProgress =
-                    updateContinueLearningProgress(
-                        currentProgress
-                    );
-
-
-                if (
-                    updatedProgress >=
-                    100
-                ) {
-
-                    ScaleFlow.showToast(
-                        "🎉 Course Completed Successfully!",
-                        "success"
-                    );
-
-                }
-
-                else {
-
-                    ScaleFlow.showToast(
-                        "📈 Learning Progress Updated (" +
-                        updatedProgress +
-                        "%)",
-                        "info"
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if (
-        continueProgress
-    ) {
-
-        updateContinueLearningProgress(
-            65
-        );
-
-    }
-
-
-    // ============================================================
-    // PART 12 — DASHBOARD STATS
-    // ============================================================
-
-    function updateDashboardStats(
-        stats = {}
-    ) {
-
-        try {
-
-            if (
-                !stats ||
-                typeof stats !== "object"
-            ) {
-
-                return;
-
-            }
-
-
-            const mappings = {
-
-                xp:
-                    [
-                        "xpValue",
-                        "dashboardXP"
-                    ],
-
-                level:
-                    [
-                        "levelValue",
-                        "dashboardLevel"
-                    ],
-
-                progress:
-                    [
-                        "dashboardProgress"
-                    ],
-
-                streak:
-                    [
-                        "streakValue",
-                        "dashboardStreak"
-                    ]
-
-            };
-
-
-            Object.keys(
-                mappings
-            ).forEach(
-                function (key) {
-
-                    if (
-                        stats[key] ===
-                        undefined
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    mappings[key].forEach(
-                        function (id) {
-
-                            const element =
-                                document.getElementById(
-                                    id
-                                );
-
-
-                            if (
-                                element
-                            ) {
-
-                                element.textContent =
-                                    stats[key];
-
-                            }
-
-                        }
-                    );
-
-                }
-            );
-
-
-            console.log(
-                "✅ Dashboard statistics updated."
-            );
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "❌ Dashboard Stats Error:",
-                error
-            );
-
-        }
-
-    }
-
-
-    // ============================================================
-    // PART 12D — LOGIN DOM REFERENCES
-    // ============================================================
-
-    const loginForm =
-        document.getElementById(
-            "loginForm"
-        );
-
-
-    const loginEmail =
-        document.getElementById(
-            "loginEmail"
-        );
-
-
-    const loginPassword =
-        document.getElementById(
-            "loginPassword"
-        );
-
-
-    const loginSubmitBtn =
-        document.getElementById(
-            "loginSubmitBtn"
-        );
-
-
-    const loginSection =
-        document.getElementById(
-            "loginSection"
-        );
-
-
-    const registrationSection =
-        document.getElementById(
-            "registrationSection"
-        );
-
-
-    const registerLink =
-        document.getElementById(
-            "registerLink"
-        );
-
-
-    const backToLoginLink =
-        document.getElementById(
-            "backToLoginLink"
-        );
-
-
-    const registrationForm =
-        document.getElementById(
-            "registrationForm"
-        );
-
-
-    const registerSubmitBtn =
-        document.getElementById(
-            "registerSubmitBtn"
-        );
-
-
-    // ============================================================
-    // LOGIN / REGISTRATION SECTION SWITCH
-    // ============================================================
-
-    if (
-        registerLink
-    ) {
-
-        registerLink.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-
-                if (
-                    loginSection
-                ) {
-
-                    loginSection.style.display =
-                        "none";
-
-                }
-
-
-                if (
-                    registrationSection
-                ) {
-
-                    registrationSection.style.display =
-                        "block";
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if (
-        backToLoginLink
-    ) {
-
-        backToLoginLink.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-
-                if (
-                    registrationSection
-                ) {
-
-                    registrationSection.style.display =
-                        "none";
-
-                }
-
-
-                if (
-                    loginSection
-                ) {
-
-                    loginSection.style.display =
-                        "block";
-
-                }
-
-            }
-        );
-
-    }
-
-
-    // ============================================================
-    // LOGIN BUTTON STATE
-    // ============================================================
-
-    function setLoginButtonState(
-        loading
-    ) {
-
-        if (
-            !loginSubmitBtn
-        ) {
-
-            return;
-
-        }
-
-
-        loginSubmitBtn.disabled =
-            loading;
-
-
-        loginSubmitBtn.style.opacity =
-            loading
-                ? "0.7"
-                : "1";
-
-
-        loginSubmitBtn.textContent =
-            loading
-                ? "Signing In..."
-                : "Sign In";
-
-    }
-
-
-    // ============================================================
-    // LOGIN REQUEST
-    // WEBSITE → SCALEFLOW API → AUTH ENGINE
-    // ============================================================
-
-    async function handleLogin(
-        event
-    ) {
-
-        if (
-            event
-        ) {
-
-            event.preventDefault();
-
-        }
-
-
-        const email =
-            loginEmail
-                ? loginEmail.value
-                    .trim()
-                    .toLowerCase()
-                : "";
-
-
-        const password =
-            loginPassword
-                ? loginPassword.value
-                : "";
-
-
-        if (
-            !email ||
-            !password
-        ) {
-
-            ScaleFlow.showToast(
-                "⚠️ Please enter Email and Password.",
-                "warning"
-            );
-
-
-            return;
-
-        }
-
-
-        setLoginButtonState(
-            true
-        );
-
-
-        try {
-
-            console.log(
-                "🔐 Sending login request..."
-            );
-
-
-            const result =
-                await ScaleFlowAPI.request(
-                    "login",
-                    {
-
-                        email:
-                            email,
-
-                        password:
-                            password
-
-                    }
-                );
-
-
-            console.log(
-                "🔐 Login API Result:",
-                result
-            );
-
-
-            if (
-                result &&
-                result.success ===
-                    true
-            ) {
-
-                ScaleFlow.showToast(
-                    result.message ||
-                    "✅ Login successful.",
-                    "success"
-                );
-
-
-                if (
-                    result.data &&
-                    typeof result.data ===
-                        "object"
-                ) {
-
-                    global.ScaleFlowStudent =
-                        result.data;
-
-                }
-
-
-                ScaleFlow.navigateTo(
-                    "page1"
-                );
-
-            }
-
-            else {
-
-                ScaleFlow.showToast(
-
-                    result &&
-                    result.message
-                        ? result.message
-                        : "❌ Login failed.",
-
-                    "error"
-
-                );
-
-            }
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "❌ Login Error:",
-                error
-            );
-
-
-            ScaleFlow.showToast(
-
-                error &&
-                error.code ===
-                    "NETWORK_ERROR"
-
-                    ? "❌ Backend server could not be reached."
-
-                    : error &&
-                      error.message
-                        ? error.message
-                        : "❌ Unable to connect to the login service.",
-
-                "error"
-
-            );
-
-        }
-
-        finally {
-
-            setLoginButtonState(
-                false
-            );
-
-        }
-
-    }
-
-
-    if (
-        loginForm
-    ) {
-
-        loginForm.addEventListener(
-            "submit",
-            handleLogin
-        );
-
-    }
-
-
-    // ============================================================
-    // REGISTRATION BUTTON STATE
-    // ============================================================
-
-    function setRegistrationButtonState(
-        loading
-    ) {
-
-        if (
-            !registerSubmitBtn
-        ) {
-
-            return;
-
-        }
-
-
-        registerSubmitBtn.disabled =
-            loading;
-
-
-        registerSubmitBtn.style.opacity =
-            loading
-                ? "0.7"
-                : "1";
-
-
-        registerSubmitBtn.textContent =
-            loading
-                ? "Creating Account..."
-                : "Create Account";
-
-    }
-
-
-    // ============================================================
-    // REGISTRATION REQUEST
-    // WEBSITE → SCALEFLOW API → AUTH ENGINE
-    // ============================================================
-
-    async function handleRegistration(
-        event
-    ) {
-
-        if (
-            event
-        ) {
-
-            event.preventDefault();
-
-        }
-
-
-        const fullName =
-            document.getElementById(
-                "registerFullName"
-            )?.value
-                .trim() ||
-            "";
-
-
-        const email =
-            document.getElementById(
-                "registerEmail"
-            )?.value
-                .trim()
-                .toLowerCase() ||
-            "";
-
-
-        const password =
-            document.getElementById(
-                "registerPassword"
-            )?.value ||
-            "";
-
-
-        const confirmPassword =
-            document.getElementById(
-                "registerConfirmPassword"
-            )?.value ||
-            "";
-
-
-        const terms =
-            document.getElementById(
-                "registerTerms"
-            );
-
-
-        if (
-            !fullName ||
-            !email
-        ) {
-
-            ScaleFlow.showToast(
-                "⚠️ Please fill in all required fields.",
-                "warning"
-            );
-
-
-            return;
-
-        }
-
-
-        if (
-            password.length <
-            8
-        ) {
-
-            ScaleFlow.showToast(
-                "⚠️ Password must contain at least 8 characters.",
-                "warning"
-            );
-
-
-            return;
-
-        }
-
-
-        if (
-            password !==
-            confirmPassword
-        ) {
-
-            ScaleFlow.showToast(
-                "⚠️ Passwords do not match.",
-                "warning"
-            );
-
-
-            return;
-
-        }
-
-
-        if (
-            !terms ||
-            !terms.checked
-        ) {
-
-            ScaleFlow.showToast(
-                "⚠️ Please accept the Terms and Conditions.",
-                "warning"
-            );
-
-
-            return;
-
-        }
-
-
-        setRegistrationButtonState(
-            true
-        );
-
-
-        try {
-
-            console.log(
-                "📝 Sending registration request..."
-            );
-
-
-            const result =
-                await ScaleFlowAPI.request(
-                    "register",
-                    {
-
-                        fullName:
-                            fullName,
-
-                        email:
-                            email,
-
-                        password:
-                            password,
-
-                        confirmPassword:
-                            confirmPassword
-
-                    }
-                );
-
-
-            console.log(
-                "📝 Registration API Result:",
-                result
-            );
-
-
-            if (
-                result &&
-                result.success ===
-                    true
-            ) {
-
-                ScaleFlow.showToast(
-                    result.message ||
-                    "🎉 Account created successfully.",
-                    "success"
-                );
-
-
-                if (
-                    registrationForm
-                ) {
-
-                    registrationForm.reset();
-
-                }
-
-
-                if (
-                    registrationSection
-                ) {
-
-                    registrationSection.style.display =
-                        "none";
-
-                }
-
-
-                if (
-                    loginSection
-                ) {
-
-                    loginSection.style.display =
-                        "block";
-
-                }
-
-
-                if (
-                    loginEmail
-                ) {
-
-                    loginEmail.value =
-                        email;
-
-                }
-
-            }
-
-            else {
-
-                ScaleFlow.showToast(
-
-                    result &&
-                    result.message
-                        ? result.message
-                        : "❌ Registration failed.",
-
-                    "error"
-
-                );
-
-            }
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "❌ Registration Error:",
-                error
-            );
-
-
-            ScaleFlow.showToast(
-
-                error &&
-                error.code ===
-                    "NETWORK_ERROR"
-
-                    ? "❌ Backend server could not be reached."
-
-                    : error &&
-                      error.message
-                        ? error.message
-                        : "❌ Unable to connect to the registration service.",
-
-                "error"
-
-            );
-
-        }
-
-        finally {
-
-            setRegistrationButtonState(
-                false
-            );
-
-        }
-
-    }
-
-
-    if (
-        registrationForm
-    ) {
-
-        registrationForm.addEventListener(
-            "submit",
-            handleRegistration
-        );
-
-    }
-
-
-    // ============================================================
-    // PART 13 — QUICK ACTIONS
-    // ============================================================
-
-    document
-        .querySelectorAll(
-            ".quick-action-btn"
-        )
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        const label =
-                            this.querySelector(
-                                ".label"
-                            )?.textContent
-                            ||
-                            "Action";
-
-
-                        console.log(
-                            "🚀 Quick Action:",
-                            label
-                        );
-
-
-                        ScaleFlow.showToast(
-                            "🚀 Triggered: " +
-                            label,
-                            "info"
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-    // ============================================================
-    // PUBLIC PART 2 FUNCTIONS
-    // IMPORTANT:
-    // Preserve the ScaleFlow object created by Part 1.
-    // ============================================================
-
-    ScaleFlow.updateDashboardStats =
-        updateDashboardStats;
-
-
-    ScaleFlow.updateContinueLearningProgress =
-        updateContinueLearningProgress;
-
-
-    ScaleFlow.login =
-        handleLogin;
-
-
-    ScaleFlow.register =
-        handleRegistration;
-
-
-    // ============================================================
-    // PART 2 STARTUP TEST
-    // ============================================================
-
-    function startPart2() {
-
-        console.log(
-            "================================================"
-        );
-
-        console.log(
-            "SCALEFLOW JAVASCRIPT PART 2 TEST"
-        );
-
-        console.log(
-            "================================================"
-        );
-
-
-        console.log(
-            "ScaleFlow Core:",
-            !!global.ScaleFlow
-        );
-
-
-        console.log(
-            "ScaleFlow API:",
-            !!global.ScaleFlowAPI
-        );
-
-
-        console.log(
-            "Backend URL:",
-            global.ScaleFlowAPI &&
-            global.ScaleFlowAPI.config
-                ? global.ScaleFlowAPI.config.WEB_APP_URL
-                : "UNAVAILABLE"
-        );
-
-
-        console.log(
-            "Global Search:",
-            !!globalSearchInput
-        );
-
-
-        console.log(
-            "Explore Courses:",
-            !!exploreCoursesBtn
-        );
-
-
-        console.log(
-            "Continue Learning:",
-            !!continueProgress
-        );
-
-
-        console.log(
-            "Login Form:",
-            !!loginForm
-        );
-
-
-        console.log(
-            "Registration Form:",
-            !!registrationForm
-        );
-
-
-        console.log(
-            "Quick Actions:",
-            document.querySelectorAll(
-                ".quick-action-btn"
-            ).length
-        );
-
-
-        console.log(
-            "================================================"
-        );
-
-        console.log(
-            "✅ SCALEFLOW JAVASCRIPT PART 2 INITIALIZED"
-        );
-
-        console.log(
-            "================================================"
-        );
-
-    }
-
-
-    // ============================================================
-    // SAFE PART 2 STARTUP
-    // ============================================================
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            startPart2,
-            {
-                once:
-                    true
-            }
-        );
-
-    }
-
-    else {
-
-        startPart2();
-
-    }
-
-
-    // ============================================================
-    // FINAL PART 2 MESSAGE
-    // ============================================================
-
-    console.log(
-        "✅ ScaleFlow University JavaScript Part 2 initialized."
-    );
-
-
-})(window);
-
-
-// ============================================================
-// PART 14 — GEMINI AI CHAT MODULE
-// WEBSITE → CENTRAL SCALEFLOW API → AI ENGINE
-// ============================================================
-
-const chatMessages =
-    document.getElementById("chatMessages");
-
-const chatInput =
-    document.getElementById("chatInput");
-
-const chatSendBtn =
-    document.getElementById("chatSendBtn");
-
-const chatClearBtn =
-    document.getElementById("chatClearBtn");
-
-const chatVoiceBtn =
-    document.getElementById("chatVoiceBtn");
-
-
-// ============================================================
-// AI CHAT MESSAGE HELPER
-// ============================================================
-
-function appendChatMessage(
-    message,
-    type = "ai"
-) {
-
-    if (!chatMessages) {
-
-        return null;
-
-    }
-
-
-    const messageElement =
-        document.createElement("div");
-
-
-    messageElement.className =
-        "message " + type;
-
-
-    messageElement.textContent =
-        String(message || "");
-
-
-    chatMessages.appendChild(
-        messageElement
-    );
-
-
-    chatMessages.scrollTop =
-        chatMessages.scrollHeight;
-
-
-    return messageElement;
-
-}
-
-
-// ============================================================
-// AI CHAT LOADING MESSAGE
-// ============================================================
-
-function createAIThinkingMessage() {
-
-    return appendChatMessage(
-        "Thinking with ScaleFlow AI...",
-        "ai"
-    );
-
-}
-
-
-// ============================================================
-// EXTRACT AI ANSWER
-// ============================================================
-
-function extractAIAnswer(
-    result
-) {
-
-    if (!result) {
-
-        return "";
-
-    }
-
-
-    if (
-        result.data &&
-        typeof result.data.answer ===
-            "string"
-    ) {
-
-        return result.data.answer.trim();
-
-    }
-
-
-    if (
-        result.data &&
-        typeof result.data.text ===
-            "string"
-    ) {
-
-        return result.data.text.trim();
-
-    }
-
-
-    if (
-        typeof result.answer ===
-            "string"
-    ) {
-
-        return result.answer.trim();
-
-    }
-
-
-    if (
-        typeof result.text ===
-            "string"
-    ) {
-
-        return result.text.trim();
-
-    }
-
-
-    return "";
-
-}
-
-
-// ============================================================
-// SEND AI CHAT MESSAGE
-// ============================================================
-
-async function sendChatMessage() {
-
-    if (
-        !chatMessages ||
-        !chatInput
-    ) {
-
-        return;
-
-    }
-
-
-    const message =
-        chatInput.value.trim();
-
-
-    if (!message) {
-
-        ScaleFlow.showToast(
-            "⚠️ Please enter a question first.",
-            "warning"
-        );
-
-        return;
-
-    }
-
-
-    if (
-        chatSendBtn &&
-        chatSendBtn.disabled
-    ) {
-
-        return;
-
-    }
-
-
-    appendChatMessage(
-        message,
-        "user"
-    );
-
-
-    chatInput.value = "";
-
-
-    if (chatSendBtn) {
-
-        chatSendBtn.disabled =
-            true;
-
-        chatSendBtn.dataset.originalText =
-            chatSendBtn.textContent ||
-            "Send";
-
-        chatSendBtn.textContent =
-            "Thinking...";
-
-    }
-
-
-    const aiMessage =
-        createAIThinkingMessage();
-
-
-    try {
-
-        console.log(
-            "================================================"
-        );
-
-        console.log(
-            "ScaleFlow AI Chat Request"
-        );
-
-        console.log(
-            "================================================"
-        );
-
-        console.log(
-            "Question:",
-            message
-        );
-
-
-        // ----------------------------------------------------
-        // CRITICAL:
-        // Use Part 1 Central API Connector.
-        // NEVER create another fetch() here.
-        // ----------------------------------------------------
-
-        if (
-            !global.ScaleFlowAPI ||
-            typeof global.ScaleFlowAPI.request !==
-                "function"
-        ) {
-
-            throw new Error(
-                "ScaleFlow Central API Connector is unavailable."
-            );
-
-        }
-
-
-        const result =
-            await global.ScaleFlowAPI.request(
-                "ai.chat",
-                {
-                    message:
-                        message
-                }
-            );
-
-
-        console.log(
-            "ScaleFlow AI Chat Response:",
-            result
-        );
-
-
-        if (
-            !result ||
-            typeof result !==
-                "object"
-        ) {
-
-            throw new Error(
-                "Invalid AI API response."
-            );
-
-        }
-
-
-        if (
-            result.success !==
-                true
-        ) {
-
-            throw new Error(
-                result.message ||
-                "AI Learning Assistant is temporarily unavailable."
-            );
-
-        }
-
-
-        const answer =
-            extractAIAnswer(
-                result
-            );
-
-
-        if (!answer) {
-
-            throw new Error(
-                "AI returned an empty response."
-            );
-
-        }
-
-
-        if (aiMessage) {
-
-            aiMessage.textContent =
-                answer;
-
-        }
-
-
-        console.log(
-            "✅ ScaleFlow AI answer received."
-        );
-
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "❌ ScaleFlow AI Chat Error:",
-            error
-        );
-
-
-        if (aiMessage) {
-
-            aiMessage.textContent =
-                "ہمارا AI Learning Assistant اس وقت جواب دینے میں عارضی دشواری محسوس کر رہا ہے۔ براہِ کرم کچھ دیر بعد دوبارہ کوشش کریں۔";
-
-        }
-
-
-        ScaleFlow.showToast(
-            "⚠️ AI Assistant temporarily unavailable.",
-            "warning"
-        );
-
-    }
-
-    finally {
-
-        if (chatSendBtn) {
-
-            chatSendBtn.disabled =
-                false;
-
-            chatSendBtn.textContent =
-                chatSendBtn.dataset.originalText ||
-                "Send";
-
-        }
-
-
-        if (chatInput) {
-
-            chatInput.focus();
-
-        }
-
-    }
-
-}
