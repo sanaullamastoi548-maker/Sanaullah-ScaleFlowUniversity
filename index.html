@@ -1,2643 +1,2113 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>ScaleFlow University – All Pages</title>
-    <meta name="description" content="Learn • Build • Earn • Grow">
+
+    <meta
+        name="description"
+        content="Learn • Build • Earn • Grow"
+    >
 
     <!-- ============================================================
-    STYLES — LOCKED (CSS will be added later in Parts 1 to 20)
-    ============================================================ -->
-    <style>
-        /* ===== PART 1 TO PART 20 — ALL STYLES LOCKED ===== */
-        /* CSS will be added here later in sequence */
-    </style>
+         EXTERNAL CSS
+         ============================================================ -->
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
+
 <body>
 
-    <!-- ============================================================
-    LOADER — PART 0 (Common)
-    ============================================================ -->
-    <div id="loader" role="status" aria-label="Loading">
-        <div class="loader-spinner"></div>
-        <h2>Loading...</h2>
-    </div>
-
-    <!-- ============================================================
-    TOAST CONTAINER — PART 0 (Common)
-    ============================================================ -->
-    <div id="toast-container" role="alert" aria-live="polite"></div>
-
-    <!-- ============================================================
-    MODAL CONTAINER — PART 0 (Common)
-    ============================================================ -->
-    <div id="modal-container" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 id="modalTitle">Modal Title</h2>
-                <button id="modalCloseBtn" class="modal-close" type="button" aria-label="Close modal">&times;</button>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <p>Modal content goes here.</p>
-            </div>
-            <div class="modal-footer">
-                <button id="modalCancelBtn" class="btn-secondary" type="button">Cancel</button>
-                <button id="modalConfirmBtn" class="btn-primary" type="button">Confirm</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================================
-    MAIN APP — START
-    ============================================================ -->
-    <div id="app" data-page="home">
-
-        <!-- ==========================================================
-        HEADER & NOTIFICATIONS — PART 0 (Common)
-        ========================================================== -->
-        <div id="notificationPanel" class="notification-panel">
-            <div class="notification-header">
-                <h3>🔔 Notifications</h3>
-                <button id="markAllReadBtn" type="button">Mark all as read</button>
-            </div>
-            <div class="notification-list">
-                <div class="notification-item unread">
-                    <span class="icon">📘</span>
-                    <div class="content">
-                        <p><strong>New course:</strong> AI Fundamentals</p>
-                        <span class="time">2 min ago</span>
-                    </div>
-                </div>
-                <div class="notification-item unread">
-                    <span class="icon">🏆</span>
-                    <div class="content">
-                        <p><strong>Achievement:</strong> 5 Day Streak</p>
-                        <span class="time">1 hour ago</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <header class="header" role="banner">
-            <div class="logo">
-                <h1>Sanaullah</h1>
-                <span>ScaleFlow University</span>
-            </div>
-            <div class="header-actions">
-                <button id="darkModeBtn" class="icon-btn" type="button" aria-label="Toggle Dark Mode">🌙</button>
-                <button id="notificationBell" class="icon-btn" type="button" aria-label="Open notifications">
-                    🔔
-                    <span id="notificationCount" class="notification-badge">0</span>
-                </button>
-            </div>
-        </header>
-
-        <!-- ==========================================================
-        SIDEBAR — PART 0 (Common Navigation)
-        ========================================================== -->
-        <aside class="sidebar" role="navigation" aria-label="Main Navigation">
-            <nav class="sidebar-menu">
-                <a href="#" data-page="page1" class="active" id="navPage1">🏠 Home</a>
-                <a href="#" data-page="page2" id="navPage2">📊 Dashboard</a>
-                <a href="#" data-page="page3" id="navPage3">📚 Courses</a>
-                <a href="#" data-page="page4" id="navPage4">📖 Learning</a>
-                <a href="#" data-page="page5" id="navPage5">📜 Certificates</a>
-                <a href="#" data-page="page6" id="navPage6">🏆 Achievements</a>
-                <a href="#" data-page="page7" id="navPage7">🤖 AI Mentor</a>
-                <a href="#" data-page="page8" id="navPage8">🛒 Marketplace</a>
-                <a href="#" data-page="page9" id="navPage9">💼 Business</a>
-                <a href="#" data-page="page10" id="navPage10">👤 Profile</a>
-                <a href="#" data-page="page11" id="navPage11">⚙️ Settings</a>
-                <a href="#" data-page="page12" id="navPage12">🔐 Login</a>
-                <!-- ===== NEW PAGES 13 TO 20 ===== -->
-                <a href="#" data-page="page13" id="navPage13">💳 Payment</a>
-                <a href="#" data-page="page14" id="navPage14">📦 Subscription</a>
-                <a href="#" data-page="page15" id="navPage15">💼 CRM</a>
-                <a href="#" data-page="page16" id="navPage16">💻 Freelancing</a>
-                <a href="#" data-page="page17" id="navPage17">⚙️ Automation</a>
-                <a href="#" data-page="page18" id="navPage18">🤖 AI Tools</a>
-                <a href="#" data-page="page19" id="navPage19">👨‍💼 Admin</a>
-                <a href="#" data-page="page20" id="navPage20">🚀 Future</a>
-            </nav>
-        </aside>
-
-        <!-- ==========================================================
-        MAIN CONTENT — PAGES 1 TO 20
-        <!-- ============================================================
-     EDUCATION SEARCH
-     ============================================================ -->
-
-<div class="search-section">
-
-    <input
-        id="globalSearchInput"
-        type="search"
-        placeholder="Search courses, lessons, subjects, or questions..."
-        autocomplete="off"
-        aria-label="Education search"
-    >
-
-    <button
-        id="globalSearchBtn"
-        type="button"
-        aria-label="Search education content"
-        title="Search"
-    >
-        🔍 Search
-    </button>
-
-</div>
-
-
-            <!-- =========================================
-     EDUCATION HOME
-     ========================================= -->
-
-<section id="educationHome">
-
-    <h2>🎓 Education</h2>
-
-    <p>
-        Explore all fields of education
-    </p>
-
-    <!-- Education Search -->
-
-    <div id="educationSearch">
-
-        <input
-            type="text"
-            id="educationSearchInput"
-            placeholder="Search education..."
-        >
-
-        <button
-            id="educationSearchBtn"
-            type="button"
-        >
-            Search
-        </button>
-
-    </div>
-
-
-    <!-- Search Results -->
-
-    <div id="educationSearchResults">
-
-    </div>
-
-
-    <!-- Education Fields -->
-
-    <div id="educationFields">
-
-        <div class="education-card">
-            <h3>🏫 School Education</h3>
-            <p>School subjects and basic education</p>
-        </div>
-
-        <div class="education-card">
-            <h3>📚 Languages</h3>
-            <p>English, Urdu, Arabic and other languages</p>
-        </div>
-
-        <div class="education-card">
-            <h3>🧮 Mathematics</h3>
-            <p>Math, Algebra, Geometry and Statistics</p>
-        </div>
-
-        <div class="education-card">
-            <h3>🔬 Science</h3>
-            <p>Physics, Chemistry and Biology</p>
-        </div>
-
-        <div class="education-card">
-            <h3>💻 Computer Science</h3>
-            <p>Programming, Web Development and Software</p>
-        </div>
-
-        <div class="education-card">
-            <h3>🤖 AI & Technology</h3>
-            <p>Artificial Intelligence and Automation</p>
-        </div>
-
-        <div class="education-card">
-            <h3>⚙️ Engineering</h3>
-            <p>Civil, Mechanical, Electrical and other fields</p>
-        </div>
-
-        <div class="education-card">
-            <h3>💼 Business</h3>
-            <p>Business, Marketing, Finance and Management</p>
-        </div>
-
-        <div class="education-card">
-            <h3>🎨 Design</h3>
-            <p>Graphic Design, UI/UX and Creative Arts</p>
-        </div>
-
-        <div class="education-card">
-            <h3>🚀 Professional Skills</h3>
-            <p>Career, Freelancing and Digital Skills</p>
-        </div>
-
-    </div>
-
-
-    <!-- Related Education -->
-
-    <div id="relatedEducation">
-
-        <h3>🔗 Related Education</h3>
-
-        <div id="relatedEducationList">
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- =========================================
-     END EDUCATION HOME
-     ========================================= -->
-
-                        <!-- ===================================================
-            PAGE 1: HOME
-            ==================================================== -->
-            <section id="page1" class="page-section active" aria-label="Home Dashboard">
-                <section class="hero" aria-label="Welcome Section">
-                    <div class="hero-left">
-                        <span class="hero-tag">👋 Welcome Back</span>
-                        <h1 id="studentName">Sanaullah</h1>
-                        <p>Continue your learning journey. Every lesson makes you stronger.</p>
-                        <div class="hero-buttons">
-                            <button id="continueLearningBtn" class="btn-primary" type="button">▶ Continue Learning</button>
-                            <button id="browseCoursesBtn" class="btn-secondary" type="button">📚 Browse Courses</button>
-                        </div>
-                    </div>
-                    <div class="hero-right">
-                        <article class="hero-stat"><span>⭐ Brain XP</span><strong id="brainXP">250 XP</strong></article>
-                        <article class="hero-stat"><span>🏆 Level</span><strong id="currentLevel">Level 5</strong></article>
-                        <article class="hero-stat"><span>🔥 Streak</span><strong id="learningStreak">7 Days</strong></article>
-                        <article class="hero-stat"><span>📈 Progress</span><strong id="overallProgress">75%</strong></article>
-                    </div>
-                </section>
-
-                <div class="search-section">
-                    <input id="globalSearchInput" type="text" placeholder="Search courses, tools, mentors..." autocomplete="off" aria-label="Global search">
-                </div>
-
-                <section class="learning-dashboard" aria-label="Learning Dashboard">
-                    <h2>📚 Learning Dashboard</h2>
-                    <div class="dashboard-boxes">
-                        <div class="dashboard-box" id="dashCourseBox"><h3>Courses</h3><span id="courseCount">12</span></div>
-                        <div class="dashboard-box" id="dashCertBox"><h3>Certificates</h3><span id="certificateCount">4</span></div>
-                        <div class="dashboard-box" id="dashAchieveBox"><h3>Achievements</h3><span id="achievementCount">8</span></div>
-                        <div class="dashboard-box" id="dashProjectBox"><h3>Projects</h3><span id="projectCount">3</span></div>
-                    </div>
-                </section>
-
-                <section class="continue-learning" aria-label="Continue Learning">
-                    <div class="continue-card">
-                        <div class="continue-tag">📖 Continue Where You Left Off</div>
-                        <div class="continue-info">
-                            <h2>JavaScript Fundamentals</h2>
-                            <p>Module 4 • Functions & Scope</p>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="continueProgress" style="width:65%;"></div>
-                            </div>
-                            <div class="continue-actions">
-                                <small id="progressText">65% Complete</small>
-                                <button id="continueProgressBtn" class="btn-primary" type="button">▶ Continue</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="today-tasks" aria-label="Today's Tasks">
-                    <h2>📋 Today's Learning Tasks</h2>
-                    <div class="task-list">
-                        <div class="task-item"><input type="checkbox" id="task1" aria-label="Complete Lesson 13"><label for="task1">Complete Lesson 13</label></div>
-                        <div class="task-item"><input type="checkbox" id="task2" aria-label="AI Quiz Module 5"><label for="task2">AI Quiz: Module 5</label></div>
-                        <div class="task-item"><input type="checkbox" id="task3" aria-label="Review JavaScript Notes"><label for="task3">Review JavaScript Notes</label></div>
-                        <div class="task-item"><input type="checkbox" id="task4" aria-label="Submit Project Proposal"><label for="task4">Submit Project Proposal</label></div>
-                    </div>
-                </section>
-
-                <section class="recent-activity" aria-label="Recent Activity">
-                    <h2>🕐 Recent Activity</h2>
-                    <div class="activity-list">
-                        <div class="activity-item">Completed "AI Fundamentals" <span>2 hours ago</span></div>
-                        <div class="activity-item">Started "Web Development" <span>Yesterday</span></div>
-                        <div class="activity-item">Earned "JavaScript Badge" <span>3 days ago</span></div>
-                    </div>
-                </section>
-
-                <section class="quick-actions-section" aria-label="Quick Actions">
-                    <h2>⚡ Quick Actions</h2>
-                    <div class="quick-actions-grid">
-                        <button id="quickStartLearning" class="quick-action-btn" type="button"><span class="icon">🚀</span><span class="label">Start Learning</span><span class="desc">Continue your courses</span></button>
-                        <button id="quickAskAI" class="quick-action-btn" type="button"><span class="icon">🤖</span><span class="label">Ask AI Mentor</span><span class="desc">Get instant help</span></button>
-                        <button id="quickBrowseCourses" class="quick-action-btn" type="button"><span class="icon">📚</span><span class="label">Browse Courses</span><span class="desc">Explore new topics</span></button>
-                        <button id="quickMyCertificates" class="quick-action-btn" type="button"><span class="icon">📜</span><span class="label">My Certificates</span><span class="desc">View your achievements</span></button>
-                    </div>
-                </section>
-
-                <section class="weekly-progress" aria-label="Weekly Progress Chart">
-                    <div class="section-header"><h2>📈 Weekly Progress</h2><span>This Week</span></div>
-                    <div class="progress-chart">
-                        <div class="day"><div class="bar" style="height:45%;"></div><p>Mon</p></div>
-                        <div class="day"><div class="bar" style="height:70%;"></div><p>Tue</p></div>
-                        <div class="day"><div class="bar" style="height:60%;"></div><p>Wed</p></div>
-                        <div class="day"><div class="bar" style="height:90%;"></div><p>Thu</p></div>
-                        <div class="day"><div class="bar" style="height:75%;"></div><p>Fri</p></div>
-                        <div class="day"><div class="bar" style="height:100%;"></div><p>Sat</p></div>
-                        <div class="day"><div class="bar" style="height:55%;"></div><p>Sun</p></div>
-                    </div>
-                </section>
-
-                <section class="gateway-grid" aria-label="Gateway Modules">
-                    <article class="gateway-card" id="gatewayLearning"><h3>🎓 Learning Hub</h3><p>Professional courses with quizzes, projects and certificates.</p></article>
-                    <article class="gateway-card" id="gatewayAI"><h3>🤖 AI Mentor</h3><p>Learn with your personal AI teacher and assistant.</p></article>
-                    <article class="gateway-card" id="gatewayAutomation"><h3>⚡ Automation Hub</h3><p>Google Workspace, Apps Script and automation projects.</p></article>
-                    <article class="gateway-card" id="gatewayTools"><h3>🛠 Tools Hub</h3><p>Free professional tools for productivity and development.</p></article>
-                    <article class="gateway-card" id="gatewayBusiness"><h3>💼 Business Hub</h3><p>Build and manage your digital business from one dashboard.</p></article>
-                    <article class="gateway-card" id="gatewayFreelancing"><h3>💻 Freelancing</h3><p>Learn Fiverr, Upwork, proposals and client handling.</p></article>
-                    <article class="gateway-card" id="gatewayCertificates"><h3>🏆 Certificates</h3><p>View, verify and download your certificates.</p></article>
-                    <article class="gateway-card" id="gatewayDashboard"><h3>👤 Dashboard</h3><p>Track your progress, Brain XP and achievements.</p></article>
-                </section>
-
-                <div class="quick-actions-bottom">
-                    <button id="btnTheme" class="quick-btn" type="button">🌙 Theme</button>
-                    <button id="btnLanguage" class="quick-btn" type="button">🌐 Language</button>
-                    <button id="btnSupport" class="quick-btn" type="button">📞 Support</button>
-                </div>
-
-                
-                
-                                                                                                   </section>
-            <!-- ===================================================
-            PAGE 2: DASHBOARD
-            =================================================== -->
-        <section id="page2" class="page-section" aria-label="Student Dashboard">
-      <h2>📊 Student Dashboard</h2>
-    <div class="dashboard-profile">
-        <div class="profile-card">
-            <img id="dashboardProfileImage" src="assets/avatar.png" alt="Profile Avatar" class="avatar-large" style="width:80px;height:80px;border-radius:50%;display:block;margin:0 auto 12px;">
-            <h3 id="dashName">Sanaullah</h3>
-            <p>Level <span id="dashLevel">5</span> • <span id="dashXP">250</span> XP</p>
-            <div class="streak">🔥 <span id="dashStreak">7</span> Day Streak</div>
-        </div>
-        <div class="stats-grid">
-            <div class="stat-box"><span>📚 Courses</span><strong id="dashCourses">12</strong></div>
-            <div class="stat-box"><span>📜 Certificates</span><strong id="dashCerts">4</strong></div>
-            <div class="stat-box"><span>🏆 Achievements</span><strong id="dashAchievements">8</strong></div>
-            <div class="stat-box"><span>📈 Progress</span><strong id="dashProgress">75%</strong></div>
-        </div>
-    </div>
-    <div class="weekly-progress">
-        <div class="section-header"><h2>📈 Weekly Analytics</h2><span>This Week</span></div>
-        <div class="progress-chart">
-            <div class="day"><div class="bar" style="height:45%;"></div><p>Mon</p></div>
-            <div class="day"><div class="bar" style="height:70%;"></div><p>Tue</p></div>
-            <div class="day"><div class="bar" style="height:60%;"></div><p>Wed</p></div>
-            <div class="day"><div class="bar" style="height:90%;"></div><p>Thu</p></div>
-            <div class="day"><div class="bar" style="height:75%;"></div><p>Fri</p></div>
-            <div class="day"><div class="bar" style="height:100%;"></div><p>Sat</p></div>
-            <div class="day"><div class="bar" style="height:55%;"></div><p>Sun</p></div>
-        </div>
-    </div>
-    <div class="quick-actions-grid">
-        <button id="dashResumeLearning" class="quick-action-btn" type="button"><span class="icon">📖</span><span class="label">Resume Learning</span></button>
-        <button id="dashBrowseCourses" class="quick-action-btn" type="button"><span class="icon">📚</span><span class="label">Browse Courses</span></button>
-        <button id="dashAskAI" class="quick-action-btn" type="button"><span class="icon">🤖</span><span class="label">Ask AI</span></button>
-        <button id="dashCertificates" class="quick-action-btn" type="button"><span class="icon">📜</span><span class="label">Certificates</span></button>
-    </div>
-    <section class="recent-courses" aria-label="Recent Courses">
-        <h3>📘 Recent Courses</h3>
-        <div class="course-grid">
-            <article class="course-card" id="recentCourse1"><h4>AI Fundamentals</h4><p>65% complete</p><div class="progress-bar"><div class="progress-fill" style="width:65%;"></div></div></article>
-            <article class="course-card" id="recentCourse2"><h4>Web Development</h4><p>40% complete</p><div class="progress-bar"><div class="progress-fill" style="width:40%;"></div></div></article>
-            <article class="course-card" id="recentCourse3"><h4>Data Science</h4><p>20% complete</p><div class="progress-bar"><div class="progress-fill" style="width:20%;"></div></div></article>
-        </div>
-    </section>
-</section>
-
-
-
-                <!-- =================================================== -->
-<!-- PAGE 3: SCALEFLOW UNIVERSITY - COMPLETE COURSES HUB -->
-<!-- =================================================== -->
-<section id="page3" class="page-section" aria-label="All Courses and Universal Skills">
-    <div class="course-container">
-        <h2 class="section-title">📚 ScaleFlow University - Universal Courses & Practical Skills</h2>
-        <p class="section-subtitle">Explore medical, engineering, science, and professional automation paths.</p>
-        
-       <!-- Search and Filter Header -->
-<div class="learning-header">
-    <input
-        id="courseSearchInput"
-        type="search"
-        placeholder="🔍 Search medical, engineering, science & coding courses..."
-        aria-label="Search courses"
-        autocomplete="off"
-    >
-</div>
-
-<!-- Course Difficulty Filters -->
-<div class="filter-buttons">
-
-    <button
-        id="filterAll"
-        class="btn-secondary"
-        type="button"
-    >
-        All
-    </button>
-
-    <button
-        id="filterBeginner"
-        class="btn-secondary"
-        type="button"
-    >
-        Beginner
-    </button>
-
-    <button
-        id="filterIntermediate"
-        class="btn-secondary"
-        type="button"
-    >
-        Intermediate
-    </button>
-
-    <button
-        id="filterAdvanced"
-        class="btn-secondary"
-        type="button"
-    >
-        Advanced
-    </button>
-
-</div>
-
-
-<!-- Active & Universal Courses Grid -->
-<div class="course-grid" id="courseGrid">
-
-    <!-- Medical / Doctor Path -->
-    <article
-        class="course-card"
-        id="courseCardMedical"
-        data-difficulty="beginner"
-    >
-        <h3>Medical Science & Healthcare Basics</h3>
-
-        <p>
-            Beginner • 15 Lessons • Future Doctor Path
-        </p>
-
-        <button
-            id="startCourseMed"
-            class="btn-primary-custom"
-            type="button"
-        >
-            Start Learning
-        </button>
-    </article>
-
-
-    <!-- Engineering Path -->
-    <article
-        class="course-card"
-        id="courseCardEngineering"
-        data-difficulty="intermediate"
-    >
-        <h3>Modern Engineering & Mechanics</h3>
-
-        <p>
-            Intermediate • 18 Lessons • Core Engineering
-        </p>
-
-        <button
-            id="startCourseEng"
-            class="btn-primary-custom"
-            type="button"
-        >
-            Start Learning
-        </button>
-    </article>
-
-
-    <!-- Applied Science Path -->
-    <article
-        class="course-card"
-        id="courseCardScience"
-        data-difficulty="advanced"
-    >
-        <h3>Advanced Scientific Research & Physics</h3>
-
-        <p>
-            Advanced • 20 Lessons • Scientist Path
-        </p>
-
-        <button
-            id="startCourseSci"
-            class="btn-primary-custom"
-            type="button"
-        >
-            Start Learning
-        </button>
-    </article>
-
-
-    <!-- AI Fundamentals -->
-    <article
-        class="course-card"
-        id="courseCard001"
-        data-difficulty="beginner"
-    >
-        <h3>AI Fundamentals & Prompt Engineering</h3>
-
-        <p>
-            Beginner • 12 Lessons • Practical AI
-        </p>
-
-        <button
-            id="startCourse1"
-            class="btn-primary-custom"
-            type="button"
-        >
-            Start Learning
-        </button>
-    </article>
-
-
-    <!-- JavaScript Development -->
-    <article
-        class="course-card"
-        id="courseCard002"
-        data-difficulty="intermediate"
-    >
-        <h3>JavaScript & Frontend Development</h3>
-
-        <p>
-            Intermediate • 20 Lessons • Web Power
-        </p>
-
-        <button
-            id="startCourse2"
-            class="btn-primary-custom"
-            type="button"
-        >
-            Start Learning
-        </button>
-    </article>
-
-
-    <!-- Python Automation -->
-    <article
-        class="course-card"
-        id="courseCard003"
-        data-difficulty="advanced"
-    >
-        <h3>Python for Data Science & Automation</h3>
-
-        <p>
-            Advanced • 15 Lessons • Real Automation
-        </p>
-
-        <button
-            id="startCourse3"
-            class="btn-primary-custom"
-            type="button"
-        >
-            Start Learning
-        </button>
-    </article>
-
-
-    <!-- HTML & CSS Design -->
-    <article
-        class="course-card"
-        id="courseCard004"
-        data-difficulty="beginner"
-    >
-        <h3>HTML, CSS & Modern UI Design</h3>
-
-        <p>
-            Beginner • 8 Lessons • Design Foundation
-        </p>
-
-        <button
-            id="startCourse4"
-            class="btn-primary-custom"
-            type="button"
-        >
-            Start Learning
-        </button>
-    </article>
-
-
-    <!-- React Applications -->
-    <article
-        class="course-card"
-        id="courseCard005"
-        data-difficulty="intermediate"
-    >
-        <h3>React Web Applications</h3>
-
-        <p>
-            Intermediate • 18 Lessons • Pro Apps
-        </p>
-
-        <button
-            id="startCourse5"
-            class="btn-primary-custom"
-            type="button"
-        >
-            Start Learning
-        </button>
-    </article>
-
-
-    <!-- Machine Learning -->
-    <article
-        class="course-card"
-        id="courseCard006"
-        data-difficulty="advanced"
-    >
-        <h3>Machine Learning & Practical AI</h3>
-
-        <p>
-            Advanced • 22 Lessons • Future Tech
-        </p>
-
-        <button
-            id="startCourse6"
-            class="btn-primary-custom"
-            type="button"
-        >
-            Start Learning
-        </button>
-    </article>
-
-</div>
-
-
-<!-- Pagination -->
-<div class="pagination">
-
-    <button
-        id="paginationPrev"
-        class="btn-secondary"
-        type="button"
-    >
-        Previous
-    </button>
-
-    <button
-        id="pagination1"
-        class="btn-primary-custom pagination-number"
-        type="button"
-    >
-        1
-    </button>
-
-    <button
-        id="pagination2"
-        class="btn-secondary pagination-number"
-        type="button"
-    >
-        2
-    </button>
-
-    <button
-        id="pagination3"
-        class="btn-secondary pagination-number"
-        type="button"
-    >
-        3
-    </button>
-
-    <button
-        id="paginationNext"
-        class="btn-secondary"
-        type="button"
-    >
-        Next
-    </button>
-
-</div> 
-
 
 <!-- ============================================================
-     CORE AUTOMATION & E-LEARNING MODULES
+     LOADER — PART 0
      ============================================================ -->
 
-<div class="core-courses-section">
-
-    <h2 class="section-title">
-        🎓 Core Automation & SaaS Courses
-    </h2>
-
-    <p class="section-subtitle">
-        Master Google Apps Script, Google Sheets, and Workflow
-        Automations step by step.
-    </p>
-
-
-    <!-- Core Course Grid -->
-    <div class="course-grid">
-
-        <!-- Course 1 -->
-        <article class="course-card">
-
-            <div class="course-icon">
-                📊
-            </div>
-
-            <h3 class="course-heading">
-                Google Workspace Automation
-            </h3>
-
-            <p class="course-desc">
-                Learn how to automate Google Forms, Sheets, and
-                Drive using advanced scripts.
-            </p>
-
-            <button
-                id="enrollWorkspaceBtn"
-                class="btn-primary-custom"
-                type="button"
-            >
-                Start Course
-            </button>
-
-        </article>
-
-
-        <!-- Course 2 -->
-        <article class="course-card">
-
-            <div class="course-icon">
-                ⚡
-            </div>
-
-            <h3 class="course-heading">
-                n8n & Make.com Masterclass
-            </h3>
-
-            <p class="course-desc">
-                Build complex multi-step APIs and workflows
-                without writing heavy code.
-            </p>
-
-            <button
-                id="enrollN8nBtn"
-                class="btn-primary-custom"
-                type="button"
-            >
-                Start Course
-            </button>
-
-        </article>
-
-
-        <!-- Course 3 -->
-        <article class="course-card">
-
-            <div class="course-icon">
-                🤖
-            </div>
-
-            <h3 class="course-heading">
-                AI Integration & SaaS Dev
-            </h3>
-
-            <p class="course-desc">
-                Connect Gemini API and cloud tools to build
-                intelligent automated platforms.
-            </p>
-
-            <button
-                id="enrollAiBtn"
-                class="btn-primary-custom"
-                type="button"
-            >
-                Start Course
-            </button>
-
-        </article>
-
-    </div>
-
-</div>
-
-
-<!-- ============================================================
-     FEATURED COURSES
-     ============================================================ -->
-
-<section
-    class="featured-courses"
-    aria-label="Featured Career Paths"
+<div
+    id="loader"
+    role="status"
+    aria-label="Loading"
 >
 
-    <h3>
-        ⭐ Featured Career Paths
-    </h3>
+    <div class="loader-spinner"></div>
 
-    <div class="course-grid featured-course-grid">
+    <h2>Loading...</h2>
 
-        <article
-            class="course-card"
-            id="featuredCourse1"
-        >
-
-            <h3>
-                Freelancing & Upwork Mastery
-            </h3>
-
-            <p>
-                Featured • 10 Lessons • Earn Online
-            </p>
-
-            <button
-                id="enrollFeatured1"
-                class="btn-primary-custom"
-                type="button"
-            >
-                Enroll
-            </button>
-
-        </article>
-
-
-        <article
-            class="course-card"
-            id="featuredCourse2"
-        >
-
-            <h3>
-                Google Workspace & Apps Script Automation
-            </h3>
-
-            <p>
-                Featured • 15 Lessons • Business Ready
-            </p>
-
-            <button
-                id="enrollFeatured2"
-                class="btn-primary-custom"
-                type="button"
-            >
-                Enroll
-            </button>
-
-        </article>
-
-    </div>
-
-</section>
+</div>
 
 
 <!-- ============================================================
-     RECOMMENDED COURSES
+     TOAST CONTAINER — PART 0
      ============================================================ -->
 
-<section
-    class="recommended-courses"
-    aria-label="Recommended Courses"
+<div
+    id="toast-container"
+    role="alert"
+    aria-live="polite"
+></div>
+
+
+<!-- ============================================================
+     MODAL CONTAINER — PART 0
+     ============================================================ -->
+
+<div
+    id="modal-container"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
 >
 
-    <h3>
-        📌 Recommended for Your Growth
-    </h3>
+    <div class="modal">
 
-    <div class="course-grid recommended-course-grid">
+        <div class="modal-header">
 
-        <article
-            class="course-card"
-            id="recommendedCourse1"
-        >
-
-            <h3>
-                Biotech & Modern Medical Technology
-            </h3>
-
-            <p>
-                Recommended • 14 Lessons • Core Science
-            </p>
+            <h2 id="modalTitle">
+                Modal Title
+            </h2>
 
             <button
-                id="startRec1"
-                class="btn-primary-custom"
+                id="modalCloseBtn"
+                class="modal-close"
                 type="button"
+                aria-label="Close modal"
             >
-                Start
+                &times;
             </button>
 
-        </article>
+        </div>
 
 
-        <article
-            class="course-card"
-            id="recommendedCourse2"
+        <div
+            class="modal-body"
+            id="modalBody"
         >
 
-            <h3>
-                Smart Career & Resume Building
-            </h3>
-
             <p>
-                Recommended • 12 Lessons • Job Ready
+                Modal content goes here.
             </p>
+
+        </div>
+
+
+        <div class="modal-footer">
 
             <button
-                id="startRec2"
-                class="btn-primary-custom"
+                id="modalCancelBtn"
+                class="btn-secondary"
                 type="button"
             >
-                Start
+                Cancel
             </button>
 
-        </article>
-
-    </div>
-
-</section>
-
-
-<!-- ============================================================
-     UPCOMING TOOLS & FEATURES
-     ============================================================ -->
-
-<div class="coming-soon-wrapper">
-
-    <h2>
-        🚀 Upcoming Career, Scientific & Employment Tools
-        (Coming Soon)
-    </h2>
-
-
-    <div class="tool-grid">
-
-
-        <!-- Virtual Medical Lab -->
-        <article class="tool-card">
-
-            <h3>
-                🩺 Virtual Medical Lab
-            </h3>
-
-            <p class="tool-status">
-                COMING SOON
-            </p>
-
-            <span class="tool-badge doctor-ready">
-                DOCTOR READY
-            </span>
-
-        </article>
-
-
-        <!-- 3D Engineering Simulator -->
-        <article class="tool-card">
-
-            <h3>
-                ⚙ 3D Engineering Simulator
-            </h3>
-
-            <p class="tool-status">
-                COMING SOON
-            </p>
-
-            <span class="tool-badge engineer-ready">
-                ENGINEER READY
-            </span>
-
-        </article>
-
-
-        <!-- Scientific Research Hub -->
-        <article class="tool-card">
-
-            <h3>
-                🔬 Scientific Research Hub
-            </h3>
-
-            <p class="tool-status">
-                COMING SOON
-            </p>
-
-            <span class="tool-badge science-ready">
-                SCIENCE READY
-            </span>
-
-        </article>
-
-
-        <!-- Freelance Hub -->
-        <article class="tool-card">
-
-            <h3>
-                🌍 Freelance Hub
-            </h3>
-
-            <p class="tool-status">
-                COMING SOON
-            </p>
-
-            <span class="tool-badge career-ready">
-                CAREER READY
-            </span>
-
-        </article>
-
-
-        <!-- AI Mentor -->
-        <article class="tool-card">
-
-            <h3>
-                🤖 AI Mentor & Teacher
-            </h3>
-
-            <p class="tool-status">
-                COMING SOON
-            </p>
-
-            <span class="tool-badge ai-ready">
-                AI READY
-            </span>
-
-        </article>
-
-
-        <!-- AI Resume Builder -->
-        <article class="tool-card">
-
-            <h3>
-                📄 AI Resume Builder
-            </h3>
-
-            <p class="tool-status">
-                COMING SOON
-            </p>
-
-            <span class="tool-badge job-ready">
-                JOB READY
-            </span>
-
-        </article>
-
-
-        <!-- Smart Certificates -->
-        <article class="tool-card">
-
-            <h3>
-                🎓 Smart Certificates (QR)
-            </h3>
-
-            <p class="tool-status">
-                COMING SOON
-            </p>
-
-            <span class="tool-badge verified">
-                VERIFIED
-            </span>
-
-        </article>
-
-
-        <!-- Business & CRM -->
-        <article class="tool-card">
-
-            <h3>
-                💼 Business & CRM Hub
-            </h3>
-
-            <p class="tool-status">
-                COMING SOON
-            </p>
-
-            <span class="tool-badge business-ready">
-                BUSINESS READY
-            </span>
-
-        </article>
-
-
-        <!-- Automation Engine -->
-        <article class="tool-card">
-
-            <h3>
-                ⚙ Automation Engine
-            </h3>
-
-            <p class="tool-status">
-                COMING SOON
-            </p>
-
-            <span class="tool-badge workflow-ready">
-                WORKFLOW READY
-            </span>
-
-        </article>
-
-
-        <!-- Scholarship & Rewards -->
-        <article class="tool-card">
-
-            <h3>
-                🏆 Scholarship & Rewards
-            </h3>
-
-            <p class="tool-status">
-                COMING SOON
-            </p>
-
-            <span class="tool-badge reward-ready">
-                REWARD READY
-            </span>
-
-        </article>
-
-
-        <!-- Global Marketplace -->
-        <article class="tool-card">
-
-            <h3>
-                🚀 Global Marketplace
-            </h3>
-
-            <p class="tool-status">
-                COMING SOON
-            </p>
-
-            <span class="tool-badge future-ready">
-                FUTURE READY
-            </span>
-
-        </article>
-
+            <button
+                id="modalConfirmBtn"
+                class="btn-primary"
+                type="button"
+            >
+                Confirm
+            </button>
+
+        </div>
 
     </div>
 
 </div>
- 
-<!-- =================================================== -->
-<!-- PAGE 4: ADVANCED UNIVERSAL LEARNING HUB -->
-<!-- =================================================== -->
-
-<section id="page4" class="page-section" aria-label="Advanced Learning Module">
-
-    <h2>📖 ScaleFlow Advanced Learning & Smart Lab Hub</h2>
-
-    <div class="learning-container">
-
-        <!-- ========================= -->
-        <!-- MAIN CONTENT AREA -->
-        <!-- ========================= -->
-
-        <div class="learning-main">
-
-            <!-- Video Player & Interactive Media -->
-            <div class="video-container">
-
-                <div class="video-placeholder" role="button" tabindex="0" aria-label="Play lesson video">
-                    ▶️
-                </div>
-
-                <p class="video-title">
-                    Universal Video Player & Smart Captioning (Lesson 4)
-                </p>
-
-            </div>
 
 
-            <!-- Live Code & Practical Simulator -->
-            <div class="code-simulator-section">
 
-                <h4>💻 Live Interactive Code & Science Sandbox</h4>
+<!-- ============================================================
+     MAIN APPLICATION
+     ============================================================ -->
 
-                <p class="simulator-description">
-                    Test your code, formulas, or logic live without leaving the page.
-                </p>
-
-                <textarea
-                    id="lessonCodeInput"
-                    rows="4"
-                    placeholder="// Write your live code or formula here..."
-                    aria-label="Live code or formula input"></textarea>
-
-                <button
-                    id="runSimulatorBtn"
-                    class="btn-primary"
-                    type="button">
-                    Run & Test Live
-                </button>
-
-                <div
-                    id="simulatorResult"
-                    class="simulator-result"
-                    aria-live="polite">
-                </div>
-
-            </div>
+<div
+    id="app"
+    data-page="page1"
+>
 
 
-            <!-- PDF Viewer -->
-            <div class="pdf-viewer">
+    <!-- ============================================================
+         NOTIFICATION PANEL
+         ============================================================ -->
 
-                <p>
-                    📄 PDF Viewer: Comprehensive Lesson Notes & Research Papers
-                </p>
+    <div
+        id="notificationPanel"
+        class="notification-panel"
+    >
 
-                <button
-                    id="downloadPdfBtn"
-                    class="btn-secondary"
-                    type="button">
-                    Download PDF
-                </button>
+        <div class="notification-header">
 
-            </div>
+            <h3>
+                🔔 Notifications
+            </h3>
+
+            <button
+                id="markAllReadBtn"
+                type="button"
+            >
+                Mark all as read
+            </button>
+
+        </div>
 
 
-            <!-- Personal Notes -->
-            <div class="notes-section">
+        <div class="notification-list">
 
-                <h4>📝 Your Cloud Notes</h4>
+            <div class="notification-item unread">
 
-                <textarea
-                    id="notesInput"
-                    rows="4"
-                    placeholder="Write and auto-save your notes here..."
-                    aria-label="Your notes"></textarea>
+                <span class="icon">
+                    📘
+                </span>
 
-                <button
-                    id="saveNotesBtn"
-                    class="btn-primary"
-                    type="button">
-                    Save to Cloud
-                </button>
+                <div class="content">
 
-                <div
-                    id="notesStatus"
-                    class="feature-status"
-                    aria-live="polite">
+                    <p>
+                        <strong>New course:</strong>
+                        AI Fundamentals
+                    </p>
+
+                    <span class="time">
+                        2 min ago
+                    </span>
+
                 </div>
 
             </div>
 
 
-            <!-- AI Reflection -->
-            <div class="ai-reflection">
+            <div class="notification-item unread">
 
-                <h4>🤖 AI Mentor Reflection & Smart Feedback</h4>
+                <span class="icon">
+                    🏆
+                </span>
 
-                <p>
-                    What did you learn today? Share your thoughts and get instant AI evaluation.
-                </p>
+                <div class="content">
 
-                <input
-                    id="reflectionInput"
-                    type="text"
-                    placeholder="Type your reflection..."
-                    aria-label="Reflection input">
+                    <p>
+                        <strong>Achievement:</strong>
+                        5 Day Streak
+                    </p>
 
-                <button
-                    id="getReflectionBtn"
-                    class="btn-primary"
-                    type="button">
-                    Get AI Analysis
-                </button>
+                    <span class="time">
+                        1 hour ago
+                    </span>
 
-                <div
-                    id="reflectionResult"
-                    class="feature-result"
-                    aria-live="polite">
-                </div>
-
-            </div>
-
-
-            <!-- Quick Quiz -->
-            <div class="quiz-section">
-
-                <h4>📝 Quick Interactive Quiz & Assessment</h4>
-
-                <p>
-                    What is a closure in programming / core concept of this lesson?
-                </p>
-
-                <input
-                    id="quizAnswerInput"
-                    type="text"
-                    placeholder="Your professional answer..."
-                    aria-label="Quiz answer">
-
-                <button
-                    id="submitQuizBtn"
-                    class="btn-primary"
-                    type="button">
-                    Submit Answer
-                </button>
-
-                <div
-                    id="quizResult"
-                    class="feature-result"
-                    aria-live="polite">
-                </div>
-
-            </div>
-
-
-            <!-- Instant Doubt Solver -->
-            <div class="doubt-solver-section">
-
-                <h4>❓ Instant AI Doubt Solver (Ask Anything)</h4>
-
-                <p>
-                    Stuck on a concept? Type your question and get an instant breakdown.
-                </p>
-
-                <input
-                    id="doubtInput"
-                    type="text"
-                    placeholder="Ask your doubt here..."
-                    aria-label="Doubt question">
-
-                <button
-                    id="solveDoubtBtn"
-                    class="btn-primary"
-                    type="button">
-                    Solve Instantly
-                </button>
-
-                <div
-                    id="doubtResult"
-                    class="feature-result"
-                    aria-live="polite">
                 </div>
 
             </div>
 
         </div>
 
-
-        <!-- ========================= -->
-        <!-- SIDEBAR AREA -->
-        <!-- ========================= -->
-
-        <aside class="learning-sidebar">
+    </div>
 
 
-            <!-- Lesson Progress -->
-            <div class="progress-card">
 
-                <h4>📊 Lesson Progress</h4>
+    <!-- ============================================================
+         HEADER
+         ============================================================ -->
 
-                <div class="progress-bar">
+    <header
+        class="header"
+        role="banner"
+    >
+
+        <div class="logo">
+
+            <h1>
+                Sanaullah
+            </h1>
+
+            <span>
+                ScaleFlow University
+            </span>
+
+        </div>
+
+
+        <div class="header-actions">
+
+            <button
+                id="darkModeBtn"
+                class="icon-btn"
+                type="button"
+                aria-label="Toggle Dark Mode"
+            >
+                🌙
+            </button>
+
+
+            <button
+                id="notificationBell"
+                class="icon-btn"
+                type="button"
+                aria-label="Open notifications"
+            >
+
+                🔔
+
+                <span
+                    id="notificationCount"
+                    class="notification-badge"
+                >
+                    0
+                </span>
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ============================================================
+         SIDEBAR
+         ============================================================ -->
+
+    <aside
+        class="sidebar"
+        role="navigation"
+        aria-label="Main Navigation"
+    >
+
+        <nav class="sidebar-menu">
+
+            <a
+                href="#"
+                data-page="page1"
+                class="active"
+                id="navPage1"
+            >
+                🏠 Home
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page2"
+                id="navPage2"
+            >
+                📊 Dashboard
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page3"
+                id="navPage3"
+            >
+                📚 Courses
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page4"
+                id="navPage4"
+            >
+                📖 Learning
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page5"
+                id="navPage5"
+            >
+                📜 Certificates
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page6"
+                id="navPage6"
+            >
+                🏆 Achievements
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page7"
+                id="navPage7"
+            >
+                🤖 AI Mentor
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page8"
+                id="navPage8"
+            >
+                🛒 Marketplace
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page9"
+                id="navPage9"
+            >
+                💼 Business
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page10"
+                id="navPage10"
+            >
+                👤 Profile
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page11"
+                id="navPage11"
+            >
+                ⚙️ Settings
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page12"
+                id="navPage12"
+            >
+                🔐 Login
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page13"
+                id="navPage13"
+            >
+                💳 Payment
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page14"
+                id="navPage14"
+            >
+                📦 Subscription
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page15"
+                id="navPage15"
+            >
+                💼 CRM
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page16"
+                id="navPage16"
+            >
+                💻 Freelancing
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page17"
+                id="navPage17"
+            >
+                ⚙️ Automation
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page18"
+                id="navPage18"
+            >
+                🤖 AI Tools
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page19"
+                id="navPage19"
+            >
+                👨‍💼 Admin
+            </a>
+
+
+            <a
+                href="#"
+                data-page="page20"
+                id="navPage20"
+            >
+                🚀 Future
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- ============================================================
+         MAIN CONTENT — PAGES 1 TO 20
+         ============================================================ -->
+
+    <main
+        class="main-content"
+        id="mainContent"
+    >
+
+
+        <!-- ========================================================
+             EDUCATION GLOBAL SEARCH
+             ======================================================== -->
+
+        <div class="search-section">
+
+            <input
+                id="globalSearchInput"
+                type="search"
+                placeholder="Search courses, lessons, subjects, or questions..."
+                autocomplete="off"
+                aria-label="Education search"
+            >
+
+
+            <button
+                id="globalSearchBtn"
+                type="button"
+                aria-label="Search education content"
+                title="Search"
+            >
+                🔍 Search
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================================================
+             EDUCATION HOME
+             ======================================================== -->
+
+        <section
+            id="educationHome"
+            aria-label="Education Home"
+        >
+
+            <h2>
+                🎓 Education
+            </h2>
+
+
+            <p>
+                Explore all fields of education
+            </p>
+
+
+            <!-- Education Search -->
+
+            <div id="educationSearch">
+
+                <input
+                    id="educationSearchInput"
+                    type="search"
+                    placeholder="Search education..."
+                    autocomplete="off"
+                    aria-label="Search education"
+                >
+
+
+                <button
+                    id="educationSearchBtn"
+                    type="button"
+                >
+                    Search
+                </button>
+
+            </div>
+
+
+            <!-- Search Results -->
+
+            <div
+                id="educationSearchResults"
+                aria-live="polite"
+            ></div>
+
+
+            <!-- Education Fields -->
+
+            <div id="educationFields">
+
+
+                <div class="education-card">
+
+                    <h3>
+                        🏫 School Education
+                    </h3>
+
+                    <p>
+                        School subjects and basic education
+                    </p>
+
+                </div>
+
+
+                <div class="education-card">
+
+                    <h3>
+                        📚 Languages
+                    </h3>
+
+                    <p>
+                        English, Urdu, Arabic and other languages
+                    </p>
+
+                </div>
+
+
+                <div class="education-card">
+
+                    <h3>
+                        🧮 Mathematics
+                    </h3>
+
+                    <p>
+                        Math, Algebra, Geometry and Statistics
+                    </p>
+
+                </div>
+
+
+                <div class="education-card">
+
+                    <h3>
+                        🔬 Science
+                    </h3>
+
+                    <p>
+                        Physics, Chemistry and Biology
+                    </p>
+
+                </div>
+
+
+                <div class="education-card">
+
+                    <h3>
+                        💻 Computer Science
+                    </h3>
+
+                    <p>
+                        Programming, Web Development and Software
+                    </p>
+
+                </div>
+
+
+                <div class="education-card">
+
+                    <h3>
+                        🤖 AI & Technology
+                    </h3>
+
+                    <p>
+                        Artificial Intelligence and Automation
+                    </p>
+
+                </div>
+
+
+                <div class="education-card">
+
+                    <h3>
+                        ⚙️ Engineering
+                    </h3>
+
+                    <p>
+                        Civil, Mechanical, Electrical and other fields
+                    </p>
+
+                </div>
+
+
+                <div class="education-card">
+
+                    <h3>
+                        💼 Business
+                    </h3>
+
+                    <p>
+                        Business, Marketing, Finance and Management
+                    </p>
+
+                </div>
+
+
+                <div class="education-card">
+
+                    <h3>
+                        🎨 Design
+                    </h3>
+
+                    <p>
+                        Graphic Design, UI/UX and Creative Arts
+                    </p>
+
+                </div>
+
+
+                <div class="education-card">
+
+                    <h3>
+                        🚀 Professional Skills
+                    </h3>
+
+                    <p>
+                        Career, Freelancing and Digital Skills
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Related Education -->
+
+            <div id="relatedEducation">
+
+                <h3>
+                    🔗 Related Education
+                </h3>
+
+                <div
+                    id="relatedEducationList"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================================================
+             PAGE 1 — HOME
+             ======================================================== -->
+
+        <section
+            id="page1"
+            class="page-section active"
+            aria-label="Home Dashboard"
+        >
+
+
+            <!-- HERO -->
+
+            <section
+                class="hero"
+                aria-label="Welcome Section"
+            >
+
+                <div class="hero-left">
+
+                    <span class="hero-tag">
+                        👋 Welcome Back
+                    </span>
+
+                    <h1 id="studentName">
+                        Sanaullah
+                    </h1>
+
+                    <p>
+                        Continue your learning journey.
+                        Every lesson makes you stronger.
+                    </p>
+
+
+                    <div class="hero-buttons">
+
+                        <button
+                            id="continueLearningBtn"
+                            class="btn-primary"
+                            type="button"
+                        >
+                            ▶ Continue Learning
+                        </button>
+
+
+                        <button
+                            id="browseCoursesBtn"
+                            class="btn-secondary"
+                            type="button"
+                        >
+                            📚 Browse Courses
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hero-right">
+
+                    <article class="hero-stat">
+
+                        <span>
+                            ⭐ Brain XP
+                        </span>
+
+                        <strong id="brainXP">
+                            250 XP
+                        </strong>
+
+                    </article>
+
+
+                    <article class="hero-stat">
+
+                        <span>
+                            🏆 Level
+                        </span>
+
+                        <strong id="currentLevel">
+                            Level 5
+                        </strong>
+
+                    </article>
+
+
+                    <article class="hero-stat">
+
+                        <span>
+                            🔥 Streak
+                        </span>
+
+                        <strong id="learningStreak">
+                            7 Days
+                        </strong>
+
+                    </article>
+
+
+                    <article class="hero-stat">
+
+                        <span>
+                            📈 Progress
+                        </span>
+
+                        <strong id="overallProgress">
+                            75%
+                        </strong>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- LEARNING DASHBOARD -->
+
+            <section
+                class="learning-dashboard"
+                aria-label="Learning Dashboard"
+            >
+
+                <h2>
+                    📚 Learning Dashboard
+                </h2>
+
+
+                <div class="dashboard-boxes">
 
                     <div
-                        class="progress-fill"
-                        style="width: 65%;"
-                        aria-label="65 percent complete">
+                        class="dashboard-box"
+                        id="dashCourseBox"
+                    >
+                        <h3>Courses</h3>
+                        <span id="courseCount">12</span>
+                    </div>
+
+
+                    <div
+                        class="dashboard-box"
+                        id="dashCertBox"
+                    >
+                        <h3>Certificates</h3>
+                        <span id="certificateCount">4</span>
+                    </div>
+
+
+                    <div
+                        class="dashboard-box"
+                        id="dashAchieveBox"
+                    >
+                        <h3>Achievements</h3>
+                        <span id="achievementCount">8</span>
+                    </div>
+
+
+                    <div
+                        class="dashboard-box"
+                        id="dashProjectBox"
+                    >
+                        <h3>Projects</h3>
+                        <span id="projectCount">3</span>
                     </div>
 
                 </div>
 
-                <p class="progress-label">
-                    65% Complete
-                </p>
+            </section>
 
-                <div class="lesson-nav">
+
+
+            <!-- CONTINUE LEARNING -->
+
+            <section
+                class="continue-learning"
+                aria-label="Continue Learning"
+            >
+
+                <div class="continue-card">
+
+                    <div class="continue-tag">
+                        📖 Continue Where You Left Off
+                    </div>
+
+
+                    <div class="continue-info">
+
+                        <h2>
+                            JavaScript Fundamentals
+                        </h2>
+
+                        <p>
+                            Module 4 • Functions & Scope
+                        </p>
+
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill"
+                                id="continueProgress"
+                                style="width:65%;"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="continue-actions">
+
+                            <small id="progressText">
+                                65% Complete
+                            </small>
+
+
+                            <button
+                                id="continueProgressBtn"
+                                class="btn-primary"
+                                type="button"
+                            >
+                                ▶ Continue
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- TODAY TASKS -->
+
+            <section
+                class="today-tasks"
+                aria-label="Today's Tasks"
+            >
+
+                <h2>
+                    📋 Today's Learning Tasks
+                </h2>
+
+
+                <div class="task-list">
+
+                    <div class="task-item">
+
+                        <input
+                            type="checkbox"
+                            id="task1"
+                            aria-label="Complete Lesson 13"
+                        >
+
+                        <label for="task1">
+                            Complete Lesson 13
+                        </label>
+
+                    </div>
+
+
+                    <div class="task-item">
+
+                        <input
+                            type="checkbox"
+                            id="task2"
+                            aria-label="AI Quiz Module 5"
+                        >
+
+                        <label for="task2">
+                            AI Quiz: Module 5
+                        </label>
+
+                    </div>
+
+
+                    <div class="task-item">
+
+                        <input
+                            type="checkbox"
+                            id="task3"
+                            aria-label="Review JavaScript Notes"
+                        >
+
+                        <label for="task3">
+                            Review JavaScript Notes
+                        </label>
+
+                    </div>
+
+
+                    <div class="task-item">
+
+                        <input
+                            type="checkbox"
+                            id="task4"
+                            aria-label="Submit Project Proposal"
+                        >
+
+                        <label for="task4">
+                            Submit Project Proposal
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- RECENT ACTIVITY -->
+
+            <section
+                class="recent-activity"
+                aria-label="Recent Activity"
+            >
+
+                <h2>
+                    🕐 Recent Activity
+                </h2>
+
+
+                <div class="activity-list">
+
+                    <div class="activity-item">
+                        Completed "AI Fundamentals"
+                        <span>2 hours ago</span>
+                    </div>
+
+
+                    <div class="activity-item">
+                        Started "Web Development"
+                        <span>Yesterday</span>
+                    </div>
+
+
+                    <div class="activity-item">
+                        Earned "JavaScript Badge"
+                        <span>3 days ago</span>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- QUICK ACTIONS -->
+
+            <section
+                class="quick-actions-section"
+                aria-label="Quick Actions"
+            >
+
+                <h2>
+                    ⚡ Quick Actions
+                </h2>
+
+
+                <div class="quick-actions-grid">
 
                     <button
-                        id="prevLessonBtn"
-                        class="btn-secondary"
-                        type="button">
-                        ◀ Previous
-                    </button>
-
-                    <button
-                        id="nextLessonBtn"
-                        class="btn-primary"
-                        type="button">
-                        Next ▶
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- AI Voice Audio Mentor -->
-            <div class="audio-tutor-card">
-
-                <h4>🎧 AI Voice Audio Mentor</h4>
-
-                <p>
-                    Listen to lesson summary explained in audio format.
-                </p>
-
-                <button
-                    id="playAudioTutorBtn"
-                    class="btn-primary"
-                    type="button">
-                    ▶ Play Audio Summary
-                </button>
-
-            </div>
-
-
-            <!-- Related Lessons -->
-            <div class="recommended-lessons">
-
-                <h4>📌 Related Lessons & Labs</h4>
-
-                <ul>
-
-                    <li>Lesson 3: Advanced Arrays & Objects</li>
-                    <li>Lesson 5: DOM & UI Manipulation</li>
-                    <li>Lesson 6: Event Handling & Triggers</li>
-                    <li>Special Lab: Practical Case Study</li>
-
-                </ul>
-
-            </div>
-
-
-            <!-- Student Discussion Hub -->
-            <div class="community-card">
-
-                <h4>💬 Student Discussion Hub</h4>
-
-                <p>
-                    Discuss with fellow learners and share solutions.
-                </p>
-
-                <button
-                    id="openChatBtn"
-                    class="btn-primary"
-                    type="button">
-                    Join Live Discussion
-                </button>
-
-            </div>
-
-        </aside>
-
-    </div>
-
-</section>
-
-
-  <!-- =================================================== -->
-<!-- PAGE 5: ADVANCED VERIFIED CERTIFICATES HUB -->
-<!-- =================================================== -->
-
-<section id="page5" class="page-section" aria-label="My Certificates">
-
-    <h2>📜 My Verified Certificates & Credentials</h2>
-
-    <p class="certificate-description">
-        Secure, blockchain-verified certificates backed by ScaleFlow University.
-    </p>
-
-    <div class="certificate-list">
-
-        <!-- ========================= -->
-        <!-- CERTIFICATE 1 -->
-        <!-- ========================= -->
-
-        <article
-            class="certificate-card"
-            id="certCard1">
-
-            <div class="certificate-header">
-
-                <div class="icon">
-                    🏆
-                </div>
-
-                <span class="certificate-status">
-                    BLOCKCHAIN SECURE
-                </span>
-
-            </div>
-
-            <h3>
-                AI Mastery & Prompt Engineering
-            </h3>
-
-            <p class="certificate-meta">
-                Issued: Jan 2026 • ID: SF-AI-8921
-            </p>
-
-            <div class="actions">
-
-                <button
-                    id="certDownload1"
-                    class="btn-primary"
-                    type="button">
-                    ⬇ Download PDF
-                </button>
-
-                <button
-                    id="certVerify1"
-                    class="btn-secondary"
-                    type="button">
-                    ✅ Verify Online
-                </button>
-
-                <button
-                    id="certQR1"
-                    class="btn-secondary"
-                    type="button">
-                    📱 View QR
-                </button>
-
-                <button
-                    id="certShare1"
-                    class="btn-secondary certificate-linkedin-btn"
-                    type="button">
-                    🔗 LinkedIn
-                </button>
-
-            </div>
-
-        </article>
-
-
-        <!-- ========================= -->
-        <!-- CERTIFICATE 2 -->
-        <!-- ========================= -->
-
-        <article
-            class="certificate-card"
-            id="certCard2">
-
-            <div class="certificate-header">
-
-                <div class="icon">
-                    📜
-                </div>
-
-                <span class="certificate-status">
-                    BLOCKCHAIN SECURE
-                </span>
-
-            </div>
-
-            <h3>
-                Web Dev Pro & Frontend Power
-            </h3>
-
-            <p class="certificate-meta">
-                Issued: Feb 2026 • ID: SF-WEB-4412
-            </p>
-
-            <div class="actions">
-
-                <button
-                    id="certDownload2"
-                    class="btn-primary"
-                    type="button">
-                    ⬇ Download PDF
-                </button>
-
-                <button
-                    id="certVerify2"
-                    class="btn-secondary"
-                    type="button">
-                    ✅ Verify Online
-                </button>
-
-                <button
-                    id="certQR2"
-                    class="btn-secondary"
-                    type="button">
-                    📱 View QR
-                </button>
-
-                <button
-                    id="certShare2"
-                    class="btn-secondary certificate-linkedin-btn"
-                    type="button">
-                    🔗 LinkedIn
-                </button>
-
-            </div>
-
-        </article>
-
-    </div>
-
-</section>
-
-            
-   <!-- =================================================== -->
-<!-- PAGE 6: ADVANCED ACHIEVEMENTS & GAMIFICATION HUB -->
-<!-- =================================================== -->
-
-<section id="page6" class="page-section" aria-label="Advanced Achievements">
-
-    <h2>🏆 ScaleFlow Elite Achievements & Skill Ranks</h2>
-
-    <p class="achievement-description">
-        Earn XP, unlock AI-verified badges, and compete globally.
-    </p>
-
-
-    <!-- ================================================= -->
-    <!-- STATS SUMMARY -->
-    <!-- ================================================= -->
-
-    <div class="achievement-summary">
-
-        <div class="stat-box">
-
-            <span>⭐ Total XP</span>
-
-            <strong id="xpTotal">
-                1,250
-            </strong>
-
-        </div>
-
-
-        <div class="stat-box">
-
-            <span>🏅 AI Badges</span>
-
-            <strong id="badgeTotal">
-                12
-            </strong>
-
-        </div>
-
-
-        <div class="stat-box">
-
-            <span>📈 Elite Level</span>
-
-            <strong id="levelTotal">
-                Level 8
-            </strong>
-
-        </div>
-
-
-        <div class="stat-box">
-
-            <span>🎁 Rewards</span>
-
-            <strong id="rewardTotal">
-                5 Unlocked
-            </strong>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================================================= -->
-    <!-- AI SKILL RANK BANNER -->
-    <!-- ================================================= -->
-
-    <div class="ai-rank-banner">
-
-        <div class="ai-rank-content">
-
-            <h4>
-                🤖 AI Global Skill Ranking
-            </h4>
-
-            <p>
-                You are currently in the <strong>Top 5%</strong>
-                of global learners in Automation & AI Prompting!
-            </p>
-
-        </div>
-
-
-        <button
-            id="viewLeaderboardBtn"
-            class="btn-primary"
-            type="button">
-
-            View Leaderboard
-
-        </button>
-
-    </div>
-
-
-    <!-- ================================================= -->
-    <!-- ACHIEVEMENTS GRID -->
-    <!-- ================================================= -->
-
-    <div class="achievement-grid">
-
-
-        <!-- Achievement 1 -->
-
-        <article
-            class="achievement-card earned"
-            id="achieveFirstCourse">
-
-            <div class="icon">
-                ⭐
-            </div>
-
-            <h4>
-                AI Fundamentals
-            </h4>
-
-            <p>
-                Earned Jan 2026
-            </p>
-
-        </article>
-
-
-        <!-- Achievement 2 -->
-
-        <article
-            class="achievement-card earned"
-            id="achieveFiveDayStreak">
-
-            <div class="icon">
-                🔥
-            </div>
-
-            <h4>
-                15 Day Streak
-            </h4>
-
-            <p>
-                Earned Feb 2026
-            </p>
-
-        </article>
-
-
-        <!-- Achievement 3 -->
-
-        <article
-            class="achievement-card earned"
-            id="achieveTopPerformer">
-
-            <div class="icon">
-                🏅
-            </div>
-
-            <h4>
-                Top Automation Master
-            </h4>
-
-            <p>
-                Earned Mar 2026
-            </p>
-
-        </article>
-
-
-        <!-- Achievement 4 -->
-
-        <article
-            class="achievement-card locked"
-            id="achieveTenDayStreak">
-
-            <div class="icon">
-                🔒
-            </div>
-
-            <h4>
-                30 Day Streak
-            </h4>
-
-            <p>
-                Locked (Complete Daily Goals)
-            </p>
-
-        </article>
-
-
-        <!-- Achievement 5 -->
-
-        <article
-            class="achievement-card locked"
-            id="achieveExpertLevel">
-
-            <div class="icon">
-                🔒
-            </div>
-
-            <h4>
-                SaaS Creator Badge
-            </h4>
-
-            <p>
-                Locked (Build Next App)
-            </p>
-
-        </article>
-
-
-    </div>
-
-
-    <!-- ================================================= -->
-    <!-- PROGRESS TIMELINE -->
-    <!-- ================================================= -->
-
-    <div class="progress-timeline">
-
-        <h3>
-            📈 Professional Growth Timeline
-        </h3>
-
-        <ul>
-
-            <li>
-                ✅ Completed AI & Prompt Engineering Fundamentals
-                (Jan 2026)
-            </li>
-
-            <li>
-                ✅ Earned Advanced JavaScript & Apps Script Badge
-                (Feb 2026)
-            </li>
-
-            <li>
-                ⏳ Building ScaleFlow Full-Stack Automation SaaS
-                (Current Active Project)
-            </li>
-
-        </ul>
-
-    </div>
-
-</section>
-
-<!-- =================================================== -->
-<!-- PAGE 7: ADVANCED AI MENTOR & VIRTUAL TUTOR HUB -->
-<!-- =================================================== -->
-
-<section id="page7" class="page-section" aria-label="Advanced AI Mentor Chat">
-
-    <!-- PAGE TITLE -->
-    <h2>🤖 ScaleFlow Elite AI Mentor & Smart Tutor Hub</h2>
-
-    <p class="text-muted">
-        Your 24/7 personal AI mentor for coding, science, automation,
-        learning and intelligent assistance.
-    </p>
-
-
-    <!-- ================================================= -->
-    <!-- CONNECTION STATUS -->
-    <!-- ================================================= -->
-
-    <div class="system-status-card">
-
-        <div class="system-status-content">
-
-            <div class="system-status-icon">
-                🔗
-            </div>
-
-            <div>
-                <h3>ScaleFlow AI Connection Center</h3>
-
-                <p>
-                    AI Mentor, Question Library, AI Monitor and Live Website
-                    Testing work together through the Web App API.
-                </p>
-            </div>
-
-        </div>
-
-        <span class="status-badge">
-            🟡 Integration Testing
-        </span>
-
-    </div>
-
-
-    <!-- ================================================= -->
-    <!-- AI MENTOR + QUESTION LIBRARY -->
-    <!-- ================================================= -->
-
-    <div class="ai-hub-grid">
-
-
-        <!-- =============================================== -->
-        <!-- 1. AI MENTOR -->
-        <!-- =============================================== -->
-
-        <div class="ai-hub-card ai-mentor-card">
-
-            <div class="ai-hub-card-header">
-
-                <div>
-                    <span class="step-badge">1</span>
-                    <span class="ai-hub-icon">🤖</span>
-                    <strong>AI Mentor Connection</strong>
-                </div>
-
-                <span class="status-badge status-testing">
-                    🟡 Testing
-                </span>
-
-            </div>
-
-
-            <div class="ai-hub-card-body">
-
-                <h3>ScaleFlow AI Mentor</h3>
-
-                <p>
-                    Ask questions and receive intelligent answers from the
-                    connected Gemini AI Engine.
-                </p>
-
-
-                <!-- LANGUAGE -->
-
-                <label for="aiMentorLanguage">
-                    Language
-                </label>
-
-                <select id="aiMentorLanguage">
-
-                    <option value="en">English</option>
-                    <option value="ur">اردو</option>
-                    <option value="sd">سنڌي</option>
-                    <option value="ar">العربية</option>
-                    <option value="hi">हिन्दी</option>
-                    <option value="bn">বাংলা</option>
-                    <option value="fr">Français</option>
-                    <option value="es">Español</option>
-                    <option value="de">Deutsch</option>
-                    <option value="pt">Português</option>
-                    <option value="it">Italiano</option>
-                    <option value="ru">Русский</option>
-                    <option value="zh">中文</option>
-                    <option value="ja">日本語</option>
-                    <option value="ko">한국어</option>
-                    <option value="tr">Türkçe</option>
-                    <option value="id">Bahasa Indonesia</option>
-
-                </select>
-
-
-                <!-- SUBJECT -->
-
-                <label for="aiMentorSubject">
-                    Subject
-                </label>
-
-                <input
-                    id="aiMentorSubject"
-                    type="text"
-                    value="Web Development"
-                    placeholder="Enter subject"
-                >
-
-
-                <!-- QUESTION -->
-
-                <label for="aiMentorQuestion">
-                    Your Question
-                </label>
-
-                <textarea
-                    id="aiMentorQuestion"
-                    rows="4"
-                    maxlength="5000"
-                    placeholder="Type your question here..."
-                ></textarea>
-
-
-                <!-- ACTIONS -->
-
-                <div class="ai-hub-actions">
-
-                    <button
-                        id="aiMentorAskBtn"
-                        class="btn-primary"
+                        id="quickStartLearning"
+                        class="quick-action-btn"
                         type="button"
                     >
-                        🤖 Ask AI
+
+                        <span class="icon">
+                            🚀
+                        </span>
+
+                        <span class="label">
+                            Start Learning
+                        </span>
+
+                        <span class="desc">
+                            Continue your courses
+                        </span>
+
                     </button>
+
 
                     <button
-                        id="aiMentorClearBtn"
-                        class="btn-secondary"
+                        id="quickAskAI"
+                        class="quick-action-btn"
                         type="button"
                     >
-                        Clear
+
+                        <span class="icon">
+                            🤖
+                        </span>
+
+                        <span class="label">
+                            Ask AI Mentor
+                        </span>
+
+                        <span class="desc">
+                            Get instant help
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        id="quickBrowseCourses"
+                        class="quick-action-btn"
+                        type="button"
+                    >
+
+                        <span class="icon">
+                            📚
+                        </span>
+
+                        <span class="label">
+                            Browse Courses
+                        </span>
+
+                        <span class="desc">
+                            Explore new topics
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        id="quickMyCertificates"
+                        class="quick-action-btn"
+                        type="button"
+                    >
+
+                        <span class="icon">
+                            📜
+                        </span>
+
+                        <span class="label">
+                            My Certificates
+                        </span>
+
+                        <span class="desc">
+                            View your achievements
+                        </span>
+
                     </button>
 
                 </div>
 
+            </section>
 
-                <!-- RESPONSE -->
 
-                <div
-                    id="aiMentorResponse"
-                    class="ai-response"
-                    role="status"
-                    aria-live="polite"
+
+            <!-- WEEKLY PROGRESS -->
+
+            <section
+                class="weekly-progress"
+                aria-label="Weekly Progress Chart"
+            >
+
+                <div class="section-header">
+
+                    <h2>
+                        📈 Weekly Progress
+                    </h2>
+
+                    <span>
+                        This Week
+                    </span>
+
+                </div>
+
+
+                <div class="progress-chart">
+
+                    <div class="day">
+                        <div class="bar" style="height:45%;"></div>
+                        <p>Mon</p>
+                    </div>
+
+                    <div class="day">
+                        <div class="bar" style="height:70%;"></div>
+                        <p>Tue</p>
+                    </div>
+
+                    <div class="day">
+                        <div class="bar" style="height:60%;"></div>
+                        <p>Wed</p>
+                    </div>
+
+                    <div class="day">
+                        <div class="bar" style="height:90%;"></div>
+                        <p>Thu</p>
+                    </div>
+
+                    <div class="day">
+                        <div class="bar" style="height:75%;"></div>
+                        <p>Fri</p>
+                    </div>
+
+                    <div class="day">
+                        <div class="bar" style="height:100%;"></div>
+                        <p>Sat</p>
+                    </div>
+
+                    <div class="day">
+                        <div class="bar" style="height:55%;"></div>
+                        <p>Sun</p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- GATEWAYS -->
+
+            <section
+                class="gateway-grid"
+                aria-label="Gateway Modules"
+            >
+
+                <article
+                    class="gateway-card"
+                    id="gatewayLearning"
                 >
-                    AI response will appear here.
+                    <h3>🎓 Learning Hub</h3>
+                    <p>
+                        Professional courses with quizzes,
+                        projects and certificates.
+                    </p>
+                </article>
+
+
+                <article
+                    class="gateway-card"
+                    id="gatewayAI"
+                >
+                    <h3>🤖 AI Mentor</h3>
+                    <p>
+                        Learn with your personal AI teacher
+                        and assistant.
+                    </p>
+                </article>
+
+
+                <article
+                    class="gateway-card"
+                    id="gatewayAutomation"
+                >
+                    <h3>⚡ Automation Hub</h3>
+                    <p>
+                        Google Workspace, Apps Script
+                        and automation projects.
+                    </p>
+                </article>
+
+
+                <article
+                    class="gateway-card"
+                    id="gatewayTools"
+                >
+                    <h3>🛠 Tools Hub</h3>
+                    <p>
+                        Free professional tools for
+                        productivity and development.
+                    </p>
+                </article>
+
+
+                <article
+                    class="gateway-card"
+                    id="gatewayBusiness"
+                >
+                    <h3>💼 Business Hub</h3>
+                    <p>
+                        Build and manage your digital
+                        business from one dashboard.
+                    </p>
+                </article>
+
+
+                <article
+                    class="gateway-card"
+                    id="gatewayFreelancing"
+                >
+                    <h3>💻 Freelancing</h3>
+                    <p>
+                        Learn Fiverr, Upwork, proposals
+                        and client handling.
+                    </p>
+                </article>
+
+
+                <article
+                    class="gateway-card"
+                    id="gatewayCertificates"
+                >
+                    <h3>🏆 Certificates</h3>
+                    <p>
+                        View, verify and download
+                        your certificates.
+                    </p>
+                </article>
+
+
+                <article
+                    class="gateway-card"
+                    id="gatewayDashboard"
+                >
+                    <h3>👤 Dashboard</h3>
+                    <p>
+                        Track your progress, Brain XP
+                        and achievements.
+                    </p>
+                </article>
+
+            </section>
+
+
+
+            <!-- BOTTOM ACTIONS -->
+
+            <div class="quick-actions-bottom">
+
+                <button
+                    id="btnTheme"
+                    class="quick-btn"
+                    type="button"
+                >
+                    🌙 Theme
+                </button>
+
+
+                <button
+                    id="btnLanguage"
+                    class="quick-btn"
+                    type="button"
+                >
+                    🌐 Language
+                </button>
+
+
+                <button
+                    id="btnSupport"
+                    class="quick-btn"
+                    type="button"
+                >
+                    📞 Support
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================================================
+             PAGE 2 — DASHBOARD
+             ======================================================== -->
+
+        <section
+            id="page2"
+            class="page-section"
+            aria-label="Student Dashboard"
+        >
+
+            <h2>
+                📊 Student Dashboard
+            </h2>
+
+
+            <div class="dashboard-profile">
+
+
+                <div class="profile-card">
+
+                    <img
+                        id="dashboardProfileImage"
+                        src="assets/avatar.png"
+                        alt="Profile Avatar"
+                        class="avatar-large"
+                        style="width:80px;height:80px;border-radius:50%;display:block;margin:0 auto 12px;"
+                    >
+
+                    <h3 id="dashName">
+                        Sanaullah
+                    </h3>
+
+                    <p>
+                        Level
+                        <span id="dashLevel">5</span>
+                        •
+                        <span id="dashXP">250</span>
+                        XP
+                    </p>
+
+                    <div class="streak">
+                        🔥
+                        <span id="dashStreak">7</span>
+                        Day Streak
+                    </div>
+
+                </div>
+
+
+
+                <div class="stats-grid">
+
+                    <div class="stat-box">
+                        <span>📚 Courses</span>
+                        <strong id="dashCourses">12</strong>
+                    </div>
+
+                    <div class="stat-box">
+                        <span>📜 Certificates</span>
+                        <strong id="dashCerts">4</strong>
+                    </div>
+
+                    <div class="stat-box">
+                        <span>🏆 Achievements</span>
+                        <strong id="dashAchievements">8</strong>
+                    </div>
+
+                    <div class="stat-box">
+                        <span>📈 Progress</span>
+                        <strong id="dashProgress">75%</strong>
+                    </div>
+
                 </div>
 
             </div>
 
-        </div>
 
 
+            <div class="weekly-progress">
 
-        <!-- =============================================== -->
-        <!-- 2. QUESTION LIBRARY -->
-        <!-- =============================================== -->
+                <div class="section-header">
 
-        <div class="ai-hub-card question-library-card">
+                    <h2>
+                        📈 Weekly Analytics
+                    </h2>
 
-            <div class="ai-hub-card-header">
+                    <span>
+                        This Week
+                    </span>
 
-                <div>
-                    <span class="step-badge">2</span>
-                    <span class="ai-hub-icon">📚</span>
-                    <strong>Question Library Connection</strong>
                 </div>
 
-                <span class="status-badge status-testing">
-                    🟡 Testing
-                </span>
+
+                <div class="progress-chart">
+
+                    <div class="day">
+                        <div class="bar" style="height:45%;"></div>
+                        <p>Mon</p>
+                    </div>
+
+                    <div class="day">
+                        <div class="bar" style="height:70%;"></div>
+                        <p>Tue</p>
+                    </div>
+
+                    <div class="day">
+                        <div class="bar" style="height:60%;"></div>
+                        <p>Wed</p>
+                    </div>
+
+                    <div class="day">
+                        <div class="bar" style="height:90%;"></div>
+                        <p>Thu</p>
+                    </div>
+
+                    <div class="day">
+                        <div class="bar" style="height:75%;"></div>
+                        <p>Fri</p>
+                    </div>
+
+                    <div class="day">
+                        <div class="bar" style="height:100%;"></div>
+                        <p>Sat</p>
+                    </div>
+
+                    <div class="day">
+                        <div class="bar" style="height:55%;"></div>
+                        <p>Sun</p>
+                    </div>
+
+                </div>
 
             </div>
 
 
-            <div class="ai-hub-card-body">
 
-                <h3>Question Library</h3>
+            <div class="quick-actions-grid">
 
-                <p>
-                    Existing questions can be found from the QuestionLibrary
-                    sheet, while new AI questions can be saved automatically.
+                <button
+                    id="dashResumeLearning"
+                    class="quick-action-btn"
+                    type="button"
+                >
+                    <span class="icon">📖</span>
+                    <span class="label">Resume Learning</span>
+                </button>
+
+
+                <button
+                    id="dashBrowseCourses"
+                    class="quick-action-btn"
+                    type="button"
+                >
+                    <span class="icon">📚</span>
+                    <span class="label">Browse Courses</span>
+                </button>
+
+
+                <button
+                    id="dashAskAI"
+                    class="quick-action-btn"
+                    type="button"
+                >
+                    <span class="icon">🤖</span>
+                    <span class="label">Ask AI</span>
+                </button>
+
+
+                <button
+                    id="dashCertificates"
+                    class="quick-action-btn"
+                    type="button"
+                >
+                    <span class="icon">📜</span>
+                    <span class="label">Certificates</span>
+                </button>
+
+            </div>
+
+
+
+            <section
+                class="recent-courses"
+                aria-label="Recent Courses"
+            >
+
+                <h3>
+                    📘 Recent Courses
+                </h3>
+
+
+                <div class="course-grid">
+
+                    <article
+                        class="course-card"
+                        id="recentCourse1"
+                    >
+
+                        <h4>
+                            AI Fundamentals
+                        </h4>
+
+                        <p>
+                            65% complete
+                        </p>
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill"
+                                style="width:65%;"
+                            ></div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article
+                        class="course-card"
+                        id="recentCourse2"
+                    >
+
+                        <h4>
+                            Web Development
+                        </h4>
+
+                        <p>
+                            40% complete
+                        </p>
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill"
+                                style="width:40%;"
+                            ></div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article
+                        class="course-card"
+                        id="recentCourse3"
+                    >
+
+                        <h4>
+                            Data Science
+                        </h4>
+
+                        <p>
+                            20% complete
+                        </p>
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill"
+                                style="width:20%;"
+                            ></div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+        </section>
+
+
+
+        <!-- ========================================================
+             PAGE 3 — COURSES
+             ======================================================== -->
+
+        <section
+            id="page3"
+            class="page-section"
+            aria-label="All Courses and Universal Skills"
+        >
+
+            <div class="course-container">
+
+                <h2 class="section-title">
+                    📚 ScaleFlow University -
+                    Universal Courses & Practical Skills
+                </h2>
+
+                <p class="section-subtitle">
+                    Explore medical, engineering, science,
+                    and professional automation paths.
                 </p>
 
 
-                <!-- SEARCH -->
 
-                <label for="questionLibrarySearch">
-                    Search Question
-                </label>
+                <!-- COURSE SEARCH -->
 
-                <input
-                    id="questionLibrarySearch"
-                    type="text"
-                    placeholder="Search questions..."
-                >
+                <div class="learning-header">
+
+                    <input
+                        id="courseSearchInput"
+                        type="search"
+                        placeholder="🔍 Search medical, engineering, science & coding courses..."
+                        aria-label="Search courses"
+                        autocomplete="off"
+                    >
+
+                </div>
+
 
 
                 <!-- FILTERS -->
 
-                <div class="library-filters">
+                <div class="filter-buttons">
 
                     <button
-                        class="btn-primary"
-                        id="questionLibraryAllBtn"
+                        id="filterAll"
+                        class="btn-secondary"
                         type="button"
                     >
                         All
                     </button>
 
-                    <button
-                        class="btn-secondary"
-                        id="questionLibraryPopularBtn"
-                        type="button"
-                    >
-                        Popular
-                    </button>
 
                     <button
+                        id="filterBeginner"
                         class="btn-secondary"
-                        id="questionLibraryMyBtn"
                         type="button"
                     >
-                        My Questions
+                        Beginner
+                    </button>
+
+
+                    <button
+                        id="filterIntermediate"
+                        class="btn-secondary"
+                        type="button"
+                    >
+                        Intermediate
+                    </button>
+
+
+                    <button
+                        id="filterAdvanced"
+                        class="btn-secondary"
+                        type="button"
+                    >
+                        Advanced
                     </button>
 
                 </div>
 
 
-                <!-- RESULTS -->
+
+                <!-- COURSE GRID -->
 
                 <div
-                    id="questionLibraryResults"
-                    class="question-library-results"
-                    aria-live="polite"
+                    class="course-grid"
+                    id="courseGrid"
                 >
 
-                    <div class="library-empty-state">
 
-                        📚
-                        <strong>Question Library Ready</strong>
+                    <article
+                        class="course-card"
+                        id="courseCardMedical"
+                        data-difficulty="beginner"
+                    >
 
-                        <span>
-                            Search or ask AI to find/save questions.
-                        </span>
+                        <h3>
+                            Medical Science & Healthcare Basics
+                        </h3>
 
-                    </div>
+                        <p>
+                            Beginner • 15 Lessons • Future Doctor Path
+                        </p>
+
+                        <button
+                            id="startCourseMed"
+                            class="btn-primary-custom"
+                            type="button"
+                        >
+                            Start Learning
+                        </button>
+
+                    </article>
+
+
+
+                    <article
+                        class="course-card"
+                        id="courseCardEngineering"
+                        data-difficulty="intermediate"
+                    >
+
+                        <h3>
+                            Modern Engineering & Mechanics
+                        </h3>
+
+                        <p>
+                            Intermediate • 18 Lessons • Core Engineering
+                        </p>
+
+                        <button
+                            id="startCourseEng"
+                            class="btn-primary-custom"
+                            type="button"
+                        >
+                            Start Learning
+                        </button>
+
+                    </article>
+
+
+
+                    <article
+                        class="course-card"
+                        id="courseCardScience"
+                        data-difficulty="advanced"
+                    >
+
+                        <h3>
+                            Advanced Scientific Research & Physics
+                        </h3>
+
+                        <p>
+                            Advanced • 20 Lessons • Scientist Path
+                        </p>
+
+                        <button
+                            id="startCourseSci"
+                            class="btn-primary-custom"
+                            type="button"
+                        >
+                            Start Learning
+                        </button>
+
+                    </article>
+
+
+
+                    <article
+                        class="course-card"
+                        id="courseCard001"
+                        data-difficulty="beginner"
+                    >
+
+                        <h3>
+                            AI Fundamentals & Prompt Engineering
+                        </h3>
+
+                        <p>
+                            Beginner • 12 Lessons • Practical AI
+                        </p>
+
+                        <button
+                            id="startCourse1"
+                            class="btn-primary-custom"
+                            type="button"
+                        >
+                            Start Learning
+                        </button>
+
+                    </article>
+
+
+
+                    <article
+                        class="course-card"
+                        id="courseCard002"
+                        data-difficulty="intermediate"
+                    >
+
+                        <h3>
+                            JavaScript & Frontend Development
+                        </h3>
+
+                        <p>
+                            Intermediate • 20 Lessons • Web Power
+                        </p>
+
+                        <button
+                            id="startCourse2"
+                            class="btn-primary-custom"
+                            type="button"
+                        >
+                            Start Learning
+                        </button>
+
+                    </article>
+
+
+
+                    <article
+                        class="course-card"
+                        id="courseCard003"
+                        data-difficulty="advanced"
+                    >
+
+                        <h3>
+                            Python for Data Science & Automation
+                        </h3>
+
+                        <p>
+                            Advanced • 15 Lessons • Real Automation
+                        </p>
+
+                        <button
+                            id="startCourse3"
+                            class="btn-primary-custom"
+                            type="button"
+                        >
+                            Start Learning
+                        </button>
+
+                    </article>
+
+
+
+                    <article
+                        class="course-card"
+                        id="courseCard004"
+                        data-difficulty="beginner"
+                    >
+
+                        <h3>
+                            HTML, CSS & Modern UI Design
+                        </h3>
+
+                        <p>
+                            Beginner • 8 Lessons • Design Foundation
+                        </p>
+
+                        <button
+                            id="startCourse4"
+                            class="btn-primary-custom"
+                            type="button"
+                        >
+                            Start Learning
+                        </button>
+
+                    </article>
+
+
+
+                    <article
+                        class="course-card"
+                        id="courseCard005"
+                        data-difficulty="intermediate"
+                    >
+
+                        <h3>
+                            React Web Applications
+                        </h3>
+
+                        <p>
+                            Intermediate • 18 Lessons • Pro Apps
+                        </p>
+
+                        <button
+                            id="startCourse5"
+                            class="btn-primary-custom"
+                            type="button"
+                        >
+                            Start Learning
+                        </button>
+
+                    </article>
+
+
+
+                    <article
+                        class="course-card"
+                        id="courseCard006"
+                        data-difficulty="advanced"
+                    >
+
+                        <h3>
+                            Machine Learning & Practical AI
+                        </h3>
+
+                        <p>
+                            Advanced • 22 Lessons • Future Tech
+                        </p>
+
+                        <button
+                            id="startCourse6"
+                            class="btn-primary-custom"
+                            type="button"
+                        >
+                            Start Learning
+                        </button>
+
+                    </article>
 
                 </div>
 
 
-                <!-- LIVE TEST -->
 
-                <button
-                    id="questionLibraryTestBtn"
-                    class="btn-secondary"
-                    type="button"
-                >
-                    🔍 Test Question Library
-                </button>
-
-
-                <div
-                    id="questionLibraryStatus"
-                    class="engine-status"
-                    role="status"
-                    aria-live="polite"
-                >
-                    Waiting for test...
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ================================================= -->
-    <!-- 3. SCALEFLOW AI MONITOR -->
-    <!-- ================================================= -->
-
-    <div class="ai-hub-card ai-monitor-card">
-
-        <div class="ai-hub-card-header">
-
-            <div>
-                <span class="step-badge">3</span>
-                <span class="ai-hub-icon">📊</span>
-                <strong>ScaleFlow AI Monitor</strong>
-            </div>
-
-            <span class="status-badge status-testing">
-                🟡 Monitoring
-            </span>
-
-        </div>
-
-
-        <div class="ai-monitor-grid">
-
-
-            <!-- AI REQUESTS -->
-
-            <div class="monitor-stat-card">
-
-                <span>AI Requests</span>
-
-                <strong id="monitorAIRequests">
-                    —
-                </strong>
-
-                <small>
-                    Live API activity
-                </small>
-
-            </div>
-
-
-            <!-- SUCCESS -->
-
-            <div class="monitor-stat-card">
-
-                <span>Success Rate</span>
-
-                <strong id="monitorSuccessRate">
-                    —
-                </strong>
-
-                <small>
-                    API response status
-                </small>
-
-            </div>
-
-
-            <!-- RESPONSE TIME -->
-
-            <div class="monitor-stat-card">
-
-                <span>Response Time</span>
-
-                <strong id="monitorResponseTime">
-                    —
-                </strong>
-
-                <small>
-                    Average response
-                </small>
-
-            </div>
-
-
-            <!-- ACTIVE -->
-
-            <div class="monitor-stat-card">
-
-                <span>Active Services</span>
-
-                <strong id="monitorActiveServices">
-                    —
-                </strong>
-
-                <small>
-                    Connected engines
-                </small>
-
-            </div>
-
-        </div>
-
-
-        <!-- MONITOR MESSAGE -->
-
-        <div
-            id="scaleFlowMonitorStatus"
-            class="monitor-status"
-            role="status"
-            aria-live="polite"
-        >
-            ScaleFlow AI Monitor is waiting for live connection data.
-        </div>
-
-    </div>
-
-
-
-    <!-- ================================================= -->
-    <!-- 4. LIVE WEBSITE TEST -->
-    <!-- ================================================= -->
-
-    <div class="ai-hub-card live-test-card">
-
-        <div class="ai-hub-card-header">
-
-            <div>
-                <span class="step-badge">4</span>
-                <span class="ai-hub-icon">⚡</span>
-                <strong>Live Website Test</strong>
-            </div>
-
-            <span class="status-badge status-testing">
-                🟡 Ready to Test
-            </span>
-
-        </div>
-
-
-        <p class="text-muted">
-            Test the real website connection instead of relying only on
-            backend tests.
-        </p>
-
-
-        <!-- TEST ITEMS -->
-
-        <div class="live-test-list">
-
-
-            <!-- AI MENTOR TEST -->
-
-            <div class="live-test-item">
-
-                <div>
-
-                    <strong>
-                        🤖 Test AI Mentor
-                    </strong>
-
-                    <span>
-                        Website → Web App API → Gemini Engine
-                    </span>
+                <!-- PAGINATION -->
+
+                <div class="pagination">
+
+                    <button
+                        id="paginationPrev"
+                        class="btn-secondary"
+                        type="button"
+                    >
+                        Previous
+                    </button>
+
+
+                    <button
+                        id="pagination1"
+                        class="btn-primary-custom pagination-number"
+                        type="button"
+                    >
+                        1
+                    </button>
+
+
+                    <button
+                        id="pagination2"
+                        class="btn-secondary pagination-number"
+                        type="button"
+                    >
+                        2
+                    </button>
+
+
+                    <button
+                        id="pagination3"
+                        class="btn-secondary pagination-number"
+                        type="button"
+                    >
+                        3
+                    </button>
+
+
+                    <button
+                        id="paginationNext"
+                        class="btn-secondary"
+                        type="button"
+                    >
+                        Next
+                    </button>
 
                 </div>
 
-                <span
-                    id="liveTestAIMentorStatus"
-                    class="test-status"
-                >
-                    ⚪ Not Tested
-                </span>
 
-            </div>
 
+                <!-- CORE AUTOMATION COURSES -->
 
-            <!-- QUESTION LIBRARY TEST -->
+                <div class="core-courses-section">
 
-            <div class="live-test-item">
+                    <h2 class="section-title">
+                        🎓 Core Automation & SaaS Courses
+                    </h2>
 
-                <div>
+                    <p class="section-subtitle">
+                        Master Google Apps Script,
+                        Google Sheets, and Workflow
+                        Automations step by step.
+                    </p>
 
-                    <strong>
-                        📚 Test Question Library
-                    </strong>
 
-                    <span>
-                        Find / Save → QuestionLibrary
-                    </span>
+                    <div class="course-grid">
 
-                </div>
 
-                <span
-                    id="liveTestQuestionLibraryStatus"
-                    class="test-status"
-                >
-                    ⚪ Not Tested
-                </span>
+                        <article class="course-card">
 
-            </div>
+                            <div class="course-icon">
+                                📊
+                            </div>
 
+                            <h3 class="course-heading">
+                                Google Workspace Automation
+                            </h3>
 
-            <!-- MONITOR TEST -->
+                            <p class="course-desc">
+                                Learn how to automate Google Forms,
+                                Sheets, and Drive using advanced scripts.
+                            </p>
 
-            <div class="live-test-item">
+                            <button
+                                id="enrollWorkspaceBtn"
+                                class="btn-primary-custom"
+                                type="button"
+                            >
+                                Start Course
+                            </button>
 
-                <div>
+                        </article>
 
-                    <strong>
-                        📊 Test ScaleFlow AI Monitor
-                    </strong>
 
-                    <span>
-                        API activity and system status
-                    </span>
 
-                </div>
+                        <article class="course-card">
 
-                <span
-                    id="liveTestMonitorStatus"
-                    class="test-status"
-                >
-                    ⚪ Not Tested
-                </span>
+                            <div class="course-icon">
+                                ⚡
+                            </div>
 
-            </div>
+                            <h3 class="course-heading">
+                                n8n & Make.com Masterclass
+                            </h3>
 
-        </div>
+                            <p class="course-desc">
+                                Build complex multi-step APIs and
+                                workflows without writing heavy code.
+                            </p>
 
+                            <button
+                                id="enrollN8nBtn"
+                                class="btn-primary-custom"
+                                type="button"
+                            >
+                                Start Course
+                            </button>
 
-        <!-- RUN ALL TEST -->
+                        </article>
 
-        <div class="live-test-actions">
 
-            <button
-                id="runScaleFlowLiveTestBtn"
-                class="btn-primary"
-                type="button"
-            >
-                ⚡ Run Live Website Test
-            </button>
 
-        </div>
+                        <article class="course-card">
 
+                            <div class="course-icon">
+                                🤖
+                            </div>
 
-        <!-- TEST RESULT -->
+                            <h3 class="course-heading">
+                                AI Integration & SaaS Dev
+                            </h
 
-        <div
-            id="liveWebsiteTestResult"
-            class="live-test-result"
-            role="status"
-            aria-live="polite"
-        >
-            No live website test has been completed yet.
-        </div>
-
-    </div>
-
-
-
-    <!-- ================================================= -->
-    <!-- 5. LOCK -->
-    <!-- ================================================= -->
-
-    <div
-        id="scaleFlowEngineLockCard"
-        class="engine-lock-card"
-    >
-
-        <div class="engine-lock-content">
-
-            <div class="engine-lock-icon">
-                🔒
-            </div>
-
-            <div>
-
-                <h3>
-                    Engine Lock
-                </h3>
-
-                <p>
-                    Engines will be locked only after AI Mentor,
-                    Question Library, ScaleFlow AI Monitor and the
-                    Live Website Test have all passed.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div
-            id="engineLockStatus"
-            class="engine-lock-status"
-        >
-            🟡 NOT LOCKED
-        </div>
-
-
-        <button
-            id="lockScaleFlowEnginesBtn"
-            class="btn-secondary"
-            type="button"
-            disabled
-        >
-            🔒 Lock Verified Engines
-        </button>
-
-    </div>
-
-
-
-    <!-- ================================================= -->
-    <!-- CONNECTION FLOW -->
-    <!-- ================================================= -->
-
-    <div class="connection-flow-section">
-
-        <div class="section-header">
-
-            <h3>
-                🔗 Connection Flow — Step by Step
-            </h3>
-
-        </div>
-
-
-        <div class="connection-flow-grid">
-
-
-            <!-- STEP 1 -->
-
-            <div class="connection-step">
-
-                <span class="connection-step-number">
-                    1
-                </span>
-
-                <strong>
-                    AI Mentor
-                </strong>
-
-                <small>
-                    Website UI
-                </small>
-
-            </div>
-
-
-            <span class="connection-arrow">
-                →
-            </span>
-
-
-            <!-- STEP 2 -->
-
-            <div class="connection-step">
-
-                <span class="connection-step-number">
-                    2
-                </span>
-
-                <strong>
-                    Web App API
-                </strong>
-
-                <small>
-                    Request Processing
-                </small>
-
-            </div>
-
-
-            <span class="connection-arrow">
-                →
-            </span>
-
-
-            <!-- STEP 3 -->
-
-            <div class="connection-step">
-
-                <span class="connection-step-number">
-                    3
-                </span>
-
-                <strong>
-                    Gemini Engine
-                </strong>
-
-                <small>
-                    AI Processing
-                </small>
-
-            </div>
-
-
-            <span class="connection-arrow">
-                →
-            </span>
-
-
-            <!-- STEP 4 -->
-
-            <div class="connection-step">
-
-                <span class="connection-step-number">
-                    4
-                </span>
-
-                <strong>
-                    Question Library
-                </strong>
-
-                <small>
-                    Save / Fetch
-                </small>
-
-            </div>
-
-
-            <span class="connection-arrow">
-                →
-            </span>
-
-
-            <!-- STEP 5 -->
-
-            <div class="connection-step">
-
-                <span class="connection-step-number">
-                    5
-                </span>
-
-                <strong>
-                    Website Response
-                </strong>
-
-                <small>
-                    Result Display
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-</section>
-  
-
-<!-- =================================================== -->
+    <!-- =================================================== -->
             <!-- PAGE 8: ADVANCED DIGITAL MARKETPLACE & STORE -->
           <!-- =================================================== -->
 <section id="page8" class="page-section" aria-label="Advanced Marketplace">
@@ -2880,63 +2350,742 @@
 </section>
 
             
-               <!-- =================================================== -->
-               <!-- PAGE 12: ADVANCED SECURE LOGIN PORTAL               -->
-               <!-- =================================================== -->
-<section id="page12" class="page-section" aria-label="Advanced Login">
-    <div class="login-container" style="display: flex; justify-content: center; align-items: center; min-height: 70vh; padding: 20px;">
-        <div class="login-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 30px; width: 100%; max-width: 420px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h2 style="font-size: 22px; color: #333; margin-bottom: 5px;">🔐 ScaleFlow Secure Login</h2>
-                <p style="font-size: 13px; color: #666;">Access your university portal, courses, and business hub.</p>
+               
+
+
+<!-- =================================================== -->
+<!-- PAGE 12: SECURE LOGIN + REGISTRATION PORTAL         -->
+<!-- =================================================== -->
+
+<section id="page12" class="page-section" aria-label="Secure Login and Registration">
+
+    <div
+        class="login-container"
+        style="
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:70vh;
+            padding:20px;
+        "
+    >
+
+        <div
+            class="login-card"
+            style="
+                background:#fff;
+                border:1px solid #e0e0e0;
+                border-radius:12px;
+                padding:30px;
+                width:100%;
+                max-width:420px;
+                box-shadow:0 4px 15px rgba(0,0,0,0.05);
+            "
+        >
+
+            <!-- ================================================= -->
+            <!-- LOGIN SECTION                                     -->
+            <!-- ================================================= -->
+
+            <div id="loginSection">
+
+                <!-- LOGIN HEADER -->
+
+                <div style="text-align:center; margin-bottom:20px;">
+
+                    <h2
+                        style="
+                            font-size:22px;
+                            color:#333;
+                            margin-bottom:5px;
+                        "
+                    >
+                        🔐 ScaleFlow Secure Login
+                    </h2>
+
+                    <p
+                        style="
+                            font-size:13px;
+                            color:#666;
+                        "
+                    >
+                        Access your university portal, courses, and business hub.
+                    </p>
+
+                </div>
+
+
+                <!-- GOOGLE LOGIN -->
+
+                <button
+                    type="button"
+                    id="googleLoginBtn"
+                    class="btn-secondary"
+                    style="
+                        width:100%;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        gap:10px;
+                        margin-bottom:15px;
+                        padding:10px;
+                        border:1px solid #ccc;
+                        border-radius:6px;
+                        background:#fff;
+                        font-weight:500;
+                        cursor:pointer;
+                    "
+                >
+
+                    <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+
+                        <path
+                            fill="#4285F4"
+                            d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"
+                        />
+
+                        <path
+                            fill="#34A853"
+                            d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.18v3.14C3.15 21.32 7.22 24 12 24z"
+                        />
+
+                        <path
+                            fill="#FBBC05"
+                            d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.62H1.18C.43 8.12 0 9.81 0 12s.43 3.88 1.18 5.38l4.09-3.14z"
+                        />
+
+                        <path
+                            fill="#EA4335"
+                            d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.22 0 3.15 2.68 1.18 6.62l4.09 3.14c.95-2.85 3.6-4.91 6.73-4.91z"
+                        />
+
+                    </svg>
+
+                    Sign in with Google
+
+                </button>
+
+
+                <!-- DIVIDER -->
+
+                <div
+                    style="
+                        display:flex;
+                        align-items:center;
+                        text-align:center;
+                        color:#aaa;
+                        margin:15px 0;
+                        font-size:12px;
+                    "
+                >
+
+                    <div
+                        style="
+                            flex:1;
+                            border-bottom:1px solid #eee;
+                        "
+                    ></div>
+
+                    <span style="padding:0 10px;">
+                        OR WITH EMAIL
+                    </span>
+
+                    <div
+                        style="
+                            flex:1;
+                            border-bottom:1px solid #eee;
+                        "
+                    ></div>
+
+                </div>
+
+
+                <!-- LOGIN FORM -->
+
+                <form
+                    id="loginForm"
+                    aria-label="Login form"
+                >
+
+                    <!-- EMAIL -->
+
+                    <div
+                        class="form-group"
+                        style="margin-bottom:15px;"
+                    >
+
+                        <label
+                            for="loginEmail"
+                            style="
+                                display:block;
+                                font-size:13px;
+                                font-weight:500;
+                                margin-bottom:5px;
+                                color:#444;
+                            "
+                        >
+                            Email Address
+                        </label>
+
+                        <input
+                            id="loginEmail"
+                            name="loginEmail"
+                            type="email"
+                            placeholder="student@university.com"
+                            autocomplete="email"
+                            required
+                            aria-label="Email address"
+                            style="
+                                width:100%;
+                                padding:10px;
+                                border:1px solid #ccc;
+                                border-radius:6px;
+                                font-size:14px;
+                            "
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div
+                        class="form-group"
+                        style="margin-bottom:15px;"
+                    >
+
+                        <label
+                            for="loginPassword"
+                            style="
+                                display:block;
+                                font-size:13px;
+                                font-weight:500;
+                                margin-bottom:5px;
+                                color:#444;
+                            "
+                        >
+                            Password
+                        </label>
+
+                        <input
+                            id="loginPassword"
+                            name="loginPassword"
+                            type="password"
+                            placeholder="••••••••"
+                            autocomplete="current-password"
+                            required
+                            aria-label="Password"
+                            style="
+                                width:100%;
+                                padding:10px;
+                                border:1px solid #ccc;
+                                border-radius:6px;
+                                font-size:14px;
+                            "
+                        >
+
+                    </div>
+
+
+                    <!-- LOGIN OPTIONS -->
+
+                    <div
+                        class="form-options"
+                        style="
+                            display:flex;
+                            justify-content:space-between;
+                            align-items:center;
+                            font-size:13px;
+                            margin-bottom:20px;
+                            gap:10px;
+                        "
+                    >
+
+                        <label
+                            style="
+                                display:flex;
+                                align-items:center;
+                                gap:5px;
+                                cursor:pointer;
+                            "
+                        >
+
+                            <input
+                                type="checkbox"
+                                id="loginRemember"
+                                aria-label="Remember me"
+                            >
+
+                            Remember Me
+
+                        </label>
+
+
+                        <a
+                            href="#"
+                            id="forgotPasswordLink"
+                            style="
+                                color:#1967d2;
+                                text-decoration:none;
+                            "
+                        >
+                            Forgot Password?
+                        </a>
+
+                    </div>
+
+
+                    <!-- LOGIN BUTTON -->
+
+                    <button
+                        id="loginSubmitBtn"
+                        type="submit"
+                        class="btn-primary"
+                        style="
+                            width:100%;
+                            padding:11px;
+                            background:#fbc02d;
+                            border:none;
+                            border-radius:6px;
+                            font-weight:bold;
+                            cursor:pointer;
+                            color:#000;
+                            margin-bottom:10px;
+                        "
+                    >
+                        Sign In
+                    </button>
+
+                </form>
+
+
+                <!-- OTP + PASSKEY -->
+
+                <div
+                    style="
+                        display:flex;
+                        gap:10px;
+                        margin-top:10px;
+                    "
+                >
+
+                    <button
+                        id="loginOTPBtn"
+                        class="btn-secondary"
+                        type="button"
+                        style="
+                            flex:1;
+                            padding:8px;
+                            font-size:13px;
+                            border:1px solid #ccc;
+                            background:#f5f5f5;
+                            border-radius:6px;
+                            cursor:pointer;
+                        "
+                    >
+                        Send OTP
+                    </button>
+
+
+                    <button
+                        id="loginBiometricBtn"
+                        class="btn-secondary"
+                        type="button"
+                        style="
+                            flex:1;
+                            padding:8px;
+                            font-size:13px;
+                            border:1px solid #ccc;
+                            background:#f5f5f5;
+                            border-radius:6px;
+                            cursor:pointer;
+                        "
+                    >
+                        🔑 Passkey
+                    </button>
+
+                </div>
+
+
+                <!-- REGISTER LINK -->
+
+                <p
+                    class="login-register"
+                    style="
+                        text-align:center;
+                        font-size:13px;
+                        margin-top:20px;
+                        color:#666;
+                    "
+                >
+
+                    Don't have an account?
+
+                    <a
+                        href="#"
+                        id="registerLink"
+                        style="
+                            color:#1967d2;
+                            text-decoration:none;
+                            font-weight:500;
+                        "
+                    >
+                        Register Now
+                    </a>
+
+                </p>
+
             </div>
 
-            <!-- NEW FEATURE: Quick Social / Google Login -->
-            <button type="button" class="btn-secondary" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; background: #fff; font-weight: 500; cursor: pointer;">
-                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.18v3.14C3.15 21.32 7.22 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.62H1.18C.43 8.12 0 9.81 0 12s.43 3.88 1.18 5.38l4.09-3.14z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.22 0 3.15 2.68 1.18 6.62l4.09 3.14c.95-2.85 3.6-4.91 6.73-4.91z"/></svg>
-                Sign in with Google
-            </button>
 
-            <div style="display: flex; align-items: center; text-align: center; color: #aaa; margin: 15px 0; font-size: 12px;">
-                <div style="flex: 1; border-bottom: 1px solid #eee;"></div>
-                <span style="padding: 0 10px;">OR WITH EMAIL</span>
-                <div style="flex: 1; border-bottom: 1px solid #eee;"></div>
+            <!-- ================================================= -->
+            <!-- REGISTRATION SECTION                              -->
+            <!-- ================================================= -->
+
+            <div
+                id="registrationSection"
+                style="display:none;"
+            >
+
+                <!-- REGISTRATION HEADER -->
+
+                <div
+                    style="
+                        text-align:center;
+                        margin-bottom:20px;
+                    "
+                >
+
+                    <h2
+                        style="
+                            font-size:22px;
+                            color:#333;
+                            margin-bottom:5px;
+                        "
+                    >
+                        🎓 Create Your Account
+                    </h2>
+
+                    <p
+                        style="
+                            font-size:13px;
+                            color:#666;
+                        "
+                    >
+                        Join ScaleFlow University and start your learning journey.
+                    </p>
+
+                </div>
+
+
+                <!-- REGISTRATION FORM -->
+
+                <form
+                    id="registrationForm"
+                    aria-label="Student Registration Form"
+                >
+
+                    <!-- FULL NAME -->
+
+                    <div
+                        class="form-group"
+                        style="margin-bottom:15px;"
+                    >
+
+                        <label
+                            for="registerFullName"
+                            style="
+                                display:block;
+                                font-size:13px;
+                                font-weight:500;
+                                margin-bottom:5px;
+                                color:#444;
+                            "
+                        >
+                            Full Name
+                        </label>
+
+                        <input
+                            id="registerFullName"
+                            name="fullName"
+                            type="text"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            required
+                            aria-label="Full name"
+                            style="
+                                width:100%;
+                                padding:10px;
+                                border:1px solid #ccc;
+                                border-radius:6px;
+                                font-size:14px;
+                            "
+                        >
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div
+                        class="form-group"
+                        style="margin-bottom:15px;"
+                    >
+
+                        <label
+                            for="registerEmail"
+                            style="
+                                display:block;
+                                font-size:13px;
+                                font-weight:500;
+                                margin-bottom:5px;
+                                color:#444;
+                            "
+                        >
+                            Email Address
+                        </label>
+
+                        <input
+                            id="registerEmail"
+                            name="email"
+                            type="email"
+                            placeholder="student@example.com"
+                            autocomplete="email"
+                            required
+                            aria-label="Registration email"
+                            style="
+                                width:100%;
+                                padding:10px;
+                                border:1px solid #ccc;
+                                border-radius:6px;
+                                font-size:14px;
+                            "
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div
+                        class="form-group"
+                        style="margin-bottom:15px;"
+                    >
+
+                        <label
+                            for="registerPassword"
+                            style="
+                                display:block;
+                                font-size:13px;
+                                font-weight:500;
+                                margin-bottom:5px;
+                                color:#444;
+                            "
+                        >
+                            Password
+                        </label>
+
+                        <input
+                            id="registerPassword"
+                            name="password"
+                            type="password"
+                            placeholder="Create a strong password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                            aria-label="Registration password"
+                            style="
+                                width:100%;
+                                padding:10px;
+                                border:1px solid #ccc;
+                                border-radius:6px;
+                                font-size:14px;
+                            "
+                        >
+
+                    </div>
+
+
+                    <!-- CONFIRM PASSWORD -->
+
+                    <div
+                        class="form-group"
+                        style="margin-bottom:15px;"
+                    >
+
+                        <label
+                            for="registerConfirmPassword"
+                            style="
+                                display:block;
+                                font-size:13px;
+                                font-weight:500;
+                                margin-bottom:5px;
+                                color:#444;
+                            "
+                        >
+                            Confirm Password
+                        </label>
+
+                        <input
+                            id="registerConfirmPassword"
+                            name="confirmPassword"
+                            type="password"
+                            placeholder="Confirm your password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                            aria-label="Confirm password"
+                            style="
+                                width:100%;
+                                padding:10px;
+                                border:1px solid #ccc;
+                                border-radius:6px;
+                                font-size:14px;
+                            "
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD REQUIREMENT -->
+
+                    <div
+                        id="passwordRequirement"
+                        style="
+                            font-size:12px;
+                            color:#777;
+                            margin-top:-5px;
+                            margin-bottom:15px;
+                            line-height:1.5;
+                        "
+                    >
+                        Password must contain at least 8 characters.
+                    </div>
+
+
+                    <!-- TERMS -->
+
+                    <div
+                        style="
+                            display:flex;
+                            align-items:flex-start;
+                            margin-bottom:20px;
+                        "
+                    >
+
+                        <label
+                            for="registerTerms"
+                            style="
+                                display:flex;
+                                align-items:flex-start;
+                                gap:8px;
+                                cursor:pointer;
+                                font-size:13px;
+                                line-height:1.5;
+                            "
+                        >
+
+                            <input
+                                type="checkbox"
+                                id="registerTerms"
+                                name="terms"
+                                required
+                                aria-label="Accept terms and conditions"
+                            >
+
+                            <span>
+                                I agree to the ScaleFlow University
+                                Terms and Conditions and Privacy Policy.
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- CREATE ACCOUNT BUTTON -->
+
+                    <button
+                        id="registerSubmitBtn"
+                        type="submit"
+                        class="btn-primary"
+                        style="
+                            width:100%;
+                            padding:11px;
+                            background:#fbc02d;
+                            border:none;
+                            border-radius:6px;
+                            font-weight:bold;
+                            cursor:pointer;
+                            color:#000;
+                            margin-bottom:10px;
+                        "
+                    >
+                        Create Account
+                    </button>
+
+                </form>
+
+
+                <!-- REGISTRATION STATUS -->
+
+                <div
+                    id="registrationStatus"
+                    role="status"
+                    aria-live="polite"
+                    style="
+                        display:none;
+                        margin-top:15px;
+                        padding:10px 12px;
+                        border-radius:8px;
+                        font-size:13px;
+                        text-align:center;
+                    "
+                >
+                </div>
+
+
+                <!-- BACK TO LOGIN -->
+
+                <p
+                    class="login-register"
+                    style="
+                        text-align:center;
+                        font-size:13px;
+                        margin-top:20px;
+                        color:#666;
+                    "
+                >
+
+                    Already have an account?
+
+                    <a
+                        href="#"
+                        id="backToLoginLink"
+                        style="
+                            color:#1967d2;
+                            text-decoration:none;
+                            font-weight:600;
+                        "
+                    >
+                        Sign In
+                    </a>
+
+                </p>
+
             </div>
 
-            <form id="loginForm" aria-label="Login form">
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="loginEmail" style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 5px; color: #444;">Email Address</label>
-                    <input id="loginEmail" type="email" placeholder="student@university.com" required aria-label="Email address" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
-                </div>
-                
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="loginPassword" style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 5px; color: #444;">Password</label>
-                    <input id="loginPassword" type="password" placeholder="••••••••" required aria-label="Password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
-                </div>
-
-                <div class="form-options" style="display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 20px;">
-                    <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;"><input type="checkbox" id="loginRemember" aria-label="Remember me"> Remember Me</label>
-                    <a href="#" id="forgotPasswordLink" style="color: #1967d2; text-decoration: none;">Forgot Password?</a>
-                </div>
-
-                <button id="loginSubmitBtn" type="submit" class="btn-primary" style="width: 100%; padding: 11px; background: #fbc02d; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: #000; margin-bottom: 10px;">Sign In</button>
-            </form>
-
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <button id="loginOTPBtn" class="btn-secondary" type="button" style="flex: 1; padding: 8px; font-size: 13px; border: 1px solid #ccc; background: #f5f5f5; border-radius: 6px; cursor: pointer;">Send OTP</button>
-                <!-- NEW FEATURE: Biometric Passkey option -->
-                <button id="loginBiometricBtn" class="btn-secondary" type="button" style="flex: 1; padding: 8px; font-size: 13px; border: 1px solid #ccc; background: #f5f5f5; border-radius: 6px; cursor: pointer;">🔑 Passkey</button>
-            </div>
-
-            <p class="login-register" style="text-align: center; font-size: 13px; margin-top: 20px; color: #666;">
-                Don't have an account? <a href="#" id="registerLink" style="color: #1967d2; text-decoration: none; font-weight: 500;">Register Now</a>
-            </p>
         </div>
-    </div>
-</section>
 
-            
+    </div>
+
+</section>
+                
 
             
             <!-- =================================================== -->
@@ -3024,9 +3173,7 @@
     </div>
 </section>
 
-            
-
-            <!-- =================================================== -->
+                            <!-- =================================================== -->
            <!-- PAGE 14: ADVANCED SUBSCRIPTION & MEMBERSHIP HUB     -->
             <!-- =================================================== -->
             
