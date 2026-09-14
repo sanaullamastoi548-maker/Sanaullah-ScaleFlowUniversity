@@ -1,2766 +1,1896 @@
-// ============================================================
-// SCALEFLOW UNIVERSITY
-// PAGE 7 — AI MENTOR + QUESTION LIBRARY
-// + SCALEFLOW AI MONITOR
-// + LIVE WEBSITE TEST
-// + ENGINE LOCK
-// ============================================================
+/* ============================================================
+   SCALEFLOW UNIVERSITY
+   FRONTEND JAVASCRIPT — PART 1
+   STANDALONE FRONTEND
+   ============================================================ */
 
-(function (global) {
-
+(function (window, document) {
     "use strict";
 
+    /* ============================================================
+       PART 1.1 — FRONTEND STATE
+       ============================================================ */
 
-    // ========================================================
-    // 1. VERIFIED GOOGLE APPS SCRIPT WEB APP URL
-    // ========================================================
+    const STORAGE = {
+        THEME: "scaleflow_theme",
+        LANGUAGE: "scaleflow_language",
+        TASKS: "scaleflow_tasks",
+        NOTIFICATIONS: "scaleflow_notifications"
+    };
 
-    const SCALEFLOW_WEB_APP_URL =
-        "https://script.google.com/macros/s/AKfycbwBPdo7TflhmyiUIU8rZQx7hvUYPMpJJX7LszL1YxNUQrcLrf8lh8ZUIxGrp4jK_PvY/exec";
-
-
-    // ========================================================
-    // 2. PAGE 7 MONITOR STATE
-    // ========================================================
-
-    const AIHubState = {
-
-        apiRequests: 0,
-        successfulRequests: 0,
-        failedRequests: 0,
-
-        lastResponseTime: 0,
-
-        aiMentorPassed: false,
-        questionLibraryPassed: false,
-        monitorPassed: false,
-        liveWebsitePassed: false,
-
-        enginesLocked: false
-
+    const AppState = {
+        currentPage: "page1",
+        darkMode: false,
+        notificationOpen: false,
+        modalOpen: false,
+        selectedLanguage: "en",
+        courseFilter: "all",
+        coursePage: 1
     };
 
 
-    // ========================================================
-    // 3. DOM REFERENCES
-    // ========================================================
+    /* ============================================================
+       PART 1.2 — SAFE DOM HELPER
+       ============================================================ */
 
-    const aiMentorQuestion =
-        document.getElementById("aiMentorQuestion");
+    function $(id) {
+        return document.getElementById(id);
+    }
 
-    const aiMentorLanguage =
-        document.getElementById("aiMentorLanguage");
+    function $all(selector) {
+        return Array.from(document.querySelectorAll(selector));
+    }
 
-    const aiMentorSubject =
-        document.getElementById("aiMentorSubject");
-
-    const aiMentorAskBtn =
-        document.getElementById("aiMentorAskBtn");
-
-    const aiMentorClearBtn =
-        document.getElementById("aiMentorClearBtn");
-
-    const aiMentorResponse =
-        document.getElementById("aiMentorResponse");
+    function on(element, event, handler) {
+        if (element) {
+            element.addEventListener(event, handler);
+        }
+    }
 
 
-    const questionLibraryTestBtn =
-        document.getElementById("questionLibraryTestBtn");
+    /* ============================================================
+       PART 1.3 — TOAST SYSTEM
+       ============================================================ */
 
-    const questionLibraryStatus =
-        document.getElementById("questionLibraryStatus");
+    function showToast(message, type) {
+        const container = $("toast-container");
 
-
-    const monitorAIRequests =
-        document.getElementById("monitorAIRequests");
-
-    const monitorSuccessRate =
-        document.getElementById("monitorSuccessRate");
-
-    const monitorResponseTime =
-        document.getElementById("monitorResponseTime");
-
-    const monitorActiveServices =
-        document.getElementById("monitorActiveServices");
-
-    const scaleFlowMonitorStatus =
-        document.getElementById("scaleFlowMonitorStatus");
-
-
-    const runScaleFlowLiveTestBtn =
-        document.getElementById("runScaleFlowLiveTestBtn");
-
-    const liveWebsiteTestResult =
-        document.getElementById("liveWebsiteTestResult");
-
-
-    const liveTestAIMentorStatus =
-        document.getElementById("liveTestAIMentorStatus");
-
-    const liveTestQuestionLibraryStatus =
-        document.getElementById("liveTestQuestionLibraryStatus");
-
-    const liveTestMonitorStatus =
-        document.getElementById("liveTestMonitorStatus");
-
-
-    const engineLockStatus =
-        document.getElementById("engineLockStatus");
-
-    const lockScaleFlowEnginesBtn =
-        document.getElementById("lockScaleFlowEnginesBtn");
-
-
-    // ========================================================
-    // 4. SAFE TOAST
-    // ========================================================
-
-    function aiHubToast(message, type = "info") {
-
-        if (typeof global.showToast === "function") {
-            global.showToast(message, type);
+        if (!container) {
+            console.log("[ScaleFlow Toast]", message);
             return;
         }
 
-        console.log("ScaleFlow AI Hub:", message);
+        const toast = document.createElement("div");
+
+        toast.className = "toast";
+
+        if (type) {
+            toast.classList.add("toast-" + type);
+        }
+
+        toast.textContent = message;
+
+        container.appendChild(toast);
+
+        setTimeout(function () {
+            toast.classList.add("show");
+        }, 10);
+
+        setTimeout(function () {
+            toast.classList.remove("show");
+
+            setTimeout(function () {
+                toast.remove();
+            }, 300);
+
+        }, 3000);
     }
 
 
-    // ========================================================
-    // 5. MONITOR UPDATE
-    // ========================================================
+    /* ============================================================
+       PART 1.4 — LOADER
+       ============================================================ */
 
-    function updateAIHubMonitor() {
+    function hideLoader() {
+        const loader = $("loader");
 
-        if (monitorAIRequests) {
-            monitorAIRequests.textContent =
-                AIHubState.apiRequests;
-        }
+        if (!loader) return;
 
+        loader.classList.add("hidden");
+        loader.setAttribute("aria-hidden", "true");
 
-        if (monitorSuccessRate) {
-
-            if (AIHubState.apiRequests === 0) {
-
-                monitorSuccessRate.textContent = "—";
-
-            } else {
-
-                const rate =
-                    (AIHubState.successfulRequests /
-                        AIHubState.apiRequests) * 100;
-
-                monitorSuccessRate.textContent =
-                    Math.round(rate) + "%";
-            }
-        }
-
-
-        if (monitorResponseTime) {
-
-            if (AIHubState.lastResponseTime > 0) {
-
-                monitorResponseTime.textContent =
-                    AIHubState.lastResponseTime + " ms";
-
-            } else {
-
-                monitorResponseTime.textContent = "—";
-            }
-        }
-
-
-        if (monitorActiveServices) {
-
-            let active = 0;
-
-            if (AIHubState.aiMentorPassed) {
-                active++;
-            }
-
-            if (AIHubState.questionLibraryPassed) {
-                active++;
-            }
-
-            if (AIHubState.monitorPassed) {
-                active++;
-            }
-
-            monitorActiveServices.textContent =
-                active + " / 3";
-        }
+        setTimeout(function () {
+            loader.hidden = true;
+        }, 350);
     }
 
 
-    // ========================================================
-    // 6. CENTRAL API REQUEST
-    // ========================================================
+    function showLoader() {
+        const loader = $("loader");
 
-    async function scaleFlowAIHubRequest(
-        action,
-        data = {}
-    ) {
+        if (!loader) return;
 
-        const startedAt = Date.now();
-
-        AIHubState.apiRequests++;
-
-        updateAIHubMonitor();
-
-
-        try {
-
-            const response = await fetch(
-                SCALEFLOW_WEB_APP_URL,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "text/plain;charset=utf-8"
-                    },
-
-                    body: JSON.stringify({
-
-                        action: action,
-
-                        data: data,
-
-                        version: "v1",
-
-                        requestId:
-                            "PAGE7-" + Date.now()
-
-                    })
-                }
-            );
-
-
-            const responseTime =
-                Date.now() - startedAt;
-
-            AIHubState.lastResponseTime =
-                responseTime;
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "HTTP " + response.status
-                );
-            }
-
-
-            const result =
-                await response.json();
-
-
-            if (!result || result.success !== true) {
-
-                throw new Error(
-                    result && result.message
-                        ? result.message
-                        : "API request failed"
-                );
-            }
-
-
-            AIHubState.successfulRequests++;
-
-            updateAIHubMonitor();
-
-
-            return result;
-
-
-        } catch (error) {
-
-            AIHubState.failedRequests++;
-
-            AIHubState.lastResponseTime =
-                Date.now() - startedAt;
-
-            updateAIHubMonitor();
-
-            console.error(
-                "❌ ScaleFlow AI Hub API Error:",
-                error
-            );
-
-            throw error;
-        }
+        loader.hidden = false;
+        loader.classList.remove("hidden");
+        loader.setAttribute("aria-hidden", "false");
     }
 
 
-    // ========================================================
-    // 7. AI MENTOR
-    // ========================================================
+    /* ============================================================
+       PART 1.5 — MODAL SYSTEM
+       ============================================================ */
 
-    async function askScaleFlowAIMentor() {
+    function openModal(title, body, options) {
+        const container = $("modal-container");
+        const titleElement = $("modalTitle");
+        const bodyElement = $("modalBody");
 
-        if (!aiMentorQuestion) {
-            return;
+        if (!container) return;
+
+        if (titleElement) {
+            titleElement.textContent = title || "";
         }
 
-
-        const question =
-            aiMentorQuestion.value.trim();
-
-        const language =
-            aiMentorLanguage
-                ? aiMentorLanguage.value
-                : "en";
-
-        const subject =
-            aiMentorSubject
-                ? aiMentorSubject.value.trim()
-                : "Web Development";
-
-
-        if (!question) {
-
-            aiHubToast(
-                "Please enter your question.",
-                "warning"
-            );
-
-            aiMentorQuestion.focus();
-
-            return;
+        if (bodyElement) {
+            bodyElement.innerHTML = body || "";
         }
 
-
-        if (!subject) {
-
-            aiHubToast(
-                "Please enter the subject.",
-                "warning"
-            );
-
-            aiMentorSubject.focus();
-
-            return;
-        }
-
-
-        if (aiMentorAskBtn) {
-
-            aiMentorAskBtn.disabled = true;
-
-            aiMentorAskBtn.textContent =
-                "⏳ Asking AI...";
-        }
-
-
-        if (aiMentorResponse) {
-
-            aiMentorResponse.textContent =
-                "AI is processing your question...";
-        }
-
-
-        try {
-
-            const result =
-                await scaleFlowAIHubRequest(
-                    "ai.chat",
-                    {
-                        question: question,
-                        language: language,
-                        subject: subject
-                    }
-                );
-
-
-            const answer =
-                result &&
-                result.data &&
-                result.data.answer
-                    ? result.data.answer
-                    : "";
-
-
-            if (!answer) {
-
-                throw new Error(
-                    "AI returned an empty answer."
-                );
-            }
-
-
-            if (aiMentorResponse) {
-
-                aiMentorResponse.textContent =
-                    answer;
-            }
-
-
-            AIHubState.aiMentorPassed = true;
-
-            AIHubState.monitorPassed = true;
-
-            updateAIHubMonitor();
-
-
-            if (liveTestAIMentorStatus) {
-
-                liveTestAIMentorStatus.textContent =
-                    "🟢 PASS";
-
-                liveTestAIMentorStatus.classList.add(
-                    "success"
-                );
-            }
-
-
-            aiHubToast(
-                "AI Mentor connected successfully.",
-                "success"
-            );
-
-
-            return result;
-
-
-        } catch (error) {
-
-            AIHubState.aiMentorPassed = false;
-
-            updateAIHubMonitor();
-
-
-            if (aiMentorResponse) {
-
-                aiMentorResponse.textContent =
-                    "AI Mentor connection failed. Please try again.";
-            }
-
-
-            if (liveTestAIMentorStatus) {
-
-                liveTestAIMentorStatus.textContent =
-                    "🔴 FAILED";
-
-                liveTestAIMentorStatus.classList.add(
-                    "error"
-                );
-            }
-
-
-            aiHubToast(
-                "AI Mentor connection failed.",
-                "error"
-            );
-
-
-            return null;
-
-
-        } finally {
-
-            if (aiMentorAskBtn) {
-
-                aiMentorAskBtn.disabled = false;
-
-                aiMentorAskBtn.textContent =
-                    "🤖 Ask AI";
-            }
-        }
-    }
-
-
-    // ========================================================
-    // 8. CLEAR AI MENTOR
-    // ========================================================
-
-    function clearAIMentor() {
-
-        if (aiMentorQuestion) {
-            aiMentorQuestion.value = "";
-        }
-
-        if (aiMentorResponse) {
-
-            aiMentorResponse.textContent =
-                "AI response will appear here.";
-        }
-    }
-
-
-    // ========================================================
-    // 9. QUESTION LIBRARY LIVE TEST
-    // ========================================================
-
-    async function testQuestionLibraryConnection() {
-
-        if (questionLibraryStatus) {
-
-            questionLibraryStatus.textContent =
-                "⏳ Testing Question Library...";
-        }
-
-
-        if (liveTestQuestionLibraryStatus) {
-
-            liveTestQuestionLibraryStatus.textContent =
-                "🟡 TESTING";
-        }
-
-
-        try {
-
-            const result =
-                await scaleFlowAIHubRequest(
-                    "questionlibrary.test",
-                    {
-                        question:
-                            "What is JavaScript?",
-
-                        language:
-                            "English",
-
-                        subject:
-                            "Web Development"
-                    }
-                );
-
-
-            const data =
-                result && result.data
-                    ? result.data
-                    : null;
-
-
-            if (!data) {
-
-                throw new Error(
-                    "Question Library returned no data."
-                );
-            }
-
-
-            AIHubState.questionLibraryPassed =
-                true;
-
-
-            updateAIHubMonitor();
-
-
-            if (questionLibraryStatus) {
-
-                questionLibraryStatus.textContent =
-                    "🟢 Question Library connection PASS";
-            }
-
-
-            if (liveTestQuestionLibraryStatus) {
-
-                liveTestQuestionLibraryStatus.textContent =
-                    "🟢 PASS";
-
-                liveTestQuestionLibraryStatus.classList.add(
-                    "success"
-                );
-            }
-
-
-            aiHubToast(
-                "Question Library connection passed.",
-                "success"
-            );
-
-
-            return result;
-
-
-        } catch (error) {
-
-            AIHubState.questionLibraryPassed =
-                false;
-
-
-            updateAIHubMonitor();
-
-
-            if (questionLibraryStatus) {
-
-                questionLibraryStatus.textContent =
-                    "🔴 Question Library connection FAILED";
-            }
-
-
-            if (liveTestQuestionLibraryStatus) {
-
-                liveTestQuestionLibraryStatus.textContent =
-                    "🔴 FAILED";
-
-                liveTestQuestionLibraryStatus.classList.add(
-                    "error"
-                );
-            }
-
-
-            aiHubToast(
-                "Question Library test failed.",
-                "error"
-            );
-
-
-            return null;
-        }
-    }
-
-
-    // ========================================================
-    // 10. LIVE WEBSITE TEST
-    // ========================================================
-
-    async function runScaleFlowLiveTest() {
-
-        if (runScaleFlowLiveTestBtn) {
-
-            runScaleFlowLiveTestBtn.disabled =
-                true;
-
-            runScaleFlowLiveTestBtn.textContent =
-                "⏳ Running Live Test...";
-        }
-
-
-        if (liveWebsiteTestResult) {
-
-            liveWebsiteTestResult.textContent =
-                "Running real website connection tests...";
-        }
-
-
-        // Reset previous visual status
-
-        if (liveTestAIMentorStatus) {
-
-            liveTestAIMentorStatus.textContent =
-                "🟡 TESTING";
-
-            liveTestAIMentorStatus.classList.remove(
-                "success",
-                "error"
-            );
-        }
-
-
-        if (liveTestQuestionLibraryStatus) {
-
-            liveTestQuestionLibraryStatus.textContent =
-                "🟡 TESTING";
-
-            liveTestQuestionLibraryStatus.classList.remove(
-                "success",
-                "error"
-            );
-        }
-
-
-        if (liveTestMonitorStatus) {
-
-            liveTestMonitorStatus.textContent =
-                "🟡 TESTING";
-
-            liveTestMonitorStatus.classList.remove(
-                "success",
-                "error"
-            );
-        }
-
-
-        try {
-
-            // ----------------------------------------------
-            // TEST 1 — AI MENTOR
-            // ----------------------------------------------
-
-            const aiResult =
-                await scaleFlowAIHubRequest(
-                    "ai.chat",
-                    {
-                        question:
-                            "What is JavaScript and why is it important for web development?",
-
-                        language:
-                            "en",
-
-                        subject:
-                            "Web Development"
-                    }
-                );
-
-
-            if (
-                !aiResult ||
-                !aiResult.data ||
-                !aiResult.data.answer
-            ) {
-
-                throw new Error(
-                    "AI Mentor live test failed."
-                );
-            }
-
-
-            AIHubState.aiMentorPassed =
-                true;
-
-
-            if (liveTestAIMentorStatus) {
-
-                liveTestAIMentorStatus.textContent =
-                    "🟢 PASS";
-
-                liveTestAIMentorStatus.classList.add(
-                    "success"
-                );
-            }
-
-
-            // ----------------------------------------------
-            // TEST 2 — QUESTION LIBRARY
-            // ----------------------------------------------
-
-            const libraryResult =
-                await scaleFlowAIHubRequest(
-                    "questionlibrary.test",
-                    {
-                        question:
-                            "What is JavaScript?",
-
-                        language:
-                            "English",
-
-                        subject:
-                            "Web Development"
-                    }
-                );
-
-
-            if (
-                !libraryResult ||
-                !libraryResult.data
-            ) {
-
-                throw new Error(
-                    "Question Library live test failed."
-                );
-            }
-
-
-            AIHubState.questionLibraryPassed =
-                true;
-
-
-            if (liveTestQuestionLibraryStatus) {
-
-                liveTestQuestionLibraryStatus.textContent =
-                    "🟢 PASS";
-
-                liveTestQuestionLibraryStatus.classList.add(
-                    "success"
-                );
-            }
-
-
-            // ----------------------------------------------
-            // TEST 3 — MONITOR
-            // ----------------------------------------------
-
-            AIHubState.monitorPassed =
-                AIHubState.apiRequests > 0 &&
-                AIHubState.successfulRequests > 0;
-
-
-            if (!AIHubState.monitorPassed) {
-
-                throw new Error(
-                    "AI Monitor test failed."
-                );
-            }
-
-
-            if (liveTestMonitorStatus) {
-
-                liveTestMonitorStatus.textContent =
-                    "🟢 PASS";
-
-                liveTestMonitorStatus.classList.add(
-                    "success"
-                );
-            }
-
-
-            // ----------------------------------------------
-            // FINAL LIVE TEST
-            // ----------------------------------------------
-
-            AIHubState.liveWebsitePassed =
-                true;
-
-
-            updateAIHubMonitor();
-
-
-            if (liveWebsiteTestResult) {
-
-                liveWebsiteTestResult.textContent =
-                    "🟢 LIVE WEBSITE TEST PASSED — AI Mentor + Question Library + AI Monitor are connected.";
-                
-                liveWebsiteTestResult.classList.add(
-                    "success"
-                );
-
-                liveWebsiteTestResult.classList.remove(
-                    "error"
-                );
-            }
-
-
-            aiHubToast(
-                "Live Website Test PASSED.",
-                "success"
-            );
-
-
-            // Enable Lock
-
-            if (
-                AIHubState.aiMentorPassed &&
-                AIHubState.questionLibraryPassed &&
-                AIHubState.monitorPassed &&
-                AIHubState.liveWebsitePassed
-            ) {
-
-                if (lockScaleFlowEnginesBtn) {
-                    lockScaleFlowEnginesBtn.disabled =
-                        false;
+        AppState.modalOpen = true;
+
+        container.hidden = false;
+        container.classList.add("active");
+        container.setAttribute("aria-hidden", "false");
+
+        const confirmButton = $("modalConfirmBtn");
+        const cancelButton = $("modalCancelBtn");
+
+        if (confirmButton) {
+            confirmButton.onclick = function () {
+                if (options && typeof options.onConfirm === "function") {
+                    options.onConfirm();
                 }
 
-                if (engineLockStatus) {
+                closeModal();
+            };
+        }
 
-                    engineLockStatus.textContent =
-                        "🟢 READY FOR LOCK";
+        if (cancelButton) {
+            cancelButton.onclick = function () {
+                if (options && typeof options.onCancel === "function") {
+                    options.onCancel();
                 }
-            }
 
-
-        } catch (error) {
-
-            AIHubState.liveWebsitePassed =
-                false;
-
-
-            updateAIHubMonitor();
-
-
-            if (liveWebsiteTestResult) {
-
-                liveWebsiteTestResult.textContent =
-                    "🔴 LIVE WEBSITE TEST FAILED — Check the Page 7 connection only.";
-
-                liveWebsiteTestResult.classList.add(
-                    "error"
-                );
-
-                liveWebsiteTestResult.classList.remove(
-                    "success"
-                );
-            }
-
-
-            aiHubToast(
-                "Live Website Test failed.",
-                "error"
-            );
-
-
-            console.error(
-                "❌ Page 7 Live Test:",
-                error
-            );
-
-
-        } finally {
-
-            if (runScaleFlowLiveTestBtn) {
-
-                runScaleFlowLiveTestBtn.disabled =
-                    false;
-
-                runScaleFlowLiveTestBtn.textContent =
-                    "⚡ Run Live Website Test";
-            }
+                closeModal();
+            };
         }
     }
 
 
-    // ========================================================
-    // 11. ENGINE LOCK
-    // ========================================================
+    function closeModal() {
+        const container = $("modal-container");
 
-    function lockScaleFlowEngines() {
+        if (!container) return;
 
-        const ready =
-            AIHubState.aiMentorPassed &&
-            AIHubState.questionLibraryPassed &&
-            AIHubState.monitorPassed &&
-            AIHubState.liveWebsitePassed;
+        AppState.modalOpen = false;
 
-
-        if (!ready) {
-
-            aiHubToast(
-                "Engines cannot be locked before all tests pass.",
-                "warning"
-            );
-
-            return;
-        }
-
-
-        AIHubState.enginesLocked =
-            true;
-
-
-        if (engineLockStatus) {
-
-            engineLockStatus.textContent =
-                "🔒 ENGINES LOCKED";
-
-            engineLockStatus.classList.add(
-                "locked"
-            );
-        }
-
-
-        if (lockScaleFlowEnginesBtn) {
-
-            lockScaleFlowEnginesBtn.disabled =
-                true;
-
-            lockScaleFlowEnginesBtn.textContent =
-                "🔒 Engines Locked";
-        }
-
-
-        aiHubToast(
-            "Verified ScaleFlow engines are now locked.",
-            "success"
-        );
-
-
-        console.log(
-            "🔒 SCALEFLOW PAGE 7 ENGINES LOCKED"
-        );
+        container.classList.remove("active");
+        container.setAttribute("aria-hidden", "true");
+        container.hidden = true;
     }
 
 
-    // ========================================================
-    // 12. EVENT LISTENERS
-    // ========================================================
-
-    if (aiMentorAskBtn) {
-
-        aiMentorAskBtn.addEventListener(
-            "click",
-            askScaleFlowAIMentor
-        );
-    }
-
-
-    if (aiMentorClearBtn) {
-
-        aiMentorClearBtn.addEventListener(
-            "click",
-            clearAIMentor
-        );
-    }
-
-
-    if (questionLibraryTestBtn) {
-
-        questionLibraryTestBtn.addEventListener(
-            "click",
-            testQuestionLibraryConnection
-        );
-    }
-
-
-    if (runScaleFlowLiveTestBtn) {
-
-        runScaleFlowLiveTestBtn.addEventListener(
-            "click",
-            runScaleFlowLiveTest
-        );
-    }
-
-
-    if (lockScaleFlowEnginesBtn) {
-
-        lockScaleFlowEnginesBtn.addEventListener(
-            "click",
-            lockScaleFlowEngines
-        );
-    }
-
-
-    // ========================================================
-    // 13. PUBLIC PAGE 7 API
-    // ========================================================
-
-    global.ScaleFlowAIHub = {
-
-        askAI:
-            askScaleFlowAIMentor,
-
-        testQuestionLibrary:
-            testQuestionLibraryConnection,
-
-        runLiveTest:
-            runScaleFlowLiveTest,
-
-        lockEngines:
-            lockScaleFlowEngines,
-
-        getState:
-            function () {
-                return {
-                    ...AIHubState
-                };
-            },
-
-        getMonitor:
-            function () {
-                return {
-                    apiRequests:
-                        AIHubState.apiRequests,
-
-                    successfulRequests:
-                        AIHubState.successfulRequests,
-
-                    failedRequests:
-                        AIHubState.failedRequests,
-
-                    lastResponseTime:
-                        AIHubState.lastResponseTime
-                };
-            }
-    };
-
-
-    // ========================================================
-    // 14. INITIAL MONITOR
-    // ========================================================
-
-    updateAIHubMonitor();
-
-
-    console.log(
-        "✅ ScaleFlow Page 7 AI Hub loaded."
-    );
-
-    console.log(
-        "🔗 Web App API:",
-        SCALEFLOW_WEB_APP_URL
-    );
-
-
-})(window);
-
-
-// ============================================================
-// PAGE 7 AI HUB MODULE END
-// ============================================================
-
-جی پیارے دوست، بالکل۔ اس Part 8 → Part 13 کو بھی اسی اصول کے مطابق رکھنا بہتر ہے کہ:
-ہر Part کا اپنا نمبر ہو۔
-ہر Part صرف اپنی ذمہ داری سنبھالے۔
-موجودہ HTML کے IDs/classes سے ہی link ہو۔
-دوسرے Parts کو overwrite نہ کرے۔
-Login/Register میں no-cors استعمال نہ کریں، کیونکہ اس سے response پڑھا نہیں جا سکتا اور غلطی کی صورت میں بھی frontend کو اصل نتیجہ معلوم نہیں ہوتا۔
-Part 10 آپ کے موجودہ structure میں غائب ہے، اس لیے نمبر نہیں بدلیں گے؛ اگلا موجودہ حصہ Part 11 ہی رہے گا۔
-Part 12D کو login/registration کا الگ واضح module رکھیں۔
-Page 7 کا AI Hub الگ Part میں رہے گا، اسے اس حصے میں نہیں ملائیں گے۔
-یہ پورا حصہ موجودہ JS میں Part 7 کے بعد، Part 14 سے پہلے رکھیں
-// ============================================================
-// PART 8 — GLOBAL SEARCH SYSTEM
-// ============================================================
-
-const globalSearchInput = document.getElementById("globalSearchInput");
-
-if (globalSearchInput) {
-
-    globalSearchInput.addEventListener("input", function () {
-
-        const query = this.value.toLowerCase().trim();
-
-        if (!query) {
-            return;
-        }
-
-        console.log("ScaleFlow Global Search:", query);
-
-        // Current V1:
-        // Search system is connected to the website input.
-        // Actual database-wide search will be connected later.
-    });
-}
-
-
-// ============================================================
-// PART 9 — HERO SECTION ACTIONS
-// ============================================================
-
-const exploreCoursesBtn = document.getElementById("exploreCoursesBtn");
-
-if (exploreCoursesBtn) {
-
-    exploreCoursesBtn.addEventListener("click", function () {
-
-        navigateTo("page2");
-
-    });
-}
-
-
-// ============================================================
-// PART 10 — RESERVED
-// ============================================================
-//
-// Part 10 is intentionally reserved so that every major
-// frontend module keeps its original numbering.
-//
-// Do not place unrelated functionality here.
-//
-
-
-// ============================================================
-// PART 11 — CONTINUE LEARNING PROGRESS
-// ============================================================
-
-const continueProgressBtn = document.getElementById("continueProgressBtn");
-const continueProgress = document.getElementById("continueProgress");
-const progressText = document.getElementById("progressText");
-
-
-function updateContinueLearningProgress(value) {
-
-    if (!continueProgress) {
-        return 0;
-    }
-
-    let progress = Number(value);
-
-    if (!Number.isFinite(progress)) {
-        progress = 0;
-    }
-
-    progress = Math.max(0, Math.min(100, progress));
-
-    continueProgress.style.width = progress + "%";
-
-    continueProgress.setAttribute(
-        "aria-valuenow",
-        String(progress)
-    );
-
-    if (progressText) {
-
-        progressText.textContent =
-            progress + "% Complete";
-    }
-
-    return progress;
-}
-
-
-if (continueProgressBtn) {
-
-    continueProgressBtn.addEventListener(
-        "click",
-        function () {
-
-            const currentWidth =
-                continueProgress
-                    ? parseFloat(continueProgress.style.width)
-                    : 65;
-
-            let currentProgress =
-                Number.isFinite(currentWidth)
-                    ? currentWidth
-                    : 65;
-
-            if (currentProgress >= 100) {
-
-                updateContinueLearningProgress(100);
-
+    /* ============================================================
+       PART 1.6 — PAGE NAVIGATION
+       ============================================================ */
+
+    function showPage(pageId, options) {
+        if (!pageId) return false;
+
+        const targetPage = $(pageId);
+
+        /*
+         * اگر مستقبل میں Part 2 / Part 3 میں کوئی page آئے
+         * تو یہ function خود اسے پہچان لے گا۔
+         */
+        if (!targetPage) {
+            if (!options || !options.silent) {
                 showToast(
-                    "🎉 Course Completed Successfully!",
-                    "success"
-                );
-
-                return;
-            }
-
-            currentProgress += 5;
-
-            if (currentProgress > 100) {
-                currentProgress = 100;
-            }
-
-            const updatedProgress =
-                updateContinueLearningProgress(
-                    currentProgress
-                );
-
-            if (updatedProgress >= 100) {
-
-                showToast(
-                    "🎉 Course Completed Successfully!",
-                    "success"
-                );
-
-            } else {
-
-                showToast(
-                    "📈 Learning Progress Updated (" +
-                    updatedProgress +
-                    "%)",
-                    "info"
-                );
-            }
-        }
-    );
-}
-
-
-if (continueProgress) {
-
-    updateContinueLearningProgress(65);
-}
-
-
-// ============================================================
-// PART 12 — DASHBOARD STATS & METRICS
-// ============================================================
-
-function updateDashboardStats() {
-
-    const statElements =
-        document.querySelectorAll(
-            ".stat-box strong, .dashboard-box span"
-        );
-
-    statElements.forEach(function (element) {
-
-        // Dashboard statistics will be connected
-        // to the real backend/database later.
-
-        if (!element.dataset.scaleFlowStatReady) {
-
-            element.dataset.scaleFlowStatReady = "true";
-        }
-    });
-}
-
-
-// ============================================================
-// PART 12D — LOGIN & REGISTRATION
-// ============================================================
-//
-// IMPORTANT:
-// This module communicates with Google Apps Script.
-//
-// We intentionally DO NOT use "mode: no-cors"
-// because no-cors prevents the frontend from reading
-// the backend response.
-//
-// This means the website can correctly know:
-// SUCCESS / FAILED / INVALID / SERVER ERROR
-//
-
-
-// ------------------------------------------------------------
-// LOGIN DOM REFERENCES
-// ------------------------------------------------------------
-
-const loginForm =
-    document.getElementById("loginForm");
-
-const loginEmail =
-    document.getElementById("loginEmail");
-
-const loginPassword =
-    document.getElementById("loginPassword");
-
-const loginSubmitBtn =
-    document.getElementById("loginSubmitBtn");
-
-
-// ------------------------------------------------------------
-// REGISTRATION DOM REFERENCES
-// ------------------------------------------------------------
-
-const loginSection =
-    document.getElementById("loginSection");
-
-const registrationSection =
-    document.getElementById("registrationSection");
-
-const registerLink =
-    document.getElementById("registerLink");
-
-const backToLoginLink =
-    document.getElementById("backToLoginLink");
-
-const registrationForm =
-    document.getElementById("registrationForm");
-
-const registerSubmitBtn =
-    document.getElementById("registerSubmitBtn");
-
-
-// ============================================================
-// PART 12D.1 — LOGIN / REGISTRATION SCREEN SWITCHING
-// ============================================================
-
-if (registerLink) {
-
-    registerLink.addEventListener(
-        "click",
-        function (event) {
-
-            event.preventDefault();
-
-            if (loginSection) {
-                loginSection.style.display = "none";
-            }
-
-            if (registrationSection) {
-                registrationSection.style.display = "block";
-            }
-        }
-    );
-}
-
-
-if (backToLoginLink) {
-
-    backToLoginLink.addEventListener(
-        "click",
-        function (event) {
-
-            event.preventDefault();
-
-            if (registrationSection) {
-                registrationSection.style.display = "none";
-            }
-
-            if (loginSection) {
-                loginSection.style.display = "block";
-            }
-        }
-    );
-}
-
-
-// ============================================================
-// PART 12D.2 — LOGIN REQUEST
-// ============================================================
-
-if (loginForm) {
-
-    loginForm.addEventListener(
-        "submit",
-        async function (event) {
-
-            event.preventDefault();
-
-            const email =
-                loginEmail
-                    ? loginEmail.value.trim()
-                    : "";
-
-            const password =
-                loginPassword
-                    ? loginPassword.value
-                    : "";
-
-
-            // ------------------------------------------------
-            // BASIC VALIDATION
-            // ------------------------------------------------
-
-            if (!email || !password) {
-
-                showToast(
-                    "⚠️ Please enter Email and Password.",
+                    "یہ صفحہ ابھی اس Frontend Part میں موجود نہیں ہے۔",
                     "warning"
                 );
-
-                return;
             }
 
-
-            // ------------------------------------------------
-            // BUTTON STATE
-            // ------------------------------------------------
-
-            if (loginSubmitBtn) {
-
-                loginSubmitBtn.disabled = true;
-
-                loginSubmitBtn.textContent =
-                    "Signing In...";
-
-                loginSubmitBtn.style.opacity = "0.7";
-            }
-
-
-            try {
-
-                // ------------------------------------------------
-                // SEND REQUEST TO GOOGLE APPS SCRIPT
-                // ------------------------------------------------
-
-                const response =
-                    await fetch(
-                        SCALEFLOW_WEB_APP_URL,
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "text/plain;charset=utf-8"
-                            },
-
-                            body: JSON.stringify({
-
-                                action: "login",
-
-                                data: {
-                                    email: email,
-                                    password: password
-                                },
-
-                                version: "v1",
-
-                                requestId:
-                                    "LOGIN-" +
-                                    Date.now()
-                            })
-                        }
-                    );
-
-
-                // ------------------------------------------------
-                // READ BACKEND RESPONSE
-                // ------------------------------------------------
-
-                const result =
-                    await response.json();
-
-
-                console.log(
-                    "ScaleFlow Login Response:",
-                    result
-                );
-
-
-                // ------------------------------------------------
-                // SUCCESS
-                // ------------------------------------------------
-
-                if (result && result.success === true) {
-
-                    showToast(
-                        "✅ Login successful!",
-                        "success"
-                    );
-
-                    navigateTo("page1");
-
-                    return;
-                }
-
-
-                // ------------------------------------------------
-                // BACKEND REJECTED LOGIN
-                // ------------------------------------------------
-
-                const message =
-                    result &&
-                    result.message
-                        ? result.message
-                        : "Invalid email or password.";
-
-
-                showToast(
-                    "❌ " + message,
-                    "error"
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "ScaleFlow Login Error:",
-                    error
-                );
-
-                showToast(
-                    "❌ Login connection error.",
-                    "error"
-                );
-
-
-            } finally {
-
-                // ------------------------------------------------
-                // RESTORE BUTTON
-                // ------------------------------------------------
-
-                if (loginSubmitBtn) {
-
-                    loginSubmitBtn.disabled = false;
-
-                    loginSubmitBtn.textContent =
-                        "Sign In";
-
-                    loginSubmitBtn.style.opacity = "1";
-                }
-            }
+            return false;
         }
-    );
-}
 
+        const pages = $all(".page-section");
 
-// ============================================================
-// PART 12D.3 — REGISTRATION REQUEST
-// ============================================================
+        pages.forEach(function (page) {
+            page.hidden = true;
+            page.classList.remove("active");
+        });
 
-if (registrationForm) {
+        targetPage.hidden = false;
+        targetPage.classList.add("active");
 
-    registrationForm.addEventListener(
-        "submit",
-        async function (event) {
+        AppState.currentPage = pageId;
 
-            event.preventDefault();
+        const app = $("app");
 
-
-            // ------------------------------------------------
-            // GET FORM VALUES
-            // ------------------------------------------------
-
-            const fullName =
-                document
-                    .getElementById("registerFullName")
-                    ?.value
-                    .trim() || "";
-
-            const email =
-                document
-                    .getElementById("registerEmail")
-                    ?.value
-                    .trim() || "";
-
-            const password =
-                document
-                    .getElementById("registerPassword")
-                    ?.value || "";
-
-            const confirmPassword =
-                document
-                    .getElementById("registerConfirmPassword")
-                    ?.value || "";
-
-            const terms =
-                document.getElementById(
-                    "registerTerms"
-                );
-
-
-            // ------------------------------------------------
-            // VALIDATION
-            // ------------------------------------------------
-
-            if (!fullName || !email) {
-
-                showToast(
-                    "⚠️ Please fill in all required fields.",
-                    "warning"
-                );
-
-                return;
-            }
-
-
-            if (password.length < 8) {
-
-                showToast(
-                    "⚠️ Password must contain at least 8 characters.",
-                    "warning"
-                );
-
-                return;
-            }
-
-
-            if (password !== confirmPassword) {
-
-                showToast(
-                    "⚠️ Passwords do not match.",
-                    "warning"
-                );
-
-                return;
-            }
-
-
-            if (!terms || !terms.checked) {
-
-                showToast(
-                    "⚠️ Please accept the Terms and Conditions.",
-                    "warning"
-                );
-
-                return;
-            }
-
-
-            // ------------------------------------------------
-            // BUTTON STATE
-            // ------------------------------------------------
-
-            if (registerSubmitBtn) {
-
-                registerSubmitBtn.disabled = true;
-
-                registerSubmitBtn.textContent =
-                    "Creating Account...";
-
-                registerSubmitBtn.style.opacity = "0.7";
-            }
-
-
-            try {
-
-                // ------------------------------------------------
-                // SEND REGISTRATION REQUEST
-                // ------------------------------------------------
-
-                const response =
-                    await fetch(
-                        SCALEFLOW_WEB_APP_URL,
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "text/plain;charset=utf-8"
-                            },
-
-                            body: JSON.stringify({
-
-                                action: "register",
-
-                                data: {
-                                    fullName: fullName,
-                                    email: email,
-                                    password: password,
-                                    confirmPassword:
-                                        confirmPassword
-                                },
-
-                                version: "v1",
-
-                                requestId:
-                                    "REGISTER-" +
-                                    Date.now()
-                            })
-                        }
-                    );
-
-
-                // ------------------------------------------------
-                // READ BACKEND RESPONSE
-                // ------------------------------------------------
-
-                const result =
-                    await response.json();
-
-
-                console.log(
-                    "ScaleFlow Registration Response:",
-                    result
-                );
-
-
-                // ------------------------------------------------
-                // SUCCESS
-                // ------------------------------------------------
-
-                if (result && result.success === true) {
-
-                    showToast(
-                        "🎉 Account created successfully!",
-                        "success"
-                    );
-
-
-                    registrationForm.reset();
-
-
-                    if (registrationSection) {
-
-                        registrationSection.style.display =
-                            "none";
-                    }
-
-
-                    if (loginSection) {
-
-                        loginSection.style.display =
-                            "block";
-                    }
-
-
-                    if (loginEmail) {
-
-                        loginEmail.value = email;
-                    }
-
-
-                    return;
-                }
-
-
-                // ------------------------------------------------
-                // BACKEND REJECTED REGISTRATION
-                // ------------------------------------------------
-
-                const message =
-                    result &&
-                    result.message
-                        ? result.message
-                        : "Registration failed.";
-
-
-                showToast(
-                    "❌ " + message,
-                    "error"
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "ScaleFlow Registration Error:",
-                    error
-                );
-
-                showToast(
-                    "❌ Registration connection error.",
-                    "error"
-                );
-
-
-            } finally {
-
-                // ------------------------------------------------
-                // RESTORE BUTTON
-                // ------------------------------------------------
-
-                if (registerSubmitBtn) {
-
-                    registerSubmitBtn.disabled = false;
-
-                    registerSubmitBtn.textContent =
-                        "Create Account";
-
-                    registerSubmitBtn.style.opacity = "1";
-                }
-            }
+        if (app) {
+            app.dataset.page = pageId.replace("page", "");
         }
-    );
-}
 
+        /*
+         * Sidebar active state
+         */
+        $all("[data-page]").forEach(function (item) {
+            item.classList.remove("active");
+        });
 
-// ============================================================
-// PART 13 — QUICK ACTIONS
-// ============================================================
+        const activeLinks = $all('[data-page="' + pageId + '"]');
 
-const quickActionButtons =
-    document.querySelectorAll(
-        ".quick-action-btn"
-    );
+        activeLinks.forEach(function (link) {
+            link.classList.add("active");
+        });
 
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
 
-quickActionButtons.forEach(function (button) {
-
-    button.addEventListener(
-        "click",
-        function () {
-
-            const label =
-                this.querySelector(".label")
-                    ?.textContent
-                    ?.trim() ||
-                "Action";
-
-
-            console.log(
-                "ScaleFlow Quick Action:",
-                label
-            );
-
-
-            showToast(
-                "🚀 Triggered: " + label,
-                "info"
-            );
-        }
-    );
-});
-
-
-// ============================================================
-// PART 13.1 — DASHBOARD STATS INITIALIZATION
-// ============================================================
-
-updateDashboardStats();
-
-
-// ============================================================
-// PART 13.2 — PART 8–13 READY CHECK
-// ============================================================
-
-console.log(
-    "ScaleFlow Frontend Parts 8–13: READY"
-);
-ا
-
-// ============================================================
-// PART 14 — GEMINI AI CHAT MODULE
-// ============================================================
-//
-// Website Chat
-// ↓
-// Web App API
-// ↓
-// Gemini AI Engine
-// ↓
-// Response
-//
-// IMPORTANT:
-// - Uses the verified ScaleFlow Web App URL
-// - Uses action: "ai.chat"
-// - Uses question / language / subject
-// - Does NOT use no-cors
-// - Reads the real backend response
-// ============================================================
-
-const chatMessages = document.getElementById("chatMessages");
-const chatInput = document.getElementById("chatInput");
-const chatSendBtn = document.getElementById("chatSendBtn");
-const chatClearBtn = document.getElementById("chatClearBtn");
-const chatVoiceBtn = document.getElementById("chatVoiceBtn");
-
-
-// ------------------------------------------------------------
-// PART 14.1 — CHAT MESSAGE HELPER
-// ------------------------------------------------------------
-
-function addChatMessage(type, text) {
-
-    if (!chatMessages) {
-        return null;
-    }
-
-    const message = document.createElement("div");
-
-    message.className =
-        type === "user"
-            ? "message user"
-            : "message ai";
-
-    message.textContent = String(text || "");
-
-    chatMessages.appendChild(message);
-
-    chatMessages.scrollTop =
-        chatMessages.scrollHeight;
-
-    return message;
-}
-
-
-// ------------------------------------------------------------
-// PART 14.2 — SEND CHAT MESSAGE
-// ------------------------------------------------------------
-
-async function sendChatMessage() {
-
-    if (!chatMessages || !chatInput) {
-        return;
-    }
-
-    const message =
-        chatInput.value.trim();
-
-    if (!message) {
-        showToast(
-            "⚠️ Please enter a question.",
-            "warning"
-        );
-        return;
+        return true;
     }
 
 
-    // --------------------------------------------------------
-    // DISPLAY USER MESSAGE
-    // --------------------------------------------------------
+    function navigateTo(pageId) {
+        if (showPage(pageId)) {
+            return true;
+        }
 
-    addChatMessage(
-        "user",
-        message
-    );
-
-    chatInput.value = "";
-
-
-    // --------------------------------------------------------
-    // AI LOADING MESSAGE
-    // --------------------------------------------------------
-
-    const aiMessage =
-        addChatMessage(
-            "ai",
-            "Thinking with ScaleFlow AI..."
-        );
-
-
-    // --------------------------------------------------------
-    // DISABLE SEND BUTTON
-    // --------------------------------------------------------
-
-    if (chatSendBtn) {
-
-        chatSendBtn.disabled = true;
-
-        chatSendBtn.style.opacity = "0.7";
+        return false;
     }
 
 
-    const startTime =
-        Date.now();
+    /* ============================================================
+       PART 1.7 — SIDEBAR NAVIGATION
+       ============================================================ */
 
+    function initNavigation() {
 
-    try {
+        const links = $all("[data-page]");
 
-        // ----------------------------------------------------
-        // REQUEST PAYLOAD
-        // ----------------------------------------------------
+        links.forEach(function (link) {
 
-        const payload = {
-
-            action: "ai.chat",
-
-            data: {
-
-                question: message,
-
-                language: "en",
-
-                subject: "General"
-            },
-
-            version: "v1",
-
-            requestId:
-                "CHAT-" +
-                Date.now()
-        };
-
-
-        console.log(
-            "ScaleFlow AI Chat Request:",
-            payload
-        );
-
-
-        // ----------------------------------------------------
-        // GOOGLE APPS SCRIPT REQUEST
-        // ----------------------------------------------------
-
-        const response =
-            await fetch(
-                SCALEFLOW_WEB_APP_URL,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "text/plain;charset=utf-8"
-                    },
-
-                    body:
-                        JSON.stringify(payload)
-                }
-            );
-
-
-        // ----------------------------------------------------
-        // HTTP CHECK
-        // ----------------------------------------------------
-
-        if (!response.ok) {
-
-            throw new Error(
-                "HTTP " +
-                response.status
-            );
-        }
-
-
-        // ----------------------------------------------------
-        // READ JSON RESPONSE
-        // ----------------------------------------------------
-
-        const result =
-            await response.json();
-
-
-        console.log(
-            "ScaleFlow AI Chat Response:",
-            result
-        );
-
-
-        // ----------------------------------------------------
-        // SUCCESS
-        // ----------------------------------------------------
-
-        if (
-            result &&
-            result.success === true &&
-            result.data
-        ) {
-
-            const answer =
-                result.data.answer ||
-                "AI response received.";
-
-
-            if (aiMessage) {
-
-                aiMessage.textContent =
-                    answer;
-            }
-
-
-            showToast(
-                "✨ AI response received.",
-                "success"
-            );
-
-
-        } else {
-
-            // ------------------------------------------------
-            // BACKEND ERROR
-            // ------------------------------------------------
-
-            const errorMessage =
-                result &&
-                result.message
-                    ? result.message
-                    : "AI response failed.";
-
-
-            if (aiMessage) {
-
-                aiMessage.textContent =
-                    "⚠️ " +
-                    errorMessage;
-            }
-
-
-            showToast(
-                "❌ AI request failed.",
-                "error"
-            );
-        }
-
-
-        // ----------------------------------------------------
-        // RESPONSE TIME
-        // ----------------------------------------------------
-
-        const responseTime =
-            Date.now() -
-            startTime;
-
-
-        console.log(
-            "ScaleFlow AI Response Time:",
-            responseTime + " ms"
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "ScaleFlow AI Chat Error:",
-            error
-        );
-
-
-        if (aiMessage) {
-
-            aiMessage.textContent =
-                "⚠️ Unable to connect to ScaleFlow AI.";
-        }
-
-
-        showToast(
-            "❌ AI connection error.",
-            "error"
-        );
-
-
-    } finally {
-
-        // ----------------------------------------------------
-        // RESTORE SEND BUTTON
-        // ----------------------------------------------------
-
-        if (chatSendBtn) {
-
-            chatSendBtn.disabled = false;
-
-            chatSendBtn.style.opacity = "1";
-        }
-    }
-}
-
-
-// ------------------------------------------------------------
-// PART 14.3 — SEND BUTTON
-// ------------------------------------------------------------
-
-if (chatSendBtn) {
-
-    chatSendBtn.addEventListener(
-        "click",
-        sendChatMessage
-    );
-}
-
-
-// ------------------------------------------------------------
-// PART 14.4 — ENTER KEY
-// ------------------------------------------------------------
-
-if (chatInput) {
-
-    chatInput.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (
-                event.key === "Enter" &&
-                !event.shiftKey
-            ) {
+            on(link, "click", function (event) {
 
                 event.preventDefault();
 
-                sendChatMessage();
+                const pageId = link.dataset.page;
+
+                if (!pageId) return;
+
+                navigateTo(pageId);
+
+            });
+
+        });
+
+    }
+
+
+    /* ============================================================
+       PART 1.8 — DARK MODE
+       ============================================================ */
+
+    function updateThemeButton() {
+
+        const buttons = [
+            $("darkModeBtn"),
+            $("btnTheme")
+        ];
+
+        buttons.forEach(function (button) {
+
+            if (!button) return;
+
+            if (AppState.darkMode) {
+
+                button.setAttribute(
+                    "aria-label",
+                    "Switch to light mode"
+                );
+
+                if (button.id === "darkModeBtn") {
+                    button.innerHTML = "☀️";
+                }
+
+            } else {
+
+                button.setAttribute(
+                    "aria-label",
+                    "Switch to dark mode"
+                );
+
+                if (button.id === "darkModeBtn") {
+                    button.innerHTML = "🌙";
+                }
+
             }
+
+        });
+    }
+
+
+    function applyTheme() {
+
+        if (AppState.darkMode) {
+            document.body.classList.add("dark-mode");
+            document.documentElement.classList.add("dark-mode");
+        } else {
+            document.body.classList.remove("dark-mode");
+            document.documentElement.classList.remove("dark-mode");
         }
-    );
-}
+
+        localStorage.setItem(
+            STORAGE.THEME,
+            AppState.darkMode ? "dark" : "light"
+        );
+
+        updateThemeButton();
+    }
 
 
-// ------------------------------------------------------------
-// PART 14.5 — CLEAR CHAT
-// ------------------------------------------------------------
+    function toggleDarkMode() {
 
-if (chatClearBtn) {
+        AppState.darkMode = !AppState.darkMode;
 
-    chatClearBtn.addEventListener(
-        "click",
-        function () {
+        applyTheme();
 
-            if (!chatMessages) {
+        showToast(
+            AppState.darkMode
+                ? "Dark Mode فعال ہوگیا۔"
+                : "Light Mode فعال ہوگیا۔",
+            "success"
+        );
+    }
+
+
+    function loadTheme() {
+
+        const savedTheme = localStorage.getItem(STORAGE.THEME);
+
+        AppState.darkMode = savedTheme === "dark";
+
+        applyTheme();
+    }
+
+
+    /* ============================================================
+       PART 1.9 — NOTIFICATION SYSTEM
+       ============================================================ */
+
+    function getNotificationItems() {
+        return $all(".notification-list .notification-item");
+    }
+
+
+    function updateNotificationCount() {
+
+        const countElement = $("notificationCount");
+
+        const unreadItems = getNotificationItems().filter(
+            function (item) {
+                return item.classList.contains("unread");
+            }
+        );
+
+        if (countElement) {
+            countElement.textContent = unreadItems.length;
+        }
+    }
+
+
+    function openNotifications() {
+
+        const panel = $("notificationPanel");
+
+        if (!panel) return;
+
+        AppState.notificationOpen = !AppState.notificationOpen;
+
+        panel.hidden = !AppState.notificationOpen;
+
+        panel.classList.toggle(
+            "active",
+            AppState.notificationOpen
+        );
+
+        panel.setAttribute(
+            "aria-hidden",
+            AppState.notificationOpen ? "false" : "true"
+        );
+    }
+
+
+    function markAllNotificationsRead() {
+
+        const items = getNotificationItems();
+
+        if (!items.length) {
+            showToast("کوئی notification موجود نہیں۔", "info");
+            return;
+        }
+
+        items.forEach(function (item) {
+            item.classList.remove("unread");
+        });
+
+        updateNotificationCount();
+
+        showToast(
+            "تمام notifications read ہوگئی ہیں۔",
+            "success"
+        );
+
+    }
+
+
+    function initNotifications() {
+
+        const bell = $("notificationBell");
+        const markAll = $("markAllReadBtn");
+
+        on(bell, "click", function (event) {
+            event.stopPropagation();
+            openNotifications();
+        });
+
+        on(markAll, "click", function () {
+            markAllNotificationsRead();
+        });
+
+        updateNotificationCount();
+
+        /*
+         * باہر click کرنے پر notification panel بند
+         */
+        document.addEventListener("click", function (event) {
+
+            const panel = $("notificationPanel");
+
+            if (!panel || !AppState.notificationOpen) {
                 return;
             }
 
+            if (
+                !panel.contains(event.target) &&
+                event.target !== $("notificationBell")
+            ) {
 
-            chatMessages.innerHTML = "";
+                AppState.notificationOpen = false;
+
+                panel.hidden = true;
+                panel.classList.remove("active");
+                panel.setAttribute("aria-hidden", "true");
+            }
+
+        });
+
+    }
 
 
-            addChatMessage(
-                "ai",
-                "Hello! How can I assist you today?"
-            );
+    /* ============================================================
+       PART 1.10 — HOME BUTTON NAVIGATION
+       ============================================================ */
+
+    function bindNavigationButton(id, pageId) {
+
+        const button = $(id);
+
+        on(button, "click", function () {
+            navigateTo(pageId);
+        });
+
+    }
 
 
+    function initHomeNavigation() {
+
+        /*
+         * Main Dashboard
+         */
+        bindNavigationButton(
+            "continueLearningBtn",
+            "page4"
+        );
+
+        bindNavigationButton(
+            "browseCoursesBtn",
+            "page3"
+        );
+
+
+        /*
+         * Quick Actions
+         */
+        bindNavigationButton(
+            "quickStartLearning",
+            "page4"
+        );
+
+        bindNavigationButton(
+            "quickAskAI",
+            "page7"
+        );
+
+        bindNavigationButton(
+            "quickBrowseCourses",
+            "page3"
+        );
+
+        bindNavigationButton(
+            "quickMyCertificates",
+            "page5"
+        );
+
+
+        /*
+         * Gateway Cards
+         */
+        bindNavigationButton(
+            "gatewayLearning",
+            "page3"
+        );
+
+        bindNavigationButton(
+            "gatewayAI",
+            "page7"
+        );
+
+        bindNavigationButton(
+            "gatewayAutomation",
+            "page17"
+        );
+
+        bindNavigationButton(
+            "gatewayTools",
+            "page18"
+        );
+
+        bindNavigationButton(
+            "gatewayBusiness",
+            "page9"
+        );
+
+        bindNavigationButton(
+            "gatewayFreelancing",
+            "page16"
+        );
+
+        bindNavigationButton(
+            "gatewayCertificates",
+            "page5"
+        );
+
+        bindNavigationButton(
+            "gatewayDashboard",
+            "page2"
+        );
+
+    }
+
+
+    /* ============================================================
+       PART 1.11 — DASHBOARD BOXES
+       ============================================================ */
+
+    function initDashboardBoxes() {
+
+        on($("dashCourseBox"), "click", function () {
+            navigateTo("page3");
+        });
+
+        on($("dashCertBox"), "click", function () {
+            navigateTo("page5");
+        });
+
+        on($("dashAchieveBox"), "click", function () {
+            navigateTo("page6");
+        });
+
+        on($("dashProjectBox"), "click", function () {
             showToast(
-                "🧹 Chat cleared.",
+                "Projects section ابھی frontend میں connected نہیں ہے۔",
                 "info"
             );
+        });
+
+    }
+
+
+    /* ============================================================
+       PART 1.12 — TASK SYSTEM
+       ============================================================ */
+
+    function initTasks() {
+
+        const taskIds = [
+            "task1",
+            "task2",
+            "task3",
+            "task4"
+        ];
+
+        taskIds.forEach(function (id) {
+
+            const task = $(id);
+
+            if (!task) return;
+
+            task.addEventListener("click", function () {
+
+                task.classList.toggle("completed");
+
+                const completed =
+                    task.classList.contains("completed");
+
+                showToast(
+                    completed
+                        ? "Task complete ہوگیا۔"
+                        : "Task دوبارہ active ہوگیا۔",
+                    completed ? "success" : "info"
+                );
+
+            });
+
+        });
+
+    }
+
+
+    /* ============================================================
+       PART 1.13 — GLOBAL SEARCH
+       ============================================================ */
+
+    function getSearchTargets() {
+
+        return $all(
+            [
+                ".course-card",
+                ".gateway-card",
+                ".achievement-card",
+                ".certificate-card",
+                ".quick-action",
+                ".tool-card",
+                ".ai-hub-card",
+                ".dashboard-card"
+            ].join(",")
+        );
+
+    }
+
+
+    function performGlobalSearch(query) {
+
+        const value = String(query || "")
+            .trim()
+            .toLowerCase();
+
+        if (!value) {
+            return;
         }
-    );
-}
 
+        const targets = getSearchTargets();
 
-// ------------------------------------------------------------
-// PART 14.6 — VOICE INPUT
-// ------------------------------------------------------------
+        let firstMatch = null;
 
-if (chatVoiceBtn) {
+        for (const target of targets) {
 
-    chatVoiceBtn.addEventListener(
-        "click",
-        function () {
+            const text =
+                String(target.textContent || "")
+                    .toLowerCase();
+
+            if (text.includes(value)) {
+
+                firstMatch = target;
+                break;
+
+            }
+
+        }
+
+        if (!firstMatch) {
 
             showToast(
-                "🎤 Voice input is not connected yet.",
+                "کوئی matching result نہیں ملا۔",
+                "warning"
+            );
+
+            return;
+        }
+
+        const page = firstMatch.closest(".page-section");
+
+        if (page && page.id) {
+
+            navigateTo(page.id);
+
+            setTimeout(function () {
+
+                firstMatch.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            }, 250);
+
+        }
+
+    }
+
+
+    function initGlobalSearch() {
+
+        const input = $("globalSearchInput");
+
+        if (!input) return;
+
+        on(input, "keydown", function (event) {
+
+            if (event.key !== "Enter") {
+                return;
+            }
+
+            event.preventDefault();
+
+            performGlobalSearch(input.value);
+
+        });
+
+    }
+
+
+    /* ============================================================
+       PART 1.14 — PAGE 2 DASHBOARD ACTIONS
+       ============================================================ */
+
+    function initPage2() {
+
+        bindNavigationButton(
+            "dashResumeLearning",
+            "page4"
+        );
+
+        bindNavigationButton(
+            "dashBrowseCourses",
+            "page3"
+        );
+
+        bindNavigationButton(
+            "dashAskAI",
+            "page7"
+        );
+
+        bindNavigationButton(
+            "dashCertificates",
+            "page5"
+        );
+
+
+        [
+            "recentCourse1",
+            "recentCourse2",
+            "recentCourse3"
+        ].forEach(function (id) {
+
+            on($(id), "click", function () {
+                navigateTo("page4");
+            });
+
+        });
+
+    }
+
+
+    /* ============================================================
+       PART 1.15 — PAGE 3 COURSE FILTER
+       ============================================================ */
+
+    function initCourseFilters() {
+
+        const grid = $("courseGrid");
+
+        if (!grid) return;
+
+        const cards = $all(
+            "#courseGrid [data-difficulty]"
+        );
+
+        const searchInput = $("courseSearchInput");
+
+        function applyCourseFilter() {
+
+            const difficulty =
+                AppState.courseFilter;
+
+            const search =
+                String(searchInput ? searchInput.value : "")
+                    .trim()
+                    .toLowerCase();
+
+            cards.forEach(function (card) {
+
+                const cardDifficulty =
+                    String(
+                        card.dataset.difficulty || ""
+                    ).toLowerCase();
+
+                const text =
+                    String(card.textContent || "")
+                        .toLowerCase();
+
+                const difficultyMatch =
+                    difficulty === "all" ||
+                    cardDifficulty === difficulty;
+
+                const searchMatch =
+                    !search ||
+                    text.includes(search);
+
+                card.hidden =
+                    !(difficultyMatch && searchMatch);
+
+            });
+
+        }
+
+
+        function setFilter(filter) {
+
+            AppState.courseFilter = filter;
+
+            applyCourseFilter();
+
+            showToast(
+                filter === "all"
+                    ? "تمام courses دکھائے جا رہے ہیں۔"
+                    : filter + " courses دکھائے جا رہے ہیں۔",
                 "info"
             );
 
-            console.log(
-                "ScaleFlow Voice Input: Pending"
-            );
         }
-    );
-}
 
 
-// ============================================================
-// PART 15 — RESERVED
-// ============================================================
-//
-// Part 15 is intentionally reserved.
-//
-// Do not add unrelated functionality here.
-// This keeps the original module numbering clean.
-//
+        on($("filterAll"), "click", function () {
+            setFilter("all");
+        });
+
+        on($("filterBeginner"), "click", function () {
+            setFilter("beginner");
+        });
+
+        on($("filterIntermediate"), "click", function () {
+            setFilter("intermediate");
+        });
+
+        on($("filterAdvanced"), "click", function () {
+            setFilter("advanced");
+        });
+
+        on(searchInput, "input", function () {
+            applyCourseFilter();
+        });
 
 
-// ============================================================
-// PART 16 — COURSES & FILTERS
-// ============================================================
+        /*
+         * Course Start Buttons
+         */
+        [
+            "startCourseMed",
+            "startCourseEng",
+            "startCourseSci",
+            "startCourse1",
+            "startCourse2",
+            "startCourse3",
+            "startCourse4",
+            "startCourse5",
+            "startCourse6",
+            "startRec1",
+            "startRec2"
+        ].forEach(function (id) {
 
-const courseFilterButtons =
-    document.querySelectorAll(
-        ".filter-buttons button"
-    );
+            on($(id), "click", function () {
 
-
-courseFilterButtons.forEach(
-    function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                courseFilterButtons.forEach(
-                    function (item) {
-
-                        item.classList.remove(
-                            "active"
-                        );
-                    }
-                );
-
-
-                this.classList.add(
-                    "active"
-                );
-
+                navigateTo("page4");
 
                 showToast(
-                    "📁 Filter applied.",
-                    "info"
-                );
-            }
-        );
-    }
-);
-
-
-// ============================================================
-// PART 17 — ACHIEVEMENTS & PROGRESS TIMELINE
-// ============================================================
-
-const achievementCards =
-    document.querySelectorAll(
-        ".achievement-card"
-    );
-
-
-achievementCards.forEach(
-    function (card) {
-
-        card.addEventListener(
-            "click",
-            function () {
-
-                if (
-                    this.classList.contains(
-                        "locked"
-                    )
-                ) {
-
-                    showToast(
-                        "🔒 Complete previous milestones to unlock!",
-                        "warning"
-                    );
-
-                } else {
-
-                    showToast(
-                        "🏆 Achievement unlocked!",
-                        "success"
-                    );
-                }
-            }
-        );
-    }
-);
-
-
-// ============================================================
-// PART 18 — MARKETPLACE & BUSINESS HUBS
-// ============================================================
-
-const businessButtons =
-    document.querySelectorAll(
-        ".business-card .btn-primary"
-    );
-
-
-businessButtons.forEach(
-    function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                const card =
-                    this.closest(
-                        ".business-card"
-                    );
-
-
-                const title =
-                    card
-                        ?.querySelector("h3")
-                        ?.textContent
-                        ?.trim() ||
-                    "Business";
-
-
-                showToast(
-                    "📂 Opening " +
-                    title +
-                    "... (Demo)",
-                    "info"
-                );
-            }
-        );
-    }
-);
-
-
-// ============================================================
-// PART 19 — MARKETPLACE CART SYSTEM
-// ============================================================
-
-let cartCount = 0;
-
-
-const productButtons =
-    document.querySelectorAll(
-        ".product-card .btn-primary"
-    );
-
-
-function updateMarketplaceCartButton() {
-
-    const cartButton =
-        document.getElementById(
-            "marketplaceCart"
-        );
-
-
-    if (cartButton) {
-
-        cartButton.textContent =
-            "🛒 Cart (" +
-            cartCount +
-            ")";
-    }
-}
-
-
-productButtons.forEach(
-    function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                cartCount++;
-
-                updateMarketplaceCartButton();
-
-
-                showToast(
-                    "🛒 Item added to cart!",
+                    "Course learning page کھول دی گئی ہے۔",
                     "success"
                 );
-            }
-        );
-    }
-);
+
+            });
+
+        });
 
 
-// ------------------------------------------------------------
-// CART BUTTON
-// ------------------------------------------------------------
+        /*
+         * Featured Enrollment
+         */
+        [
+            "enrollFeatured1",
+            "enrollFeatured2"
+        ].forEach(function (id) {
 
-const marketplaceCart =
-    document.getElementById(
-        "marketplaceCart"
-    );
-
-
-if (marketplaceCart) {
-
-    marketplaceCart.addEventListener(
-        "click",
-        function () {
-
-            showToast(
-                "🛒 You have " +
-                cartCount +
-                " items in your cart.",
-                "info"
-            );
-        }
-    );
-}
-
-
-// ------------------------------------------------------------
-// CHECKOUT BUTTON
-// ------------------------------------------------------------
-
-const marketplaceCheckout =
-    document.getElementById(
-        "marketplaceCheckout"
-    );
-
-
-if (marketplaceCheckout) {
-
-    marketplaceCheckout.addEventListener(
-        "click",
-        function () {
-
-            if (cartCount === 0) {
+            on($(id), "click", function () {
 
                 showToast(
-                    "⚠️ Your cart is empty.",
+                    "Enrollment backend ابھی connected نہیں ہے۔",
+                    "info"
+                );
+
+            });
+
+        });
+
+
+        /*
+         * Pagination
+         */
+        on($("paginationPrev"), "click", function () {
+            showToast(
+                "Previous page frontend میں ابھی available نہیں ہے۔",
+                "info"
+            );
+        });
+
+        on($("pagination1"), "click", function () {
+            showToast("Course page 1 selected.", "info");
+        });
+
+        on($("pagination2"), "click", function () {
+            showToast("Course page 2 selected.", "info");
+        });
+
+        on($("pagination3"), "click", function () {
+            showToast("Course page 3 selected.", "info");
+        });
+
+        on($("paginationNext"), "click", function () {
+            showToast(
+                "Next course page backend data کے بعد فعال ہوگی۔",
+                "info"
+            );
+        });
+
+
+        applyCourseFilter();
+
+    }
+
+
+    /* ============================================================
+       PART 1.16 — PAGE 4 LOCAL FEATURES
+       ============================================================ */
+
+    function initPage4() {
+
+        const simulatorButton = $("runSimulatorBtn");
+
+        on(simulatorButton, "click", function () {
+
+            const section =
+                document.querySelector(
+                    ".code-simulator-section"
+                );
+
+            const textarea =
+                section
+                    ? section.querySelector("textarea")
+                    : null;
+
+            if (!textarea || !textarea.value.trim()) {
+
+                showToast(
+                    "پہلے code لکھیں۔",
                     "warning"
                 );
 
                 return;
             }
 
+            showToast(
+                "Code simulator UI کام کر رہا ہے۔ Actual code execution ابھی connected نہیں ہے۔",
+                "info"
+            );
+
+        });
+
+
+        on($("downloadPdfBtn"), "click", function () {
 
             showToast(
-                "✅ Checkout successful! Thank you for your purchase.",
+                "PDF generation backend ابھی connected نہیں ہے۔",
+                "info"
+            );
+
+        });
+
+
+        on($("saveNotesBtn"), "click", function () {
+
+            const input = $("notesInput");
+
+            if (!input) return;
+
+            localStorage.setItem(
+                "scaleflow_notes",
+                input.value
+            );
+
+            showToast(
+                "Notes browser میں save ہوگئے۔",
                 "success"
             );
 
+        });
 
-            cartCount = 0;
 
-            updateMarketplaceCartButton();
+        const savedNotes =
+            localStorage.getItem("scaleflow_notes");
+
+        if (savedNotes && $("notesInput")) {
+            $("notesInput").value = savedNotes;
         }
-    );
-}
 
 
-// ============================================================
-// PART 20 — SETTINGS, GLOBAL APP & SAFE BOOT STARTUP
-// ============================================================
+        on($("getReflectionBtn"), "click", function () {
 
+            const input = $("reflectionInput");
 
-// ------------------------------------------------------------
-// PART 20.1 — SETTINGS ACTIONS
-// ------------------------------------------------------------
+            if (!input || !input.value.trim()) {
 
-const settingsBackupBtn =
-    document.getElementById(
-        "settingsBackupBtn"
-    );
+                showToast(
+                    "Reflection لکھیں۔",
+                    "warning"
+                );
 
-
-if (settingsBackupBtn) {
-
-    settingsBackupBtn.addEventListener(
-        "click",
-        function () {
+                return;
+            }
 
             showToast(
-                "💾 Backup system is ready.",
+                "AI Reflection backend ابھی connected نہیں ہے۔",
                 "info"
             );
-        }
-    );
-}
+
+        });
 
 
-const settingsChangePassword =
-    document.getElementById(
-        "settingsChangePassword"
-    );
+        on($("submitQuizBtn"), "click", function () {
 
+            const input = $("quizAnswerInput");
 
-if (settingsChangePassword) {
+            if (!input || !input.value.trim()) {
 
-    settingsChangePassword.addEventListener(
-        "click",
-        function () {
+                showToast(
+                    "Quiz answer لکھیں۔",
+                    "warning"
+                );
+
+                return;
+            }
 
             showToast(
-                "🔐 Password change interface is ready.",
+                "Quiz system backend ابھی connected نہیں ہے۔",
                 "info"
             );
-        }
-    );
-}
+
+        });
 
 
-const settingsEnable2FA =
-    document.getElementById(
-        "settingsEnable2FA"
-    );
+        on($("solveDoubtBtn"), "click", function () {
 
+            const input = $("doubtInput");
 
-if (settingsEnable2FA) {
+            if (!input || !input.value.trim()) {
 
-    settingsEnable2FA.addEventListener(
-        "click",
-        function () {
+                showToast(
+                    "اپنا سوال یا doubt لکھیں۔",
+                    "warning"
+                );
+
+                return;
+            }
 
             showToast(
-                "📱 2FA interface is ready.",
+                "AI Doubt Solver backend ابھی connected نہیں ہے۔",
                 "info"
             );
+
+        });
+
+
+        on($("prevLessonBtn"), "click", function () {
+
+            showToast(
+                "Previous lesson navigation UI ready ہے۔",
+                "info"
+            );
+
+        });
+
+
+        on($("nextLessonBtn"), "click", function () {
+
+            showToast(
+                "Next lesson navigation UI ready ہے۔",
+                "info"
+            );
+
+        });
+
+
+        on($("playAudioTutorBtn"), "click", function () {
+
+            showToast(
+                "Audio Tutor backend/content ابھی connected نہیں ہے۔",
+                "info"
+            );
+
+        });
+
+
+        on($("openChatBtn"), "click", function () {
+
+            navigateTo("page7");
+
+        });
+
+    }
+
+
+    /* ============================================================
+       PART 1.17 — PAGE 5 CERTIFICATES
+       ============================================================ */
+
+    function initCertificates() {
+
+        const certificateButtons = [
+            "certDownload1",
+            "certDownload2"
+        ];
+
+        certificateButtons.forEach(function (id) {
+
+            on($(id), "click", function () {
+
+                showToast(
+                    "Certificate download backend ابھی connected نہیں ہے۔",
+                    "info"
+                );
+
+            });
+
+        });
+
+
+        [
+            "certVerify1",
+            "certVerify2"
+        ].forEach(function (id) {
+
+            on($(id), "click", function () {
+
+                showToast(
+                    "Certificate verification backend ابھی connected نہیں ہے۔",
+                    "info"
+                );
+
+            });
+
+        });
+
+
+        [
+            "certQR1",
+            "certQR2"
+        ].forEach(function (id) {
+
+            on($(id), "click", function () {
+
+                showToast(
+                    "QR verification ابھی connected نہیں ہے۔",
+                    "info"
+                );
+
+            });
+
+        });
+
+
+        [
+            "certShare1",
+            "certShare2"
+        ].forEach(function (id) {
+
+            on($(id), "click", function () {
+
+                showToast(
+                    "Certificate sharing frontend UI تیار ہے۔",
+                    "info"
+                );
+
+            });
+
+        });
+
+    }
+
+
+    /* ============================================================
+       PART 1.18 — PAGE 6 ACHIEVEMENTS
+       ============================================================ */
+
+    function initAchievements() {
+
+        [
+            "achieveFirstCourse",
+            "achieveFiveDayStreak",
+            "achieveTopPerformer",
+            "achieveTenDayStreak",
+            "achieveExpertLevel"
+        ].forEach(function (id) {
+
+            on($(id), "click", function () {
+
+                showToast(
+                    "Achievement details frontend میں موجود ہیں۔",
+                    "success"
+                );
+
+            });
+
+        });
+
+    }
+
+
+    /* ============================================================
+       PART 1.19 — PAGE 7 AI MENTOR FRONTEND
+       ============================================================ */
+
+    function initAIMentorFrontend() {
+
+        const askButton = $("aiMentorAskBtn");
+        const clearButton = $("aiMentorClearBtn");
+        const question = $("aiMentorQuestion");
+        const response = $("aiMentorResponse");
+        const language = $("aiMentorLanguage");
+        const subject = $("aiMentorSubject");
+
+        /*
+         * AI ابھی backend سے connected نہیں۔
+         * اس لیے کوئی fake AI answer نہیں دیا جائے گا۔
+         */
+
+        on(askButton, "click", function () {
+
+            if (!question || !question.value.trim()) {
+
+                showToast(
+                    "براہِ کرم اپنا سوال لکھیں۔",
+                    "warning"
+                );
+
+                return;
+            }
+
+            if (response) {
+
+                response.textContent =
+                    "🟡 AI Backend ابھی connected نہیں ہے۔ " +
+                    "AI Mentor کا frontend تیار ہے اور " +
+                    "Google Apps Script connection کے لیے ready ہے۔";
+
+            }
+
+            showToast(
+                "AI Mentor frontend test کامیاب۔ Backend ابھی pending ہے۔",
+                "info"
+            );
+
+        });
+
+
+        on(clearButton, "click", function () {
+
+            if (question) {
+                question.value = "";
+            }
+
+            if (response) {
+                response.textContent = "";
+            }
+
+        });
+
+
+        on(language, "change", function () {
+
+            AppState.selectedLanguage =
+                language.value;
+
+            localStorage.setItem(
+                STORAGE.LANGUAGE,
+                language.value
+            );
+
+        });
+
+
+        /*
+         * Question Library
+         */
+        on(
+            $("questionLibraryTestBtn"),
+            "click",
+            function () {
+
+                const status =
+                    $("questionLibraryStatus");
+
+                if (status) {
+
+                    status.textContent =
+                        "🟡 Frontend Ready — " +
+                        "Question Library Backend Pending";
+
+                }
+
+                showToast(
+                    "Question Library frontend test مکمل۔",
+                    "info"
+                );
+
+            }
+        );
+
+
+        /*
+         * Search
+         */
+        on(
+            $("questionLibrarySearch"),
+            "keydown",
+            function (event) {
+
+                if (event.key !== "Enter") {
+                    return;
+                }
+
+                event.preventDefault();
+
+                showToast(
+                    "Question Library search backend ابھی connected نہیں ہے۔",
+                    "info"
+                );
+
+            }
+        );
+
+
+        /*
+         * Library filter buttons
+         */
+        [
+            "questionLibraryAllBtn",
+            "questionLibraryPopularBtn",
+            "questionLibraryMyBtn"
+        ].forEach(function (id) {
+
+            on($(id), "click", function () {
+
+                showToast(
+                    "Question Library backend connection ابھی pending ہے۔",
+                    "info"
+                );
+
+            });
+
+        });
+
+
+        /*
+         * Live Website Test
+         */
+        on(
+            $("runScaleFlowLiveTestBtn"),
+            "click",
+            function () {
+
+                const result =
+                    $("liveWebsiteTestResult");
+
+                const aiStatus =
+                    $("liveTestAIMentorStatus");
+
+                const libraryStatus =
+                    $("liveTestQuestionLibraryStatus");
+
+                const monitorStatus =
+                    $("liveTestMonitorStatus");
+
+                if (result) {
+
+                    result.textContent =
+                        "Frontend Test: PASS ✅\n" +
+                        "Backend Connection: PENDING 🟡";
+
+                }
+
+                if (aiStatus) {
+                    aiStatus.textContent =
+                        "🟢 Frontend Ready / 🟡 Backend Pending";
+                }
+
+                if (libraryStatus) {
+                    libraryStatus.textContent =
+                        "🟢 Frontend Ready / 🟡 Backend Pending";
+                }
+
+                if (monitorStatus) {
+                    monitorStatus.textContent =
+                        "🟢 UI Ready / 🟡 Backend Pending";
+                }
+
+                showToast(
+                    "Frontend Live Test مکمل: PASS ✅",
+                    "success"
+                );
+
+            }
+        );
+
+
+        /*
+         * Engine Lock
+         *
+         * Button disabled رہے گا جب تک backend test
+         * واقعی PASS نہ ہو۔
+         */
+
+        const lockButton =
+            $("lockScaleFlowEnginesBtn");
+
+        const lockStatus =
+            $("engineLockStatus");
+
+        if (lockButton) {
+            lockButton.disabled = true;
+        }
+
+        if (lockStatus) {
+
+            lockStatus.textContent =
+                "🟡 Engine Lock Pending — " +
+                "Backend verification required.";
+
+        }
+
+    }
+
+
+    /* ============================================================
+       PART 1.20 — THEME / LANGUAGE / SUPPORT
+       ============================================================ */
+
+    function initBottomControls() {
+
+        on($("darkModeBtn"), "click", function () {
+            toggleDarkMode();
+        });
+
+        on($("btnTheme"), "click", function () {
+            toggleDarkMode();
+        });
+
+
+        on($("btnLanguage"), "click", function () {
+
+            openModal(
+                "Language",
+                `
+                    <div>
+                        <p>Select your preferred language.</p>
+
+                        <select id="frontendLanguageSelector"
+                                style="width:100%; padding:10px; margin-top:10px;">
+
+                            <option value="en">English</option>
+                            <option value="ur">اردو</option>
+                            <option value="sd">سنڌي</option>
+                            <option value="ar">العربية</option>
+                            <option value="hi">हिन्दी</option>
+                            <option value="bn">বাংলা</option>
+                            <option value="fr">Français</option>
+                            <option value="es">Español</option>
+                            <option value="de">Deutsch</option>
+                            <option value="pt">Português</option>
+                            <option value="it">Italiano</option>
+                            <option value="ru">Русский</option>
+                            <option value="zh">中文</option>
+                            <option value="ja">日本語</option>
+                            <option value="ko">한국어</option>
+                            <option value="tr">Türkçe</option>
+                            <option value="id">Bahasa Indonesia</option>
+
+                        </select>
+                    </div>
+                `,
+                {
+                    onConfirm: function () {
+
+                        const selector =
+                            $("frontendLanguageSelector");
+
+                        if (!selector) return;
+
+                        AppState.selectedLanguage =
+                            selector.value;
+
+                        localStorage.setItem(
+                            STORAGE.LANGUAGE,
+                            selector.value
+                        );
+
+                        if ($("aiMentorLanguage")) {
+
+                            $("aiMentorLanguage").value =
+                                selector.value;
+
+                        }
+
+                        showToast(
+                            "Language preference save ہوگئی۔",
+                            "success"
+                        );
+
+                    }
+                }
+            );
+
+        });
+
+
+        on($("btnSupport"), "click", function () {
+
+            openModal(
+                "ScaleFlow Support",
+                `
+                    <div>
+                        <p>
+                            Support system frontend میں تیار ہے۔
+                        </p>
+
+                        <p style="margin-top:10px;">
+                            🟡 Live support backend ابھی connected نہیں ہے۔
+                        </p>
+                    </div>
+                `
+            );
+
+        });
+
+    }
+
+
+    /* ============================================================
+       PART 1.21 — MODAL EVENTS
+       ============================================================ */
+
+    function initModal() {
+
+        on($("modalCloseBtn"), "click", function () {
+            closeModal();
+        });
+
+        on($("modalCancelBtn"), "click", function () {
+            closeModal();
+        });
+
+
+        const container = $("modal-container");
+
+        on(container, "click", function (event) {
+
+            if (event.target === container) {
+                closeModal();
+            }
+
+        });
+
+
+        document.addEventListener("keydown", function (event) {
+
+            if (
+                event.key === "Escape" &&
+                AppState.modalOpen
+            ) {
+                closeModal();
+            }
+
+        });
+
+    }
+
+
+    /* ============================================================
+       PART 1.22 — FOOTER YEAR
+       ============================================================ */
+
+    function initFooterYear() {
+
+        const currentYear =
+            new Date().getFullYear();
+
+        $all("[data-current-year]").forEach(
+            function (element) {
+
+                element.textContent =
+                    currentYear;
+
+            }
+        );
+
+        /*
+         * اگر footer میں ID نہ ہو تو یہ section خاموشی سے skip ہوگا۔
+         */
+    }
+
+
+    /* ============================================================
+       PART 1.23 — PAGE 1 INITIALIZATION
+       ============================================================ */
+
+    function initPage1() {
+
+        /*
+         * Static frontend values کو تبدیل نہیں کیا جا رہا۔
+         * HTML میں موجود values محفوظ رہیں گی۔
+         */
+
+        const app = $("app");
+
+        if (app) {
+            app.dataset.page = "home";
+        }
+
+    }
+
+
+    /* ============================================================
+       PART 1.24 — FRONTEND SELF CHECK
+       ============================================================ */
+
+    function runFrontendSelfCheck() {
+
+        const checks = {
+
+            app:
+                !!$("app"),
+
+            loader:
+                !!$("loader"),
+
+            toast:
+                !!$("toast-container"),
+
+            modal:
+                !!$("modal-container"),
+
+            navigation:
+                $all("[data-page]").length > 0,
+
+            darkMode:
+                !!$("darkModeBtn") ||
+                !!$("btnTheme"),
+
+            notifications:
+                !!$("notificationBell"),
+
+            dashboard:
+                !!$("page1"),
+
+            courses:
+                !!$("page3"),
+
+            learning:
+                !!$("page4"),
+
+            certificates:
+                !!$("page5"),
+
+            achievements:
+                !!$("page6"),
+
+            aiMentor:
+                !!$("page7")
+
+        };
+
+
+        const passed =
+            Object.values(checks)
+                .filter(Boolean)
+                .length;
+
+
+        const total =
+            Object.keys(checks).length;
+
+
+        console.log(
+            "[ScaleFlow Frontend Part 1]",
+            checks
+        );
+
+        console.log(
+            "Frontend Part 1:",
+            passed + "/" + total,
+            "core checks detected."
+        );
+
+    }
+
+
+    /* ============================================================
+       PART 1.25 — GLOBAL PUBLIC API
+       ============================================================ */
+
+    window.ScaleFlow =
+        window.ScaleFlow || {};
+
+    Object.assign(
+        window.ScaleFlow,
+        {
+
+            showPage: showPage,
+
+            navigateTo: navigateTo,
+
+            showToast: showToast,
+
+            openModal: openModal,
+
+            closeModal: closeModal,
+
+            toggleDarkMode: toggleDarkMode,
+
+            openNotifications: openNotifications,
+
+            markAllNotificationsRead:
+                markAllNotificationsRead,
+
+            globalSearch:
+                performGlobalSearch,
+
+            getState: function () {
+                return Object.assign({}, AppState);
+            }
+
         }
     );
-}
 
 
-// ============================================================
-// PART 20.2 — GLOBAL SCALEFLOW API
-// ============================================================
-//
-// IMPORTANT:
-// Do NOT replace the existing global.ScaleFlow object.
-//
-// Object.assign() keeps functions registered by earlier Parts.
-// ============================================================
+    /* ============================================================
+       PART 1.26 — SAFE STARTUP
+       ============================================================ */
 
-if (!global.ScaleFlow) {
-
-    global.ScaleFlow = {};
-}
-
-
-Object.assign(
-    global.ScaleFlow,
-    {
-
-        showToast:
-            showToast,
-
-        openModal:
-            openModal,
-
-        closeModal:
-            closeModal,
-
-        navigateTo:
-            navigateTo,
-
-        toggleDarkMode:
-            toggleDarkMode,
-
-        hideLoader:
-            hideLoader,
-
-        updateDashboardStats:
-            updateDashboardStats,
-
-        updateContinueLearningProgress:
-            updateContinueLearningProgress,
-
-        sendChatMessage:
-            sendChatMessage
-    }
-);
-
-
-// ============================================================
-// PART 20.3 — SAFE APPLICATION STARTUP
-// ============================================================
-
-function startScaleFlowApp() {
-
-    console.log(
-        "🚀 ScaleFlow University starting..."
-    );
-
-
-    // --------------------------------------------------------
-    // NAVIGATION
-    // --------------------------------------------------------
-
-    try {
-
-        navigateTo("page1");
-
-    } catch (error) {
-
-        console.error(
-            "Navigation startup error:",
-            error
-        );
-    }
-
-
-    // --------------------------------------------------------
-    // DASHBOARD
-    // --------------------------------------------------------
-
-    try {
-
-        updateDashboardStats();
-
-    } catch (error) {
-
-        console.error(
-            "Dashboard startup error:",
-            error
-        );
-    }
-
-
-    // --------------------------------------------------------
-    // WELCOME
-    // --------------------------------------------------------
-
-    try {
-
-        showToast(
-            "🎓 Welcome to ScaleFlow University",
-            "success"
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Welcome message error:",
-            error
-        );
-    }
-
-
-    console.log(
-        "✅ ScaleFlow University frontend is running."
-    );
-}
-
-
-// ============================================================
-// PART 20.4 — DOM READY
-// ============================================================
-
-if (
-    document.readyState ===
-    "loading"
-) {
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        startScaleFlowApp
-    );
-
-} else {
-
-    startScaleFlowApp();
-}
-
-
-// ============================================================
-// PART 20.5 — SAFETY LOADER
-// ============================================================
-
-setTimeout(
-    function () {
+    function initScaleFlowFrontendPart1() {
 
         try {
 
-            hideLoader();
+            loadTheme();
+
+            initNavigation();
+
+            initNotifications();
+
+            initModal();
+
+            initHomeNavigation();
+
+            initDashboardBoxes();
+
+            initTasks();
+
+            initGlobalSearch();
+
+            initPage1();
+
+            initPage2();
+
+            initCourseFilters();
+
+            initPage4();
+
+            initCertificates();
+
+            initAchievements();
+
+            initAIMentorFrontend();
+
+            initBottomControls();
+
+            initFooterYear();
+
+            runFrontendSelfCheck();
+
+            /*
+             * پہلے page1 دکھائیں
+             */
+            showPage("page1", {
+                silent: true
+            });
+
+            /*
+             * Loader آخر میں hide
+             */
+            setTimeout(
+                hideLoader,
+                300
+            );
+
+            console.log(
+                "ScaleFlow University — Frontend Part 1 READY ✅"
+            );
 
         } catch (error) {
 
             console.error(
-                "Loader hide error:",
+                "ScaleFlow Frontend Part 1 Error:",
                 error
             );
 
+            /*
+             * مکمل website کو crash ہونے سے بچانے کے لیے
+             * error user کو safe message کے طور پر دیا جائے گا۔
+             */
 
-            const safeLoader =
-                document.getElementById(
-                    "loader"
-                );
+            setTimeout(
+                hideLoader,
+                300
+            );
 
+            showToast(
+                "Frontend شروع ہوگیا ہے، لیکن ایک UI component میں مسئلہ ہے۔ Console چیک کریں۔",
+                "warning"
+            );
 
-            if (safeLoader) {
-
-                safeLoader.style.display =
-                    "none";
-            }
         }
 
-    },
-    1000
-);
+    }
 
 
-// ============================================================
-// FINAL FRONTEND INITIALIZATION
-// ============================================================
+    /* ============================================================
+       PART 1.27 — DOM READY
+       ============================================================ */
 
-console.log(
-    "✅ ScaleFlow University JavaScript initialized."
-);
+    if (document.readyState === "loading") {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initScaleFlowFrontendPart1,
+            {
+                once: true
+            }
+        );
+
+    } else {
+
+        initScaleFlowFrontendPart1();
+
+    }
 
 
-// ============================================================
-// END OF MAIN JAVASCRIPT IIFE
-// ============================================================
-
-})(window);
+})(window, document);
