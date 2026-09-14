@@ -1,2262 +1,491 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ScaleFlow University – All Pages</title>
-
-    <meta
-        name="description"
-        content="Learn • Build • Earn • Grow"
-    >
-
-    <!-- ============================================================
-         EXTERNAL CSS
-         ============================================================ -->
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+    <meta name="description" content="Learn • Build • Earn • Grow">
+    <link rel="stylesheet" href="style.css">
 </head>
-
-
 <body>
 
-
-<!-- ============================================================
-     LOADER — PART 0
-     ============================================================ -->
-
-<div
-    id="loader"
-    role="status"
-    aria-label="Loading"
->
-
-    <div class="loader-spinner"></div>
-
-    <h2>Loading...</h2>
-
-</div>
-
-
-<!-- ============================================================
-     TOAST CONTAINER — PART 0
-     ============================================================ -->
-
-<div
-    id="toast-container"
-    role="alert"
-    aria-live="polite"
-></div>
-
-
-<!-- ============================================================
-     MODAL CONTAINER — PART 0
-     ============================================================ -->
-
-<div
-    id="modal-container"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="modalTitle"
->
-
-    <div class="modal">
-
-        <div class="modal-header">
-
-            <h2 id="modalTitle">
-                Modal Title
-            </h2>
-
-            <button
-                id="modalCloseBtn"
-                class="modal-close"
-                type="button"
-                aria-label="Close modal"
-            >
-                &times;
-            </button>
-
-        </div>
-
-
-        <div
-            class="modal-body"
-            id="modalBody"
-        >
-
-            <p>
-                Modal content goes here.
-            </p>
-
-        </div>
-
-
-        <div class="modal-footer">
-
-            <button
-                id="modalCancelBtn"
-                class="btn-secondary"
-                type="button"
-            >
-                Cancel
-            </button>
-
-            <button
-                id="modalConfirmBtn"
-                class="btn-primary"
-                type="button"
-            >
-                Confirm
-            </button>
-
-        </div>
-
+    <!-- ===== LOADER ===== -->
+    <div id="loader" role="status" aria-label="Loading">
+        <div class="loader-spinner"></div>
+        <h2>Loading...</h2>
     </div>
 
-</div>
+    <!-- ===== TOAST CONTAINER ===== -->
+    <div id="toast-container" role="alert" aria-live="polite"></div>
 
-
-
-<!-- ============================================================
-     MAIN APPLICATION
-     ============================================================ -->
-
-<div
-    id="app"
-    data-page="page1"
->
-
-
-    <!-- ============================================================
-         NOTIFICATION PANEL
-         ============================================================ -->
-
-    <div
-        id="notificationPanel"
-        class="notification-panel"
-    >
-
-        <div class="notification-header">
-
-            <h3>
-                🔔 Notifications
-            </h3>
-
-            <button
-                id="markAllReadBtn"
-                type="button"
-            >
-                Mark all as read
-            </button>
-
-        </div>
-
-
-        <div class="notification-list">
-
-            <div class="notification-item unread">
-
-                <span class="icon">
-                    📘
-                </span>
-
-                <div class="content">
-
-                    <p>
-                        <strong>New course:</strong>
-                        AI Fundamentals
-                    </p>
-
-                    <span class="time">
-                        2 min ago
-                    </span>
-
-                </div>
-
+    <!-- ===== MODAL CONTAINER ===== -->
+    <div id="modal-container" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Modal Title</h2>
+                <button id="modalCloseBtn" class="modal-close" type="button" aria-label="Close modal">&times;</button>
             </div>
-
-
-            <div class="notification-item unread">
-
-                <span class="icon">
-                    🏆
-                </span>
-
-                <div class="content">
-
-                    <p>
-                        <strong>Achievement:</strong>
-                        5 Day Streak
-                    </p>
-
-                    <span class="time">
-                        1 hour ago
-                    </span>
-
-                </div>
-
+            <div class="modal-body" id="modalBody">
+                <p>Modal content goes here.</p>
             </div>
-
+            <div class="modal-footer">
+                <button id="modalCancelBtn" class="btn-secondary" type="button">Cancel</button>
+                <button id="modalConfirmBtn" class="btn-primary" type="button">Confirm</button>
+            </div>
         </div>
-
     </div>
-
-
-
-    <!-- ============================================================
-         HEADER
-         ============================================================ -->
-
-    <header
-        class="header"
-        role="banner"
-    >
-
-        <div class="logo">
-
-            <h1>
-                Sanaullah
-            </h1>
-
-            <span>
-                ScaleFlow University
-            </span>
-
-        </div>
-
-
-        <div class="header-actions">
-
-            <button
-                id="darkModeBtn"
-                class="icon-btn"
-                type="button"
-                aria-label="Toggle Dark Mode"
-            >
-                🌙
-            </button>
-
-
-            <button
-                id="notificationBell"
-                class="icon-btn"
-                type="button"
-                aria-label="Open notifications"
-            >
-
-                🔔
-
-                <span
-                    id="notificationCount"
-                    class="notification-badge"
-                >
-                    0
-                </span>
-
-            </button>
-
-        </div>
-
-    </header>
-
-
-
-    <!-- ============================================================
-         SIDEBAR
-         ============================================================ -->
-
-    <aside
-        class="sidebar"
-        role="navigation"
-        aria-label="Main Navigation"
-    >
-
-        <nav class="sidebar-menu">
-
-            <a
-                href="#"
-                data-page="page1"
-                class="active"
-                id="navPage1"
-            >
-                🏠 Home
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page2"
-                id="navPage2"
-            >
-                📊 Dashboard
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page3"
-                id="navPage3"
-            >
-                📚 Courses
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page4"
-                id="navPage4"
-            >
-                📖 Learning
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page5"
-                id="navPage5"
-            >
-                📜 Certificates
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page6"
-                id="navPage6"
-            >
-                🏆 Achievements
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page7"
-                id="navPage7"
-            >
-                🤖 AI Mentor
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page8"
-                id="navPage8"
-            >
-                🛒 Marketplace
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page9"
-                id="navPage9"
-            >
-                💼 Business
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page10"
-                id="navPage10"
-            >
-                👤 Profile
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page11"
-                id="navPage11"
-            >
-                ⚙️ Settings
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page12"
-                id="navPage12"
-            >
-                🔐 Login
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page13"
-                id="navPage13"
-            >
-                💳 Payment
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page14"
-                id="navPage14"
-            >
-                📦 Subscription
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page15"
-                id="navPage15"
-            >
-                💼 CRM
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page16"
-                id="navPage16"
-            >
-                💻 Freelancing
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page17"
-                id="navPage17"
-            >
-                ⚙️ Automation
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page18"
-                id="navPage18"
-            >
-                🤖 AI Tools
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page19"
-                id="navPage19"
-            >
-                👨‍💼 Admin
-            </a>
-
-
-            <a
-                href="#"
-                data-page="page20"
-                id="navPage20"
-            >
-                🚀 Future
-            </a>
-
-        </nav>
-
-    </aside>
-
-
-
-    <!-- ============================================================
-         MAIN CONTENT — PAGES 1 TO 20
-         ============================================================ -->
-
-    <main
-        class="main-content"
-        id="mainContent"
-    >
-
-
-        <!-- ========================================================
-             EDUCATION GLOBAL SEARCH
-             ======================================================== -->
-
-        <div class="search-section">
-
-            <input
-                id="globalSearchInput"
-                type="search"
-                placeholder="Search courses, lessons, subjects, or questions..."
-                autocomplete="off"
-                aria-label="Education search"
-            >
-
-
-            <button
-                id="globalSearchBtn"
-                type="button"
-                aria-label="Search education content"
-                title="Search"
-            >
-                🔍 Search
-            </button>
-
-        </div>
-
-
-
-        <!-- ========================================================
-             EDUCATION HOME
-             ======================================================== -->
-
-        <section
-            id="educationHome"
-            aria-label="Education Home"
-        >
-
-            <h2>
-                🎓 Education
-            </h2>
-
-
-            <p>
-                Explore all fields of education
-            </p>
-
-
-            <!-- Education Search -->
-
-            <div id="educationSearch">
-
-                <input
-                    id="educationSearchInput"
-                    type="search"
-                    placeholder="Search education..."
-                    autocomplete="off"
-                    aria-label="Search education"
-                >
-
-
-                <button
-                    id="educationSearchBtn"
-                    type="button"
-                >
-                    Search
-                </button>
-
-            </div>
-
-
-            <!-- Search Results -->
-
-            <div
-                id="educationSearchResults"
-                aria-live="polite"
-            ></div>
-
-
-            <!-- Education Fields -->
-
-            <div id="educationFields">
-
-
-                <div class="education-card">
-
-                    <h3>
-                        🏫 School Education
-                    </h3>
-
-                    <p>
-                        School subjects and basic education
-                    </p>
-
-                </div>
-
-
-                <div class="education-card">
-
-                    <h3>
-                        📚 Languages
-                    </h3>
-
-                    <p>
-                        English, Urdu, Arabic and other languages
-                    </p>
-
-                </div>
-
-
-                <div class="education-card">
-
-                    <h3>
-                        🧮 Mathematics
-                    </h3>
-
-                    <p>
-                        Math, Algebra, Geometry and Statistics
-                    </p>
-
-                </div>
-
-
-                <div class="education-card">
-
-                    <h3>
-                        🔬 Science
-                    </h3>
-
-                    <p>
-                        Physics, Chemistry and Biology
-                    </p>
-
-                </div>
-
-
-                <div class="education-card">
-
-                    <h3>
-                        💻 Computer Science
-                    </h3>
-
-                    <p>
-                        Programming, Web Development and Software
-                    </p>
-
-                </div>
-
-
-                <div class="education-card">
-
-                    <h3>
-                        🤖 AI & Technology
-                    </h3>
-
-                    <p>
-                        Artificial Intelligence and Automation
-                    </p>
-
-                </div>
-
-
-                <div class="education-card">
-
-                    <h3>
-                        ⚙️ Engineering
-                    </h3>
-
-                    <p>
-                        Civil, Mechanical, Electrical and other fields
-                    </p>
-
-                </div>
-
-
-                <div class="education-card">
-
-                    <h3>
-                        💼 Business
-                    </h3>
-
-                    <p>
-                        Business, Marketing, Finance and Management
-                    </p>
-
-                </div>
-
-
-                <div class="education-card">
-
-                    <h3>
-                        🎨 Design
-                    </h3>
-
-                    <p>
-                        Graphic Design, UI/UX and Creative Arts
-                    </p>
-
-                </div>
-
-
-                <div class="education-card">
-
-                    <h3>
-                        🚀 Professional Skills
-                    </h3>
-
-                    <p>
-                        Career, Freelancing and Digital Skills
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- Related Education -->
-
-            <div id="relatedEducation">
-
-                <h3>
-                    🔗 Related Education
-                </h3>
-
-                <div
-                    id="relatedEducationList"
-                ></div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- ========================================================
-             PAGE 1 — HOME
-             ======================================================== -->
-
-        <section
-            id="page1"
-            class="page-section active"
-            aria-label="Home Dashboard"
-        >
-
-
-            <!-- HERO -->
-
-            <section
-                class="hero"
-                aria-label="Welcome Section"
-            >
-
-                <div class="hero-left">
-
-                    <span class="hero-tag">
-                        👋 Welcome Back
-                    </span>
-
-                    <h1 id="studentName">
-                        Sanaullah
-                    </h1>
-
-                    <p>
-                        Continue your learning journey.
-                        Every lesson makes you stronger.
-                    </p>
-
-
-                    <div class="hero-buttons">
-
-                        <button
-                            id="continueLearningBtn"
-                            class="btn-primary"
-                            type="button"
-                        >
-                            ▶ Continue Learning
-                        </button>
-
-
-                        <button
-                            id="browseCoursesBtn"
-                            class="btn-secondary"
-                            type="button"
-                        >
-                            📚 Browse Courses
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div class="hero-right">
-
-                    <article class="hero-stat">
-
-                        <span>
-                            ⭐ Brain XP
-                        </span>
-
-                        <strong id="brainXP">
-                            250 XP
-                        </strong>
-
-                    </article>
-
-
-                    <article class="hero-stat">
-
-                        <span>
-                            🏆 Level
-                        </span>
-
-                        <strong id="currentLevel">
-                            Level 5
-                        </strong>
-
-                    </article>
-
-
-                    <article class="hero-stat">
-
-                        <span>
-                            🔥 Streak
-                        </span>
-
-                        <strong id="learningStreak">
-                            7 Days
-                        </strong>
-
-                    </article>
-
-
-                    <article class="hero-stat">
-
-                        <span>
-                            📈 Progress
-                        </span>
-
-                        <strong id="overallProgress">
-                            75%
-                        </strong>
-
-                    </article>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- LEARNING DASHBOARD -->
-
-            <section
-                class="learning-dashboard"
-                aria-label="Learning Dashboard"
-            >
-
-                <h2>
-                    📚 Learning Dashboard
-                </h2>
-
-
-                <div class="dashboard-boxes">
-
-                    <div
-                        class="dashboard-box"
-                        id="dashCourseBox"
-                    >
-                        <h3>Courses</h3>
-                        <span id="courseCount">12</span>
-                    </div>
-
-
-                    <div
-                        class="dashboard-box"
-                        id="dashCertBox"
-                    >
-                        <h3>Certificates</h3>
-                        <span id="certificateCount">4</span>
-                    </div>
-
-
-                    <div
-                        class="dashboard-box"
-                        id="dashAchieveBox"
-                    >
-                        <h3>Achievements</h3>
-                        <span id="achievementCount">8</span>
-                    </div>
-
-
-                    <div
-                        class="dashboard-box"
-                        id="dashProjectBox"
-                    >
-                        <h3>Projects</h3>
-                        <span id="projectCount">3</span>
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- CONTINUE LEARNING -->
-
-            <section
-                class="continue-learning"
-                aria-label="Continue Learning"
-            >
-
-                <div class="continue-card">
-
-                    <div class="continue-tag">
-                        📖 Continue Where You Left Off
-                    </div>
-
-
-                    <div class="continue-info">
-
-                        <h2>
-                            JavaScript Fundamentals
-                        </h2>
-
-                        <p>
-                            Module 4 • Functions & Scope
-                        </p>
-
-
-                        <div class="progress-bar">
-
-                            <div
-                                class="progress-fill"
-                                id="continueProgress"
-                                style="width:65%;"
-                            ></div>
-
-                        </div>
-
-
-                        <div class="continue-actions">
-
-                            <small id="progressText">
-                                65% Complete
-                            </small>
-
-
-                            <button
-                                id="continueProgressBtn"
-                                class="btn-primary"
-                                type="button"
-                            >
-                                ▶ Continue
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- TODAY TASKS -->
-
-            <section
-                class="today-tasks"
-                aria-label="Today's Tasks"
-            >
-
-                <h2>
-                    📋 Today's Learning Tasks
-                </h2>
-
-
-                <div class="task-list">
-
-                    <div class="task-item">
-
-                        <input
-                            type="checkbox"
-                            id="task1"
-                            aria-label="Complete Lesson 13"
-                        >
-
-                        <label for="task1">
-                            Complete Lesson 13
-                        </label>
-
-                    </div>
-
-
-                    <div class="task-item">
-
-                        <input
-                            type="checkbox"
-                            id="task2"
-                            aria-label="AI Quiz Module 5"
-                        >
-
-                        <label for="task2">
-                            AI Quiz: Module 5
-                        </label>
-
-                    </div>
-
-
-                    <div class="task-item">
-
-                        <input
-                            type="checkbox"
-                            id="task3"
-                            aria-label="Review JavaScript Notes"
-                        >
-
-                        <label for="task3">
-                            Review JavaScript Notes
-                        </label>
-
-                    </div>
-
-
-                    <div class="task-item">
-
-                        <input
-                            type="checkbox"
-                            id="task4"
-                            aria-label="Submit Project Proposal"
-                        >
-
-                        <label for="task4">
-                            Submit Project Proposal
-                        </label>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- RECENT ACTIVITY -->
-
-            <section
-                class="recent-activity"
-                aria-label="Recent Activity"
-            >
-
-                <h2>
-                    🕐 Recent Activity
-                </h2>
-
-
-                <div class="activity-list">
-
-                    <div class="activity-item">
-                        Completed "AI Fundamentals"
-                        <span>2 hours ago</span>
-                    </div>
-
-
-                    <div class="activity-item">
-                        Started "Web Development"
-                        <span>Yesterday</span>
-                    </div>
-
-
-                    <div class="activity-item">
-                        Earned "JavaScript Badge"
-                        <span>3 days ago</span>
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- QUICK ACTIONS -->
-
-            <section
-                class="quick-actions-section"
-                aria-label="Quick Actions"
-            >
-
-                <h2>
-                    ⚡ Quick Actions
-                </h2>
-
-
-                <div class="quick-actions-grid">
-
-                    <button
-                        id="quickStartLearning"
-                        class="quick-action-btn"
-                        type="button"
-                    >
-
-                        <span class="icon">
-                            🚀
-                        </span>
-
-                        <span class="label">
-                            Start Learning
-                        </span>
-
-                        <span class="desc">
-                            Continue your courses
-                        </span>
-
-                    </button>
-
-
-                    <button
-                        id="quickAskAI"
-                        class="quick-action-btn"
-                        type="button"
-                    >
-
-                        <span class="icon">
-                            🤖
-                        </span>
-
-                        <span class="label">
-                            Ask AI Mentor
-                        </span>
-
-                        <span class="desc">
-                            Get instant help
-                        </span>
-
-                    </button>
-
-
-                    <button
-                        id="quickBrowseCourses"
-                        class="quick-action-btn"
-                        type="button"
-                    >
-
-                        <span class="icon">
-                            📚
-                        </span>
-
-                        <span class="label">
-                            Browse Courses
-                        </span>
-
-                        <span class="desc">
-                            Explore new topics
-                        </span>
-
-                    </button>
-
-
-                    <button
-                        id="quickMyCertificates"
-                        class="quick-action-btn"
-                        type="button"
-                    >
-
-                        <span class="icon">
-                            📜
-                        </span>
-
-                        <span class="label">
-                            My Certificates
-                        </span>
-
-                        <span class="desc">
-                            View your achievements
-                        </span>
-
-                    </button>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- WEEKLY PROGRESS -->
-
-            <section
-                class="weekly-progress"
-                aria-label="Weekly Progress Chart"
-            >
-
-                <div class="section-header">
-
-                    <h2>
-                        📈 Weekly Progress
-                    </h2>
-
-                    <span>
-                        This Week
-                    </span>
-
-                </div>
-
-
-                <div class="progress-chart">
-
-                    <div class="day">
-                        <div class="bar" style="height:45%;"></div>
-                        <p>Mon</p>
-                    </div>
-
-                    <div class="day">
-                        <div class="bar" style="height:70%;"></div>
-                        <p>Tue</p>
-                    </div>
-
-                    <div class="day">
-                        <div class="bar" style="height:60%;"></div>
-                        <p>Wed</p>
-                    </div>
-
-                    <div class="day">
-                        <div class="bar" style="height:90%;"></div>
-                        <p>Thu</p>
-                    </div>
-
-                    <div class="day">
-                        <div class="bar" style="height:75%;"></div>
-                        <p>Fri</p>
-                    </div>
-
-                    <div class="day">
-                        <div class="bar" style="height:100%;"></div>
-                        <p>Sat</p>
-                    </div>
-
-                    <div class="day">
-                        <div class="bar" style="height:55%;"></div>
-                        <p>Sun</p>
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- GATEWAYS -->
-
-            <section
-                class="gateway-grid"
-                aria-label="Gateway Modules"
-            >
-
-                <article
-                    class="gateway-card"
-                    id="gatewayLearning"
-                >
-                    <h3>🎓 Learning Hub</h3>
-                    <p>
-                        Professional courses with quizzes,
-                        projects and certificates.
-                    </p>
-                </article>
-
-
-                <article
-                    class="gateway-card"
-                    id="gatewayAI"
-                >
-                    <h3>🤖 AI Mentor</h3>
-                    <p>
-                        Learn with your personal AI teacher
-                        and assistant.
-                    </p>
-                </article>
-
-
-                <article
-                    class="gateway-card"
-                    id="gatewayAutomation"
-                >
-                    <h3>⚡ Automation Hub</h3>
-                    <p>
-                        Google Workspace, Apps Script
-                        and automation projects.
-                    </p>
-                </article>
-
-
-                <article
-                    class="gateway-card"
-                    id="gatewayTools"
-                >
-                    <h3>🛠 Tools Hub</h3>
-                    <p>
-                        Free professional tools for
-                        productivity and development.
-                    </p>
-                </article>
-
-
-                <article
-                    class="gateway-card"
-                    id="gatewayBusiness"
-                >
-                    <h3>💼 Business Hub</h3>
-                    <p>
-                        Build and manage your digital
-                        business from one dashboard.
-                    </p>
-                </article>
-
-
-                <article
-                    class="gateway-card"
-                    id="gatewayFreelancing"
-                >
-                    <h3>💻 Freelancing</h3>
-                    <p>
-                        Learn Fiverr, Upwork, proposals
-                        and client handling.
-                    </p>
-                </article>
-
-
-                <article
-                    class="gateway-card"
-                    id="gatewayCertificates"
-                >
-                    <h3>🏆 Certificates</h3>
-                    <p>
-                        View, verify and download
-                        your certificates.
-                    </p>
-                </article>
-
-
-                <article
-                    class="gateway-card"
-                    id="gatewayDashboard"
-                >
-                    <h3>👤 Dashboard</h3>
-                    <p>
-                        Track your progress, Brain XP
-                        and achievements.
-                    </p>
-                </article>
-
-            </section>
-
-
-
-            <!-- BOTTOM ACTIONS -->
-
-            <div class="quick-actions-bottom">
-
-                <button
-                    id="btnTheme"
-                    class="quick-btn"
-                    type="button"
-                >
-                    🌙 Theme
-                </button>
-
-
-                <button
-                    id="btnLanguage"
-                    class="quick-btn"
-                    type="button"
-                >
-                    🌐 Language
-                </button>
-
-
-                <button
-                    id="btnSupport"
-                    class="quick-btn"
-                    type="button"
-                >
-                    📞 Support
-                </button>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- ========================================================
-             PAGE 2 — DASHBOARD
-             ======================================================== -->
-
-        <section
-            id="page2"
-            class="page-section"
-            aria-label="Student Dashboard"
-        >
-
-            <h2>
-                📊 Student Dashboard
-            </h2>
-
-
-            <div class="dashboard-profile">
-
-
-                <div class="profile-card">
-
-                    <img
-                        id="dashboardProfileImage"
-                        src="assets/avatar.png"
-                        alt="Profile Avatar"
-                        class="avatar-large"
-                        style="width:80px;height:80px;border-radius:50%;display:block;margin:0 auto 12px;"
-                    >
-
-                    <h3 id="dashName">
-                        Sanaullah
-                    </h3>
-
-                    <p>
-                        Level
-                        <span id="dashLevel">5</span>
-                        •
-                        <span id="dashXP">250</span>
-                        XP
-                    </p>
-
-                    <div class="streak">
-                        🔥
-                        <span id="dashStreak">7</span>
-                        Day Streak
-                    </div>
-
-                </div>
-
-
-
-                <div class="stats-grid">
-
-                    <div class="stat-box">
-                        <span>📚 Courses</span>
-                        <strong id="dashCourses">12</strong>
-                    </div>
-
-                    <div class="stat-box">
-                        <span>📜 Certificates</span>
-                        <strong id="dashCerts">4</strong>
-                    </div>
-
-                    <div class="stat-box">
-                        <span>🏆 Achievements</span>
-                        <strong id="dashAchievements">8</strong>
-                    </div>
-
-                    <div class="stat-box">
-                        <span>📈 Progress</span>
-                        <strong id="dashProgress">75%</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="weekly-progress">
-
-                <div class="section-header">
-
-                    <h2>
-                        📈 Weekly Analytics
-                    </h2>
-
-                    <span>
-                        This Week
-                    </span>
-
-                </div>
-
-
-                <div class="progress-chart">
-
-                    <div class="day">
-                        <div class="bar" style="height:45%;"></div>
-                        <p>Mon</p>
-                    </div>
-
-                    <div class="day">
-                        <div class="bar" style="height:70%;"></div>
-                        <p>Tue</p>
-                    </div>
-
-                    <div class="day">
-                        <div class="bar" style="height:60%;"></div>
-                        <p>Wed</p>
-                    </div>
-
-                    <div class="day">
-                        <div class="bar" style="height:90%;"></div>
-                        <p>Thu</p>
-                    </div>
-
-                    <div class="day">
-                        <div class="bar" style="height:75%;"></div>
-                        <p>Fri</p>
-                    </div>
-
-                    <div class="day">
-                        <div class="bar" style="height:100%;"></div>
-                        <p>Sat</p>
-                    </div>
-
-                    <div class="day">
-                        <div class="bar" style="height:55%;"></div>
-                        <p>Sun</p>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="quick-actions-grid">
-
-                <button
-                    id="dashResumeLearning"
-                    class="quick-action-btn"
-                    type="button"
-                >
-                    <span class="icon">📖</span>
-                    <span class="label">Resume Learning</span>
-                </button>
-
-
-                <button
-                    id="dashBrowseCourses"
-                    class="quick-action-btn"
-                    type="button"
-                >
-                    <span class="icon">📚</span>
-                    <span class="label">Browse Courses</span>
-                </button>
-
-
-                <button
-                    id="dashAskAI"
-                    class="quick-action-btn"
-                    type="button"
-                >
-                    <span class="icon">🤖</span>
-                    <span class="label">Ask AI</span>
-                </button>
-
-
-                <button
-                    id="dashCertificates"
-                    class="quick-action-btn"
-                    type="button"
-                >
-                    <span class="icon">📜</span>
-                    <span class="label">Certificates</span>
-                </button>
-
-            </div>
-
-
-
-            <section
-                class="recent-courses"
-                aria-label="Recent Courses"
-            >
-
-                <h3>
-                    📘 Recent Courses
-                </h3>
-
-
-                <div class="course-grid">
-
-                    <article
-                        class="course-card"
-                        id="recentCourse1"
-                    >
-
-                        <h4>
-                            AI Fundamentals
-                        </h4>
-
-                        <p>
-                            65% complete
-                        </p>
-
-                        <div class="progress-bar">
-
-                            <div
-                                class="progress-fill"
-                                style="width:65%;"
-                            ></div>
-
-                        </div>
-
-                    </article>
-
-
-                    <article
-                        class="course-card"
-                        id="recentCourse2"
-                    >
-
-                        <h4>
-                            Web Development
-                        </h4>
-
-                        <p>
-                            40% complete
-                        </p>
-
-                        <div class="progress-bar">
-
-                            <div
-                                class="progress-fill"
-                                style="width:40%;"
-                            ></div>
-
-                        </div>
-
-                    </article>
-
-
-                    <article
-                        class="course-card"
-                        id="recentCourse3"
-                    >
-
-                        <h4>
-                            Data Science
-                        </h4>
-
-                        <p>
-                            20% complete
-                        </p>
-
-                        <div class="progress-bar">
-
-                            <div
-                                class="progress-fill"
-                                style="width:20%;"
-                            ></div>
-
-                        </div>
-
-                    </article>
-
-                </div>
-
-            </section>
-
-        </section>
-
-
-
-        <!-- ========================================================
-             PAGE 3 — COURSES
-             ======================================================== -->
-
-        <section
-            id="page3"
-            class="page-section"
-            aria-label="All Courses and Universal Skills"
-        >
-
-            <div class="course-container">
-
-                <h2 class="section-title">
-                    📚 ScaleFlow University -
-                    Universal Courses & Practical Skills
-                </h2>
-
-                <p class="section-subtitle">
-                    Explore medical, engineering, science,
-                    and professional automation paths.
-                </p>
-
-
-
-                <!-- COURSE SEARCH -->
-
-                <div class="learning-header">
-
-                    <input
-                        id="courseSearchInput"
-                        type="search"
-                        placeholder="🔍 Search medical, engineering, science & coding courses..."
-                        aria-label="Search courses"
-                        autocomplete="off"
-                    >
-
-                </div>
-
-
-
-                <!-- FILTERS -->
-
-                <div class="filter-buttons">
-
-                    <button
-                        id="filterAll"
-                        class="btn-secondary"
-                        type="button"
-                    >
-                        All
-                    </button>
-
-
-                    <button
-                        id="filterBeginner"
-                        class="btn-secondary"
-                        type="button"
-                    >
-                        Beginner
-                    </button>
-
-
-                    <button
-                        id="filterIntermediate"
-                        class="btn-secondary"
-                        type="button"
-                    >
-                        Intermediate
-                    </button>
-
-
-                    <button
-                        id="filterAdvanced"
-                        class="btn-secondary"
-                        type="button"
-                    >
-                        Advanced
-                    </button>
-
-                </div>
-
-
-
-                <!-- COURSE GRID -->
-
-                <div
-                    class="course-grid"
-                    id="courseGrid"
-                >
-
-
-                    <article
-                        class="course-card"
-                        id="courseCardMedical"
-                        data-difficulty="beginner"
-                    >
-
-                        <h3>
-                            Medical Science & Healthcare Basics
-                        </h3>
-
-                        <p>
-                            Beginner • 15 Lessons • Future Doctor Path
-                        </p>
-
-                        <button
-                            id="startCourseMed"
-                            class="btn-primary-custom"
-                            type="button"
-                        >
-                            Start Learning
-                        </button>
-
-                    </article>
-
-
-
-                    <article
-                        class="course-card"
-                        id="courseCardEngineering"
-                        data-difficulty="intermediate"
-                    >
-
-                        <h3>
-                            Modern Engineering & Mechanics
-                        </h3>
-
-                        <p>
-                            Intermediate • 18 Lessons • Core Engineering
-                        </p>
-
-                        <button
-                            id="startCourseEng"
-                            class="btn-primary-custom"
-                            type="button"
-                        >
-                            Start Learning
-                        </button>
-
-                    </article>
-
-
-
-                    <article
-                        class="course-card"
-                        id="courseCardScience"
-                        data-difficulty="advanced"
-                    >
-
-                        <h3>
-                            Advanced Scientific Research & Physics
-                        </h3>
-
-                        <p>
-                            Advanced • 20 Lessons • Scientist Path
-                        </p>
-
-                        <button
-                            id="startCourseSci"
-                            class="btn-primary-custom"
-                            type="button"
-                        >
-                            Start Learning
-                        </button>
-
-                    </article>
-
-
-
-                    <article
-                        class="course-card"
-                        id="courseCard001"
-                        data-difficulty="beginner"
-                    >
-
-                        <h3>
-                            AI Fundamentals & Prompt Engineering
-                        </h3>
-
-                        <p>
-                            Beginner • 12 Lessons • Practical AI
-                        </p>
-
-                        <button
-                            id="startCourse1"
-                            class="btn-primary-custom"
-                            type="button"
-                        >
-                            Start Learning
-                        </button>
-
-                    </article>
-
-
-
-                    <article
-                        class="course-card"
-                        id="courseCard002"
-                        data-difficulty="intermediate"
-                    >
-
-                        <h3>
-                            JavaScript & Frontend Development
-                        </h3>
-
-                        <p>
-                            Intermediate • 20 Lessons • Web Power
-                        </p>
-
-                        <button
-                            id="startCourse2"
-                            class="btn-primary-custom"
-                            type="button"
-                        >
-                            Start Learning
-                        </button>
-
-                    </article>
-
-
-
-                    <article
-                        class="course-card"
-                        id="courseCard003"
-                        data-difficulty="advanced"
-                    >
-
-                        <h3>
-                            Python for Data Science & Automation
-                        </h3>
-
-                        <p>
-                            Advanced • 15 Lessons • Real Automation
-                        </p>
-
-                        <button
-                            id="startCourse3"
-                            class="btn-primary-custom"
-                            type="button"
-                        >
-                            Start Learning
-                        </button>
-
-                    </article>
-
-
-
-                    <article
-                        class="course-card"
-                        id="courseCard004"
-                        data-difficulty="beginner"
-                    >
-
-                        <h3>
-                            HTML, CSS & Modern UI Design
-                        </h3>
-
-                        <p>
-                            Beginner • 8 Lessons • Design Foundation
-                        </p>
-
-                        <button
-                            id="startCourse4"
-                            class="btn-primary-custom"
-                            type="button"
-                        >
-                            Start Learning
-                        </button>
-
-                    </article>
-
-
-
-                    <article
-                        class="course-card"
-                        id="courseCard005"
-                        data-difficulty="intermediate"
-                    >
-
-                        <h3>
-                            React Web Applications
-                        </h3>
-
-                        <p>
-                            Intermediate • 18 Lessons • Pro Apps
-                        </p>
-
-                        <button
-                            id="startCourse5"
-                            class="btn-primary-custom"
-                            type="button"
-                        >
-                            Start Learning
-                        </button>
-
-                    </article>
-
-
-
-                    <article
-                        class="course-card"
-                        id="courseCard006"
-                        data-difficulty="advanced"
-                    >
-
-                        <h3>
-                            Machine Learning & Practical AI
-                        </h3>
-
-                        <p>
-                            Advanced • 22 Lessons • Future Tech
-                        </p>
-
-                        <button
-                            id="startCourse6"
-                            class="btn-primary-custom"
-                            type="button"
-                        >
-                            Start Learning
-                        </button>
-
-                    </article>
-
-                </div>
-
-
-
-                <!-- PAGINATION -->
-
-                <div class="pagination">
-
-                    <button
-                        id="paginationPrev"
-                        class="btn-secondary"
-                        type="button"
-                    >
-                        Previous
-                    </button>
-
-
-                    <button
-                        id="pagination1"
-                        class="btn-primary-custom pagination-number"
-                        type="button"
-                    >
-                        1
-                    </button>
-
-
-                    <button
-                        id="pagination2"
-                        class="btn-secondary pagination-number"
-                        type="button"
-                    >
-                        2
-                    </button>
-
-
-                    <button
-                        id="pagination3"
-                        class="btn-secondary pagination-number"
-                        type="button"
-                    >
-                        3
-                    </button>
-
-
-                    <button
-                        id="paginationNext"
-                        class="btn-secondary"
-                        type="button"
-                    >
-                        Next
-                    </button>
-
-                </div>
-
-
-
-                <!-- CORE AUTOMATION COURSES -->
-
-                <div class="core-courses-section">
-
-                    <h2 class="section-title">
-                        🎓 Core Automation & SaaS Courses
-                    </h2>
-
-                    <p class="section-subtitle">
-                        Master Google Apps Script,
-                        Google Sheets, and Workflow
-                        Automations step by step.
-                    </p>
-
-
-                    <div class="course-grid">
-
-
-                        <article class="course-card">
-
-                            <div class="course-icon">
-                                📊
-                            </div>
-
-                            <h3 class="course-heading">
-                                Google Workspace Automation
-                            </h3>
-
-                            <p class="course-desc">
-                                Learn how to automate Google Forms,
-                                Sheets, and Drive using advanced scripts.
-                            </p>
-
-                            <button
-                                id="enrollWorkspaceBtn"
-                                class="btn-primary-custom"
-                                type="button"
-                            >
-                                Start Course
-                            </button>
-
-                        </article>
-
-
-
-                        <article class="course-card">
-
-                            <div class="course-icon">
-                                ⚡
-                            </div>
-
-                            <h3 class="course-heading">
-                                n8n & Make.com Masterclass
-                            </h3>
-
-                            <p class="course-desc">
-                                Build complex multi-step APIs and
-                                workflows without writing heavy code.
-                            </p>
-
-                            <button
-                                id="enrollN8nBtn"
-                                class="btn-primary-custom"
-                                type="button"
-                            >
-                                Start Course
-                            </button>
-
-                        </article>
-
-
-
-                        <article class="course-card">
-
-                            <div class="course-icon">
-                                🤖
-                            </div>
-
-                            <h3 class="course-heading">
-                                AI Integration & SaaS Dev
-                            </h
-
-    <!-- =================================================== -->
-            <!-- PAGE 8: ADVANCED DIGITAL MARKETPLACE & STORE -->
-          <!-- =================================================== -->
-<section id="page8" class="page-section" aria-label="Advanced Marketplace">
-    <h2>🛒 ScaleFlow Global Digital Marketplace</h2>
-    <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Discover professional e-books, AI bundles, and enterprise automation kits.</p>
     
-    <!-- Marketplace Header & Controls -->
-    <div class="marketplace-header" style="background: #fff; padding: 15px; border: 1px solid #e0e0e0; border-radius: 10px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
-        <input id="marketplaceSearch" type="text" placeholder="Search products, AI guides, tools..." aria-label="Search products" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; min-width: 200px;">
-        <button id="marketplaceCategories" class="btn-secondary" type="button" style="padding: 10px 15px;">📂 Categories</button>
-        <button id="marketplaceCart" class="btn-primary" type="button" style="padding: 10px 15px;">🛒 Cart (0)</button>
-        <button id="marketplaceCheckout" class="btn-primary" type="button" style="background: #137333; padding: 10px 15px;">⚡ Instant Checkout</button>
-    </div>
 
-    <!-- NEW FEATURE: AI Recommendation Banner -->
-    <div style="background: linear-gradient(135deg, #e8f0fe, #fef7e0); border: 1px solid #d2e3fc; border-radius: 10px; padding: 12px 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 13px; color: #1967d2; font-weight: bold;">🤖 AI Pick For You: Based on your JavaScript & Automation profile, the Pro Tools Kit is 20% off today!</span>
-        <span style="font-size: 11px; background: #1967d2; color: #fff; padding: 3px 8px; border-radius: 10px;">Special Offer</span>
-    </div>
+    <!-- ===== MAIN APP ===== -->
+    <div id="app" data-page="home">
 
-    <!-- Product Grid -->
-    <div class="product-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+        <!-- ===== HEADER ===== -->
         
-        <!-- Product 1 -->
-        <article class="product-card" id="product1" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <div class="product-icon" style="font-size: 35px;">📘</div>
-                    <span style="font-size: 11px; background: #e6f4ea; color: #137333; padding: 3px 8px; border-radius: 10px; font-weight: bold;">INSTANT DOWNLOAD</span>
+          <!-- ===== NOTIFICATION PANEL ===== -->
+        <div id="notificationPanel" class="notification-panel">
+        <div class="notification-header">
+            <h3>🔔 Notifications</h3>
+            <button id="markAllReadBtn" type="button">Mark all as read</button>
+        </div>
+        <div class="notification-list">
+            <div class="notification-item unread">
+                <span class="icon">📘</span>
+                <div class="content">
+                    <p><strong>New course:</strong> AI Fundamentals</p>
+                    <span class="time">2 min ago</span>
                 </div>
-                <h3 style="margin-bottom: 5px; color: #333; font-size: 16px;">E-book: AI Prompt & Automation Guide</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Comprehensive masterclass manual for modern developers.</p>
             </div>
-            <div>
-                <div style="font-weight: bold; font-size: 18px; color: #b06000; margin-bottom: 10px;">$9.99</div>
-                <button id="addToCart1" class="btn-primary" type="button" style="width: 100%;">Add to Cart</button>
-            </div>
-        </article>
-
-        <!-- Product 2 -->
-        <article class="product-card" id="product2" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <div class="product-icon" style="font-size: 35px;">🎓</div>
-                    <span style="font-size: 11px; background: #e8f0fe; color: #1967d2; padding: 3px 8px; border-radius: 10px; font-weight: bold;">BESTSELLER</span>
+            <div class="notification-item unread">
+                <span class="icon">🏆</span>
+                <div class="content">
+                    <p><strong>Achievement:</strong> 5 Day Streak</p>
+                    <span class="time">1 hour ago</span>
                 </div>
-                <h3 style="margin-bottom: 5px; color: #333; font-size: 16px;">Complete SaaS & Course Bundle</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">All-in-one bundle covering web apps and automation workflows.</p>
             </div>
-            <div>
-                <div style="font-weight: bold; font-size: 18px; color: #b06000; margin-bottom: 10px;">$49.99</div>
-                <button id="addToCart2" class="btn-primary" type="button" style="width: 100%;">Add to Cart</button>
+        </div>
+    </div>
+        
+        <header class="header" role="banner">
+            <div class="logo">
+                <h1>Sanaullah</h1>
+                <span>ScaleFlow University</span>
             </div>
-        </article>
+            <div class="header-actions">
+                <button id="darkModeBtn" class="icon-btn" type="button" aria-label="Toggle Dark Mode">🌙</button>
+                <button id="notificationBell" class="icon-btn" type="button" aria-label="Open notifications">
+                    🔔
+                    <span id="notificationCount" class="notification-badge">0</span>
+                </button>
+            </div>
+        </header>
 
-        <!-- Product 3 -->
-        <article class="product-card" id="product3" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <div class="product-icon" style="font-size: 35px;">🛠️</div>
-                    <span style="font-size: 11px; background: #fef7e0; color: #b06000; padding: 3px 8px; border-radius: 10px; font-weight: bold;">PRO EDITION</span>
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" role="navigation" aria-label="Main Navigation">
+            <nav class="sidebar-menu">
+                <a href="#" data-page="page1" class="active" id="navPage1">🏠 Home</a>
+                <a href="#" data-page="page2" id="navPage2">📊 Dashboard</a>
+                <a href="#" data-page="page3" id="navPage3">📚 Courses</a>
+                <a href="#" data-page="page4" id="navPage4">📖 Learning</a>
+                <a href="#" data-page="page5" id="navPage5">📜 Certificates</a>
+                <a href="#" data-page="page6" id="navPage6">🏆 Achievements</a>
+                <a href="#" data-page="page7" id="navPage7">🤖 AI Mentor</a>
+                <a href="#" data-page="page8" id="navPage8">🛒 Marketplace</a>
+                <a href="#" data-page="page9" id="navPage9">💼 Business</a>
+                <a href="#" data-page="page10" id="navPage10">👤 Profile</a>
+                <a href="#" data-page="page11" id="navPage11">⚙️ Settings</a>
+                <a href="#" data-page="page12" id="navPage12">🔐 Login</a>
+            </nav>
+        </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content" role="main">
+
+<!-- ===== HTML PART1 ===== -->
+
+        <!-- ===================================================
+PAGE 1: HOME (index.html)
+=================================================== -->
+<section id="page1" class="page-section active" aria-label="Home Dashboard">
+    <h2>🏠 Home</h2>
+
+    <section class="hero" aria-label="Welcome Section">
+        <div class="hero-left">
+            <span class="hero-tag">👋 Welcome Back</span>
+            <h1 id="studentName">Sanaullah</h1>
+            <p>Continue your learning journey. Every lesson makes you stronger.</p>
+            <div class="hero-buttons">
+                <button id="continueLearningBtn" class="btn-primary" type="button">▶ Continue Learning</button>
+                <button id="browseCoursesBtn" class="btn-secondary" type="button">📚 Browse Courses</button>
+            </div>
+        </div>
+        <div class="hero-right">
+            <article class="hero-stat"><span>⭐ Brain XP</span><strong id="brainXP">250 XP</strong></article>
+            <article class="hero-stat"><span>🏆 Level</span><strong id="currentLevel">Level 5</strong></article>
+            <article class="hero-stat"><span>🔥 Streak</span><strong id="learningStreak">7 Days</strong></article>
+            <article class="hero-stat"><span>📈 Progress</span><strong id="overallProgress">75%</strong></article>
+        </div>
+    </section>
+
+    <div class="search-section">
+        <input id="globalSearchInput" type="text" placeholder="Search courses, tools, mentors..." autocomplete="off" aria-label="Global search">
+    </div>
+
+    <section class="learning-dashboard" aria-label="Learning Dashboard">
+        <h2>📚 Learning Dashboard</h2>
+        <div class="dashboard-boxes">
+            <div class="dashboard-box" id="dashCourseBox"><h3>Courses</h3><span id="courseCount">12</span></div>
+            <div class="dashboard-box" id="dashCertBox"><h3>Certificates</h3><span id="certificateCount">4</span></div>
+            <div class="dashboard-box" id="dashAchieveBox"><h3>Achievements</h3><span id="achievementCount">8</span></div>
+            <div class="dashboard-box" id="dashProjectBox"><h3>Projects</h3><span id="projectCount">3</span></div>
+        </div>
+    </section>
+
+    <section class="continue-learning" aria-label="Continue Learning">
+        <div class="continue-card">
+            <div class="continue-tag">📖 Continue Where You Left Off</div>
+            <div class="continue-info">
+                <h2>JavaScript Fundamentals</h2>
+                <p>Module 4 • Functions & Scope</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="continueProgress" style="width:65%;"></div>
                 </div>
-                <h3 style="margin-bottom: 5px; color: #333; font-size: 16px;">Pro Automation Tools Kit</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Ready-to-use scripts, templates, and serverless gateways.</p>
+                <div class="continue-actions">
+                    <small id="progressText">65% Complete</small>
+                    <button id="continueProgressBtn" class="btn-primary" type="button">▶ Continue</button>
+                </div>
             </div>
-            <div>
-                <div style="font-weight: bold; font-size: 18px; color: #b06000; margin-bottom: 10px;">$19.99</div>
-                <button id="addToCart3" class="btn-primary" type="button" style="width: 100%;">Add to Cart</button>
-            </div>
-        </article>
+        </div>
+    </section>
 
+    <section class="today-tasks" aria-label="Today's Tasks">
+        <h2>📋 Today's Learning Tasks</h2>
+        <div class="task-list">
+            <div class="task-item"><input type="checkbox" id="task1" aria-label="Complete Lesson 13"><label for="task1">Complete Lesson 13</label></div>
+            <div class="task-item"><input type="checkbox" id="task2" aria-label="AI Quiz Module 5"><label for="task2">AI Quiz: Module 5</label></div>
+            <div class="task-item"><input type="checkbox" id="task3" aria-label="Review JavaScript Notes"><label for="task3">Review JavaScript Notes</label></div>
+            <div class="task-item"><input type="checkbox" id="task4" aria-label="Submit Project Proposal"><label for="task4">Submit Project Proposal</label></div>
+        </div>
+    </section>
+
+    <section class="recent-activity" aria-label="Recent Activity">
+        <h2>🕐 Recent Activity</h2>
+        <div class="activity-list">
+            <div class="activity-item">Completed "AI Fundamentals" <span>2 hours ago</span></div>
+            <div class="activity-item">Started "Web Development" <span>Yesterday</span></div>
+            <div class="activity-item">Earned "JavaScript Badge" <span>3 days ago</span></div>
+        </div>
+    </section>
+
+    <section class="quick-actions-section" aria-label="Quick Actions">
+        <h2>⚡ Quick Actions</h2>
+        <div class="quick-actions-grid">
+            <button id="quickStartLearning" class="quick-action-btn" type="button"><span class="icon">🚀</span><span class="label">Start Learning</span><span class="desc">Continue your courses</span></button>
+            <button id="quickAskAI" class="quick-action-btn" type="button"><span class="icon">🤖</span><span class="label">Ask AI Mentor</span><span class="desc">Get instant help</span></button>
+            <button id="quickBrowseCourses" class="quick-action-btn" type="button"><span class="icon">📚</span><span class="label">Browse Courses</span><span class="desc">Explore new topics</span></button>
+            <button id="quickMyCertificates" class="quick-action-btn" type="button"><span class="icon">📜</span><span class="label">My Certificates</span><span class="desc">View your achievements</span></button>
+        </div>
+    </section>
+
+    <section class="weekly-progress" aria-label="Weekly Progress Chart">
+        <div class="section-header"><h2>📈 Weekly Progress</h2><span>This Week</span></div>
+        <div class="progress-chart">
+            <div class="day"><div class="bar" style="height:45%;"></div><p>Mon</p></div>
+            <div class="day"><div class="bar" style="height:70%;"></div><p>Tue</p></div>
+            <div class="day"><div class="bar" style="height:60%;"></div><p>Wed</p></div>
+            <div class="day"><div class="bar" style="height:90%;"></div><p>Thu</p></div>
+            <div class="day"><div class="bar" style="height:75%;"></div><p>Fri</p></div>
+            <div class="day"><div class="bar" style="height:100%;"></div><p>Sat</p></div>
+            <div class="day"><div class="bar" style="height:55%;"></div><p>Sun</p></div>
+        </div>
+    </section>
+
+    <section class="gateway-grid" aria-label="Gateway Modules">
+        <article class="gateway-card" id="gatewayLearning"><h3>🎓 Learning Hub</h3><p>Professional courses with quizzes, projects and certificates.</p></article>
+        <article class="gateway-card" id="gatewayAI"><h3>🤖 AI Mentor</h3><p>Learn with your personal AI teacher and assistant.</p></article>
+        <article class="gateway-card" id="gatewayAutomation"><h3>⚡ Automation Hub</h3><p>Google Workspace, Apps Script and automation projects.</p></article>
+        <article class="gateway-card" id="gatewayTools"><h3>🛠 Tools Hub</h3><p>Free professional tools for productivity and development.</p></article>
+        <article class="gateway-card" id="gatewayBusiness"><h3>💼 Business Hub</h3><p>Build and manage your digital business from one dashboard.</p></article>
+        <article class="gateway-card" id="gatewayFreelancing"><h3>💻 Freelancing</h3><p>Learn Fiverr, Upwork, proposals and client handling.</p></article>
+        <article class="gateway-card" id="gatewayCertificates"><h3>🏆 Certificates</h3><p>View, verify and download your certificates.</p></article>
+        <article class="gateway-card" id="gatewayDashboard"><h3>👤 Dashboard</h3><p>Track your progress, Brain XP and achievements.</p></article>
+    </section>
+
+    <div class="quick-actions-bottom">
+        <button id="btnTheme" class="quick-btn" type="button">🌙 Theme</button>
+        <button id="btnLanguage" class="quick-btn" type="button">🌐 Language</button>
+        <button id="btnSupport" class="quick-btn" type="button">📞 Support</button>
     </div>
 </section>
 
+<!-- ===== HTML PART2 ===== -->
 
-            <!-- =================================================== -->
-           <!-- PAGE 9: ADVANCED BUSINESS HUB & ENTERPRISE CRM -->
-          <!-- =================================================== -->
-            
-       <section id="page9" class="page-section" aria-label="Advanced Business Hub">
-    <h2>💼 ScaleFlow Enterprise Business Hub</h2>
-    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Manage your clients, track revenue streams, and scale your freelance agency with AI.</p>
-
-    <!-- NEW FEATURE: AI Business Growth Banner -->
-    <div style="background: linear-gradient(135deg, #e8f0fe, #e6f4ea); border: 1px solid #d2e3fc; border-radius: 10px; padding: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div>
-            <h4 style="color: #1967d2; margin-bottom: 5px; font-size: 15px;">🤖 AI Business Insight</h4>
-            <p style="font-size: 13px; color: #444; margin: 0;">Your active automation projects have a projected **35% revenue growth** this month!</p>
+          <!-- ===================================================
+PAGE 2: DASHBOARD
+=================================================== -->
+<section id="page2" class="page-section" aria-label="Student Dashboard">
+    <h2>📊 Student Dashboard</h2>
+    <div class="dashboard-profile">
+        <div class="profile-card">
+            <img id="dashboardProfileImage" src="assets/avatar.png" alt="Profile Avatar" class="avatar-large" style="width:80px;height:80px;border-radius:50%;display:block;margin:0 auto 12px;">
+            <h3 id="dashName">Sanaullah</h3>
+            <p>Level <span id="dashLevel">5</span> • <span id="dashXP">250</span> XP</p>
+            <div class="streak">🔥 <span id="dashStreak">7</span> Day Streak</div>
         </div>
-        <button class="btn-primary" type="button" style="background: #137333; padding: 8px 15px; font-size: 13px;">Generate AI Invoice</button>
+        <div class="stats-grid">
+            <div class="stat-box"><span>📚 Courses</span><strong id="dashCourses">12</strong></div>
+            <div class="stat-box"><span>📜 Certificates</span><strong id="dashCerts">4</strong></div>
+            <div class="stat-box"><span>🏆 Achievements</span><strong id="dashAchievements">8</strong></div>
+            <div class="stat-box"><span>📈 Progress</span><strong id="dashProgress">75%</strong></div>
+        </div>
     </div>
-
-    <!-- Business Cards Grid -->
-    <div class="business-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 25px;">
-        
-        <div class="business-card" id="businessCRM" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <div class="business-icon" style="font-size: 30px; margin-bottom: 10px;">📋</div>
-                <h3 style="font-size: 16px; margin-bottom: 5px; color: #333;">Smart CRM</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Manage leads and client pipelines.</p>
-            </div>
-            <button id="openCRM" class="btn-primary" type="button" style="width: 100%;">Open CRM</button>
+    <div class="weekly-progress">
+        <div class="section-header"><h2>📈 Weekly Analytics</h2><span>This Week</span></div>
+        <div class="progress-chart">
+            <div class="day"><div class="bar" style="height:45%;"></div><p>Mon</p></div>
+            <div class="day"><div class="bar" style="height:70%;"></div><p>Tue</p></div>
+            <div class="day"><div class="bar" style="height:60%;"></div><p>Wed</p></div>
+            <div class="day"><div class="bar" style="height:90%;"></div><p>Thu</p></div>
+            <div class="day"><div class="bar" style="height:75%;"></div><p>Fri</p></div>
+            <div class="day"><div class="bar" style="height:100%;"></div><p>Sat</p></div>
+            <div class="day"><div class="bar" style="height:55%;"></div><p>Sun</p></div>
         </div>
-
-        <div class="business-card" id="businessProjects" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <div class="business-icon" style="font-size: 30px; margin-bottom: 10px;">📁</div>
-                <h3 style="font-size: 16px; margin-bottom: 5px; color: #333;">Active Projects</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Track milestones and deadlines.</p>
-            </div>
-            <button id="openProjects" class="btn-primary" type="button" style="width: 100%;">Open Projects</button>
+    </div>
+    <div class="quick-actions-grid">
+        <button id="dashResumeLearning" class="quick-action-btn" type="button"><span class="icon">📖</span><span class="label">Resume Learning</span></button>
+        <button id="dashBrowseCourses" class="quick-action-btn" type="button"><span class="icon">📚</span><span class="label">Browse Courses</span></button>
+        <button id="dashAskAI" class="quick-action-btn" type="button"><span class="icon">🤖</span><span class="label">Ask AI</span></button>
+        <button id="dashCertificates" class="quick-action-btn" type="button"><span class="icon">📜</span><span class="label">Certificates</span></button>
+    </div>
+    <section class="recent-courses" aria-label="Recent Courses">
+        <h3>📘 Recent Courses</h3>
+        <div class="course-grid">
+            <article class="course-card" id="recentCourse1"><h4>AI Fundamentals</h4><p>65% complete</p><div class="progress-bar"><div class="progress-fill" style="width:65%;"></div></div></article>
+            <article class="course-card" id="recentCourse2"><h4>Web Development</h4><p>40% complete</p><div class="progress-bar"><div class="progress-fill" style="width:40%;"></div></div></article>
+            <article class="course-card" id="recentCourse3"><h4>Data Science</h4><p>20% complete</p><div class="progress-bar"><div class="progress-fill" style="width:20%;"></div></div></article>
         </div>
+    </section>
+</section>
 
-        <div class="business-card" id="businessClients" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <div class="business-icon" style="font-size: 30px; margin-bottom: 10px;">👥</div>
-                <h3 style="font-size: 16px; margin-bottom: 5px; color: #333;">Global Clients</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Verified directory and contacts.</p>
-            </div>
-            <button id="openClients" class="btn-primary" type="button" style="width: 100%;">Open Clients</button>
+<!-- ===================================================
+PAGE 3: COURSES
+=================================================== -->
+<section id="page3" class="page-section" aria-label="All Courses">
+    <h2>📚 All Courses</h2>
+    <div class="learning-header">
+        <input id="courseSearchInput" type="text" placeholder="🔍 Search courses..." aria-label="Search courses">
+    </div>
+    <div class="filter-buttons">
+        <button id="filterAll" class="btn-secondary" type="button">All</button>
+        <button id="filterBeginner" class="btn-secondary" type="button">Beginner</button>
+        <button id="filterIntermediate" class="btn-secondary" type="button">Intermediate</button>
+        <button id="filterAdvanced" class="btn-secondary" type="button">Advanced</button>
+    </div>
+    <div class="course-grid" id="courseGrid">
+        <article class="course-card" id="courseCard001" data-difficulty="beginner"><h3>AI Fundamentals</h3><p>Beginner • 12 Lessons</p><button id="startCourse1" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard002" data-difficulty="intermediate"><h3>JavaScript Masterclass</h3><p>Intermediate • 20 Lessons</p><button id="startCourse2" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard003" data-difficulty="advanced"><h3>Data Science Pro</h3><p>Advanced • 15 Lessons</p><button id="startCourse3" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard004" data-difficulty="beginner"><h3>HTML & CSS</h3><p>Beginner • 8 Lessons</p><button id="startCourse4" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard005" data-difficulty="intermediate"><h3>React Development</h3><p>Intermediate • 18 Lessons</p><button id="startCourse5" class="btn-primary" type="button">Start</button></article>
+        <article class="course-card" id="courseCard006" data-difficulty="advanced"><h3>Machine Learning</h3><p>Advanced • 22 Lessons</p><button id="startCourse6" class="btn-primary" type="button">Start</button></article>
+    </div>
+    <div class="pagination">
+        <button id="paginationPrev" class="btn-secondary" type="button">Previous</button>
+        <button id="pagination1" class="btn-primary" type="button">1</button>
+        <button id="pagination2" class="btn-secondary" type="button">2</button>
+        <button id="pagination3" class="btn-secondary" type="button">3</button>
+        <button id="paginationNext" class="btn-secondary" type="button">Next</button>
+    </div>
+    <section class="featured-courses" aria-label="Featured Courses">
+        <h3>⭐ Featured Courses</h3>
+        <div class="course-grid">
+            <article class="course-card" id="featuredCourse1"><h3>AI for Everyone</h3><p>Featured • 10 Lessons</p><button id="enrollFeatured1" class="btn-primary" type="button">Enroll</button></article>
+            <article class="course-card" id="featuredCourse2"><h3>Web Dev Bootcamp</h3><p>Featured • 30 Lessons</p><button id="enrollFeatured2" class="btn-primary" type="button">Enroll</button></article>
         </div>
-
-        <div class="business-card" id="businessIncome" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <div class="business-icon" style="font-size: 30px; margin-bottom: 10px;">💰</div>
-                <h3 style="font-size: 16px; margin-bottom: 5px; color: #333;">Revenue Tracker</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Live earnings and payout metrics.</p>
-            </div>
-            <button id="openIncome" class="btn-primary" type="button" style="width: 100%;">Open Income</button>
+    </section>
+    <section class="recommended-courses" aria-label="Recommended Courses">
+        <h3>📌 Recommended for You</h3>
+        <div class="course-grid">
+            <article class="course-card" id="recommendedCourse1"><h3>Python for Data Science</h3><p>Recommended • 14 Lessons</p><button id="startRec1" class="btn-primary" type="button">Start</button></article>
+            <article class="course-card" id="recommendedCourse2"><h3>Cloud Computing</h3><p>Recommended • 12 Lessons</p><button id="startRec2" class="btn-primary" type="button">Start</button></article>
         </div>
+    </section>
+</section>
 
-        <div class="business-card" id="businessReports" style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <div class="business-icon" style="font-size: 30px; margin-bottom: 10px;">📊</div>
-                <h3 style="font-size: 16px; margin-bottom: 5px; color: #333;">Analytics & Reports</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Performance and growth charts.</p>
+<!-- ===================================================
+PAGE 4: LEARNING
+=================================================== -->
+<section id="page4" class="page-section" aria-label="Learning Module">
+    <h2>📖 JavaScript Fundamentals</h2>
+    <div class="learning-container">
+        <div class="learning-main">
+            <div class="video-container">
+                <div class="video-placeholder">▶️</div>
+                <p>Video Player (Lesson 4: Functions & Scope)</p>
             </div>
-            <button id="openReports" class="btn-primary" type="button" style="width: 100%;">Open Reports</button>
+            <div class="pdf-viewer">
+                <p>📄 PDF Viewer: Lesson Notes</p>
+                <button id="downloadPdfBtn" class="btn-secondary" type="button">Download PDF</button>
+            </div>
+            <div class="notes-section">
+                <h4>📝 Your Notes</h4>
+                <textarea id="notesInput" rows="4" placeholder="Write your notes here..." aria-label="Your notes"></textarea>
+                <button id="saveNotesBtn" class="btn-primary" type="button">Save Notes</button>
+            </div>
+            <div class="ai-reflection">
+                <h4>🤖 AI Reflection</h4>
+                <p>What did you learn today? Share your thoughts and get AI feedback.</p>
+                <input id="reflectionInput" type="text" placeholder="Type your reflection..." aria-label="Reflection input">
+                <button id="getReflectionBtn" class="btn-primary" type="button">Get Reflection</button>
+            </div>
+            <div class="quiz-section">
+                <h4>📝 Quick Quiz</h4>
+                <p>What is a closure in JavaScript?</p>
+                <input id="quizAnswerInput" type="text" placeholder="Your answer..." aria-label="Quiz answer">
+                <button id="submitQuizBtn" class="btn-primary" type="button">Submit</button>
+            </div>
         </div>
-
+        <aside class="learning-sidebar">
+            <div class="progress-card">
+                <h4>📊 Lesson Progress</h4>
+                <div class="progress-bar"><div class="progress-fill" style="width:65%;"></div></div>
+                <p>65% Complete</p>
+                <div class="lesson-nav">
+                    <button id="prevLessonBtn" class="btn-secondary" type="button">◀ Previous</button>
+                    <button id="nextLessonBtn" class="btn-primary" type="button">Next ▶</button>
+                </div>
+            </div>
+            <div class="recommended-lessons">
+                <h4>📌 Related Lessons</h4>
+                <ul>
+                    <li>Lesson 3: Arrays & Objects</li>
+                    <li>Lesson 5: DOM Manipulation</li>
+                    <li>Lesson 6: Events</li>
+                </ul>
+            </div>
+        </aside>
     </div>
 </section>
 
+<!-- ===================================================
+PAGE 5: CERTIFICATES
+=================================================== -->
+<section id="page5" class="page-section" aria-label="My Certificates">
+    <h2>📜 My Certificates</h2>
+    <div class="certificate-list">
+        <article class="certificate-card" id="certCard1">
+            <div class="icon">📄</div>
+            <h3>AI Mastery</h3>
+            <p>Issued: Jan 2026</p>
+            <div class="actions">
+                <button id="certDownload1" class="btn-primary" type="button">⬇ Download</button>
+                <button id="certVerify1" class="btn-secondary" type="button">✅ Verify</button>
+                <button id="certQR1" class="btn-secondary" type="button">📱 QR</button>
+                <button id="certShare1" class="btn-secondary" type="button">📤 Share</button>
+            </div>
+        </article>
+        <article class="certificate-card" id="certCard2">
+            <div class="icon">📄</div>
+            <h3>Web Dev Pro</h3>
+            <p>Issued: Feb 2026</p>
+            <div class="actions">
+                <button id="certDownload2" class="btn-primary" type="button">⬇ Download</button>
+                <button id="certVerify2" class="btn-secondary" type="button">✅ Verify</button>
+                <button id="certQR2" class="btn-secondary" type="button">📱 QR</button>
+                <button id="certShare2" class="btn-secondary" type="button">📤 Share</button>
+            </div>
+        </article>
+    </div>
+</section>
 
-            <!-- ===================================================
-            PAGE 10: PROFILE
-            ==================================================== -->
+<!-- ===================================================
+PAGE 6: ACHIEVEMENTS
+=================================================== -->
+<section id="page6" class="page-section" aria-label="Achievements">
+    <h2>🏆 Achievements</h2>
+    <div class="achievement-summary">
+        <div class="stat-box"><span>⭐ XP</span><strong id="xpTotal">250</strong></div>
+        <div class="stat-box"><span>🏅 Badges</span><strong id="badgeTotal">8</strong></div>
+        <div class="stat-box"><span>📈 Level</span><strong id="levelTotal">5</strong></div>
+        <div class="stat-box"><span>🎁 Rewards</span><strong id="rewardTotal">3</strong></div>
+    </div>
+    <div class="achievement-grid">
+        <article class="achievement-card earned" id="achieveFirstCourse"><div class="icon">⭐</div><h4>First Course</h4><p>Earned Jan 2026</p></article>
+        <article class="achievement-card earned" id="achieveFiveDayStreak"><div class="icon">🔥</div><h4>5 Day Streak</h4><p>Earned Feb 2026</p></article>
+        <article class="achievement-card earned" id="achieveTopPerformer"><div class="icon">🏅</div><h4>Top Performer</h4><p>Earned Mar 2026</p></article>
+        <article class="achievement-card locked" id="achieveTenDayStreak"><div class="icon">🔒</div><h4>10 Day Streak</h4><p>Locked</p></article>
+        <article class="achievement-card locked" id="achieveExpertLevel"><div class="icon">🔒</div><h4>Expert Level</h4><p>Locked</p></article>
+    </div>
+    <div class="progress-timeline">
+        <h3>📈 Progress Timeline</h3>
+        <ul>
+            <li>✅ Completed AI Fundamentals (Jan 2026)</li>
+            <li>✅ Earned JavaScript Badge (Feb 2026)</li>
+            <li>⏳ Working on Web Development (Current)</li>
+        </ul>
+    </div>
+</section>
 
-     <section id="page10" class="page-section" aria-label="Student Profile">
+<!-- ===================================================
+PAGE 7: AI MENTOR
+=================================================== -->
+<section id="page7" class="page-section" aria-label="AI Mentor Chat">
+    <h2>🤖 AI Mentor</h2>
+    <div class="ai-chat-container">
+        <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
+            <div class="message ai">Hello! How can I assist you today?</div>
+            <div class="message user">I need help with JavaScript closures.</div>
+            <div class="message ai">Sure! A closure is a function that retains access to its outer scope even after the outer function has returned. Would you like an example?</div>
+        </div>
+        <div class="chat-input">
+            <input id="chatInput" type="text" placeholder="Ask anything..." aria-label="Chat input">
+            <button id="chatSendBtn" class="btn-primary" type="button">Send</button>
+            <button id="chatVoiceBtn" class="btn-secondary" type="button">🎤</button>
+            <button id="chatClearBtn" class="btn-secondary" type="button">🗑️</button>
+        </div>
+        <div class="prompt-suggestions">
+            <button id="promptClosure" class="btn-secondary" type="button">Explain closures</button>
+            <button id="promptHoisting" class="btn-secondary" type="button">What is hoisting?</button>
+            <button id="promptAsync" class="btn-secondary" type="button">Help with async/await</button>
+        </div>
+    </div>
+</section>
+
+<!-- ===================================================
+PAGE 8: MARKETPLACE
+=================================================== -->
+<section id="page8" class="page-section" aria-label="Marketplace">
+    <h2>🛒 Marketplace</h2>
+    <div class="marketplace-header">
+        <input id="marketplaceSearch" type="text" placeholder="Search products..." aria-label="Search products">
+        <button id="marketplaceCategories" class="btn-secondary" type="button">Categories</button>
+        <button id="marketplaceCart" class="btn-primary" type="button">🛒 Cart (0)</button>
+        <button id="marketplaceCheckout" class="btn-primary" type="button">Checkout</button>
+    </div>
+    <div class="product-grid">
+        <article class="product-card" id="product1"><div class="product-icon">📘</div><h3>E-book: AI Guide</h3><p>$9.99</p><button id="addToCart1" class="btn-primary" type="button">Add to Cart</button></article>
+        <article class="product-card" id="product2"><div class="product-icon">🎓</div><h3>Course Bundle</h3><p>$49.99</p><button id="addToCart2" class="btn-primary" type="button">Add to Cart</button></article>
+        <article class="product-card" id="product3"><div class="product-icon">🛠️</div><h3>Pro Tools Kit</h3><p>$19.99</p><button id="addToCart3" class="btn-primary" type="button">Add to Cart</button></article>
+    </div>
+</section>
+
+<!-- ===================================================
+PAGE 9: BUSINESS
+=================================================== -->
+<section id="page9" class="page-section" aria-label="Business Hub">
+    <h2>💼 Business Hub</h2>
+    <div class="business-grid">
+        <div class="business-card" id="businessCRM"><div class="business-icon">📋</div><h3>CRM</h3><p>Manage clients</p><button id="openCRM" class="btn-primary" type="button">Open</button></div>
+        <div class="business-card" id="businessProjects"><div class="business-icon">📁</div><h3>Projects</h3><p>Track progress</p><button id="openProjects" class="btn-primary" type="button">Open</button></div>
+        <div class="business-card" id="businessClients"><div class="business-icon">👥</div><h3>Clients</h3><p>Client list</p><button id="openClients" class="btn-primary" type="button">Open</button></div>
+        <div class="business-card" id="businessIncome"><div class="business-icon">💰</div><h3>Income</h3><p>Revenue tracker</p><button id="openIncome" class="btn-primary" type="button">Open</button></div>
+        <div class="business-card" id="businessReports"><div class="business-icon">📊</div><h3>Reports</h3><p>Analytics</p><button id="openReports" class="btn-primary" type="button">Open</button></div>
+    </div>
+</section>
+
+<!-- ===================================================
+PAGE 10: PROFILE
+=================================================== -->
+<section id="page10" class="page-section" aria-label="Student Profile">
     <h2>👤 Student Profile</h2>
     <div class="profile-container">
         <aside class="profile-sidebar">
@@ -2275,1504 +504,64 @@
             <section class="info-card"><h4>🕐 Recent Activity</h4><p>Completed "AI Fundamentals" • Started "Web Development"</p></section>
         </div>
     </div>
-  </section>
-
-
-             <!-- =================================================== -->
-           <!-- PAGE 11: ADVANCED SETTINGS & PREFERENCES HUB -->
-            <!-- =================================================== -->
-<section id="page11" class="page-section" aria-label="Advanced Settings">
-    <h2>⚙️ ScaleFlow Advanced Settings Hub</h2>
-    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Customize your workspace preferences, security controls, and AI sync options.</p>
-
-    <div class="settings-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-        
-        <!-- Theme Setting -->
-        <div class="setting-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px;">
-            <h4 style="margin-bottom: 10px; color: #333; font-size: 16px;">🎨 Interface Theme</h4>
-            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Switch between light, dark, or system mode.</p>
-            <button id="settingsThemeBtn" class="btn-secondary" type="button" style="width: 100%;">Toggle Dark/Light</button>
-        </div>
-
-        <!-- Language Setting -->
-        <div class="setting-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px;">
-            <h4 style="margin-bottom: 10px; color: #333; font-size: 16px;">🌐 Language & Region</h4>
-            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Select your preferred display language.</p>
-            <select id="settingsLanguage" aria-label="Select language" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
-                <option>English</option>
-                <option>Urdu (اردو)</option>
-                <option>Arabic (العربية)</option>
-            </select>
-        </div>
-
-        <!-- NEW FEATURE: AI Voice & Persona Preferences -->
-        <div class="setting-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px;">
-            <h4 style="margin-bottom: 10px; color: #333; font-size: 16px;">🤖 AI Mentor Voice</h4>
-            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Configure your 24/7 tutor response style.</p>
-            <select id="aiVoicePersona" aria-label="AI Voice Style" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
-                <option>Professional & Detailed</option>
-                <option>Simple & Friendly</option>
-                <option>Code-Focused Expert</option>
-            </select>
-        </div>
-
-        <!-- Security Setting -->
-        <div class="setting-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px;">
-            <h4 style="margin-bottom: 10px; color: #333; font-size: 16px;">🔐 Security & Access</h4>
-            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Manage password and two-factor auth.</p>
-            <div style="display: flex; gap: 10px;">
-                <button id="settingsChangePassword" class="btn-secondary" type="button" style="flex: 1; padding: 8px;">Password</button>
-                <button id="settingsEnable2FA" class="btn-secondary" type="button" style="flex: 1; padding: 8px;">Enable 2FA</button>
-            </div>
-        </div>
-
-        <!-- Notifications Setting -->
-        <div class="setting-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px;">
-            <h4 style="margin-bottom: 10px; color: #333; font-size: 16px;">🔔 Notification Alerts</h4>
-            <p style="font-size: 13px; color: #666; margin-bottom: 12px;">Choose how you receive updates.</p>
-            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
-                <label><input type="checkbox" id="notifEmail" checked aria-label="Email notifications"> Email Alerts</label>
-                <label><input type="checkbox" id="notifPush" checked aria-label="Push notifications"> Push Notifications</label>
-                <label><input type="checkbox" id="notifSMS" aria-label="SMS notifications"> SMS Alerts</label>
-            </div>
-        </div>
-
-        <!-- Backup Setting -->
-        <div class="setting-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <h4 style="margin-bottom: 10px; color: #333; font-size: 16px;">💾 Cloud Backup & Sync</h4>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Secure your progress and project data instantly.</p>
-            </div>
-            <button id="settingsBackupBtn" class="btn-primary" type="button" style="width: 100%; background: #137333;">Backup & Sync Now</button>
-        </div>
-
-    </div>
 </section>
 
-            
-               
+<!-- ===== HTML PART3 ===== -->
 
-
-<!-- =================================================== -->
-<!-- PAGE 12: SECURE LOGIN + REGISTRATION PORTAL         -->
-<!-- =================================================== -->
-
-<section id="page12" class="page-section" aria-label="Secure Login and Registration">
-
-    <div
-        class="login-container"
-        style="
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            min-height:70vh;
-            padding:20px;
-        "
-    >
-
-        <div
-            class="login-card"
-            style="
-                background:#fff;
-                border:1px solid #e0e0e0;
-                border-radius:12px;
-                padding:30px;
-                width:100%;
-                max-width:420px;
-                box-shadow:0 4px 15px rgba(0,0,0,0.05);
-            "
-        >
-
-            <!-- ================================================= -->
-            <!-- LOGIN SECTION                                     -->
-            <!-- ================================================= -->
-
-            <div id="loginSection">
-
-                <!-- LOGIN HEADER -->
-
-                <div style="text-align:center; margin-bottom:20px;">
-
-                    <h2
-                        style="
-                            font-size:22px;
-                            color:#333;
-                            margin-bottom:5px;
-                        "
-                    >
-                        🔐 ScaleFlow Secure Login
-                    </h2>
-
-                    <p
-                        style="
-                            font-size:13px;
-                            color:#666;
-                        "
-                    >
-                        Access your university portal, courses, and business hub.
-                    </p>
-
+          <!-- ===================================================
+            PAGE 11: SETTINGS
+            =================================================== -->
+            <section id="page11" class="page-section" aria-label="Settings">
+                <h2>⚙️ Settings</h2>
+                <div class="settings-grid">
+                    <div class="setting-card"><h4>🎨 Theme</h4><button id="settingsThemeBtn" class="btn-secondary" type="button">Toggle Dark/Light</button></div>
+                    <div class="setting-card"><h4>🌐 Language</h4><select id="settingsLanguage" aria-label="Select language"><option>English</option><option>Urdu</option><option>Arabic</option></select></div>
+                    <div class="setting-card"><h4>🔐 Security</h4><button id="settingsChangePassword" class="btn-secondary" type="button">Change Password</button><button id="settingsEnable2FA" class="btn-secondary" type="button">Enable 2FA</button></div>
+                    <div class="setting-card"><h4>🔔 Notifications</h4><label><input type="checkbox" id="notifEmail" checked aria-label="Email notifications"> Email</label><label><input type="checkbox" id="notifPush" checked aria-label="Push notifications"> Push</label><label><input type="checkbox" id="notifSMS" aria-label="SMS notifications"> SMS</label></div>
+                    <div class="setting-card full-width"><h4>💾 Backup</h4><button id="settingsBackupBtn" class="btn-primary" type="button">Backup Now</button></div>
                 </div>
-
-
-                <!-- GOOGLE LOGIN -->
-
-                <button
-                    type="button"
-                    id="googleLoginBtn"
-                    class="btn-secondary"
-                    style="
-                        width:100%;
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                        gap:10px;
-                        margin-bottom:15px;
-                        padding:10px;
-                        border:1px solid #ccc;
-                        border-radius:6px;
-                        background:#fff;
-                        font-weight:500;
-                        cursor:pointer;
-                    "
-                >
-
-                    <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-
-                        <path
-                            fill="#4285F4"
-                            d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"
-                        />
-
-                        <path
-                            fill="#34A853"
-                            d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.18v3.14C3.15 21.32 7.22 24 12 24z"
-                        />
-
-                        <path
-                            fill="#FBBC05"
-                            d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.62H1.18C.43 8.12 0 9.81 0 12s.43 3.88 1.18 5.38l4.09-3.14z"
-                        />
-
-                        <path
-                            fill="#EA4335"
-                            d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.22 0 3.15 2.68 1.18 6.62l4.09 3.14c.95-2.85 3.6-4.91 6.73-4.91z"
-                        />
-
-                    </svg>
-
-                    Sign in with Google
-
-                </button>
-
-
-                <!-- DIVIDER -->
-
-                <div
-                    style="
-                        display:flex;
-                        align-items:center;
-                        text-align:center;
-                        color:#aaa;
-                        margin:15px 0;
-                        font-size:12px;
-                    "
-                >
-
-                    <div
-                        style="
-                            flex:1;
-                            border-bottom:1px solid #eee;
-                        "
-                    ></div>
-
-                    <span style="padding:0 10px;">
-                        OR WITH EMAIL
-                    </span>
-
-                    <div
-                        style="
-                            flex:1;
-                            border-bottom:1px solid #eee;
-                        "
-                    ></div>
-
-                </div>
-
-
-                <!-- LOGIN FORM -->
-
-                <form
-                    id="loginForm"
-                    aria-label="Login form"
-                >
-
-                    <!-- EMAIL -->
-
-                    <div
-                        class="form-group"
-                        style="margin-bottom:15px;"
-                    >
-
-                        <label
-                            for="loginEmail"
-                            style="
-                                display:block;
-                                font-size:13px;
-                                font-weight:500;
-                                margin-bottom:5px;
-                                color:#444;
-                            "
-                        >
-                            Email Address
-                        </label>
-
-                        <input
-                            id="loginEmail"
-                            name="loginEmail"
-                            type="email"
-                            placeholder="student@university.com"
-                            autocomplete="email"
-                            required
-                            aria-label="Email address"
-                            style="
-                                width:100%;
-                                padding:10px;
-                                border:1px solid #ccc;
-                                border-radius:6px;
-                                font-size:14px;
-                            "
-                        >
-
-                    </div>
-
-
-                    <!-- PASSWORD -->
-
-                    <div
-                        class="form-group"
-                        style="margin-bottom:15px;"
-                    >
-
-                        <label
-                            for="loginPassword"
-                            style="
-                                display:block;
-                                font-size:13px;
-                                font-weight:500;
-                                margin-bottom:5px;
-                                color:#444;
-                            "
-                        >
-                            Password
-                        </label>
-
-                        <input
-                            id="loginPassword"
-                            name="loginPassword"
-                            type="password"
-                            placeholder="••••••••"
-                            autocomplete="current-password"
-                            required
-                            aria-label="Password"
-                            style="
-                                width:100%;
-                                padding:10px;
-                                border:1px solid #ccc;
-                                border-radius:6px;
-                                font-size:14px;
-                            "
-                        >
-
-                    </div>
-
-
-                    <!-- LOGIN OPTIONS -->
-
-                    <div
-                        class="form-options"
-                        style="
-                            display:flex;
-                            justify-content:space-between;
-                            align-items:center;
-                            font-size:13px;
-                            margin-bottom:20px;
-                            gap:10px;
-                        "
-                    >
-
-                        <label
-                            style="
-                                display:flex;
-                                align-items:center;
-                                gap:5px;
-                                cursor:pointer;
-                            "
-                        >
-
-                            <input
-                                type="checkbox"
-                                id="loginRemember"
-                                aria-label="Remember me"
-                            >
-
-                            Remember Me
-
-                        </label>
-
-
-                        <a
-                            href="#"
-                            id="forgotPasswordLink"
-                            style="
-                                color:#1967d2;
-                                text-decoration:none;
-                            "
-                        >
-                            Forgot Password?
-                        </a>
-
-                    </div>
-
-
-                    <!-- LOGIN BUTTON -->
-
-                    <button
-                        id="loginSubmitBtn"
-                        type="submit"
-                        class="btn-primary"
-                        style="
-                            width:100%;
-                            padding:11px;
-                            background:#fbc02d;
-                            border:none;
-                            border-radius:6px;
-                            font-weight:bold;
-                            cursor:pointer;
-                            color:#000;
-                            margin-bottom:10px;
-                        "
-                    >
-                        Sign In
-                    </button>
-
-                </form>
-
-
-                <!-- OTP + PASSKEY -->
-
-                <div
-                    style="
-                        display:flex;
-                        gap:10px;
-                        margin-top:10px;
-                    "
-                >
-
-                    <button
-                        id="loginOTPBtn"
-                        class="btn-secondary"
-                        type="button"
-                        style="
-                            flex:1;
-                            padding:8px;
-                            font-size:13px;
-                            border:1px solid #ccc;
-                            background:#f5f5f5;
-                            border-radius:6px;
-                            cursor:pointer;
-                        "
-                    >
-                        Send OTP
-                    </button>
-
-
-                    <button
-                        id="loginBiometricBtn"
-                        class="btn-secondary"
-                        type="button"
-                        style="
-                            flex:1;
-                            padding:8px;
-                            font-size:13px;
-                            border:1px solid #ccc;
-                            background:#f5f5f5;
-                            border-radius:6px;
-                            cursor:pointer;
-                        "
-                    >
-                        🔑 Passkey
-                    </button>
-
-                </div>
-
-
-                <!-- REGISTER LINK -->
-
-                <p
-                    class="login-register"
-                    style="
-                        text-align:center;
-                        font-size:13px;
-                        margin-top:20px;
-                        color:#666;
-                    "
-                >
-
-                    Don't have an account?
-
-                    <a
-                        href="#"
-                        id="registerLink"
-                        style="
-                            color:#1967d2;
-                            text-decoration:none;
-                            font-weight:500;
-                        "
-                    >
-                        Register Now
-                    </a>
-
-                </p>
-
-            </div>
-
-
-            <!-- ================================================= -->
-            <!-- REGISTRATION SECTION                              -->
-            <!-- ================================================= -->
-
-            <div
-                id="registrationSection"
-                style="display:none;"
-            >
-
-                <!-- REGISTRATION HEADER -->
-
-                <div
-                    style="
-                        text-align:center;
-                        margin-bottom:20px;
-                    "
-                >
-
-                    <h2
-                        style="
-                            font-size:22px;
-                            color:#333;
-                            margin-bottom:5px;
-                        "
-                    >
-                        🎓 Create Your Account
-                    </h2>
-
-                    <p
-                        style="
-                            font-size:13px;
-                            color:#666;
-                        "
-                    >
-                        Join ScaleFlow University and start your learning journey.
-                    </p>
-
-                </div>
-
-
-                <!-- REGISTRATION FORM -->
-
-                <form
-                    id="registrationForm"
-                    aria-label="Student Registration Form"
-                >
-
-                    <!-- FULL NAME -->
-
-                    <div
-                        class="form-group"
-                        style="margin-bottom:15px;"
-                    >
-
-                        <label
-                            for="registerFullName"
-                            style="
-                                display:block;
-                                font-size:13px;
-                                font-weight:500;
-                                margin-bottom:5px;
-                                color:#444;
-                            "
-                        >
-                            Full Name
-                        </label>
-
-                        <input
-                            id="registerFullName"
-                            name="fullName"
-                            type="text"
-                            placeholder="Enter your full name"
-                            autocomplete="name"
-                            required
-                            aria-label="Full name"
-                            style="
-                                width:100%;
-                                padding:10px;
-                                border:1px solid #ccc;
-                                border-radius:6px;
-                                font-size:14px;
-                            "
-                        >
-
-                    </div>
-
-
-                    <!-- EMAIL -->
-
-                    <div
-                        class="form-group"
-                        style="margin-bottom:15px;"
-                    >
-
-                        <label
-                            for="registerEmail"
-                            style="
-                                display:block;
-                                font-size:13px;
-                                font-weight:500;
-                                margin-bottom:5px;
-                                color:#444;
-                            "
-                        >
-                            Email Address
-                        </label>
-
-                        <input
-                            id="registerEmail"
-                            name="email"
-                            type="email"
-                            placeholder="student@example.com"
-                            autocomplete="email"
-                            required
-                            aria-label="Registration email"
-                            style="
-                                width:100%;
-                                padding:10px;
-                                border:1px solid #ccc;
-                                border-radius:6px;
-                                font-size:14px;
-                            "
-                        >
-
-                    </div>
-
-
-                    <!-- PASSWORD -->
-
-                    <div
-                        class="form-group"
-                        style="margin-bottom:15px;"
-                    >
-
-                        <label
-                            for="registerPassword"
-                            style="
-                                display:block;
-                                font-size:13px;
-                                font-weight:500;
-                                margin-bottom:5px;
-                                color:#444;
-                            "
-                        >
-                            Password
-                        </label>
-
-                        <input
-                            id="registerPassword"
-                            name="password"
-                            type="password"
-                            placeholder="Create a strong password"
-                            autocomplete="new-password"
-                            minlength="8"
-                            required
-                            aria-label="Registration password"
-                            style="
-                                width:100%;
-                                padding:10px;
-                                border:1px solid #ccc;
-                                border-radius:6px;
-                                font-size:14px;
-                            "
-                        >
-
-                    </div>
-
-
-                    <!-- CONFIRM PASSWORD -->
-
-                    <div
-                        class="form-group"
-                        style="margin-bottom:15px;"
-                    >
-
-                        <label
-                            for="registerConfirmPassword"
-                            style="
-                                display:block;
-                                font-size:13px;
-                                font-weight:500;
-                                margin-bottom:5px;
-                                color:#444;
-                            "
-                        >
-                            Confirm Password
-                        </label>
-
-                        <input
-                            id="registerConfirmPassword"
-                            name="confirmPassword"
-                            type="password"
-                            placeholder="Confirm your password"
-                            autocomplete="new-password"
-                            minlength="8"
-                            required
-                            aria-label="Confirm password"
-                            style="
-                                width:100%;
-                                padding:10px;
-                                border:1px solid #ccc;
-                                border-radius:6px;
-                                font-size:14px;
-                            "
-                        >
-
-                    </div>
-
-
-                    <!-- PASSWORD REQUIREMENT -->
-
-                    <div
-                        id="passwordRequirement"
-                        style="
-                            font-size:12px;
-                            color:#777;
-                            margin-top:-5px;
-                            margin-bottom:15px;
-                            line-height:1.5;
-                        "
-                    >
-                        Password must contain at least 8 characters.
-                    </div>
-
-
-                    <!-- TERMS -->
-
-                    <div
-                        style="
-                            display:flex;
-                            align-items:flex-start;
-                            margin-bottom:20px;
-                        "
-                    >
-
-                        <label
-                            for="registerTerms"
-                            style="
-                                display:flex;
-                                align-items:flex-start;
-                                gap:8px;
-                                cursor:pointer;
-                                font-size:13px;
-                                line-height:1.5;
-                            "
-                        >
-
-                            <input
-                                type="checkbox"
-                                id="registerTerms"
-                                name="terms"
-                                required
-                                aria-label="Accept terms and conditions"
-                            >
-
-                            <span>
-                                I agree to the ScaleFlow University
-                                Terms and Conditions and Privacy Policy.
-                            </span>
-
-                        </label>
-
-                    </div>
-
-
-                    <!-- CREATE ACCOUNT BUTTON -->
-
-                    <button
-                        id="registerSubmitBtn"
-                        type="submit"
-                        class="btn-primary"
-                        style="
-                            width:100%;
-                            padding:11px;
-                            background:#fbc02d;
-                            border:none;
-                            border-radius:6px;
-                            font-weight:bold;
-                            cursor:pointer;
-                            color:#000;
-                            margin-bottom:10px;
-                        "
-                    >
-                        Create Account
-                    </button>
-
-                </form>
-
-
-                <!-- REGISTRATION STATUS -->
-
-                <div
-                    id="registrationStatus"
-                    role="status"
-                    aria-live="polite"
-                    style="
-                        display:none;
-                        margin-top:15px;
-                        padding:10px 12px;
-                        border-radius:8px;
-                        font-size:13px;
-                        text-align:center;
-                    "
-                >
-                </div>
-
-
-                <!-- BACK TO LOGIN -->
-
-                <p
-                    class="login-register"
-                    style="
-                        text-align:center;
-                        font-size:13px;
-                        margin-top:20px;
-                        color:#666;
-                    "
-                >
-
-                    Already have an account?
-
-                    <a
-                        href="#"
-                        id="backToLoginLink"
-                        style="
-                            color:#1967d2;
-                            text-decoration:none;
-                            font-weight:600;
-                        "
-                    >
-                        Sign In
-                    </a>
-
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-                
-
-            
-            <!-- =================================================== -->
-           <!-- PAGE 13: ADVANCED PAYMENT & CHECKOUT GATEWAY        -->
-          <!-- =================================================== -->
-<section id="page13" class="page-section" aria-label="Payment Gateway">
-    <div class="payment-hub-container" style="padding: 20px; max-width: 900px; margin: 0 auto;">
-        
-        <div style="text-align: center; margin-bottom: 25px;">
-            <h2 style="font-size: 24px; color: #333; margin-bottom: 8px;">💳 ScaleFlow Secure Payment Gateway</h2>
-            <p style="font-size: 14px; color: #666;">Choose your preferred local or international payment method to complete your subscription or checkout.</p>
-        </div>
-
-        <!-- Payment Methods Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
-            
-            <!-- 1. JazzCash (Local Mobile Account) -->
-            <div class="payment-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
-                    <div style="background: #e65100; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">JC</div>
-                    <div>
-                        <h4 style="margin: 0; font-size: 16px; color: #333;">JazzCash Account</h4>
-                        <span style="font-size: 12px; color: #e65100; font-weight: 500;">Instant Pakistan Transfer</span>
+            </section>
+
+            <!-- ===================================================
+            PAGE 12: LOGIN
+            =================================================== -->
+            <section id="page12" class="page-section" aria-label="Login">
+                <div class="login-container">
+                    <div class="login-card">
+                        <h2>🔐 Welcome Back</h2>
+                        <form id="loginForm" aria-label="Login form">
+                            <div class="form-group">
+                                <label for="loginEmail">Email</label>
+                                <input id="loginEmail" type="email" placeholder="student@university.com" required aria-label="Email address">
+                            </div>
+                            <div class="form-group">
+                                <label for="loginPassword">Password</label>
+                                <input id="loginPassword" type="password" placeholder="••••••••" required aria-label="Password">
+                            </div>
+                            <div class="form-options">
+                                <label><input type="checkbox" id="loginRemember" aria-label="Remember me"> Remember Me</label>
+                                <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+                            </div>
+                            <button id="loginSubmitBtn" type="submit" class="btn-primary">Sign In</button>
+                        </form>
+                        <p class="login-register">Don't have an account? <a href="#" id="registerLink">Register</a></p>
+                        <button id="loginOTPBtn" class="btn-secondary" type="button">Send OTP</button>
                     </div>
                 </div>
-                <p style="font-size: 13px; color: #555; margin-bottom: 15px;">Send payment directly to our official JazzCash mobile wallet.</p>
-                <div style="background: #f9f9f9; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 15px; border: 1px dashed #ccc;">
-                    <strong>Account Title:</strong> Sanaullah Mastoi<br>
-                    <strong>Account No:</strong> 0300-XXXXXXX *(Add your number)*
-                </div>
-                <button type="button" class="btn-primary" style="width: 100%; padding: 10px; background: #e65100; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Pay via JazzCash</button>
-            </div>
-
-            <!-- 2. Bank Al Falah (Direct Bank Transfer) -->
-            <div class="payment-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
-                    <div style="background: #004d40; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px;">BAF</div>
-                    <div>
-                        <h4 style="margin: 0; font-size: 16px; color: #333;">Bank Al Falah</h4>
-                        <span style="font-size: 12px; color: #004d40; font-weight: 500;">Direct Bank Deposit</span>
-                    </div>
-                </div>
-                <p style="font-size: 13px; color: #555; margin-bottom: 15px;">Transfer funds securely through Bank Al Falah banking portal.</p>
-                <div style="background: #f9f9f9; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 15px; border: 1px dashed #ccc;">
-                    <strong>Bank:</strong> Bank Al Falah Limited<br>
-                    <strong>IBAN/Acc:</strong> PK36ALFAXXXXXXXXXXXXXXXX
-                </div>
-                <button type="button" class="btn-primary" style="width: 100%; padding: 10px; background: #004d40; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Bank Transfer Details</button>
-            </div>
-
-            <!-- 3. Payoneer (International Freelance) -->
-            <div class="payment-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
-                    <div style="background: #ff6f00; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px;">PY</div>
-                    <div>
-                        <h4 style="margin: 0; font-size: 16px; color: #333;">Payoneer Account</h4>
-                        <span style="font-size: 12px; color: #ff6f00; font-weight: 500;">Global Freelance Payments</span>
-                    </div>
-                </div>
-                <p style="font-size: 13px; color: #555; margin-bottom: 15px;">Ideal for international clients to send USD/EUR funds.</p>
-                <div style="background: #f9f9f9; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 15px; border: 1px dashed #ccc;">
-                    <strong>Email/ID:</strong> your-payoneer-email@domain.com
-                </div>
-                <button type="button" class="btn-primary" style="width: 100%; padding: 10px; background: #ff6f00; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Pay with Payoneer</button>
-            </div>
-
-            <!-- 4. Stripe & PayPal (Global Cards Gateway) -->
-            <div class="payment-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
-                    <div style="background: #1976d2; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px;">S/P</div>
-                    <div>
-                        <h4 style="margin: 0; font-size: 16px; color: #333;">Stripe / PayPal</h4>
-                        <span style="font-size: 12px; color: #1976d2; font-weight: 500;">Credit / Debit Cards</span>
-                    </div>
-                </div>
-                <p style="font-size: 13px; color: #555; margin-bottom: 15px;">Instant automated checkout using Visa, MasterCard or PayPal.</p>
-                <div style="background: #f9f9f9; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 15px; border: 1px dashed #ccc;">
-                    <strong>Status:</strong> Live Secure Gateway Integration
-                </div>
-                <button type="button" class="btn-primary" style="width: 100%; padding: 10px; background: #1976d2; color: #fff; border: None; border-radius: 6px; cursor: pointer; font-weight: bold;">Checkout with Card</button>
-            </div>
-
-        </div>
-
-    </div>
-</section>
-
-                            <!-- =================================================== -->
-           <!-- PAGE 14: ADVANCED SUBSCRIPTION & MEMBERSHIP HUB     -->
-            <!-- =================================================== -->
-            
-<section id="page14" class="page-section" aria-label="Subscription Plans">
-    <div class="subscription-hub-container" style="padding: 20px; max-width: 1100px; margin: 0 auto;">
-        
-        <div style="text-align: center; margin-bottom: 30px;">
-            <h2 style="font-size: 26px; color: #333; margin-bottom: 8px;">📦 ScaleFlow Membership Plans</h2>
-            <p style="font-size: 14px; color: #666;">Choose the perfect plan to unlock advanced university courses, 24/7 AI mentoring, and automation tools.</p>
-        </div>
-
-        <!-- Pricing Cards Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
-            
-            <!-- 1. Free Plan -->
-            <div class="plan-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 25px; box-shadow: 0 3px 10px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <h3 style="font-size: 18px; color: #333; margin-bottom: 5px;">Free Starter</h3>
-                    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">For beginners starting out.</p>
-                    <div style="font-size: 28px; font-weight: bold; color: #333; margin-bottom: 20px;">$0 <span style="font-size: 13px; color: #666; font-weight: normal;">/ forever</span></div>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 20px 0; font-size: 13px; color: #555; display: flex; flex-direction: column; gap: 10px;">
-                        <li>✅ Basic Free Courses</li>
-                        <li>✅ Community Access</li>
-                        <li>❌ AI Mentor Support</li>
-                        <li>❌ Automation Tools</li>
-                    </ul>
-                </div>
-                <button type="button" class="btn-secondary" style="width: 100%; padding: 10px; border: 1px solid #ccc; background: #f5f5f5; border-radius: 6px; cursor: pointer; font-weight: 500;">Current Plan</button>
-            </div>
-
-            <!-- 2. Pro Plan -->
-            <div class="plan-card" style="background: #fff; border: 2px solid #fbc02d; border-radius: 12px; padding: 25px; box-shadow: 0 5px 15px rgba(251,192,45,0.15); display: flex; flex-direction: column; justify-content: space-between; position: relative;">
-                <div style="position: absolute; top: -12px; right: 20px; background: #fbc02d; color: #000; font-size: 11px; font-weight: bold; padding: 3px 10px; border-radius: 20px;">POPULAR</div>
-                <div>
-                    <h3 style="font-size: 18px; color: #333; margin-bottom: 5px;">Pro Student</h3>
-                    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">For active learners & builders.</p>
-                    <div style="font-size: 28px; font-weight: bold; color: #333; margin-bottom: 20px;">$19 <span style="font-size: 13px; color: #666; font-weight: normal;">/ month</span></div>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 20px 0; font-size: 13px; color: #555; display: flex; flex-direction: column; gap: 10px;">
-                        <li>✅ All Pro Courses & Labs</li>
-                        <li>✅ 24/7 AI Mentor Access</li>
-                        <li>✅ Verified Certificates</li>
-                        <li>❌ Enterprise API Hub</li>
-                    </ul>
-                </div>
-                <button type="button" class="btn-primary" style="width: 100%; padding: 10px; background: #fbc02d; color: #000; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Upgrade to Pro</button>
-            </div>
-
-            <!-- 3. Premium Plan -->
-            <div class="plan-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 25px; box-shadow: 0 3px 10px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <h3 style="font-size: 18px; color: #333; margin-bottom: 5px;">Premium Expert</h3>
-                    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">For freelancers & creators.</p>
-                    <div style="font-size: 28px; font-weight: bold; color: #333; margin-bottom: 20px;">$49 <span style="font-size: 13px; color: #666; font-weight: normal;">/ month</span></div>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 20px 0; font-size: 13px; color: #555; display: flex; flex-direction: column; gap: 10px;">
-                        <li>✅ Everything in Pro</li>
-                        <li>✅ Freelancing & Business Hub</li>
-                        <li>✅ Custom Automation Scripts</li>
-                        <li>✅ Priority 1-on-1 Support</li>
-                    </ul>
-                </div>
-                <button type="button" class="btn-primary" style="width: 100%; padding: 10px; background: #137333; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Go Premium</button>
-            </div>
-
-            <!-- 4. Enterprise Plan -->
-            <div class="plan-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 25px; box-shadow: 0 3px 10px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <h3 style="font-size: 18px; color: #333; margin-bottom: 5px;">Enterprise</h3>
-                    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">For teams & institutions.</p>
-                    <div style="font-size: 28px; font-weight: bold; color: #333; margin-bottom: 20px;">$199 <span style="font-size: 13px; color: #666; font-weight: normal;">/ month</span></div>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 20px 0; font-size: 13px; color: #555; display: flex; flex-direction: column; gap: 10px;">
-                        <li>✅ Unlimited Team Accounts</li>
-                        <li>✅ Full White-Label Access</li>
-                        <li>✅ Custom Cloud Server Sync</li>
-                        <li>✅ Dedicated Account Manager</li>
-                    </ul>
-                </div>
-                <button type="button" class="btn-secondary" style="width: 100%; padding: 10px; border: 1px solid #333; background: #333; color: #fff; border-radius: 6px; cursor: pointer; font-weight: bold;">Contact Sales</button>
-            </div>
-
-        </div>
-
-    </div>
-</section>
-
-            
-
-                <!-- =================================================== -->
-<!-- PAGE 15: ADVANCED BUSINESS CRM HUB                  -->
-<!-- =================================================== -->
-<section id="page15" class="page-section" aria-label="Business CRM">
-    <div class="crm-hub-container" style="padding: 20px; max-width: 1100px; margin: 0 auto;">
-        
-        <!-- Header & Quick Action -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
-            <div>
-                <h2 style="font-size: 24px; color: #333; margin-bottom: 5px;">💼 ScaleFlow Business CRM</h2>
-                <p style="font-size: 14px; color: #666;">Manage clients, active leads, revenue streams, and project pipelines seamlessly.</p>
-            </div>
-            <button type="button" class="btn-primary" style="padding: 10px 18px; background: #fbc02d; color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">+ Add New Client</button>
-        </div>
-
-        <!-- CRM Analytics Summary Cards -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px;">
-            
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <span style="font-size: 12px; color: #666; font-weight: 500;">TOTAL CLIENTS</span>
-                <div style="font-size: 26px; font-weight: bold; color: #333; margin-top: 5px;">248 <span style="font-size: 12px; color: #137333; font-weight: normal;">(+12% this mo)</span></div>
-            </div>
-
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <span style="font-size: 12px; color: #666; font-weight: 500;">ACTIVE LEADS</span>
-                <div style="font-size: 26px; font-weight: bold; color: #333; margin-top: 5px;">42 <span style="font-size: 12px; color: #1976d2; font-weight: normal;">(Pipeline ready)</span></div>
-            </div>
-
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <span style="font-size: 12px; color: #666; font-weight: 500;">ONGOING PROJECTS</span>
-                <div style="font-size: 26px; font-weight: bold; color: #333; margin-top: 5px;">14 <span style="font-size: 12px; color: #e65100; font-weight: normal;">(In progress)</span></div>
-            </div>
-
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <span style="font-size: 12px; color: #666; font-weight: 500;">MONTHLY REVENUE</span>
-                <div style="font-size: 26px; font-weight: bold; color: #137333; margin-top: 5px;">$12,450</div>
-            </div>
-
-        </div>
-
-        <!-- Recent Clients & Leads Table Container -->
-        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="font-size: 16px; color: #333; margin: 0;">Recent Clients & Project Status</h3>
-                <span style="font-size: 13px; color: #1967d2; cursor: pointer; font-weight: 500;">View All Leads</span>
-            </div>
-
-            <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
-                    <thead>
-                        <tr style="border-bottom: 2px solid #f1f3f4; color: #666;">
-                            <th style="padding: 10px;">Client Name</th>
-                            <th style="padding: 10px;">Project Type</th>
-                            <th style="padding: 10px;">Status</th>
-                            <th style="padding: 10px;">Budget</th>
-                            <th style="padding: 10px; text-align: right;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid #f1f3f4;">
-                            <td style="padding: 12px; font-weight: 500; color: #333;">Alexander Wright</td>
-                            <td style="padding: 12px; color: #555;">Google Sheets Automation Script</td>
-                            <td style="padding: 12px;"><span style="background: #e6f4ea; color: #137333; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">Completed</span></td>
-                            <td style="padding: 12px; color: #333; font-weight: 500;">$850</td>
-                            <td style="padding: 12px; text-align: right;"><button type="button" style="padding: 5px 10px; border: 1px solid #ccc; background: #f8f9fa; border-radius: 4px; cursor: pointer; font-size: 12px;">Manage</button></td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #f1f3f4;">
-                            <td style="padding: 12px; font-weight: 500; color: #333;">Fatima Al-Hassan</td>
-                            <td style="padding: 12px; color: #555;">ScaleFlow AI Teacher Integration</td>
-                            <td style="padding: 12px;"><span style="background: #e8f0fe; color: #1967d2; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">In Progress</span></td>
-                            <td style="padding: 12px; color: #333; font-weight: 500;">$1,200</td>
-                            <td style="padding: 12px; text-align: right;"><button type="button" style="padding: 5px 10px; border: 1px solid #ccc; background: #f8f9fa; border-radius: 4px; cursor: pointer; font-size: 12px;">Manage</button></td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 12px; font-weight: 500; color: #333;">Johnathan Smith</td>
-                            <td style="padding: 12px; color: #555;">Cloudflare API Gateway Setup</td>
-                            <td style="padding: 12px;"><span style="background: #fef7e0; color: #b06000; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">Pending Lead</span></td>
-                            <td style="padding: 12px; color: #333; font-weight: 500;">$450</td>
-                            <td style="padding: 12px; text-align: right;"><button type="button" style="padding: 5px 10px; border: 1px solid #ccc; background: #f8f9fa; border-radius: 4px; cursor: pointer; font-size: 12px;">Manage</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-            
-
-               <!-- =================================================== -->
-<!-- PAGE 16: ADVANCED FREELANCING HUB                   -->
-<!-- =================================================== -->
-<section id="page16" class="page-section" aria-label="Freelancing Hub">
-    <div class="freelance-hub-container" style="padding: 20px; max-width: 1100px; margin: 0 auto;">
-        
-        <!-- Header & Quick Status -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
-            <div>
-                <h2 style="font-size: 24px; color: #333; margin-bottom: 5px;">💻 ScaleFlow Freelancing Hub</h2>
-                <p style="font-size: 14px; color: #666;">Master Upwork & Fiverr workflows, generate winning proposals, and track your gigs.</p>
-            </div>
-            <button type="button" class="btn-primary" style="padding: 10px 18px; background: #fbc02d; color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">✨ AI Proposal Writer</button>
-        </div>
-
-        <!-- Quick Platform Stats Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 25px;">
-            
-            <!-- Upwork Card -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <span style="font-size: 12px; color: #14a800; font-weight: bold;">UPWORK PROFILE</span>
-                    <div style="font-size: 18px; font-weight: bold; color: #333; margin-top: 5px;">Verified & Active</div>
-                    <span style="font-size: 12px; color: #666;">Top Rated Workspace</span>
-                </div>
-                <div style="background: #eef7ed; color: #14a800; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px;">UP</div>
-            </div>
-
-            <!-- Fiverr Card -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <span style="font-size: 12px; color: #1dbf73; font-weight: bold;">FIVERR GIGS</span>
-                    <div style="font-size: 18px; font-weight: bold; color: #333; margin-top: 5px;">Level 2 Seller</div>
-                    <span style="font-size: 12px; color: #666;">Automation Expert</span>
-                </div>
-                <div style="background: #e8f8f0; color: #1dbf73; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px;">FV</div>
-            </div>
-
-            <!-- Success Score -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <span style="font-size: 12px; color: #1967d2; font-weight: bold;">JOB SUCCESS</span>
-                    <div style="font-size: 18px; font-weight: bold; color: #333; margin-top: 5px;">100% Score</div>
-                    <span style="font-size: 12px; color: #666;">Client Satisfaction</span>
-                </div>
-                <div style="background: #e8f0fe; color: #1967d2; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px;">⭐</div>
-            </div>
-
-        </div>
-
-        <!-- AI Proposal Generator Tool Box -->
-        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03); margin-bottom: 25px;">
-            <h3 style="font-size: 16px; color: #333; margin-top: 0; margin-bottom: 10px;">🤖 AI Proposal & Cover Letter Generator</h3>
-            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Paste the client's job description below to generate an instant winning proposal using Apps Script & Automation expertise.</p>
-            
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-                <textarea rows="3" placeholder="Paste job description here (e.g., Need Google Sheets automation expert)..." style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; box-sizing: border-box;"></textarea>
-                <button type="button" style="align-self: flex-end; padding: 8px 16px; background: #1967d2; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px;">Generate Proposal</button>
-            </div>
-        </div>
-
-        <!-- Active Freelance Projects Table -->
-        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="font-size: 16px; color: #333; margin: 0;">Active Marketplace Orders</h3>
-                <span style="font-size: 13px; color: #14a800; cursor: pointer; font-weight: 500;">Sync Orders</span>
-            </div>
-
-            <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
-                    <thead>
-                        <tr style="border-bottom: 2px solid #f1f3f4; color: #666;">
-                            <th style="padding: 10px;">Platform</th>
-                            <th style="padding: 10px;">Client / Order ID</th>
-                            <th style="padding: 10px;">Service Name</th>
-                            <th style="padding: 10px;">Amount</th>
-                            <th style="padding: 10px; text-align: right;">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid #f1f3f4;">
-                            <td style="padding: 12px; font-weight: bold; color: #14a800;">Upwork</td>
-                            <td style="padding: 12px; color: #333;">David Miller</td>
-                            <td style="padding: 12px; color: #555;">Google Forms & Sheets Workflow</td>
-                            <td style="padding: 12px; color: #333; font-weight: 500;">$350</td>
-                            <td style="padding: 12px; text-align: right;"><span style="background: #e8f0fe; color: #1967d2; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">In Progress</span></td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 12px; font-weight: bold; color: #1dbf73;">Fiverr</td>
-                            <td style="padding: 12px; color: #333;">#FO-98421</td>
-                            <td style="padding: 12px; color: #555;">Custom Apps Script Macro</td>
-                            <td style="padding: 12px; color: #333; font-weight: 500;">$150</td>
-                            <td style="padding: 12px; text-align: right;"><span style="background: #e6f4ea; color: #137333; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">Delivered</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-            
-
-                    <!-- =================================================== -->
-                    <!-- PAGE 17: ADVANCED AUTOMATION LAB                    -->
-                     <!-- =================================================== -->
-<section id="page17" class="page-section" aria-label="Automation Lab">
-    <div class="automation-lab-container" style="padding: 20px; max-width: 1100px; margin: 0 auto;">
-        
-        <!-- Header & Quick Info -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
-            <div>
-                <h2 style="font-size: 24px; color: #333; margin-bottom: 5px;">⚙️ ScaleFlow Automation Lab</h2>
-                <p style="font-size: 14px; color: #666;">Build, test, and deploy Google Apps Script, Gmail, WhatsApp, and AI workflows seamlessly.</p>
-            </div>
-            <button type="button" class="btn-primary" style="padding: 10px 18px; background: #fbc02d; color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">+ New Workflow</button>
-        </div>
-
-        <!-- Automation Tools Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 25px;">
-            
-            <!-- 1. Google Apps Script Hub -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <div style="font-size: 20px; margin-bottom: 10px;">📜</div>
-                <h3 style="font-size: 16px; color: #333; margin: 0 0 5px 0;">Google Apps Script</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Automate Sheets, Docs & Forms with custom JS macros.</p>
-                <span style="font-size: 12px; color: #137333; font-weight: bold; background: #e6f4ea; padding: 3px 8px; border-radius: 4px;">Active Runtime</span>
-            </div>
-
-            <!-- 2. WhatsApp Automation -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <div style="font-size: 20px; margin-bottom: 10px;">💬</div>
-                <h3 style="font-size: 16px; color: #333; margin: 0 0 5px 0;">WhatsApp Gateway</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Send automated alerts & student notifications instantly.</p>
-                <span style="font-size: 12px; color: #25d366; font-weight: bold; background: #e8f8f0; padding: 3px 8px; border-radius: 4px;">API Connected</span>
-            </div>
-
-            <!-- 3. Gmail Autoresponder -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <div style="font-size: 20px; margin-bottom: 10px;">✉️</div>
-                <h3 style="font-size: 16px; color: #333; margin: 0 0 5px 0;">Gmail Autoresponder</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Smart filtering and AI-generated email replies.</p>
-                <span style="font-size: 12px; color: #1967d2; font-weight: bold; background: #e8f0fe; padding: 3px 8px; border-radius: 4px;">Listening</span>
-            </div>
-
-            <!-- 4. AI Workflow Engine -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <div style="font-size: 20px; margin-bottom: 10px;">⚡</div>
-                <h3 style="font-size: 16px; color: #333; margin: 0 0 5px 0;">AI Workflow Engine</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Integrate Gemini API with Cloudflare Workers & n8n.</p>
-                <span style="font-size: 12px; color: #b06000; font-weight: bold; background: #fef7e0; padding: 3px 8px; border-radius: 4px;">Optimized</span>
-            </div>
-
-        </div>
-
-        <!-- Live Script Tester Box -->
-        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
-            <h3 style="font-size: 16px; color: #333; margin-top: 0; margin-bottom: 10px;">🧪 Live Apps Script & Webhook Tester</h3>
-            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Test your automation triggers or write quick JavaScript snippets for your Google Workspace workflows.</p>
-            
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-                <textarea rows="4" placeholder="// Write or paste your Google Apps Script / JavaScript fetch code here..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-family: monospace; font-size: 12px; box-sizing: border-box; background: #f8f9fa;"></textarea>
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                    <span style="font-size: 12px; color: #666;">Status: Ready for execution</span>
-                    <button type="button" style="padding: 8px 18px; background: #137333; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px;">Run Script / Deploy</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-            
-
-                   <!-- =================================================== -->
-                   <!-- PAGE 18: ADVANCED AI TOOLS HUB                      -->
-                   <!-- =================================================== -->
-<section id="page18" class="page-section" aria-label="AI Tools">
-    <div class="ai-tools-hub-container" style="padding: 20px; max-width: 1100px; margin: 0 auto;">
-        
-        <!-- Header & Quick Info -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
-            <div>
-                <h2 style="font-size: 24px; color: #333; margin-bottom: 5px;">🤖 ScaleFlow Advanced AI Tools</h2>
-                <p style="font-size: 14px; color: #666;">Explore prompt libraries, generate AI content, write automation code, and optimize SEO.</p>
-            </div>
-            <button type="button" class="btn-primary" style="padding: 10px 18px; background: #fbc02d; color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">✨ New AI Session</button>
-        </div>
-
-        <!-- AI Tools Navigation Cards Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 25px;">
-            
-            <!-- 1. Prompt Library -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <div style="font-size: 20px; margin-bottom: 10px;">📚</div>
-                <h3 style="font-size: 16px; color: #333; margin: 0 0 5px 0;">Prompt Library</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Ready-to-use master prompts for Gemini & ChatGPT.</p>
-                <span style="font-size: 12px; color: #1967d2; font-weight: bold; background: #e8f0fe; padding: 3px 8px; border-radius: 4px;">500+ Prompts</span>
-            </div>
-
-            <!-- 2. AI Content Writer -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <div style="font-size: 20px; margin-bottom: 10px;">✍️</div>
-                <h3 style="font-size: 16px; color: #333; margin: 0 0 5px 0;">AI Content Writer</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Create high-converting blogs, emails, and essays.</p>
-                <span style="font-size: 12px; color: #137333; font-weight: bold; background: #e6f4ea; padding: 3px 8px; border-radius: 4px;">Active Engine</span>
-            </div>
-
-            <!-- 3. AI Code Assistant -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <div style="font-size: 20px; margin-bottom: 10px;">💻</div>
-                <h3 style="font-size: 16px; color: #333; margin: 0 0 5px 0;">AI Code Assistant</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Debug Google Apps Script and HTML/JS instantly.</p>
-                <span style="font-size: 12px; color: #b06000; font-weight: bold; background: #fef7e0; padding: 3px 8px; border-radius: 4px;">Smart Parser</span>
-            </div>
-
-            <!-- 4. AI SEO Optimizer -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <div style="font-size: 20px; margin-bottom: 10px;">🚀</div>
-                <h3 style="font-size: 16px; color: #333; margin: 0 0 5px 0;">AI SEO Optimizer</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Generate meta tags, keywords, and rank tracking.</p>
-                <span style="font-size: 12px; color: #e65100; font-weight: bold; background: #fef3e2; padding: 3px 8px; border-radius: 4px;">Live Checker</span>
-            </div>
-
-        </div>
-
-        <!-- Interactive AI Generator Workspace -->
-        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
-            <h3 style="font-size: 16px; color: #333; margin-top: 0; margin-bottom: 10px;">⚡ ScaleFlow AI Assistant Studio</h3>
-            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Enter your topic, prompt or code snippet below to let the AI process your request instantly.</p>
-            
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-                <textarea rows="4" placeholder="Type your prompt, article topic, or code debugging query here..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; box-sizing: border-box; background: #f8f9fa;"></textarea>
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                    <span style="font-size: 12px; color: #666;">Model: Gemini API / ScaleFlow Engine v3</span>
-                    <button type="button" style="padding: 8px 18px; background: #fbc02d; color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px;">Generate with AI</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-            
-
-                  <!-- =================================================== -->
-                <!-- PAGE 19: ADVANCED ADMIN PANEL                       -->
-                <!-- =================================================== -->
-<section id="page19" class="page-section" aria-label="Admin Panel">
-    <div class="admin-panel-container" style="padding: 20px; max-width: 1100px; margin: 0 auto;">
-        
-        <!-- Header & Quick Actions -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
-            <div>
-                <h2 style="font-size: 24px; color: #333; margin-bottom: 5px;">👨‍💼 ScaleFlow Master Admin Panel</h2>
-                <p style="font-size: 14px; color: #666;">Complete command center for user management, platform analytics, and course control.</p>
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <button type="button" class="btn-secondary" style="padding: 10px 15px; border: 1px solid #ccc; background: #f8f9fa; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px;">⚙️ System Settings</button>
-                <button type="button" class="btn-primary" style="padding: 10px 15px; background: #d93025; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px;">🔒 Security Logs</button>
-            </div>
-        </div>
-
-        <!-- Admin Overview Metric Cards -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px;">
-            
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <span style="font-size: 12px; color: #666; font-weight: 500;">TOTAL REGISTERED USERS</span>
-                <div style="font-size: 26px; font-weight: bold; color: #333; margin-top: 5px;">3,420 <span style="font-size: 12px; color: #137333; font-weight: normal;">(+18% mo)</span></div>
-            </div>
-
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <span style="font-size: 12px; color: #666; font-weight: 500;">ACTIVE SUBSCRIPTIONS</span>
-                <div style="font-size: 26px; font-weight: bold; color: #1967d2; margin-top: 5px;">1,245</div>
-            </div>
-
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <span style="font-size: 12px; color: #666; font-weight: 500;">TOTAL COURSES & MODULES</span>
-                <div style="font-size: 26px; font-weight: bold; color: #b06000; margin-top: 54px; margin-top: 5px;">48</div>
-            </div>
-
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <span style="font-size: 12px; color: #666; font-weight: 500;">SERVER STATUS</span>
-                <div style="font-size: 26px; font-weight: bold; color: #137333; margin-top: 5px;">99.9% <span style="font-size: 12px; color: #666; font-weight: normal;">(Optimal)</span></div>
-            </div>
-
-        </div>
-
-        <!-- User Management Table Box -->
-        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="font-size: 16px; color: #333; margin: 0;">Recent User Registrations & Access Control</h3>
-                <span style="font-size: 13px; color: #1967d2; cursor: pointer; font-weight: 500;">View All Users</span>
-            </div>
-
-            <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
-                    <thead>
-                        <tr style="border-bottom: 2px solid #f1f3f4; color: #666;">
-                            <th style="padding: 10px;">User Name</th>
-                            <th style="padding: 10px;">Email Address</th>
-                            <th style="padding: 10px;">Membership Tier</th>
-                            <th style="padding: 10px;">Status</th>
-                            <th style="padding: 10px; text-align: right;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid #f1f3f4;">
-                            <td style="padding: 12px; font-weight: 500; color: #333;">Sanaullah Mastoi</td>
-                            <td style="padding: 12px; color: #555;">sanaullah@scaleflow.io</td>
-                            <td style="padding: 12px; color: #b06000; font-weight: bold;">Enterprise Owner</td>
-                            <td style="padding: 12px;"><span style="background: #e6f4ea; color: #137333; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">Active</span></td>
-                            <td style="padding: 12px; text-align: right;"><button type="button" style="padding: 5px 10px; border: 1px solid #ccc; background: #f8f9fa; border-radius: 4px; cursor: pointer; font-size: 12px;">Edit</button></td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #f1f3f4;">
-                            <td style="padding: 12px; font-weight: 500; color: #333;">Noor Allah Khan</td>
-                            <td style="padding: 12px; color: #555;">noor@scaleflow.io</td>
-                            <td style="padding: 12px; color: #1967d2; font-weight: bold;">Premium Expert</td>
-                            <td style="padding: 12px;"><span style="background: #e6f4ea; color: #137333; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">Active</span></td>
-                            <td style="padding: 12px; text-align: right;"><button type="button" style="padding: 5px 10px; border: 1px solid #ccc; background: #f8f9fa; border-radius: 4px; cursor: pointer; font-size: 12px;">Edit</button></td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 12px; font-weight: 500; color: #333;">Ayesha Siddiqui</td>
-                            <td style="padding: 12px; color: #555;">ayesha.student@gmail.com</td>
-                            <td style="padding: 12px; color: #555; font-weight: bold;">Pro Student</td>
-                            <td style="padding: 12px;"><span style="background: #fef7e0; color: #b06000; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">Pending Review</span></td>
-                            <td style="padding: 12px; text-align: right;"><button type="button" style="padding: 5px 10px; border: 1px solid #ccc; background: #f8f9fa; border-radius: 4px; cursor: pointer; font-size: 12px;">Edit</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-            
-
-                <!-- =================================================== -->
-               <!-- PAGE 20: FUTURE INNOVATION LAB & ROADMAP           -->
-                <!-- =================================================== -->
-<section id="page20" class="page-section" aria-label="Future Features">
-    <div class="future-hub-container" style="padding: 20px; max-width: 1100px; margin: 0 auto;">
-        
-        <!-- Header & Final Milestone Info -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
-            <div>
-                <h2 style="font-size: 24px; color: #333; margin-bottom: 5px;">🚀 ScaleFlow Future Innovation Roadmap</h2>
-                <p style="font-size: 14px; color: #666;">Next-gen biometric logins, voice AI control, and futuristic cloud synchronization modules.</p>
-            </div>
-            <span style="padding: 8px 16px; background: #e8f0fe; color: #1967d2; border-radius: 6px; font-weight: bold; font-size: 12px;">Final Master Section</span>
-        </div>
-
-        <!-- Future Tech Cards Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 25px;">
-            
-            <!-- 1. Face Login -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <div style="font-size: 20px; margin-bottom: 10px;">👤🔒</div>
-                <h3 style="font-size: 16px; color: #333; margin: 0 0 5px 0;">Face ID Authentication</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Secure biometric camera login gateway for platform members.</p>
-                <span style="font-size: 12px; color: #b06000; font-weight: bold; background: #fef7e0; padding: 3px 8px; border-radius: 4px;">In Development</span>
-            </div>
-
-            <!-- 2. Fingerprint Login -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <div style="font-size: 20px; margin-bottom: 10px;">👆🔒</div>
-                <h3 style="font-size: 16px; color: #333; margin: 0 0 5px 0;">Fingerprint Security</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">One-touch hardware security key integration for user safety.</p>
-                <span style="font-size: 12px; color: #b06000; font-weight: bold; background: #fef7e0; padding: 3px 8px; border-radius: 4px;">In Development</span>
-            </div>
-
-            <!-- 3. Voice Assistant -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <div style="font-size: 20px; margin-bottom: 10px;">🎙️⚡</div>
-                <h3 style="font-size: 16px; color: #333; margin: 0 0 5px 0;">AI Voice Assistant</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Control your dashboard, courses, and CRM purely via voice commands.</p>
-                <span style="font-size: 12px; color: #1967d2; font-weight: bold; background: #e8f0fe; padding: 3px 8px; border-radius: 4px;">R&D Phase</span>
-            </div>
-
-            <!-- 4. Quantum Cloud Sync -->
-            <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                <div style="font-size: 20px; margin-bottom: 10px;">🌐🔮</div>
-                <h3 style="font-size: 16px; color: #333; margin: 0 0 5px 0;">Cloudflare Edge Sync</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Zero-latency data synchronization across global worker nodes.</p>
-                <span style="font-size: 12px; color: #137333; font-weight: bold; background: #e6f4ea; padding: 3px 8px; border-radius: 4px;">Optimized</span>
-            </div>
-
-        </div>
-
-        <!-- System Completion Summary Box -->
-        <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.03); text-align: center;">
-            <h3 style="font-size: 18px; color: #137333; margin-top: 0; margin-bottom: 10px;">🎉 ScaleFlow University Platform is 100% Complete!</h3>
-            <p style="font-size: 14px; color: #666; max-width: 700px; margin: 0 auto 15px auto;">All 20 master sections—from dashboard, courses, and AI tools to business CRM, freelancing hubs, and futuristic biometrics—have been successfully integrated.</p>
-            <div style="font-size: 13px; color: #333; font-weight: bold;">Your website is now fully operational, highly scalable, and ready to dominate the market for years to come! 🚀</div>
-        </div>
-
-    </div>
-</section>
-
-
-            
+            </section>
 
         </main>
 
-        <!-- ==========================================================
-        FOOTER — PART 0 (Common)
-        ========================================================== -->
+        <!-- ===== FOOTER ===== -->
         <footer class="footer" role="contentinfo">
             <div class="footer-left">
                 <h3>Sanaullah ScaleFlow University</h3>
                 <p>Learn • Build • Earn • Grow</p>
                 <div class="social-links">
-                    <a href="#" id="footerFacebook">Facebook</a>
-                    <a href="#" id="footerTwitter">Twitter</a>
-                    <a href="#" id="footerLinkedIn">LinkedIn</a>
-                    <a href="#" id="footerYouTube">YouTube</a>
+                    <a href="#" id="footerFacebook" aria-label="Facebook">Facebook</a>
+                    <a href="#" id="footerTwitter" aria-label="Twitter">Twitter</a>
+                    <a href="#" id="footerLinkedIn" aria-label="LinkedIn">LinkedIn</a>
+                    <a href="#" id="footerYouTube" aria-label="YouTube">YouTube</a>
                 </div>
             </div>
             <div class="footer-center">
@@ -3791,56 +580,11 @@
         </footer>
 
     </div>
-    <!-- ============================================================
-    MAIN APP — END
-    ============================================================ -->
 
-    <!-- ============================================================
-    SCROLL TOP BUTTON — PART 0 (Common)
-    ============================================================ -->
+    <!-- ===== SCROLL TOP ===== -->
     <button id="scrollTopBtn" type="button" aria-label="Scroll to top">⬆</button>
 
-    <!-- ============================================================
-    JAVASCRIPT — EXTERNAL SCRIPT LINK
-    ============================================================ -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Hide loader after page loads
-            const loader = document.getElementById('loader');
-            if (loader) {
-                setTimeout(function() {
-                    loader.style.display = 'none';
-                }, 500);
-            }
-
-            // Navigation between pages
-            document.querySelectorAll('.sidebar-menu a[data-page]').forEach(function(link) {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    var pageId = this.getAttribute('data-page');
-                    
-                    // Hide all pages
-                    document.querySelectorAll('.page-section').forEach(function(section) {
-                        section.classList.remove('active');
-                    });
-                    
-                    // Show selected page
-                    var target = document.getElementById(pageId);
-                    if (target) {
-                        target.classList.add('active');
-                    }
-                    
-                    // Update active link
-                    document.querySelectorAll('.sidebar-menu a').forEach(function(a) {
-                        a.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                });
-            });
-
-            console.log('✅ ScaleFlow University loaded successfully!');
-        });
-    </script>
+    <!-- ===== EXTERNAL SCRIPT ===== -->
     <script src="script.js"></script>
 
 </body>
