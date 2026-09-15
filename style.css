@@ -1246,3 +1246,136 @@ outline: 3px solid var(--primary);
 outline-offset: 2px;
 }
 ::selection { background: var(--primary); color: #000; }
+
+/* ============================================================
+   COURSES — SEARCH & FILTER
+   ============================================================ */
+
+.learning-header {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+#courseSearchInput {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color, #252d37);
+    border-radius: 6px;
+    background: var(--bg-input, #0c1117);
+    color: var(--text-primary, #ffffff);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+#courseSearchInput:focus {
+    border-color: var(--accent-color, #4f8cff);
+    box-shadow: 0 0 0 2px rgba(79, 140, 255, 0.12);
+}
+
+#courseSearchInput::placeholder {
+    color: var(--text-secondary, #8b95a5);
+}
+
+
+/* ============================================================
+   COURSE FILTER BUTTONS
+   ============================================================ */
+
+.filter-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.filter-buttons .btn-secondary,
+.filter-buttons .btn-primary-custom {
+    padding: 6px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+/* ============================================================
+   COURSE GRID
+   ============================================================ */
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(240px, 1fr)
+    );
+    gap: 20px;
+}
+
+
+/* ============================================================
+   COURSE CARD
+   ============================================================ */
+
+.course-card {
+    position: relative;
+}
+
+.course-card[hidden] {
+    display: none !important;
+}
+
+.course-card h3 {
+    margin-bottom: 8px;
+}
+
+.course-card p {
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.pagination-number {
+    width: auto;
+    min-width: 38px;
+    padding: 6px 12px;
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .filter-buttons {
+        gap: 7px;
+    }
+
+    .filter-buttons button {
+        flex: 1 1 auto;
+    }
+
+    .pagination {
+        justify-content: center;
+    }
+
+    #courseSearchInput {
+        font-size: 14px;
+    }
+}
+
+
+    
